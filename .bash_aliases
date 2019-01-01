@@ -19,6 +19,8 @@ alias dew="docker-compose exec web"
 
 alias dpsql="docker-compose exec postgres psql"
 
+alias drun='docker run --rm -it -v "${PWD}":/app'
+
 alias rmpyc="find . -name '*.pyc' -exec rm -f {} \;"
 
 alias jek="bundle exec jekyll serve --config _config.yml,_config.dev.yml --drafts --livereload"
