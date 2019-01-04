@@ -28,3 +28,5 @@ alias jek="bundle exec jekyll serve --config _config.yml,_config.dev.yml --draft
 alias octal="stat -c '%a %n'"
 
 alias follow="namei -om"
+
+alias diff="diff --color -u"
