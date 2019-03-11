@@ -1,5 +1,7 @@
 # dotfiles
 
+![Dotfiles](https://nickjanetakis.com/assets/blog/dotfiles.jpg)
+
 Here's a bunch of settings for various tools I use.
 
 There's also a
