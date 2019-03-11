@@ -1,6 +1,6 @@
 # dotfiles
 
-![Dotfiles](https://nickjanetakis.com/assets/blog/dotfiles.jpg)
+![Dotfiles](https://nickjanetakis.com/assets/blog/dotfiles-c85f20a61decb0d4676530ff4c65a818ee9b362cf9f380a76c9d44e1254d03f3.jpg)
 
 Here's a bunch of settings for various tools I use.
 
