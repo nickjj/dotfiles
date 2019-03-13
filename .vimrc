@@ -37,6 +37,9 @@ Plug 'nelstrom/vim-visual-star-search'
 " Automatically clear search highlights after you move your cursor.
 Plug 'haya14busa/is.vim'
 
+" Better display unwanted whitespace.
+Plug 'ntpeters/vim-better-whitespace'
+
 " Toggle comments in various ways.
 Plug 'tpope/vim-commentary'
 
@@ -92,7 +95,7 @@ Plug 'wgwoods/vim-systemd-syntax'
 call plug#end()
 
 " -----------------------------------------------------------------------------
-" Status line 
+" Status line
 " -----------------------------------------------------------------------------
 
 " Heavily inspired by: https://github.com/junegunn/dotfiles/blob/master/vimrc
@@ -111,7 +114,7 @@ endfunction
 let &statusline = s:statusline_expr()
 
 " -----------------------------------------------------------------------------
-" Color settings 
+" Color settings
 " -----------------------------------------------------------------------------
 
 colorscheme gruvbox
@@ -193,7 +196,7 @@ set wrap
 runtime! macros/matchit.vim
 
 " -----------------------------------------------------------------------------
-" Basic Mappings 
+" Basic Mappings
 " -----------------------------------------------------------------------------
 
 " Navigate around splits with a single key combo.
@@ -202,7 +205,7 @@ nnoremap <C-h> <C-w><C-h>
 nnoremap <C-k> <C-w><C-k>
 nnoremap <C-j> <C-w><C-j>
 
-" Cycle through splits. 
+" Cycle through splits.
 nnoremap <Tab> <C-w>w
 nnoremap <S-Tab> <C-w>W
 
@@ -259,7 +262,7 @@ nnoremap <silent> <Leader>c :call QuickFix_toggle()<CR>
 vnoremap <Leader>tc c<C-r>=system('tcc', getreg('"'))[:-2]<CR>
 
 " -----------------------------------------------------------------------------
-" Basic autocommands 
+" Basic autocommands
 " -----------------------------------------------------------------------------
 
 " Reduce delay when switching between modes.
@@ -275,12 +278,8 @@ autocmd VimResized * wincmd =
 " Unset paste on InsertLeave.
 autocmd InsertLeave * silent! set nopaste
 
-" Highlight unwanted spaces. 
-autocmd BufNewFile,BufRead,InsertLeave * silent! match ExtraWhitespace /\s\+$/
-autocmd InsertEnter * silent! match ExtraWhitespace /\s\+\%#\@<!$/
-
 " ----------------------------------------------------------------------------
-" Basic commands 
+" Basic commands
 " ----------------------------------------------------------------------------
 
 " Add all TODO items to the quickfix list relative to where you opened Vim.
@@ -320,7 +319,7 @@ endfunction
 command! -bang Profile call s:profile(<bang>0)
 
 " -----------------------------------------------------------------------------
-" Plugin settings, mappings and autocommands 
+" Plugin settings, mappings and autocommands
 " -----------------------------------------------------------------------------
 
 " .............................................................................
