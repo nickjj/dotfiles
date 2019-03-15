@@ -196,8 +196,20 @@ set wrap
 runtime! macros/matchit.vim
 
 " -----------------------------------------------------------------------------
-" Basic Mappings
+" Basic mappings
 " -----------------------------------------------------------------------------
+
+" Seamlessly treat visual lines as actual lines when moving around.
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up> gk
+vnoremap <Down> gj
+vnoremap <Up> gk
+inoremap <Down> <C-o>gj
+inoremap <Up> <C-o>gk
 
 " Navigate around splits with a single key combo.
 nnoremap <C-l> <C-w><C-l>
