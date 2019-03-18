@@ -127,7 +127,7 @@ colorscheme gruvbox
 " Gruvbox comes with both a dark and light theme.
 set background=dark
 
-" Gruvbox has 'hard, 'medium' (default) and 'soft' contrast options.
+" Gruvbox has 'hard', 'medium' (default) and 'soft' contrast options.
 let g:gruvbox_contrast_light='hard'
 
 " This needs to come last, otherwise the colors aren't correct.
