@@ -344,7 +344,7 @@ nnoremap <silent> <C-p> :FZF -m<CR>
 
 " Map a few common things to do with FZF.
 nnoremap <silent> <Leader><Enter> :Buffers<CR>
-nnoremap <silent> <Leader>L :Lines<CR>
+nnoremap <silent> <Leader>l :Lines<CR>
 
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
