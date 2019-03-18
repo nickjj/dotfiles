@@ -218,8 +218,7 @@ nnoremap <C-k> <C-w><C-k>
 nnoremap <C-j> <C-w><C-j>
 
 " Cycle through splits.
-nnoremap <Tab> <C-w>w
-nnoremap <S-Tab> <C-w>W
+nnoremap <S-Tab> <C-w>w
 
 " Press * to search for the term under the cursor or a visual selection and
 " then press a key below to replace all instances of it in the current file.
