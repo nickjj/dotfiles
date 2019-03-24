@@ -388,7 +388,7 @@ let g:limelight_conceal_ctermfg=244
 " plasticboy/vim-markdown
 " .............................................................................
 
-autocmd FileType markdown let b:sleuth_automatic = 0
+autocmd FileType markdown let b:sleuth_automatic=0
 autocmd FileType markdown set conceallevel=0
 
 " .............................................................................
