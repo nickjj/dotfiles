@@ -246,7 +246,7 @@ xnoremap <Leader>g gqa
 
 " Prevent x from overriding what's in the clipboard.
 noremap x "_x
-noremap X "_X
+noremap X "_x
 
 " Eliminate issues where you accidentally hold shift for too long with :w.
 command! W write
