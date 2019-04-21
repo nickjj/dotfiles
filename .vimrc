@@ -138,8 +138,8 @@ syntax on
 "   Research any of these by running :help <setting>
 " -----------------------------------------------------------------------------
 
-let mapleader=","
-let maplocalleader=","
+let mapleader=" "
+let maplocalleader=" "
 
 set autoindent
 set autoread
