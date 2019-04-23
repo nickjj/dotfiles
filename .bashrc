@@ -1,23 +1,18 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+#!/bin/bash
+# This file runs every time you open a new terminal window.
 
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+# Limit number of lines and entries in the history.
+export HISTFILESIZE=50000
+export HISTSIZE=50000
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
+# Add a timestamp to each command.
+export HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S:   "
 
-# append to the history file, don't overwrite it
+# Duplicate lines and lines starting with a space are not put into the history.
+export HISTCONTROL=ignoreboth
+
+# Append to the history file, don't overwrite it.
 shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
