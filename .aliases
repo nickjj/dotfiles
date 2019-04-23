@@ -13,7 +13,31 @@ alias l="ls -CF"
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-alias code="code-insiders"
+vdiff () {
+    if [ "${#}" -ne 2 ] ; then
+        echo "vdiff requires two arguments"
+        echo "  comparing dirs:  vdiff dir_a dir_b"
+        echo "  comparing files: vdiff file_a file_b"
+        return 1
+    fi
+
+    local left="${1}"
+    local right="${2}"
+
+    if [ -d "${left}" ] && [ -d "${right}" ]; then
+        vim +"DirDiff ${left} ${right}"
+    else
+        vim -d "${left}" "${right}"
+    fi
+}
+
+dtags () {
+    local image="${1}"
+
+    wget -q https://registry.hub.docker.com/v1/repositories/"${1}"/tags -O - \
+        | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' \
+        | tr '}' '\n'  | awk -F: '{print $3}'
+}
 
 alias dew="docker-compose exec web"
 
@@ -21,9 +45,11 @@ alias dpsql="docker-compose exec postgres psql"
 
 alias drun='docker run --rm -it -v "${PWD}":/app'
 
-alias rmpyc="find . -name '*.pyc' -exec rm -f {} \;"
+alias rmpyc="find . -name '*.pyc' -exec rm -rf {} \;"
 
 alias jek="bundle exec jekyll serve --config _config.yml,_config.dev.yml --drafts --livereload"
+
+alias ymp3="youtube-dl --extract-audio --audio-format mp3"
 
 alias octal="stat -c '%a %n'"
 
