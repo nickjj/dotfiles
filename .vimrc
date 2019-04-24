@@ -371,6 +371,13 @@ let g:NERDTreeAutoDeleteBuffer=1
 nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
 
 " .............................................................................
+" ntpeters/vim-better-whitespace
+" .............................................................................
+
+let g:strip_whitespace_confirm=0
+let g:strip_whitespace_on_save=1
+
+" .............................................................................
 " Konfekt/FastFold
 " .............................................................................
 
