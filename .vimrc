@@ -244,6 +244,9 @@ xnoremap <Leader>g gqa
 noremap x "_x
 noremap X "_x
 
+" Prevent selecting and pasting from overwriting what you originally copied.
+xnoremap p pgvy
+
 " Eliminate issues where you accidentally hold shift for too long with :w.
 command! W write
 
