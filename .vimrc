@@ -247,6 +247,9 @@ noremap X "_x
 " Prevent selecting and pasting from overwriting what you originally copied.
 xnoremap p pgvy
 
+" Keep cursor at the bottom of the visual selection after you yank it.
+vmap y ygv<Esc>
+
 " Eliminate issues where you accidentally hold shift for too long with :w.
 command! W write
 
