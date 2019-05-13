@@ -19,6 +19,9 @@ Plug 'junegunn/fzf.vim'
 " Zoom in and out of a specific split pane (similar to tmux).
 Plug 'dhruvasagar/vim-zoom'
 
+" Pass focus events from tmux to Vim (useful for autoread and linting tools).
+Plug 'tmux-plugins/vim-tmux-focus-events'
+
 " Navigate and manipulate files in a tree view.
 Plug 'scrooloose/nerdtree'
 
@@ -287,6 +290,9 @@ augroup END
 
 " Auto-resize splits when Vim gets resized.
 autocmd VimResized * wincmd =
+
+" Update a buffer's contents on focus if it changed outside of Vim.
+au FocusGained,BufEnter * :checktime
 
 " Unset paste on InsertLeave.
 autocmd InsertLeave * silent! set nopaste
