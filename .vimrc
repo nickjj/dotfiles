@@ -253,6 +253,12 @@ xnoremap p pgvy
 " Keep cursor at the bottom of the visual selection after you yank it.
 vmap y ygv<Esc>
 
+" Open Vim config file in a new tab.
+nnoremap <Leader>vt :tabnew $MYVIMRC<CR>
+
+" Source Vim config file.
+nnoremap <Leader>vs :source $MYVIMRC<CR>
+
 " Eliminate issues where you accidentally hold shift for too long with :w.
 command! W write
 
