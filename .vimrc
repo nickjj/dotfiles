@@ -98,6 +98,26 @@ Plug 'wgwoods/vim-systemd-syntax'
 call plug#end()
 
 " -----------------------------------------------------------------------------
+" Color settings
+" -----------------------------------------------------------------------------
+
+colorscheme gruvbox
+" For Gruvbox to look correct in terminal Vim you'll want to source a palette
+" script that comes with the Gruvbox plugin.
+"
+" Add this to your ~/.profile file:
+"   source "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
+
+" Gruvbox comes with both a dark and light theme.
+set background=dark
+
+" Gruvbox has 'hard', 'medium' (default) and 'soft' contrast options.
+let g:gruvbox_contrast_light='hard'
+
+" This needs to come last, otherwise the colors aren't correct.
+syntax on
+
+" -----------------------------------------------------------------------------
 " Status line
 " -----------------------------------------------------------------------------
 
@@ -117,24 +137,46 @@ endfunction
 let &statusline = s:statusline_expr()
 
 " -----------------------------------------------------------------------------
-" Color settings
+" Change status line color for insert and replace modes
 " -----------------------------------------------------------------------------
 
-colorscheme gruvbox
-" For Gruvbox to look correct in terminal Vim you'll want to source a palette
-" script that comes with the Gruvbox plugin.
-"
-" Add this to your ~/.profile file:
-"   source "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
+" Optimized for gruvbox:hard (both dark and light).
+function! InsertStatuslineColor(mode)
+  if a:mode == 'i'
+    if (&background == 'dark')
+      hi StatusLine ctermfg=109 ctermbg=0 guifg=#83a598 guibg=#000000
+    else
+      hi StatusLine ctermfg=24 ctermbg=255 guifg=#076678 guibg=#ffffff
+    endif
+  elseif a:mode == 'r'
+    if (&background == 'dark')
+      hi StatusLine ctermfg=106 ctermbg=0 guifg=#98971a guibg=#000000
+    else
+      hi StatusLine ctermfg=100 ctermbg=255 guifg=#79740e guibg=#ffffff
+    endif
+  else
+    if (&background == 'dark')
+      hi StatusLine ctermfg=166 ctermbg=0 guifg=#d65d0e guibg=#000000
+    else
+      hi StatusLine ctermfg=88 ctermbg=255 guifg=#9d0006 guibg=#ffffff
+    endif
+  endif
+endfunction
 
-" Gruvbox comes with both a dark and light theme.
-set background=dark
+function! InsertLeaveActions()
+  if (&background == 'dark')
+    au InsertLeave * hi StatusLine ctermfg=239 ctermbg=223 guifg=#504945 guibg=#ebdbb2
+  else
+    au InsertLeave * hi StatusLine ctermfg=250 ctermbg=0 guifg=#d5c4a1 guibg=#000000
+  endif
+endfunction
 
-" Gruvbox has 'hard', 'medium' (default) and 'soft' contrast options.
-let g:gruvbox_contrast_light='hard'
+au InsertEnter * call InsertStatuslineColor(v:insertmode)
+au InsertChange * call InsertStatuslineColor(v:insertmode)
+au InsertLeave * call InsertLeaveActions()
 
-" This needs to come last, otherwise the colors aren't correct.
-syntax on
+" Ensure status line color gets reverted if exiting insert mode with CTRL + C.
+inoremap <c-c> <c-o>:call InsertLeaveActions()<cr><c-c>
 
 " -----------------------------------------------------------------------------
 " Basic Settings
