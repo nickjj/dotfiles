@@ -408,20 +408,9 @@ nnoremap <silent> <C-p> :FZF -m<CR>
 nnoremap <silent> <Leader><Enter> :Buffers<CR>
 nnoremap <silent> <Leader>l :Lines<CR>
 
-function! s:build_quickfix_list(lines)
-  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-  copen
-  cc
-endfunction
-
-" CTRL+Q (combined with CTRL+A) to put search results into the quickfix.
-" CTRL+Y to copy the highlighted file path to the clipboard.
-let g:fzf_action = {
-  \ 'ctrl-q': function('s:build_quickfix_list'),
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit',
-  \ 'ctrl-y': {lines -> setreg('*', join(lines, "\n"))}}
+" Allow passing optional flags into the Rg command.
+"   Example: :Rg myterm -g *.md
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . <q-args>, 1, <bang>0)
 
 " .............................................................................
 " scrooloose/nerdtree
