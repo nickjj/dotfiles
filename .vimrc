@@ -176,7 +176,7 @@ au InsertChange * call InsertStatuslineColor(v:insertmode)
 au InsertLeave * call InsertLeaveActions()
 
 " Ensure status line color gets reverted if exiting insert mode with CTRL + C.
-inoremap <c-c> <c-o>:call InsertLeaveActions()<cr><c-c>
+inoremap <C-c> <C-o>:call InsertLeaveActions()<CR><C-c>
 
 " -----------------------------------------------------------------------------
 " Basic Settings
