@@ -40,6 +40,9 @@ Plug 'nelstrom/vim-visual-star-search'
 " Automatically clear search highlights after you move your cursor.
 Plug 'haya14busa/is.vim'
 
+" Handle multi-file find and replace.
+Plug 'mhinz/vim-grepper'
+
 " Better display unwanted whitespace.
 Plug 'ntpeters/vim-better-whitespace'
 
@@ -421,6 +424,24 @@ let g:NERDTreeAutoDeleteBuffer=1
 
 " Open nerd tree at the current file or close nerd tree if pressed again.
 nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
+
+" .............................................................................
+" mhinz/vim-grepper
+" .............................................................................
+
+let g:grepper={}
+let g:grepper.tools=["rg"]
+
+xmap gr <plug>(GrepperOperator)
+
+" After searching for text, press this mapping to do a project wide find and
+" replace. It's similar to <leader>r except this one applies to all matches
+" across all files instead of just the current file.
+nnoremap <Leader>R
+  \ :let @s='\<'.expand('<cword>').'\>'<CR>
+  \ :Grepper -cword -noprompt<CR>
+  \ :cfdo %s/<C-r>s// \| update
+  \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 " .............................................................................
 " ntpeters/vim-better-whitespace
