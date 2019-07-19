@@ -336,7 +336,7 @@ vnoremap <Leader>tc c<C-r>=system('tcc', getreg('"'))[:-2]<CR>
 augroup NoInsertKeycodes
   autocmd!
   autocmd InsertEnter * set ttimeoutlen=0
-  autocmd InsertLeave * set ttimeoutlen=500
+  autocmd InsertLeave * set ttimeoutlen=50
 augroup END
 
 " Auto-resize splits when Vim gets resized.
