@@ -444,15 +444,15 @@ xmap gr <plug>(GrepperOperator)
 nnoremap <Leader>R
   \ :let @s='\<'.expand('<cword>').'\>'<CR>
   \ :Grepper -cword -noprompt<CR>
-  \ :cfdo %s/<C-r>s// \| update
-  \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+  \ :cfdo %s/<C-r>s//g \| update
+  \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 " The same as above except it works with a visual selection.
 xmap <Leader>R
     \ "sy
     \ gvgr
-    \ :cfdo %s/<C-r>s// \| update
-     \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+    \ :cfdo %s/<C-r>s//g \| update
+     \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 " .............................................................................
 " ntpeters/vim-better-whitespace
