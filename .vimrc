@@ -76,6 +76,9 @@ Plug 'junegunn/goyo.vim'
 " A bunch of useful language related snippets (ultisnips is the engine).
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
+" Run test suites for various languages.
+Plug 'janko/vim-test'
+
 " Languages and file types.
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'chr4/nginx.vim'
@@ -443,6 +446,13 @@ nnoremap <Leader>R
   \ :Grepper -cword -noprompt<CR>
   \ :cfdo %s/<C-r>s// \| update
   \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+
+" The same as above except it works with a visual selection.
+xmap <Leader>R
+    \ "sy
+    \ gvgr
+    \ :cfdo %s/<C-r>s// \| update
+     \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 " .............................................................................
 " ntpeters/vim-better-whitespace
