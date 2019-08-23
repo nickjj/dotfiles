@@ -10,7 +10,7 @@
 call plug#begin('~/.vim/plugged')
 
 " Gruvbox theme.
-Plug 'gruvbox-community/gruvbox'
+Plug 'morhetz/gruvbox'
 
 " Integrate fzf with Vim.
 Plug '~/.fzf'
@@ -18,9 +18,6 @@ Plug 'junegunn/fzf.vim'
 
 " Zoom in and out of a specific split pane (similar to tmux).
 Plug 'dhruvasagar/vim-zoom'
-
-" Pass focus events from tmux to Vim (useful for autoread and linting tools).
-Plug 'tmux-plugins/vim-tmux-focus-events'
 
 " Navigate and manipulate files in a tree view.
 Plug 'scrooloose/nerdtree'
@@ -39,9 +36,6 @@ Plug 'nelstrom/vim-visual-star-search'
 
 " Automatically clear search highlights after you move your cursor.
 Plug 'haya14busa/is.vim'
-
-" Handle multi-file find and replace.
-Plug 'mhinz/vim-grepper'
 
 " Better display unwanted whitespace.
 Plug 'ntpeters/vim-better-whitespace'
@@ -76,9 +70,6 @@ Plug 'junegunn/goyo.vim'
 " A bunch of useful language related snippets (ultisnips is the engine).
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-" Run test suites for various languages.
-Plug 'janko/vim-test'
-
 " Languages and file types.
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'chr4/nginx.vim'
@@ -93,7 +84,6 @@ Plug 'lifepillar/pgsql.vim'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'PotatoesMaster/i3-vim-syntax'
-Plug 'stephpy/vim-yaml'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-liquid'
@@ -103,26 +93,6 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'wgwoods/vim-systemd-syntax'
 
 call plug#end()
-
-" -----------------------------------------------------------------------------
-" Color settings
-" -----------------------------------------------------------------------------
-
-colorscheme gruvbox
-" For Gruvbox to look correct in terminal Vim you'll want to source a palette
-" script that comes with the Gruvbox plugin.
-"
-" Add this to your ~/.profile file:
-"   source "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
-
-" Gruvbox comes with both a dark and light theme.
-set background=dark
-
-" Gruvbox has 'hard', 'medium' (default) and 'soft' contrast options.
-let g:gruvbox_contrast_light='hard'
-
-" This needs to come last, otherwise the colors aren't correct.
-syntax on
 
 " -----------------------------------------------------------------------------
 " Status line
@@ -144,46 +114,27 @@ endfunction
 let &statusline = s:statusline_expr()
 
 " -----------------------------------------------------------------------------
-" Change status line color for insert and replace modes
+" Color settings
 " -----------------------------------------------------------------------------
 
-" Optimized for gruvbox:hard (both dark and light).
-function! InsertStatuslineColor(mode)
-  if a:mode == 'i'
-    if (&background == 'dark')
-      hi StatusLine ctermfg=109 ctermbg=0 guifg=#83a598 guibg=#000000
-    else
-      hi StatusLine ctermfg=24 ctermbg=255 guifg=#076678 guibg=#ffffff
-    endif
-  elseif a:mode == 'r'
-    if (&background == 'dark')
-      hi StatusLine ctermfg=106 ctermbg=0 guifg=#98971a guibg=#000000
-    else
-      hi StatusLine ctermfg=100 ctermbg=255 guifg=#79740e guibg=#ffffff
-    endif
-  else
-    if (&background == 'dark')
-      hi StatusLine ctermfg=166 ctermbg=0 guifg=#d65d0e guibg=#000000
-    else
-      hi StatusLine ctermfg=88 ctermbg=255 guifg=#9d0006 guibg=#ffffff
-    endif
-  endif
-endfunction
+set t_Co=256
 
-function! InsertLeaveActions()
-  if (&background == 'dark')
-    au InsertLeave * hi StatusLine ctermfg=239 ctermbg=223 guifg=#504945 guibg=#ebdbb2
-  else
-    au InsertLeave * hi StatusLine ctermfg=250 ctermbg=0 guifg=#d5c4a1 guibg=#000000
-  endif
-endfunction
+colorscheme gruvbox
+" For Gruvbox to look correct in terminal Vim you'll want to source a palette
+" script that comes with the Gruvbox plugin.
+"
+" Add this to your ~/.profile file:
+"   source "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
 
-au InsertEnter * call InsertStatuslineColor(v:insertmode)
-au InsertChange * call InsertStatuslineColor(v:insertmode)
-au InsertLeave * call InsertLeaveActions()
+" Gruvbox comes with both a dark and light theme.
+set background=dark
+"set background=light
 
-" Ensure status line color gets reverted if exiting insert mode with CTRL + C.
-inoremap <C-c> <C-o>:call InsertLeaveActions()<CR><C-c>
+" Gruvbox has 'hard', 'medium' (default) and 'soft' contrast options.
+let g:gruvbox_contrast_light='hard'
+
+" This needs to come last, otherwise the colors aren't correct.
+syntax on
 
 " -----------------------------------------------------------------------------
 " Basic Settings
@@ -299,15 +250,6 @@ noremap X "_x
 " Prevent selecting and pasting from overwriting what you originally copied.
 xnoremap p pgvy
 
-" Keep cursor at the bottom of the visual selection after you yank it.
-vmap y ygv<Esc>
-
-" Edit Vim config file in a new tab.
-map <Leader>ev :tabnew $MYVIMRC<CR>
-
-" Source Vim config file.
-map <Leader>sv :source $MYVIMRC<CR>
-
 " Eliminate issues where you accidentally hold shift for too long with :w.
 command! W write
 
@@ -340,23 +282,17 @@ vnoremap <Leader>tc c<C-r>=system('tcc', getreg('"'))[:-2]<CR>
 augroup NoInsertKeycodes
   autocmd!
   autocmd InsertEnter * set ttimeoutlen=0
-  autocmd InsertLeave * set ttimeoutlen=50
+  autocmd InsertLeave * set ttimeoutlen=500
 augroup END
 
 " Auto-resize splits when Vim gets resized.
 autocmd VimResized * wincmd =
-
-" Update a buffer's contents on focus if it changed outside of Vim.
-au FocusGained,BufEnter * :checktime
 
 " Unset paste on InsertLeave.
 autocmd InsertLeave * silent! set nopaste
 
 " Make sure all types of requirements.txt files get syntax highlighting.
 autocmd BufNewFile,BufRead requirements*.txt set syntax=python
-
-" Ensure tabs don't get converted to spaces in Makefiles.
-autocmd FileType make setlocal noexpandtab
 
 " ----------------------------------------------------------------------------
 " Basic commands
@@ -415,9 +351,20 @@ nnoremap <silent> <C-p> :FZF -m<CR>
 nnoremap <silent> <Leader><Enter> :Buffers<CR>
 nnoremap <silent> <Leader>l :Lines<CR>
 
-" Allow passing optional flags into the Rg command.
-"   Example: :Rg myterm -g '*.md'
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . <q-args>, 1, <bang>0)
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+" CTRL+Q (combined with CTRL+A) to put search results into the quickfix.
+" CTRL+Y to copy the highlighted file path to the clipboard.
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit',
+  \ 'ctrl-y': {lines -> setreg('*', join(lines, "\n"))}}
 
 " .............................................................................
 " scrooloose/nerdtree
@@ -428,31 +375,6 @@ let g:NERDTreeAutoDeleteBuffer=1
 
 " Open nerd tree at the current file or close nerd tree if pressed again.
 nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
-
-" .............................................................................
-" mhinz/vim-grepper
-" .............................................................................
-
-let g:grepper={}
-let g:grepper.tools=["rg"]
-
-xmap gr <plug>(GrepperOperator)
-
-" After searching for text, press this mapping to do a project wide find and
-" replace. It's similar to <leader>r except this one applies to all matches
-" across all files instead of just the current file.
-nnoremap <Leader>R
-  \ :let @s='\<'.expand('<cword>').'\>'<CR>
-  \ :Grepper -cword -noprompt<CR>
-  \ :cfdo %s/<C-r>s//g \| update
-  \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-
-" The same as above except it works with a visual selection.
-xmap <Leader>R
-    \ "sy
-    \ gvgr
-    \ :cfdo %s/<C-r>s//g \| update
-     \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 " .............................................................................
 " ntpeters/vim-better-whitespace

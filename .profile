@@ -3,6 +3,7 @@
 
 # Add all local binary paths to the system path.
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/bin"
 
 # Default programs to run.
 export EDITOR="vim"

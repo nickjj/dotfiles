@@ -56,3 +56,5 @@ alias octal="stat -c '%a %n'"
 alias follow="namei -om"
 
 alias diff="diff --color -u"
+
+alias tmux="tmux -2"

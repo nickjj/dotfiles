@@ -36,7 +36,7 @@ PS1='\[[01;32m\]\u@\h\[[00m\]:\[[01;34m\]\w\[[00m\] \[[01;33m\]$(parse_git_
 
 # If it's an xterm compatible terminal, set the title to user@host: dir.
 case "$TERM" in
-xterm*|rxvt*)
+xterm*|rxvt*|tmux*)
     PS1="\[\e]0;\u@\h: \w\a\]$PS1"
     ;;
 *)
@@ -45,7 +45,7 @@ esac
 
 # Enable chruby.
 #   Requires: https://github.com/postmodern/chruby
-source /usr/local/share/chruby/chruby.sh
+#source /usr/local/share/chruby/chruby.sh
 
 # Enable a better reverse search experience.
 #   Requires: https://github.com/junegunn/fzf (to use fzf in general)
@@ -53,8 +53,8 @@ source /usr/local/share/chruby/chruby.sh
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
 [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
 
-# WSL (Windows Subsystem for Linux) specific settings.
-if grep -qE "(Microsoft|WSL)" /proc/version &>/dev/null; then
+# WSL or WSL2 (Windows Subsystem for Linux) specific settings.
+if grep -qE "(Microsoft|microsoft|WSL)" /proc/version &>/dev/null; then
     # Adjustments for WSL's file / folder permission metadata.
     if [ "$(umask)" = "0000" ]; then
       umask 0022
@@ -64,7 +64,13 @@ if grep -qE "(Microsoft|WSL)" /proc/version &>/dev/null; then
     #   Requires: https://sourceforge.net/projects/vcxsrv/ (or alternative)
     export DISPLAY=:0
 
-    # Configure the Docker CLI to use the Docker for Windows daemon.
-    #   Requires: https://docs.docker.com/docker-for-windows/install/
-    export DOCKER_HOST=tcp://localhost:2375
+    # WSL only
+    if grep -qE "Microsoft" /proc/version &>/dev/null; then
+        # Configure the Docker CLI to use the Docker for Windows daemon.
+        #   Requires: https://docs.docker.com/docker-for-windows/install/
+        export DOCKER_HOST=tcp://localhost:2375
+    fi
 fi
+
+# ranger
+export RANGER_LOAD_DEFAULT_RC=FALSE
