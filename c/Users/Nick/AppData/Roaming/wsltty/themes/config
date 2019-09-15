@@ -1,0 +1,11 @@
+# To use common configuration in %APPDATA%\mintty, simply remove this file
+CursorType=block
+CursorBlinks=no
+Font=Consolas NF
+FontHeight=11
+Term=xterm-256color
+BellType=0
+ThemeFile=gruvbox-dark.minttyrc
+CtrlShiftShortcuts=yes
+PgUpDnScroll=yes
+Scrollbar=none
