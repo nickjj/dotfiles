@@ -31,6 +31,9 @@ Plug 'francoiscabrol/ranger.vim'
 " Run a diff on 2 directories.
 Plug 'will133/vim-dirdiff'
 
+" Run a diff on 2 blocks of text.
+Plug 'AndrewRadev/linediff.vim'
+
 " Add spelling errors to the quickfix list (vim-ingo-library is a dependency).
 Plug 'inkarkat/vim-ingo-library' | Plug 'inkarkat/vim-SpellCheck'
 
