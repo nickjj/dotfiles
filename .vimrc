@@ -16,6 +16,9 @@ Plug 'gruvbox-community/gruvbox'
 Plug '~/.fzf'
 Plug 'junegunn/fzf.vim'
 
+" Better manage Vim sessions.
+Plug 'tpope/vim-obsession'
+
 " Zoom in and out of a specific split pane (similar to tmux).
 Plug 'dhruvasagar/vim-zoom'
 
