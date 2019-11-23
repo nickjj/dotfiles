@@ -93,7 +93,7 @@ Plug 'ekalinin/dockerfile.vim'
 Plug 'elixir-editors/vim-elixir'
 Plug 'elzr/vim-json'
 Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
+Plug 'godlygeek/tabular' | Plug 'tpope/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install' }
 Plug 'lifepillar/pgsql.vim'
 Plug 'othree/html5.vim'
@@ -481,14 +481,10 @@ let g:fastfold_fold_command_suffixes=[]
 let g:limelight_conceal_ctermfg=244
 
 " .............................................................................
-" plasticboy/vim-markdown
+" tpope/vim-markdown
 " .............................................................................
 
-autocmd FileType markdown let b:sleuth_automatic=0
-autocmd FileType markdown set conceallevel=0
-autocmd FileType markdown normal zR
-
-let g:vim_markdown_frontmatter=1
+let g:markdown_syntax_conceal = 0
 
 " .............................................................................
 " iamcco/markdown-preview.nvim
