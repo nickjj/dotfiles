@@ -342,13 +342,6 @@ vnoremap <Leader>tc c<C-r>=system('tcc', getreg('"'))[:-2]<CR>
 " Basic autocommands
 " -----------------------------------------------------------------------------
 
-" Reduce delay when switching between modes.
-" augroup NoInsertKeycodes
-"   autocmd!
-"   autocmd InsertEnter * set ttimeoutlen=0
-"   autocmd InsertLeave * set ttimeoutlen=500
-" augroup END
-
 " Auto-resize splits when Vim gets resized.
 autocmd VimResized * wincmd =
 
