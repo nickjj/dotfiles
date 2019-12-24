@@ -261,6 +261,11 @@ set wrap
 
 runtime! macros/matchit.vim
 
+hi SpellBad cterm=underline ctermfg=9
+hi SpellLocal cterm=underline ctermfg=9
+hi SpellRare cterm=underline ctermfg=9
+hi SpellCap cterm=underline
+
 " -----------------------------------------------------------------------------
 " Basic mappings
 " -----------------------------------------------------------------------------
