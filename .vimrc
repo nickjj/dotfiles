@@ -28,6 +28,9 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 " Navigate and manipulate files in a tree view.
 Plug 'scrooloose/nerdtree'
 
+" Helpers for moving and manipulating files / directories.
+Plug 'tpope/vim-eunuch'
+
 " Launch Ranger from Vim.
 Plug 'francoiscabrol/ranger.vim'
 
@@ -314,9 +317,6 @@ map <Leader>ev :tabnew $MYVIMRC<CR>
 
 " Source Vim config file.
 map <Leader>sv :source $MYVIMRC<CR>
-
-" Eliminate issues where you accidentally hold shift for too long with :w.
-command! W write
 
 " Toggle spell check.
 map <F5> :setlocal spell!<CR>
