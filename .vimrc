@@ -55,6 +55,9 @@ Plug 'mhinz/vim-grepper'
 " Better display unwanted whitespace.
 Plug 'ntpeters/vim-better-whitespace'
 
+" Automatically close quotes, braces, brackets, etc..
+Plug 'jiangmiao/auto-pairs'
+
 " Toggle comments in various ways.
 Plug 'tpope/vim-commentary'
 
