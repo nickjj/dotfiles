@@ -251,7 +251,8 @@ set textwidth=0
 set ttimeout
 set ttyfast
 set ttymouse=sgr
-set undodir=/tmp//,.
+set undodir=/tmp
+set undofile
 set virtualedit=block
 set whichwrap=b,s,<,>
 set wildmenu
