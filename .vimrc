@@ -330,6 +330,9 @@ map <Leader>sv :source $MYVIMRC<CR>
 " Toggle spell check.
 map <F5> :setlocal spell!<CR>
 
+" Toggle relative line numbers and regular line numbers.
+nmap <F6> :set invrelativenumber<CR>
+
 " Toggle quickfix window.
 function! QuickFix_toggle()
     for i in range(1, winnr('$'))
