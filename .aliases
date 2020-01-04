@@ -55,3 +55,7 @@ alias octal="stat -c '%a %n'"
 alias follow="namei -om"
 
 alias diff="diff --color -u"
+
+alias 755d="find . -type d -exec chmod 755 {} \;"
+
+alias 644f="find . -type f -exec chmod 644 {} \;"
