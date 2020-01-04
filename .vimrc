@@ -97,7 +97,6 @@ Plug 'chr4/nginx.vim'
 Plug 'chrisbra/csv.vim'
 Plug 'ekalinin/dockerfile.vim'
 Plug 'elixir-editors/vim-elixir'
-Plug 'elzr/vim-json'
 Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'godlygeek/tabular' | Plug 'tpope/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install' }
