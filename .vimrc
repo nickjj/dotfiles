@@ -135,8 +135,12 @@ let g:gruvbox_contrast_light='hard'
 " This needs to come last, otherwise the colors aren't correct.
 syntax on
 
-" Fix the ultra disgusting visual selection colors (thanks @romainl).
-hi Visual cterm=NONE ctermfg=NONE ctermbg=237
+" Fix the ultra disgusting visual selection colors of gruvbox (thanks @romainl).
+if (&background == 'dark')
+  hi Visual cterm=NONE ctermfg=NONE ctermbg=237 guibg=#3a3a3a
+else
+  hi Visual cterm=NONE ctermfg=NONE ctermbg=223 guibg=#ffd7af
+endif
 
 " -----------------------------------------------------------------------------
 " Status line
