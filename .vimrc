@@ -335,6 +335,10 @@ map <F5> :setlocal spell!<CR>
 " Toggle relative line numbers and regular line numbers.
 nmap <F6> :set invrelativenumber<CR>
 
+" Automatically fix the last misspelled word and jump back to where you were.
+"   Taken from this talk: https://www.youtube.com/watch?v=lwD8G1P52Sk
+nnoremap <leader>sp :normal! mz[s1z=`z<CR>
+
 " Toggle quickfix window.
 function! QuickFix_toggle()
     for i in range(1, winnr('$'))
