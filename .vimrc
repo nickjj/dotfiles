@@ -220,6 +220,7 @@ set colorcolumn=80
 set complete+=kspell
 set completeopt=menuone,preview
 set cryptmethod=blowfish2
+set cursorline
 set directory=/tmp//,.
 set encoding=utf-8
 set expandtab smarttab
