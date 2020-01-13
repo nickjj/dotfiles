@@ -58,9 +58,6 @@ Plug 'ntpeters/vim-better-whitespace'
 " Toggle comments in various ways.
 Plug 'tpope/vim-commentary'
 
-" Surround text with quotes, parenthesis, brackets, and more.
-Plug 'tpope/vim-surround'
-
 " Automatically set 'shiftwidth' + 'expandtab' (indention) based on file type.
 Plug 'tpope/vim-sleuth'
 
