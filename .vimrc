@@ -375,6 +375,13 @@ autocmd BufNewFile,BufRead requirements*.txt set syntax=python
 " Ensure tabs don't get converted to spaces in Makefiles.
 autocmd FileType make setlocal noexpandtab
 
+" Only show the cursor line in the active buffer.
+augroup CursorLine
+    au!
+    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    au WinLeave * setlocal nocursorline
+augroup END
+
 " ----------------------------------------------------------------------------
 " Basic commands
 " ----------------------------------------------------------------------------
