@@ -232,7 +232,6 @@ set hlsearch
 set ignorecase
 set incsearch
 set laststatus=2
-set lazyredraw
 set matchpairs+=<:> " Use % to jump between pairs
 set mmp=5000
 set modelines=2
