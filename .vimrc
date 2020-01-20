@@ -43,6 +43,9 @@ Plug 'AndrewRadev/linediff.vim'
 " Add spelling errors to the quickfix list (vim-ingo-library is a dependency).
 Plug 'inkarkat/vim-ingo-library' | Plug 'inkarkat/vim-SpellCheck'
 
+" Briefly highlight which text was yanked.
+Plug 'machakann/vim-highlightedyank'
+
 " Modify * to also work with visual selections.
 Plug 'nelstrom/vim-visual-star-search'
 
@@ -129,11 +132,16 @@ let g:gruvbox_contrast_light='hard'
 " This needs to come last, otherwise the colors aren't correct.
 syntax on
 
-" Fix the ultra disgusting visual selection colors of gruvbox (thanks @romainl).
 if (&background == 'dark')
+  " Fix the disgusting visual selection colors of gruvbox (thanks @romainl).
   hi Visual cterm=NONE ctermfg=NONE ctermbg=237 guibg=#3a3a3a
+
+  " Set a custom highlight color when yanking text.
+  "   This requires having the plugin: machakann/vim-highlightedyank
+  hi HighlightedyankRegion cterm=NONE ctermbg=239 guibg=#4e4e4e
 else
   hi Visual cterm=NONE ctermfg=NONE ctermbg=223 guibg=#ffd7af
+  hi HighlightedyankRegion cterm=NONE ctermbg=228 guibg=ffff87
 endif
 
 " -----------------------------------------------------------------------------
