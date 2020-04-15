@@ -523,7 +523,7 @@ let test#strategy='vimterminal'
 let test#python#runner='pytest'
 let test#python#pytest='docker-compose exec web py.test'
 
-let test#elixir#exunit#executable = 'docker-compose exec -e MIX_ENV=test web mix test'
+let test#elixir#exunit#executable='docker-compose exec -e MIX_ENV=test web mix test'
 
 nmap <silent> t<C-n> :TestNearest<CR>
 nmap <silent> t<C-f> :TestFile<CR>
