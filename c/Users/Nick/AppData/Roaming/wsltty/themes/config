@@ -2,7 +2,7 @@
 CursorType=block
 CursorBlinks=no
 Font=Consolas NF
-FontHeight=11
+FontHeight=10
 Term=xterm-256color
 BellType=0
 ThemeFile=one-dark.minttyrc
