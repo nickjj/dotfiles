@@ -8,10 +8,7 @@ export PATH="$PATH:$HOME/.local/bin"
 export EDITOR="vim"
 export READER="zathura"
 export FILE="ranger"
-
-# More accurate 256 colors with Gruvbox.
-#   Requires: https://github.com/morhetz/gruvbox
-source "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
+export NOTES_DIRECTORY="/d/notes"
 
 # Add colors to the less and man commands.
 export LESS=-R

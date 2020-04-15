@@ -9,8 +9,8 @@
 " Specify a directory for plugins.
 call plug#begin('~/.vim/plugged')
 
-" Gruvbox theme.
-Plug 'gruvbox-community/gruvbox'
+" Atom One Dark theme.
+Plug 'joshdick/onedark.vim'
 
 " Integrate fzf with Vim.
 Plug '~/.fzf'
@@ -116,33 +116,23 @@ call plug#end()
 " Color settings
 " -----------------------------------------------------------------------------
 
-colorscheme gruvbox
-" For Gruvbox to look correct in terminal Vim you'll want to source a palette
-" script that comes with the Gruvbox plugin.
-"
-" Add this to your ~/.profile file:
-"   source "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
+" Enable 24-bit true colors if your terminal supports it.
+if (has("termguicolors"))
+  " https://github.com/vim/vim/issues/993#issuecomment-255651605
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
-" Gruvbox comes with both a dark and light theme.
-set background=dark
+  set termguicolors
+endif
 
-" Gruvbox has 'hard', 'medium' (default) and 'soft' contrast options.
-let g:gruvbox_contrast_light='hard'
-
-" This needs to come last, otherwise the colors aren't correct.
+" Enable syntax highlighting.
 syntax on
 
-if (&background == 'dark')
-  " Fix the disgusting visual selection colors of gruvbox (thanks @romainl).
-  hi Visual cterm=NONE ctermfg=NONE ctermbg=237 guibg=#3a3a3a
+" Set the color scheme.
+colorscheme onedark
 
-  " Set a custom highlight color when yanking text.
-  "   This requires having the plugin: machakann/vim-highlightedyank
-  hi HighlightedyankRegion cterm=NONE ctermbg=239 guibg=#4e4e4e
-else
-  hi Visual cterm=NONE ctermfg=NONE ctermbg=223 guibg=#ffd7af
-  hi HighlightedyankRegion cterm=NONE ctermbg=228 guibg=ffff87
-endif
+" Set the color scheme to dark.
+set background=dark
 
 " -----------------------------------------------------------------------------
 " Status line
@@ -162,48 +152,6 @@ function! s:statusline_expr()
 endfunction
 
 let &statusline = s:statusline_expr()
-
-" -----------------------------------------------------------------------------
-" Change status line color for insert and replace modes
-" -----------------------------------------------------------------------------
-
-" Optimized for gruvbox:hard (both dark and light).
-function! InsertStatuslineColor(mode)
-  if a:mode == 'i'
-    if (&background == 'dark')
-      hi StatusLine ctermfg=109 ctermbg=0 guifg=#83a598 guibg=#000000
-    else
-      hi StatusLine ctermfg=24 ctermbg=255 guifg=#076678 guibg=#ffffff
-    endif
-  elseif a:mode == 'r'
-    if (&background == 'dark')
-      hi StatusLine ctermfg=106 ctermbg=0 guifg=#98971a guibg=#000000
-    else
-      hi StatusLine ctermfg=100 ctermbg=255 guifg=#79740e guibg=#ffffff
-    endif
-  else
-    if (&background == 'dark')
-      hi StatusLine ctermfg=166 ctermbg=0 guifg=#d65d0e guibg=#000000
-    else
-      hi StatusLine ctermfg=88 ctermbg=255 guifg=#9d0006 guibg=#ffffff
-    endif
-  endif
-endfunction
-
-function! InsertLeaveActions()
-  if (&background == 'dark')
-    au InsertLeave * hi StatusLine ctermfg=239 ctermbg=223 guifg=#504945 guibg=#ebdbb2
-  else
-    au InsertLeave * hi StatusLine ctermfg=250 ctermbg=0 guifg=#d5c4a1 guibg=#000000
-  endif
-endfunction
-
-au InsertEnter * call InsertStatuslineColor(v:insertmode)
-au InsertChange * call InsertStatuslineColor(v:insertmode)
-au InsertLeave * call InsertLeaveActions()
-
-" Ensure status line color gets reverted if exiting insert mode with CTRL + C.
-inoremap <C-c> <C-o>:call InsertLeaveActions()<CR><C-c>
 
 " -----------------------------------------------------------------------------
 " Basic Settings
