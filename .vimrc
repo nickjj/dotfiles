@@ -88,6 +88,9 @@ Plug 'junegunn/goyo.vim'
 " A bunch of useful language related snippets (ultisnips is the engine).
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
+" Automatically show Vim's complete menu while typing.
+Plug 'vim-scripts/AutoComplPop'
+
 " Run test suites for various languages.
 Plug 'janko/vim-test'
 
@@ -171,7 +174,7 @@ set backupdir=/tmp//,.
 set clipboard=unnamedplus
 set colorcolumn=80
 set complete+=kspell
-set completeopt=menuone,preview
+set completeopt=menuone,longest,preview,noinsert
 set cryptmethod=blowfish2
 set cursorline
 set directory=/tmp//,.
@@ -318,6 +321,22 @@ nnoremap <silent> <Leader>c :call QuickFix_toggle()<CR>
 " Convert the selected text's title case using the external tcc script.
 "   Requires: https://github.com/nickjj/title-case-converter
 vnoremap <Leader>tc c<C-r>=system('tcc', getreg('"'))[:-2]<CR>
+
+" Enable arrow keys to select items in the complete menu.
+inoremap <expr> <Down> pumvisible() ? "<C-n>" :"<Down>"
+inoremap <expr> <Up> pumvisible() ? "<C-p>" : "<Up>"
+
+" Select the complete menu like CTRL+y would.
+inoremap <expr> <Right> pumvisible() ? "<C-y>" : "<Right>"
+
+" Allow completing the menu with tab while having UltiSnips installed.
+"   https://www.reddit.com/r/vim/comments/g15daf/is_it_possible_to_bind_tab_in_insert_mode_for/fndkpwc/
+let g:UltiSnipsExpandTrigger = "<Plug>(myUltiSnipsExpand)"
+xmap <Tab> <Plug>(myUltiSnipsExpand)
+imap <expr> <Tab> pumvisible() ? "<C-y>" : "<Plug>(myUltiSnipsExpand)"
+
+" Cancel the complete menu like CTRL+e would.
+inoremap <expr> <Left> pumvisible() ? "<C-e>" : "<Left>"
 
 " -----------------------------------------------------------------------------
 " Basic autocommands
@@ -489,8 +508,8 @@ let g:mkdp_refresh_slow=1
 let g:mkdp_markdown_css='/home/nick/.local/lib/github-markdown-css/github-markdown.css'
 
 " .............................................................................
-" iamcco/markdown-preview.nvim
+" SirVer/ultisnips
 " .............................................................................
 
-let g:mkdp_refresh_slow=1
-let g:mkdp_markdown_css='/home/nick/.local/lib/github-markdown-css/github-markdown.css'
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
