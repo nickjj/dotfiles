@@ -418,6 +418,7 @@ command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-hea
 
 let g:NERDTreeShowHidden=1
 let g:NERDTreeAutoDeleteBuffer=1
+let g:NERDTreeQuitOnOpen=0
 
 " Open nerd tree at the current file or close nerd tree if pressed again.
 nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
