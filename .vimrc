@@ -296,6 +296,11 @@ nmap <F6> :set invrelativenumber<CR>
 "   Taken from this talk: https://www.youtube.com/watch?v=lwD8G1P52Sk
 nnoremap <leader>sp :normal! mz[s1z=`z<CR>
 
+" Toggle visually showing all whitespace characters.
+noremap <F7> :set list!<CR>
+inoremap <F7> <C-o>:set list!<CR>
+cnoremap <F7> <C-c>:set list!<CR>
+
 " Toggle quickfix window.
 function! QuickFix_toggle()
     for i in range(1, winnr('$'))
