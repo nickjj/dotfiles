@@ -328,12 +328,7 @@ inoremap <expr> <Up> pumvisible() ? "<C-p>" : "<Up>"
 
 " Select the complete menu like CTRL+y would.
 inoremap <expr> <Right> pumvisible() ? "<C-y>" : "<Right>"
-
-" Allow completing the menu with tab while having UltiSnips installed.
-"   https://www.reddit.com/r/vim/comments/g15daf/is_it_possible_to_bind_tab_in_insert_mode_for/fndkpwc/
-let g:UltiSnipsExpandTrigger = "<Plug>(myUltiSnipsExpand)"
-xmap <Tab> <Plug>(myUltiSnipsExpand)
-imap <expr> <Tab> pumvisible() ? "<C-y>" : "<Plug>(myUltiSnipsExpand)"
+inoremap <expr> <CR> pumvisible() ? "<C-y>" :"<CR>"
 
 " Cancel the complete menu like CTRL+e would.
 inoremap <expr> <Left> pumvisible() ? "<C-e>" : "<Left>"
