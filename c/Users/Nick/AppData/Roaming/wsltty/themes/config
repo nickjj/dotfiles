@@ -9,3 +9,4 @@ ThemeFile=one-dark.minttyrc
 CtrlShiftShortcuts=yes
 PgUpDnScroll=yes
 Scrollbar=none
+BellTaskbar=no
