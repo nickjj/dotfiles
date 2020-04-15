@@ -46,6 +46,9 @@ Plug 'inkarkat/vim-ingo-library' | Plug 'inkarkat/vim-SpellCheck'
 " Briefly highlight which text was yanked.
 Plug 'machakann/vim-highlightedyank'
 
+" Highlight which character to jump to when using horizontal movement keys.
+Plug 'unblevable/quick-scope'
+
 " Modify * to also work with visual selections.
 Plug 'nelstrom/vim-visual-star-search'
 
@@ -413,6 +416,17 @@ let g:NERDTreeAutoDeleteBuffer=1
 
 " Open nerd tree at the current file or close nerd tree if pressed again.
 nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
+
+" .............................................................................
+" unblevable/quick-scope
+" .............................................................................
+
+" Trigger a highlight in the appropriate direction when pressing these keys.
+let g:qs_highlight_on_keys=['f', 'F', 't', 'T']
+
+" Only underline the highlights instead of using custom colors.
+highlight QuickScopePrimary gui=underline cterm=underline
+highlight QuickScopeSecondary gui=underline cterm=underline
 
 " .............................................................................
 " mhinz/vim-grepper
