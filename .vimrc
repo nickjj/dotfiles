@@ -513,3 +513,20 @@ let g:mkdp_markdown_css='/home/nick/.local/lib/github-markdown-css/github-markdo
 
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" .............................................................................
+" janko/vim-test
+" .............................................................................
+
+let test#strategy='vimterminal'
+
+let test#python#runner='pytest'
+let test#python#pytest='docker-compose exec web py.test'
+
+let test#elixir#exunit#executable = 'docker-compose exec -e MIX_ENV=test web mix test'
+
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-a> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
