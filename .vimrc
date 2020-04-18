@@ -322,15 +322,15 @@ nnoremap <silent> <Leader>c :call QuickFix_toggle()<CR>
 "   Requires: https://github.com/nickjj/title-case-converter
 vnoremap <Leader>tc c<C-r>=system('tcc', getreg('"'))[:-2]<CR>
 
-" Enable arrow keys to select items in the complete menu.
+" Navigate the complete menu items like CTRL+n / CTRL+p would.
 inoremap <expr> <Down> pumvisible() ? "<C-n>" :"<Down>"
 inoremap <expr> <Up> pumvisible() ? "<C-p>" : "<Up>"
 
-" Select the complete menu like CTRL+y would.
+" Select the complete menu item like CTRL+y would.
 inoremap <expr> <Right> pumvisible() ? "<C-y>" : "<Right>"
 inoremap <expr> <CR> pumvisible() ? "<C-y>" :"<CR>"
 
-" Cancel the complete menu like CTRL+e would.
+" Cancel the complete menu item like CTRL+e would.
 inoremap <expr> <Left> pumvisible() ? "<C-e>" : "<Left>"
 
 " -----------------------------------------------------------------------------
