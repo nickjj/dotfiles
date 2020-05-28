@@ -46,7 +46,7 @@ alias drun='docker run --rm -it -v "${PWD}":/app'
 
 alias rmpyc="find . -type d -name '__pycache__' -exec rm -rf {} \;"
 
-alias jek="bundle exec jekyll serve --config _config.yml,_config.dev.yml --drafts --livereload"
+alias jek="RUBYOPT='-W0' bundle exec jekyll serve --config _config.yml,_config.dev.yml --drafts --livereload"
 
 alias ymp3="youtube-dl --extract-audio --audio-format mp3"
 
