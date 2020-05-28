@@ -72,7 +72,6 @@ set-window-option -g window-status-current-fg colour223
 
 3. Change your terminal's theme (this will depend on which terminal you use)
 
-
 #### Why did I choose this theme?
 
 It has excellent syntax highlighting support for a bunch of popular programming
