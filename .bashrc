@@ -43,9 +43,9 @@ xterm*|rxvt*)
     ;;
 esac
 
-# Enable chruby.
-#   Requires: https://github.com/postmodern/chruby
-source /usr/local/share/chruby/chruby.sh
+# Enable asdf to manage various programming runtime versions.
+#   Requires: https://asdf-vm.com/#/
+source "$HOME"/.asdf/asdf.sh
 
 # Enable a better reverse search experience.
 #   Requires: https://github.com/junegunn/fzf (to use fzf in general)
