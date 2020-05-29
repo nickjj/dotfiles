@@ -202,6 +202,12 @@ on Windows. The [tools I use blog
 post](https://nickjanetakis.com/blog/the-tools-i-use) has a complete list of
 those tools so you can pick the ones you want to install.
 
+Pay very close attention to the `c/Users/Nick/.wslconfig` file because it has
+values in there that you will very likely need to change before using it.
+[This commit
+message](https://github.com/nickjj/dotfiles/commit/d0f1fc2622204b809cf7fcbb1a82d45b451064c4)
+goes into the details.
+
 Also, you should reboot to activate your `/etc/wsl.conf` file (symlinked
 earlier). That will be necessary if you want to access your mounted drives at
 `/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
