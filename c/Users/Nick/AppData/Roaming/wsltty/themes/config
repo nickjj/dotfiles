@@ -1,7 +1,7 @@
 # To use common configuration in %APPDATA%\mintty, simply remove this file
 CursorType=block
 CursorBlinks=no
-Font=Consolas NF
+Font=Consolas
 FontHeight=10
 Term=xterm-256color
 BellType=0
