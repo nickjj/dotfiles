@@ -1,0 +1,9 @@
+[wsl2]
+memory=6GB                  # Make sure you have this amount available to use!
+swapFile=E:\\wsl2-swap.vhdx # I put mine off my SSD, but this is optional.
+
+# Another option is to disable swap but if the VM goes out of memory, the
+# OOM killer might start killing important processes or the VM may crash.
+#
+# Uncomment the line below this to use no swap file at all in the WSL 2 VM.
+#swap=0
