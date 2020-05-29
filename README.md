@@ -58,16 +58,10 @@ colorscheme gruvbox
 2. Edit your `.tmux.conf` file to use these color settings:
 
 ```
-set -g status-fg colour244
-set -g status-bg default
+set -g status-style fg=colour244
+set -g pane-active-border-style fg=colour250
 
-set -g pane-border-fg default
-set -g pane-border-bg default
-set -g pane-active-border-fg colour250
-set -g pane-active-border-bg default
-
-set-window-option -g window-status-current-attr bold
-set-window-option -g window-status-current-fg colour223
+set-window-option -g window-status-current-style fg=colour223
 ```
 
 3. Change your terminal's theme (this will depend on which terminal you use)
