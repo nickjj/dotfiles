@@ -1,0 +1,8 @@
+[core]
+	editor = vim
+
+[color "diff"]
+	whitespace = red reverse
+
+[include]
+	path = ~/.gitconfig.user
