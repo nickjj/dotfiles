@@ -1,12 +1,13 @@
 # dotfiles
 
-Here's a bunch of settings for various tools I use.
+Here's a bunch of settings for the various tools I use. I also have a number of
+blog posts, videos and documentation in this README to help get you going.
 
-There's also a
-[complete list of tools](https://nickjanetakis.com/blog/the-tools-i-use) I use
-on my site along with a
-[bunch of blog posts](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials)
-explaining how and why I use them.
+- View an up to date [complete list of tools that I use](https://nickjanetakis.com/blog/the-tools-i-use)
+- [Read blog posts or watch Youtube videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials) that are related to my dev environment
+- [View screenshots](#screenshots) of the current set up along with previous set ups
+- [Quickly get set up with these dotfiles](#quickly-get-set-up-with-these-dotfiles) on the Linux side of things (native or WSL)
+- [About the author](#about-the-author)
 
 ## Screenshots
 
@@ -77,3 +78,140 @@ characters when programming and writing all day.
 
 Lastly, I was a big fan of the Quake video game and its colors remind of
 Quake's color palette in the dark variant.
+
+## Quickly Get Set Up with These Dotfiles
+
+One of the most common questions I get from folks taking one of my
+[courses](https://nickjanetakis.com/courses/) is *"how did you configure
+WSL?!"*.
+
+I currently use Ubuntu 20.04 LTS inside of WSL 2 but my dotfiles work on native
+Linux too since it's just configuration files. But to help anyone get set up
+quicker, here's a few copy / paste'able commands that you can use to install
+most of the tools I use on the Linux side of things.
+
+These steps work on Ubuntu 20.04 but it should work on any Debian based distro
+too. Just be mindful of maybe needing to enable backports on Debian Buster for
+ensuring you get things like tmux version 3.0+.
+
+By the way I would make an effort to read everything before copy / pasting
+these commands into a terminal just so you know what's getting installed. You
+may want to modify some of these things, such as version numbers.
+
+```sh
+# I would consider these packages essential or very nice to have. The GTK
+# version of Vim is to get +clipboard support, you'd still run terminal Vim.
+sudo apt-get update && sudo apt-get install -y \
+  vim-gtk \
+  tmux \
+  git \
+  gpg \
+  curl \
+  rsync \
+  unzip \
+  htop \
+  ripgrep \
+  pass \
+  python3-pip
+
+# Clone down this dotfiles repo to your home directory. Feel free to place
+# this anywhere you want, but remember where you've cloned things to.
+git clone https://github.com/nickjj/dotfiles ~/dotfiles
+
+# Create symlinks to various dotfiles. If you didn't clone it to ~/dotfiles
+# then adjust the symlink source (left side) to where you cloned it.
+#
+# NOTE: The last one is WSL 1 / 2 specific. No need to do this on native Linux.
+ln -s ~/dotfiles/.aliases ~/.aliases \
+  && ln -s ~/dotfiles/.bashrc ~/.bashrc \
+  && ln -s ~/dotfiles/.gemrc ~/.gemrc \
+  && ln -s ~/dotfiles/.gitconfig ~/.gitconfig \
+  && ln -s ~/dotfiles/.profile ~/.profile \
+  && ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf \
+  && ln -s ~/dotfiles/.vimrc ~/.vimrc \
+  && sudo ln -s ~/dotfiles/etc/wsl.conf /etc/wsl.conf
+
+# Create your own personal ~/.gitconfig.user file. After copying the file,
+# you should edit it to have your name and email address so git can use it.
+cp ~/dotfiles/.gitconfig.user ~/.gitconfig.user
+
+# Install FZF (fuzzy finder on the terminal and used by a Vim plugin).
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
+
+# Install ASDF (version manager which I use for non-Dockerized apps).
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.8
+
+# Install Node through ASDF.
+asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+asdf install nodejd 12.17.0
+asdf global nodejs 12.17.0
+
+# Install system dependencies for Ruby.
+sudo apt-get install -y autoconf bison build-essential libssl-dev libyaml-dev \
+  libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev
+
+# Install Ruby through ASDF.
+asdf plugin-add ruby https://github.com/asdf-vm/asdf-ruby.git
+asdf install ruby 2.7.1
+asdf global ruby 2.7.1
+
+# Install Ansible.
+pip3 install --user ansible
+
+# Install AWS CLI v2.
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+  && unzip awscliv2.zip && sudo ./aws/Install && rm awscliv2.zip
+
+# Install Terraform.
+curl "https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_amd64.zip" -o "terraform" \
+  && chmod +x terraform && mv terraform ~/.local/bin
+```
+
+Optionally confirm that a few things work after closing and re-opening your
+terminal:
+
+```sh
+# Sanity check to see if you can run some of the tools we installed.
+ruby --version
+node --version
+ansible --version
+aws --version
+terraform --version
+
+# Check to make sure git is configured with your name, email and custom settings.
+git config --list
+
+# If you're using Docker Desktop with WSL 2, these should be accessible too.
+docker info
+docker-compose --version
+```
+
+#### Using WSL 1 or WSL 2?
+
+In addition to the Linux side of things, there's a few config files that I have
+in various directories of this dotfiles repo. These have long Windows paths.
+
+It would be expected that you copy those over to your system while replacing
+"Nick" with your Windows user name if you want to use those things, such as my
+Microsoft Terminal `settings.json` file and others. Some of the paths may
+also contain unique IDs too, so adjust them as needed on your end.
+
+Some of these configs expect that you have certain programs or tools installed
+on Windows. The [tools I use blog
+post](https://nickjanetakis.com/blog/the-tools-i-use) has a complete list of
+those tools so you can pick the ones you want to install.
+
+Also, you should reboot to activate your `/etc/wsl.conf` file (symlinked
+earlier). That will be necessary if you want to access your mounted drives at
+`/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
+
+## About the Author
+
+I'm a self taught developer and have been freelancing for the last ~20 years.
+You can read about everything I've learned along the way on my site at
+[https://nickjanetakis.com](https://nickjanetakis.com/). There's hundreds of
+[blog posts](https://nickjanetakis.com/blog/) and a couple of [video
+courses](https://nickjanetakis.com/courses/) on web development and deployment
+topics. I also have a [podcast](https://runninginproduction.com) where I talk
+to folks about running web apps in production.
