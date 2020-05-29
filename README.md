@@ -4,7 +4,7 @@ Here's a bunch of settings for the various tools I use. I also have a number of
 blog posts, videos and documentation in this README to help get you going.
 
 - View an up to date [complete list of tools that I use](https://nickjanetakis.com/blog/the-tools-i-use)
-- [Read blog posts or watch Youtube videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials) that are related to my dev environment
+- [Read blog posts or watch Youtube videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials) that are related to tweaking your dev environment
 - [View screenshots](#screenshots) of the current set up along with previous set ups
 - [Quickly get set up with these dotfiles](#quickly-get-set-up-with-these-dotfiles) on the Linux side of things (native or WSL)
 - [About the author](#about-the-author)
