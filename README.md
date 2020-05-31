@@ -144,7 +144,7 @@ git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.8
 # Install Node through ASDF.
 asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
-asdf install nodejd 12.17.0
+asdf install nodejs 12.17.0
 asdf global nodejs 12.17.0
 
 # Install system dependencies for Ruby.
