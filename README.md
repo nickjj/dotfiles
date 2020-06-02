@@ -110,6 +110,7 @@ sudo apt-get update && sudo apt-get install -y \
   rsync \
   unzip \
   htop \
+  shellcheck \
   ripgrep \
   pass \
   python3-pip
