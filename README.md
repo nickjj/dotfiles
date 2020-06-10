@@ -167,7 +167,7 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 # Install Terraform.
 curl "https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_amd64.zip" -o "terraform.zip" \
   && unzip terraform.zip && chmod +x terraform \
-  && sudo mv terraform ~/.local/bin && rm terraform.zip
+  && mv terraform ~/.local/bin && rm terraform.zip
 ```
 
 Optionally confirm that a few things work after closing and re-opening your
