@@ -17,15 +17,16 @@ idea to include a screenshot of each theme I used and how to switch to it.
 
 ### April 14th 2020 (current)
 
-The theme used in the screenshot below is [One
-Dark](https://github.com/joshdick/onedark.vim).
+The theme used in the screenshot below is [Vim
+One](https://github.com/rakr/vim-one).
 
-![Dotfiles](https://nickjanetakis.com/assets/blog/dotfiles-2020-04-14-6bd45461ac04cdffd6604f35ab73388fb9da4821f55e3445a5568a9b4d2bb3d0.jpg)
+![Dotfiles](https://nickjanetakis.com/assets/blog/dotfiles-2020-04-14-e375233b9aaf52ab5d8411ba28963f098094c91860e069a7f1ee45916a051929.jpg)
 
 #### Why did I switch to this theme?
 
 Like Gruvbox, it has really good syntax highlighting support for the
-technologies I work with on a regular basis.
+technologies I work with on a regular basis and it supports both a dark and
+light variant.
 
 I never used Atom Dark before, so it still looks fresh to me.
 

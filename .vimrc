@@ -9,8 +9,8 @@
 " Specify a directory for plugins.
 call plug#begin('~/.vim/plugged')
 
-" Atom One Dark theme.
-Plug 'joshdick/onedark.vim'
+" Atom One Dark / Light theme.
+Plug 'rakr/vim-one'
 
 " Integrate fzf with Vim.
 Plug '~/.fzf'
@@ -136,9 +136,7 @@ endif
 syntax on
 
 " Set the color scheme.
-colorscheme onedark
-
-" Set the color scheme to dark.
+colorscheme one
 set background=dark
 
 " -----------------------------------------------------------------------------
