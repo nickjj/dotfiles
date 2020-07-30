@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+# Toggle dark and light mode for a few different terminal tools.
+
+set -e
+
+terminal_config="/c/Users/Nick/AppData/Local/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json"
+rc_config="${HOME}/.bashrc"
+tmux_config="${HOME}/.tmux.conf"
+vim_rc="${HOME}/.vimrc"
+
+if grep -q "set background=dark" "${vim_rc}"; then
+  perl -i -pe "s/One Half Dark/One Half Light/g" "${terminal_config}"
+  perl -i -pe "s/export FZF_DEFAULT_OPTS=\"--color=dark\"/export FZF_DEFAULT_OPTS=\"--color=light\"/g" "${rc_config}"
+  perl -i -pe "s/set -g pane-border-style fg=colour240/set -g pane-border-style fg=colour250/g" "${tmux_config}"
+  perl -i -pe "s/set -g pane-active-border-style fg=colour243/set -g pane-active-border-style fg=colour253/g" "${tmux_config}"
+  perl -i -pe "s/set background=dark/set background=light/g" "${vim_rc}"
+
+else
+  perl -i -pe "s/One Half Light/One Half Dark/g" "${terminal_config}"
+  perl -i -pe "s/export FZF_DEFAULT_OPTS=\"--color=light\"/export FZF_DEFAULT_OPTS=\"--color=dark\"/g" "${rc_config}"
+  perl -i -pe "s/set -g pane-border-style fg=colour250/set -g pane-border-style fg=colour240/g" "${tmux_config}"
+  perl -i -pe "s/set -g pane-active-border-style fg=colour253/set -g pane-active-border-style fg=colour243/g" "${tmux_config}"
+  perl -i -pe "s/set background=light/set background=dark/g" "${vim_rc}"
+fi
+
+tmux source-file "${tmux_config}" 2>/dev/null

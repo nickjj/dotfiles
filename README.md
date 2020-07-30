@@ -124,13 +124,15 @@ git clone https://github.com/nickjj/dotfiles ~/dotfiles
 # then adjust the symlink source (left side) to where you cloned it.
 #
 # NOTE: The last one is WSL 1 / 2 specific. No need to do this on native Linux.
-ln -s ~/dotfiles/.aliases ~/.aliases \
+mkdir -p ~/.local/bin \
+  && ln -s ~/dotfiles/.aliases ~/.aliases \
   && ln -s ~/dotfiles/.bashrc ~/.bashrc \
   && ln -s ~/dotfiles/.gemrc ~/.gemrc \
   && ln -s ~/dotfiles/.gitconfig ~/.gitconfig \
   && ln -s ~/dotfiles/.profile ~/.profile \
   && ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf \
   && ln -s ~/dotfiles/.vimrc ~/.vimrc \
+  && ln -s ~/dotfiles/.local/bin/toggle-dark-mode ~/.local/bin/toggle-dark-mode \
   && sudo ln -s ~/dotfiles/etc/wsl.conf /etc/wsl.conf
 
 # Create your own personal ~/.gitconfig.user file. After copying the file,
