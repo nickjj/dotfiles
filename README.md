@@ -124,7 +124,7 @@ git clone https://github.com/nickjj/dotfiles ~/dotfiles
 # then adjust the symlink source (left side) to where you cloned it.
 #
 # NOTE: The last one is WSL 1 / 2 specific. No need to do this on native Linux.
-mkdir -p ~/.local/bin \
+mkdir -p ~/.local/bin && mkdir -p ~/.vim/spell \
   && ln -s ~/dotfiles/.aliases ~/.aliases \
   && ln -s ~/dotfiles/.bashrc ~/.bashrc \
   && ln -s ~/dotfiles/.gemrc ~/.gemrc \
@@ -132,6 +132,7 @@ mkdir -p ~/.local/bin \
   && ln -s ~/dotfiles/.profile ~/.profile \
   && ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf \
   && ln -s ~/dotfiles/.vimrc ~/.vimrc \
+  && ln -s ~/dotfiles/.vim/spell/en.utf-8.add ~/.vim/spell/en.utf-8.add \
   && ln -s ~/dotfiles/.local/bin/toggle-dark-mode ~/.local/bin/toggle-dark-mode \
   && sudo ln -s ~/dotfiles/etc/wsl.conf /etc/wsl.conf
 
