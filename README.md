@@ -195,6 +195,11 @@ git config --list
 # If you're using Docker Desktop with WSL 2, these should be accessible too.
 docker info
 docker-compose --version
+
+# Open Vim and install the configured plugins. You would type in the
+# :PlugInstall command from within Vim and then hit enter to issue the command.
+vim .
+:PlugInstall
 ```
 
 #### Using WSL 1 or WSL 2?
