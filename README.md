@@ -140,6 +140,10 @@ mkdir -p ~/.local/bin && mkdir -p ~/.vim/spell \
 # you should edit it to have your name and email address so git can use it.
 cp ~/dotfiles/.gitconfig.user ~/.gitconfig.user
 
+# Install Plug (Vim plugin manager).
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 # Install FZF (fuzzy finder on the terminal and used by a Vim plugin).
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 
