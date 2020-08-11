@@ -166,7 +166,7 @@ pip3 install --user ansible
 
 # Install AWS CLI v2.
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
-  && unzip awscliv2.zip && sudo ./aws/Install && rm awscliv2.zip
+  && unzip awscliv2.zip && sudo ./aws/install && rm awscliv2.zip
 
 # Install Terraform.
 curl "https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_amd64.zip" -o "terraform.zip" \
