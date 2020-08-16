@@ -168,6 +168,7 @@ SSD
 SSDs
 SSL
 SendGrid
+Sendy
 Sennheiser
 Serverless
 ShellCheck
@@ -253,7 +254,9 @@ master
 microservice
 microservices
 mintty
+mtime
 mysql
+mysqldump
 nginx
 observability
 pem
@@ -275,6 +278,7 @@ schemas
 screencast
 screencasts
 searchable
+sed
 sendgrid
 sql
 stateful
