@@ -148,6 +148,9 @@ cp ~/dotfiles/.gitconfig.user ~/.gitconfig.user
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+# Install TPM (Tmux plugin manager).
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 # Install FZF (fuzzy finder on the terminal and used by a Vim plugin).
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 
@@ -204,6 +207,11 @@ docker-compose --version
 # :PlugInstall command from within Vim and then hit enter to issue the command.
 vim .
 :PlugInstall
+
+# Start a tmux session and install the configured plugins. You would type in
+# ` followed by I (capital i) to issue the command.
+tmux
+`I
 ```
 
 #### Using WSL 1 or WSL 2?
