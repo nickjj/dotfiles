@@ -95,6 +95,10 @@ These steps work on Ubuntu 20.04 but it should work on any Debian based distro
 too. Just be mindful of maybe needing to enable backports on Debian Buster for
 ensuring you get things like tmux version 3.0+.
 
+If you're using a different distro that's ok too. You can change the `apt`
+commands to use your distro's package manager instead. Most of the other steps
+are distro-neutral. I'm sure you'll have no problem getting set up.
+
 By the way I would make an effort to read everything before copy / pasting
 these commands into a terminal just so you know what's getting installed. You
 may want to modify some of these things, such as version numbers.
