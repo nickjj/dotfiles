@@ -185,6 +185,20 @@ curl "https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_a
   && mv terraform ~/.local/bin && rm terraform.zip
 ```
 
+Install plugins for Vim and tmux:
+
+```sh
+# Open Vim and install the configured plugins. You would type in the
+# :PlugInstall command from within Vim and then hit enter to issue the command.
+vim .
+:PlugInstall
+
+# Start a tmux session and install the configured plugins. You would type in
+# ` followed by I (capital i) to issue the command.
+tmux
+`I
+```
+
 Optionally confirm that a few things work after closing and re-opening your
 terminal:
 
@@ -202,16 +216,6 @@ git config --list
 # If you're using Docker Desktop with WSL 2, these should be accessible too.
 docker info
 docker-compose --version
-
-# Open Vim and install the configured plugins. You would type in the
-# :PlugInstall command from within Vim and then hit enter to issue the command.
-vim .
-:PlugInstall
-
-# Start a tmux session and install the configured plugins. You would type in
-# ` followed by I (capital i) to issue the command.
-tmux
-`I
 ```
 
 #### Using WSL 1 or WSL 2?
