@@ -490,7 +490,7 @@ function! FernInit() abort
   nmap <buffer> h <Plug>(fern-action-hidden-toggle)j
   nmap <buffer> r <Plug>(fern-action-reload)
   nmap <buffer> k <Plug>(fern-action-mark-toggle)j
-  nmap <buffer> s <Plug>(fern-action-open:split)
+  nmap <buffer> b <Plug>(fern-action-open:split)
   nmap <buffer> v <Plug>(fern-action-open:vsplit)
   nmap <buffer><nowait> < <Plug>(fern-action-leave)
   nmap <buffer><nowait> > <Plug>(fern-action-enter)
