@@ -8,6 +8,7 @@ blog posts, videos and documentation in this README to help get you going.
 - [View screenshots](#screenshots) of the current set up along with previous set ups
 - [Quickly get set up with these dotfiles](#quickly-get-set-up-with-these-dotfiles) on the Linux side of things (native or WSL)
 - [FAQ](#faq)
+  - [How to personalize these dotfiles?](#how-to-personalize-these-dotfiles)
   - [How to fix Vim taking a long time to open when inside of WSL?](#how-to-fix-vim-taking-a-long-time-to-open-when-inside-of-wsl)
 - [About the author](#about-the-author)
 
@@ -220,6 +221,9 @@ docker info
 docker-compose --version
 ```
 
+Before you start customizing certain config files, take a look at the
+[personalization question in the FAQ](#how-to-personalize-these-dotfiles).
+
 #### Using WSL 1 or WSL 2?
 
 In addition to the Linux side of things, there's a few config files that I have
@@ -246,6 +250,23 @@ earlier). That will be necessary if you want to access your mounted drives at
 `/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
 
 ## FAQ
+
+### How to personalize these dotfiles?
+
+Chances are you'll want to personalize some of these files, such as various Vim
+settings. Since this is a git repo you can always do a `git pull` to get the
+most up to date copy of these dotfiles, but then you may find yourself
+clobbering over your own personal changes.
+
+Since we're using git here, we have a few reasonable options.
+
+For example, from within this dotfiles git repo you can run `git checkout -b
+personalized` and now you are free to make whatever changes that you want.
+When it comes time to pull down future updates you can run a `git pull origin
+master` and then `git rebase master` to integrate any updates into your branch.
+
+Another option is to fork this repo and use that, then periodically pull and
+merge updates. It's really up to you.
 
 ### How to fix Vim taking a long time to open when inside of WSL?
 
