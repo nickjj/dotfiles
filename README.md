@@ -7,6 +7,8 @@ blog posts, videos and documentation in this README to help get you going.
 - [Read blog posts or watch Youtube videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials) that are related to tweaking your dev environment
 - [View screenshots](#screenshots) of the current set up along with previous set ups
 - [Quickly get set up with these dotfiles](#quickly-get-set-up-with-these-dotfiles) on the Linux side of things (native or WSL)
+- [FAQ](#faq)
+  - [How to fix Vim taking a long time to open when inside of WSL?](#how-to-fix-vim-taking-a-long-time-to-open-when-inside-of-wsl)
 - [About the author](#about-the-author)
 
 ## Screenshots
@@ -242,6 +244,26 @@ goes into the details.
 Also, you should reboot to activate your `/etc/wsl.conf` file (symlinked
 earlier). That will be necessary if you want to access your mounted drives at
 `/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
+
+## FAQ
+
+### How to fix Vim taking a long time to open when inside of WSL?
+
+It primarily comes down to either VcXsrv not running or a firewall tool
+blocking access to VcXsrv and it takes a bit of time for the connection to time
+out.
+
+You can verify this by starting Vim with `vim -X` instead of `vim`. This
+will prevent Vim from connecting to an X server. This also means clipboard
+sharing to your system clipboard won't work, but it's good for a test.
+
+Vim will try to connect to that X server by default because `DISPLAY` is
+exported in the `.bashrc` file. Installing and configuring VcXsrv as per these
+dotfiles will fix that issue.
+
+If it still persists, it might be a software firewall issue. You can open TCP
+port 6000 and also restrict access to it from only WSL 2. This will depend on
+which tool you're using to configure that but that should do the trick.
 
 ## About the Author
 
