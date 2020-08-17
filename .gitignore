@@ -17,3 +17,5 @@ tags
 
 # Persistent undo
 [._]*.un~/
+
+.aliases.local

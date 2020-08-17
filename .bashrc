@@ -25,6 +25,7 @@ shopt -s checkwinsize
 
 # Load aliases if they exist.
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases"
+[ -f "${HOME}/.aliases.local" ] && source "${HOME}/.aliases.local"
 
 # Determine git branch.
 parse_git_branch() {
