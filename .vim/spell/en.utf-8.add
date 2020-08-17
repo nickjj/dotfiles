@@ -177,6 +177,7 @@ Shopify's
 Sidekiq
 Solr
 StackOverflow
+TCP
 TTY
 TailwindCSS
 TailwindUI
@@ -285,6 +286,7 @@ stateful
 stderr
 stdout
 sudo
+symlinked
 syslog
 systemd
 t2
