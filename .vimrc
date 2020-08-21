@@ -31,9 +31,6 @@ Plug 'lambdalisue/fern.vim'
 " Helpers for moving and manipulating files / directories.
 Plug 'tpope/vim-eunuch'
 
-" Launch Ranger from Vim.
-Plug 'francoiscabrol/ranger.vim'
-
 " Run a diff on 2 directories.
 Plug 'will133/vim-dirdiff'
 
