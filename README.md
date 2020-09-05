@@ -121,6 +121,7 @@ sudo apt-get update && sudo apt-get install -y \
   shellcheck \
   ripgrep \
   pass \
+  pwgen \
   python3-pip
 
 # Clone down this dotfiles repo to your home directory. Feel free to place
