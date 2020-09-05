@@ -577,7 +577,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let test#strategy='vimterminal'
 
 let test#python#runner='pytest'
-let test#python#pytest='docker-compose exec web py.test'
+let test#python#pytest#executable='docker-compose exec web py.test'
 
 let test#elixir#exunit#executable='docker-compose exec -e MIX_ENV=test web mix test'
 
