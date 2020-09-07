@@ -42,6 +42,10 @@ pw () {
     pwgen -sync "${1:-48}" -1 | xclip
 }
 
+weather () {
+    curl https://wttr.in/"${1}"
+}
+
 alias dew="docker-compose exec web"
 
 alias dpsql="docker-compose exec postgres psql"
