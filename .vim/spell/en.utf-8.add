@@ -3,6 +3,7 @@ AMI
 APIs
 APS
 AWS
+Airtable
 Analytics
 And
 AngularJS
@@ -39,6 +40,7 @@ Coronavirus
 Cron
 DBeaver
 DDD
+DKIM
 DNS
 DaVinci
 DataDog
@@ -101,6 +103,7 @@ Jinja
 Jira
 Jumpstart
 Jupyter
+K8s
 KPI
 Kanban
 Koa
@@ -114,6 +117,7 @@ MD5
 MacBook
 MacOS
 Magento
+Mailchimp
 Mailgun
 MariaDB
 Memcached
@@ -124,6 +128,7 @@ Moby
 MobyLinux
 Mux
 MySQL
+NERDTree
 Neo4j
 OAuth
 OKR
@@ -148,6 +153,7 @@ RDS
 RESTPlus
 RESTful
 RHEL
+RQ
 RSS
 RabbitMQ
 RedHat
@@ -157,6 +163,7 @@ Rekognition
 Rubocop
 S3
 SAAS
+SCA
 SDK
 SHA
 SKUs
@@ -192,6 +199,7 @@ UI
 URI
 Udemy
 Uptime
+UptimeRobot
 VB6
 VM
 VPC
@@ -215,6 +223,7 @@ Youtube
 Zapier
 Zope
 analytics
+anonymized
 ap
 async
 balancer
@@ -248,6 +257,7 @@ htop
 i3
 iptables
 irreproducible
+jQuery
 journald
 linux
 localStorage
@@ -265,7 +275,6 @@ pem's
 performant
 pgAdmin
 pjax
-programatically
 programmatically
 psql
 purs
@@ -298,6 +307,7 @@ transactional
 transcoding
 unlike
 unmaintained
+unmarking
 untracked
 url
 uwsgi
