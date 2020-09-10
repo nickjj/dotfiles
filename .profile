@@ -2,7 +2,7 @@
 # This file runs once at login.
 
 # Add all local binary paths to the system path.
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="${PATH}:${HOME}/.local/bin"
 
 # Default programs to run.
 export EDITOR="vim"
@@ -20,4 +20,5 @@ export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"; a="${a%_}"
 export LESS_TERMCAP_ue="$(printf '%b' '[0m')"; a="${a%_}"
 
 # If bash is the login shell, then source ~/.bashrc if it exists.
-echo "$0" | grep "bash$" >/dev/null && [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
+echo "${0}" | grep "bash$" >/dev/null \
+  && [ -f "${HOME}/.bashrc" ] && source "${HOME}/.bashrc"
