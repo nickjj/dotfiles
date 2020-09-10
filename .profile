@@ -6,8 +6,6 @@ export PATH="${PATH}:${HOME}/.local/bin"
 
 # Default programs to run.
 export EDITOR="vim"
-export READER="zathura"
-export FILE="ranger"
 
 # Add colors to the less and man commands.
 export LESS=-R
