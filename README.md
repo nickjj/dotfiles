@@ -1,12 +1,20 @@
 # dotfiles
 
-Here's a bunch of settings for the various tools I use. I also have a number of
-blog posts, videos and documentation in this README to help get you going.
+Here's a bunch of settings for the [various tools I
+use](https://nickjanetakis.com/blog/the-tools-i-use). I also have a number of
+[blog posts,
+videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials)
+related to my dev environment and documentation in this README to help get you
+going.
 
-- View an up to date [complete list of tools that I use](https://nickjanetakis.com/blog/the-tools-i-use)
-- [Read blog posts or watch Youtube videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials) that are related to tweaking your dev environment
+### Documentation
+
 - [View screenshots](#screenshots) of the current set up along with previous set ups
-- [Quickly get set up with these dotfiles](#quickly-get-set-up-with-these-dotfiles) on the Linux side of things (native or WSL)
+- [Quickly get set up with these dotfiles](#quickly-get-set-up-with-these-dotfiles)
+  - [Debian](#debian) (native or WSL)
+  - [Ubuntu LTS](#ubuntu-lts) (native or WSL)
+  - [MacOS](#macos)
+  - [Extra WSL 1 and WSL 2 steps](#extra-wsl-1-and-wsl-2-steps)
 - [FAQ](#faq)
   - [How to personalize these dotfiles?](#how-to-personalize-these-dotfiles)
   - [How to fix Vim taking a long time to open when inside of WSL?](#how-to-fix-vim-taking-a-long-time-to-open-when-inside-of-wsl)
@@ -85,53 +93,114 @@ Quake's color palette in the dark variant.
 
 ## Quickly Get Set Up with These Dotfiles
 
-One of the most common questions I get from folks taking one of my
-[courses](https://nickjanetakis.com/courses/) is *"how did you configure
-WSL?!"*.
+I'm going to try my best to provide beginning to end installation instructions
+for Debian, Ubuntu (native or WSL) along with MacOS. Fortunately setting up
+most of these tools will be the same on any OS since they're not OS specific.
 
-I currently use Ubuntu 20.04 LTS inside of WSL 2 but my dotfiles work on native
-Linux too since it's just configuration files. But to help anyone get set up
-quicker, here's a few copy / paste'able commands that you can use to install
-most of the tools I use on the Linux side of things.
+### OS / distro specific installation steps
 
-These steps work on Ubuntu 20.04 but it should work on any Debian based distro
-too. Just be mindful of maybe needing to enable backports on Debian Buster for
-ensuring you get things like tmux version 3.0+.
+My set up targets tmux 3.0+ and Vim 8.1+. As long as you can meet those
+requirements you'll be good to go.
 
-If you're using a different distro that's ok too. You can change the `apt`
-commands to use your distro's package manager instead. Most of the other steps
-are distro-neutral. I'm sure you'll have no problem getting set up.
+#### Debian
 
-By the way I would make an effort to read everything before copy / pasting
-these commands into a terminal just so you know what's getting installed. You
-may want to modify some of these things, such as version numbers.
+If you're on Debian Buster, you'll want to enable backports for  `tmux` before
+installing anything. Once you do that then you can proceed to the Ubuntu 20.04
+LTS installation steps below.
+
+Any version after Buster should be good to go without any backports.
+
+#### Ubuntu LTS
+
+##### Ubuntu 18.04 LTS or older
+
+In order to get Vim 8.1+ you'll want to use the PPA below.
 
 ```sh
-# I would consider these packages essential or very nice to have. The GTK
-# version of Vim is to get +clipboard support, you'd still run terminal Vim.
+# Run this before moving on.
+sudo add-apt-repository ppa:jonathonf/vim
+```
+
+As for tmux you'll need to compile it from source to get 3.0+. If you Google
+around for things like "get latest tmux for Ubuntu 18.04", you'll find
+tutorials. I've even seen some for Ubuntu 16.04. Just make sure you compile
+tmux 3.0+.
+
+If you do end up compiling tmux from source, then make sure to remove tmux from
+the list of packages below. Speaking of which, once you've done the above then
+you can proceed to the Ubuntu 20.04 LTS installation steps below.
+
+##### Ubuntu 20.04 LTS
+
+It's smooth sailing if you're using 20.04 LTS or newer.
+
+```sh
 sudo apt-get update && sudo apt-get install -y \
-  vim-gtk \
-  tmux \
+  curl \
   git \
   gpg \
-  curl \
-  rsync \
-  unzip \
   htop \
-  shellcheck \
-  ripgrep \
   pass \
   pwgen \
-  python3-pip
+  python3-pip \
+  ripgrep \
+  rsync \
+  shellcheck \
+  tmux \
+  unzip \
+  vim-gtk
+```
 
+The GTK version of Vim is to get +clipboard support, we'll still run terminal
+`vim` from the command line.
+
+#### Other Linux distros
+
+If you're not using Debian or Ubuntu that's ok. You can change the `apt`
+commands above to use your distro's package manager instead. Just be mindful of
+making sure you get tmux 3.0+ and Vim 8.1+.
+
+#### MacOS
+
+I don't use a Mac but I've tracked down most of these packages in
+[brew](https://brew.sh/). Feel free to open a PR if there's a better way to
+install them. I haven't tested this personally but the tmux and Vim versions
+are good to go based on Homebrew's docs.
+
+```sh
+brew install \
+  curl \
+  git \
+  gnupg \
+  htop \
+  pass \
+  pwgen \
+  python \
+  ripgrep \
+  rsync \
+  shellcheck \
+  tmux \
+  unzip \
+  vim
+```
+
+### Installing everything else (OS neutral)
+
+I would make an effort to read the comments for each command before copy /
+pasting them into a terminal just so you know what's getting installed. You may
+want to modify some of these things based on which tools you want.
+
+#### Install these dotfiles and various tools on your system
+
+```sh
 # Clone down this dotfiles repo to your home directory. Feel free to place
 # this anywhere you want, but remember where you've cloned things to.
 git clone https://github.com/nickjj/dotfiles ~/dotfiles
 
 # Create symlinks to various dotfiles. If you didn't clone it to ~/dotfiles
-# then adjust the symlink source (left side) to where you cloned it.
+# then adjust the ln -s symlink source (left side) to where you cloned it.
 #
-# NOTE: The last one is WSL 1 / 2 specific. No need to do this on native Linux.
+# NOTE: The last one is WSL 1 / 2 specific. Don't do it on native Linux / MacOS.
 mkdir -p ~/.local/bin && mkdir -p ~/.vim/spell \
   && ln -s ~/dotfiles/.aliases ~/.aliases \
   && ln -s ~/dotfiles/.bashrc ~/.bashrc \
@@ -161,13 +230,20 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 # Install ASDF (version manager which I use for non-Dockerized apps).
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.8
 
-# Install Node through ASDF.
+# Install Node through ASDF. Even if you don't use Node / Webpack / etc., there
+# is one Vim plugin (Markdown Preview) that requires Node and Yarn.
 asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 asdf install nodejs 12.18.3
 asdf global nodejs 12.18.3
 
-# Install system dependencies for Ruby.
+# Install Yarn.
+npm install --global yarn
+
+# Install system dependencies for Ruby on Debian / Ubuntu.
+#
+# Not using Debian or Ubuntu? Here's alternatives for MacOS and other Linux distros:
+#   https://github.com/rbenv/ruby-build/wiki#suggested-build-environment
 sudo apt-get install -y autoconf bison build-essential libssl-dev libyaml-dev \
   libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev
 
@@ -189,7 +265,7 @@ curl "https://releases.hashicorp.com/terraform/0.13.2/terraform_0.13.2_linux_amd
   && mv terraform ~/.local/bin && rm terraform.zip
 ```
 
-Install plugins for Vim and tmux:
+#### Install plugins for Vim and tmux
 
 ```sh
 # Open Vim and install the configured plugins. You would type in the
@@ -203,8 +279,7 @@ tmux
 `I
 ```
 
-Optionally confirm that a few things work after closing and re-opening your
-terminal:
+#### Optionally confirm that a few things work after closing and re-opening your terminal
 
 ```sh
 # Sanity check to see if you can run some of the tools we installed.
@@ -225,7 +300,7 @@ docker-compose --version
 Before you start customizing certain config files, take a look at the
 [personalization question in the FAQ](#how-to-personalize-these-dotfiles).
 
-#### Using WSL 1 or WSL 2?
+### Extra WSL 1 and WSL 2 steps
 
 In addition to the Linux side of things, there's a few config files that I have
 in various directories of this dotfiles repo. These have long Windows paths.
@@ -241,7 +316,7 @@ post](https://nickjanetakis.com/blog/the-tools-i-use) has a complete list of
 those tools so you can pick the ones you want to install.
 
 Pay very close attention to the `c/Users/Nick/.wslconfig` file because it has
-values in there that you will very likely need to change before using it.
+values in there that you will very likely want to change before using it.
 [This commit
 message](https://github.com/nickjj/dotfiles/commit/d0f1fc2622204b809cf7fcbb1a82d45b451064c4)
 goes into the details.
@@ -262,9 +337,10 @@ clobbering over your own personal changes.
 Since we're using git here, we have a few reasonable options.
 
 For example, from within this dotfiles git repo you can run `git checkout -b
-personalized` and now you are free to make whatever changes that you want.
-When it comes time to pull down future updates you can run a `git pull origin
-master` and then `git rebase master` to integrate any updates into your branch.
+personalized` and now you are free to make whatever changes that you want on
+your custom branch.  When it comes time to pull down future updates you can run
+a `git pull origin master` and then `git rebase master` to integrate any
+updates into your branch.
 
 Another option is to fork this repo and use that, then periodically pull and
 merge updates. It's really up to you.
