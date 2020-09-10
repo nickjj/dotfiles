@@ -1,5 +1,5 @@
 " -----------------------------------------------------------------------------
-" This config is targeted for Vim 8.0+ and expects you to have Plug installed.
+" This config is targeted for Vim 8.1+ and expects you to have Plug installed.
 " -----------------------------------------------------------------------------
 
 " -----------------------------------------------------------------------------
