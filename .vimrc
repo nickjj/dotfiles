@@ -209,6 +209,8 @@ set splitright
 set tabstop=2
 set textwidth=0
 set ttimeout
+set timeoutlen=1000
+set ttimeoutlen=0
 set ttyfast
 set ttymouse=sgr
 set undodir=/tmp
