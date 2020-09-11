@@ -269,7 +269,9 @@ mtime
 mysql
 mysqldump
 nginx
+ngrok
 observability
+openssl
 pem
 pem's
 performant
@@ -278,6 +280,7 @@ pjax
 programmatically
 psql
 purs
+pwgen
 queueing
 repo
 repos
