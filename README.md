@@ -2,10 +2,10 @@
 
 Here's a bunch of settings for the [various tools I
 use](https://nickjanetakis.com/blog/the-tools-i-use). I also have a number of
-[blog posts,
+[blog posts and
 videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials)
-related to my dev environment and documentation in this README to help get you
-going.
+related to my dev environment. There's also this documentation to help you get
+everything installed and configured.
 
 ### Documentation
 
