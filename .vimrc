@@ -27,6 +27,7 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 
 " Navigate and manipulate files in a tree view.
 Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-mapping-mark-children.vim'
 
 " Helpers for moving and manipulating files / directories.
 Plug 'tpope/vim-eunuch'
@@ -487,6 +488,7 @@ function! FernInit() abort
   nmap <buffer> h <Plug>(fern-action-hidden-toggle)
   nmap <buffer> r <Plug>(fern-action-reload)
   nmap <buffer> k <Plug>(fern-action-mark-toggle)
+  nmap <buffer> K <Plug>(fern-action-mark-children:leaf)
   nmap <buffer> b <Plug>(fern-action-open:split)
   nmap <buffer> v <Plug>(fern-action-open:vsplit)
   nmap <buffer><nowait> < <Plug>(fern-action-leave)
