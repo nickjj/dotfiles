@@ -53,7 +53,7 @@ source "${HOME}"/.asdf/asdf.sh
 #   Requires: https://github.com/junegunn/fzf (to use fzf in general)
 #   Requires: https://github.com/BurntSushi/ripgrep (for using rg below)
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
-export FZF_DEFAULT_OPTS="--color=light"
+export FZF_DEFAULT_OPTS="--color=dark"
 [ -f "${HOME}/.fzf.bash" ] && source "${HOME}/.fzf.bash"
 
 # WSL 2 specific settings.
