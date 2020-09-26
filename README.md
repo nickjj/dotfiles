@@ -140,6 +140,7 @@ sudo apt-get update && sudo apt-get install -y \
   git \
   gpg \
   htop \
+  jq \
   pass \
   pwgen \
   python3-pip \
@@ -173,6 +174,7 @@ brew install \
   git \
   gnupg \
   htop \
+  jq \
   pass \
   pwgen \
   python \
