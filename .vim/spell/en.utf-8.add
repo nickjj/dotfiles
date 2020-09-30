@@ -118,7 +118,6 @@ Linode
 LiveView
 MD5
 MacBook
-MacOS
 Magento
 Mailchimp
 Mailgun
@@ -266,6 +265,7 @@ jQuery
 journald
 linux
 localStorage
+macOS
 master
 microservice
 microservices
@@ -273,6 +273,7 @@ mintty
 mtime
 mysql
 mysqldump
+namespace
 nginx
 ngrok
 observability
