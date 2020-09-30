@@ -13,7 +13,7 @@ everything installed and configured.
 - [Quickly get set up with these dotfiles](#quickly-get-set-up-with-these-dotfiles)
   - [Debian](#debian) (native or WSL)
   - [Ubuntu LTS](#ubuntu-lts) (native or WSL)
-  - [MacOS](#macos)
+  - [macOS](#macos)
   - [Extra WSL 1 and WSL 2 steps](#extra-wsl-1-and-wsl-2-steps)
 - [FAQ](#faq)
   - [How to personalize these dotfiles?](#how-to-personalize-these-dotfiles)
@@ -94,7 +94,7 @@ Quake's color palette in the dark variant.
 ## Quickly Get Set Up with These Dotfiles
 
 I'm going to try my best to provide beginning to end installation instructions
-for Debian, Ubuntu (native or WSL) along with MacOS. Fortunately setting up
+for Debian, Ubuntu (native or WSL) along with macOS. Fortunately setting up
 most of these tools will be the same on any OS since they're not OS specific.
 
 ### OS / distro specific installation steps
@@ -161,7 +161,7 @@ If you're not using Debian or Ubuntu that's ok. You can change the `apt`
 commands above to use your distro's package manager instead. Just be mindful of
 making sure you get tmux 3.0+ and Vim 8.1+.
 
-#### MacOS
+#### macOS
 
 I don't use a Mac but I've tracked down most of these packages in
 [brew](https://brew.sh/). Feel free to open a PR if there's a better way to
@@ -202,7 +202,7 @@ git clone https://github.com/nickjj/dotfiles ~/dotfiles
 # Create symlinks to various dotfiles. If you didn't clone it to ~/dotfiles
 # then adjust the ln -s symlink source (left side) to where you cloned it.
 #
-# NOTE: The last one is WSL 1 / 2 specific. Don't do it on native Linux / MacOS.
+# NOTE: The last one is WSL 1 / 2 specific. Don't do it on native Linux / macOS.
 mkdir -p ~/.local/bin && mkdir -p ~/.vim/spell \
   && ln -s ~/dotfiles/.aliases ~/.aliases \
   && ln -s ~/dotfiles/.bashrc ~/.bashrc \
@@ -244,7 +244,7 @@ npm install --global yarn
 
 # Install system dependencies for Ruby on Debian / Ubuntu.
 #
-# Not using Debian or Ubuntu? Here's alternatives for MacOS and other Linux distros:
+# Not using Debian or Ubuntu? Here's alternatives for macOS and other Linux distros:
 #   https://github.com/rbenv/ruby-build/wiki#suggested-build-environment
 sudo apt-get install -y autoconf bison build-essential libssl-dev libyaml-dev \
   libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev
