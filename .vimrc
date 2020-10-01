@@ -500,7 +500,7 @@ function! FernInit() abort
   nmap <buffer> M <Plug>(fern-action-rename)
   nmap <buffer> h <Plug>(fern-action-hidden-toggle)
   nmap <buffer> r <Plug>(fern-action-reload)
-  nmap <buffer> k <Plug>(fern-action-mark-toggle)
+  nmap <buffer> k <Plug>(fern-action-mark)
   nmap <buffer> K <Plug>(fern-action-mark-children:leaf)
   nmap <buffer> b <Plug>(fern-action-open:split)
   nmap <buffer> v <Plug>(fern-action-open:vsplit)
