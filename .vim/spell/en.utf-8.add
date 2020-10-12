@@ -60,6 +60,7 @@ Dynos
 EC2
 ECR
 ECS
+EKS
 ELB
 ENV
 ERD
@@ -77,6 +78,7 @@ GVim
 GalliumOS
 GenServer
 Genomic
+Geocities
 Gigalixir
 GitLab
 GitOps
@@ -91,6 +93,7 @@ GraphQL
 Graphene
 Gumroad
 HTTPS
+HackerNews
 Hatchbox
 Heroku
 Heroku's
@@ -100,6 +103,7 @@ IIS
 Idempotency
 InfluxDB
 IrfanView
+JS
 JSON
 Javascript
 Jinja
@@ -109,6 +113,7 @@ Jupyter
 K8s
 KPI
 Kanban
+Knex
 Koa
 Kubernetes
 LOC
@@ -128,6 +133,7 @@ Microservices
 MobaXterm
 Moby
 MobyLinux
+MongoDB
 Mux
 MySQL
 NERDTree
@@ -135,11 +141,13 @@ Neo4j
 Netlify
 OAuth
 OKR
+OTP
 OVH
 Overcomplicating
 PHP
 PHP's
 PKI
+PM2
 PaaS
 Papertrail
 PaymentIntents
@@ -169,6 +177,7 @@ S3
 SAAS
 SCA
 SDK
+SES
 SHA
 SKUs
 SMTP
@@ -181,6 +190,7 @@ SSL
 SendGrid
 Sendy
 Sennheiser
+ServerPilot
 Serverless
 ShellCheck
 Shopify
@@ -202,6 +212,7 @@ TypeScript
 UI
 URI
 Udemy
+Umar
 Uptime
 UptimeRobot
 VB6
@@ -254,6 +265,7 @@ gmail
 gmail's
 gunicorn
 gzipped
+haha
 healthcheck
 hostname
 html
@@ -263,6 +275,7 @@ iptables
 irreproducible
 jQuery
 journald
+linters
 linux
 localStorage
 macOS
