@@ -20,6 +20,7 @@ CI / CD
 CLI
 CMS
 CPUs
+CRM
 CSRF
 CSS
 CSV
@@ -139,6 +140,7 @@ MySQL
 NERDTree
 Neo4j
 Netlify
+NumPy
 OAuth
 OKR
 OTP
@@ -148,6 +150,7 @@ PHP
 PHP's
 PKI
 PM2
+POV
 PaaS
 Papertrail
 PaymentIntents
@@ -203,6 +206,7 @@ TTY
 TailwindCSS
 TailwindUI
 Terraform
+That'll
 Theorycrafting
 Threadripper
 Timestamped
@@ -247,6 +251,7 @@ blockchain
 boolean
 card
 centos
+centric
 changelog
 codebase
 codebases
@@ -258,12 +263,14 @@ deploy's
 dev
 devs
 distro
+dnsmasq
 dotfiles
 foobar2000
 frictionless
 gmail
 gmail's
 gunicorn
+gzip
 gzipped
 haha
 healthcheck
@@ -278,6 +285,7 @@ journald
 linters
 linux
 localStorage
+localhost
 macOS
 master
 microservice
@@ -341,3 +349,4 @@ webhooks
 websockets
 whitelisting
 wsltty
+www
