@@ -1,3 +1,4 @@
+1080p
 AHK
 AMI
 APIs
@@ -101,6 +102,7 @@ Heroku's
 HexChat
 IE8
 IIS
+IPS
 Idempotency
 InfluxDB
 IrfanView
@@ -151,9 +153,11 @@ PHP's
 PKI
 PM2
 POV
+PPI
 PaaS
 Papertrail
 PaymentIntents
+Photoshop
 Pinterest
 Pipenv
 PostCSS
@@ -299,6 +303,7 @@ nginx
 ngrok
 observability
 openssl
+peasy
 pem
 pem's
 performant
