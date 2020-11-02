@@ -211,7 +211,9 @@ set ttimeout
 set timeoutlen=1000
 set ttimeoutlen=0
 set ttyfast
-set ttymouse=sgr
+if !has('nvim')
+  set ttymouse=sgr
+endif
 set undodir=/tmp
 set undofile
 set virtualedit=block
