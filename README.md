@@ -138,7 +138,7 @@ It's smooth sailing if you're using 20.04 LTS or newer.
 sudo apt-get update && sudo apt-get install -y \
   curl \
   git \
-  gpg \
+  gnupg \
   htop \
   jq \
   pass \
