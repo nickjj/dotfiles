@@ -60,6 +60,9 @@ export FZF_DEFAULT_OPTS="--color=dark"
 if grep -q "microsoft" /proc/version &>/dev/null; then
     # Requires: https://sourceforge.net/projects/vcxsrv/ (or alternative)
     export DISPLAY="$(/sbin/ip route | awk '/default/ { print $3 }'):0"
+
+    # Allows your gpg passphrase prompt to spawn (useful for signing commits).
+    export GPG_TTY=$(tty)
 fi
 
 # WSL 1 specific settings.
