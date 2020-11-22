@@ -1,3 +1,15 @@
 [user]
 	name = Cody McCodePants
 	email = cody@mccodepants.com
+  # Uncomment the options below to auto-sign your git commits / tags using GPG.
+  # Learn more about how to set up a GPG key pair here:
+  #   https://nickjanetakis.com/blog/creating-and-managing-a-gpg-key-pair
+  #signingkey = cody@mccodepants.com
+
+#[commit]
+#  gpgsign = true
+
+# This option requires git 2.23+ to work and you must annotate your tags,
+# although -m "" works if you want an empty message.
+#[tag]
+#  gpgSign = true
