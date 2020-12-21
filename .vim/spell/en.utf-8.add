@@ -1,7 +1,9 @@
 1080p
 AHK
 AMI
+AMIs
 APIs
+APM
 APS
 AWS
 Airtable
@@ -35,6 +37,7 @@ CircleCI
 CloudFront
 CloudWatch
 Cloudflare
+CodeIgniter
 Compose's
 ConEmu
 Connexion
@@ -76,6 +79,7 @@ Fargate
 Firebase
 Flatpickr
 GCP
+GPG
 GVim
 GalliumOS
 GenServer
@@ -116,6 +120,7 @@ Jupyter
 K8s
 KPI
 Kanban
+Keyserver
 Knex
 Koa
 Kubernetes
@@ -129,6 +134,7 @@ MacBook
 Magento
 Mailchimp
 Mailgun
+Makefile
 MariaDB
 Memcached
 Metadata
@@ -169,6 +175,7 @@ Prisma
 PythonAnywhere
 QuakeLive
 RDS
+README
 RESTPlus
 RESTful
 RHEL
@@ -191,6 +198,7 @@ SMTP
 SNS
 SQLAlchemy
 SQLite
+SQS
 SSD
 SSDs
 SSL
@@ -248,6 +256,8 @@ Zope
 analytics
 anonymized
 ap
+argparse
+args
 async
 balancer
 benchmarking
@@ -286,6 +296,7 @@ iptables
 irreproducible
 jQuery
 journald
+keyring
 linters
 linux
 localStorage
@@ -330,6 +341,7 @@ stateful
 stderr
 stdout
 sudo
+symlink
 symlinked
 syslog
 systemd
