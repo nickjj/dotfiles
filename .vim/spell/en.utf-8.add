@@ -69,6 +69,7 @@ EKS
 ELB
 ENV
 ERD
+ETS
 Ecto
 ElastiCache
 Elasticsearch
@@ -76,6 +77,7 @@ EmberJS
 FZF
 FZF's
 Fargate
+Fastly
 Firebase
 Flatpickr
 GCP
@@ -104,6 +106,7 @@ Hatchbox
 Heroku
 Heroku's
 HexChat
+Hotwire
 IE8
 IIS
 IPS
@@ -128,6 +131,7 @@ LOC
 LTS
 Laravel
 Linode
+Linode's
 LiveView
 MD5
 MacBook
@@ -161,6 +165,7 @@ PM2
 POV
 PPI
 PaaS
+PagerDuty
 Papertrail
 PaymentIntents
 Photoshop
@@ -169,6 +174,7 @@ Pipenv
 PostCSS
 PostgreSQL
 Postgres
+PowerShell
 PowerToys
 Prepending
 Prisma
@@ -186,6 +192,7 @@ RedHat
 Reddit
 Redis
 Rekognition
+Route53
 Rubocop
 S3
 SAAS
@@ -274,9 +281,11 @@ cron
 cryptocurrency
 datetime
 deploy's
+deployable
 dev
 devs
 distro
+distros
 dnsmasq
 dotfiles
 foobar2000
@@ -286,6 +295,7 @@ gmail's
 gunicorn
 gzip
 gzipped
+hackaton
 haha
 healthcheck
 hostname
@@ -305,6 +315,7 @@ macOS
 master
 microservice
 microservices
+middleware
 mintty
 mtime
 mysql
@@ -355,9 +366,11 @@ transcoding
 unlike
 unmaintained
 unmarking
+unopinionated
 untracked
 url
 uwsgi
+vCPUs
 vhost
 vscode
 webcomic
