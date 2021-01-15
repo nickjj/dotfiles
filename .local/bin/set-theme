@@ -63,12 +63,12 @@ THEMES = {
   }
 }
 
-home = str(Path.home())
+HOME = str(Path.home())
 
-terminal_config = '/c/Users/Nick/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'  # noqa: E501
-rc_config = f'{home}/.bashrc'
-tmux_config = f'{home}/.tmux.conf'
-vim_rc = f'{home}/.vimrc'
+TERMINAL_CONFIG = '/c/Users/Nick/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'  # noqa: E501
+SHELL_CONFIG = f'{HOME}/.bashrc'
+TMUX_CONFIG = f'{HOME}/.tmux.conf'
+VIM_CONFIG = f'{HOME}/.vimrc'
 
 
 def replace_in_file(search, replace, file):
@@ -84,7 +84,7 @@ def replace_in_file(search, replace, file):
 
 
 def active_theme_background():
-    with open(vim_rc, 'r') as f:
+    with open(VIM_CONFIG, 'r') as f:
         content = f.read()
 
     if bool(re.search('^set background=dark$', content, flags=re.MULTILINE)):
@@ -99,9 +99,9 @@ def toggle_theme_background(theme):
     if active_theme_background() == bg:
         bg = 'light'
 
-    replace_in_file(r'^set background=.*$', f'set background={bg}', vim_rc)
+    replace_in_file(r'^set background=.*$', f'set background={bg}', VIM_CONFIG)
     replace_in_file(r'FZF_DEFAULT_OPTS="--color=.*"$',
-                    f'FZF_DEFAULT_OPTS="--color={bg}"', rc_config)
+                    f'FZF_DEFAULT_OPTS="--color={bg}"', SHELL_CONFIG)
 
     change_terminal_theme(theme)
     change_tmux_theme(theme)
@@ -114,11 +114,11 @@ def change_terminal_theme(theme):
 
     replace_in_file(r'"colorScheme": ".*",$',
                     f'"colorScheme": "{terminal["theme-name"]}",',
-                    terminal_config)
+                    TERMINAL_CONFIG)
 
     replace_in_file(r'"cursorColor": ".*",$',
                     f'"cursorColor": "{terminal["cursor-color"]}",',
-                    terminal_config)
+                    TERMINAL_CONFIG)
 
     return None
 
@@ -129,15 +129,15 @@ def change_tmux_theme(theme):
     for option in tmux_options:
         for key, value in option.items():
             replace_in_file(rf'^set -g {key} .*$', f'set -g {key} {value}',
-                            tmux_config)
+                            TMUX_CONFIG)
 
-    run(['tmux', 'source-file', tmux_config], stderr=PIPE)
+    run(['tmux', 'source-file', TMUX_CONFIG], stderr=PIPE)
 
     return None
 
 
 def change_vim_theme(theme):
-    replace_in_file(r'^colorscheme.*$', f'colorscheme {theme}', vim_rc)
+    replace_in_file(r'^colorscheme.*$', f'colorscheme {theme}', VIM_CONFIG)
 
     return None
 
