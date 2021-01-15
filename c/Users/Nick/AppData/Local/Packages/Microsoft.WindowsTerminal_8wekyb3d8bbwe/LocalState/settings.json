@@ -12,26 +12,26 @@
     {
         "defaults":
         {
-            // Put settings here that you want to apply to all profiles.
-            "colorScheme" : "One Half Dark",
-            "cursorColor" : "#6de6f5",
-            "cursorShape" : "vintage",
-            "fontFace" : "Consolas",
-            "fontSize" : 9,
-            "padding" : "1, 1, 1, 1",
+            // Put settings here that you want to apply to all profiles
+            "colorScheme": "Gruvbox Dark",
+            "cursorColor": "#ffb261",
+            "cursorShape": "vintage",
+            "fontFace": "Consolas",
+            "fontSize": 9,
+            "padding": "1, 1, 1, 1",
             "scrollbarState": "hidden"
         },
         "list":
         [
             {
-                // Make changes here to the powershell.exe profile.
+                // Make changes here to the powershell.exe profile
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "name": "Windows PowerShell",
                 "commandline": "powershell.exe",
                 "hidden": false
             },
             {
-                // Make changes here to the cmd.exe profile.
+                // Make changes here to the cmd.exe profile
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "name": "cmd",
                 "commandline": "cmd.exe",
@@ -61,10 +61,53 @@
     },
 
     // Add custom color schemes to this array
-    "schemes": [],
+    "schemes": [
+        {
+          "name": "Gruvbox Dark",
+          "background": "#282828",
+          "foreground": "#ebdbb2",
+          "black": "#282828",
+          "blue": "#458588",
+          "cyan": "#689d6a",
+          "green": "#98971a",
+          "purple" : "#b16286",
+          "red": "#cc241d",
+          "white": "#a89984",
+          "yellow": "#d79921",
+          "brightBlack": "#928374",
+          "brightBlue": "#83a598",
+          "brightCyan": "#8ec07c",
+          "brightGreen": "#b8bb26",
+          "brightPurple": "#d3869b",
+          "brightRed": "#fb4934",
+          "brightWhite": "#ebdbb2",
+          "brightYellow": "#fabd2f"
+        },
+        {
+          "name": "Gruvbox Light",
+          "background": "#f9f5d7",
+          "foreground": "#282828",
+          "black": "#fbf1c7",
+          "blue": "#076678",
+          "cyan": "#427b58",
+          "green": "#79740e",
+          "purple": "#8f3f71",
+          "red": "#9d0006",
+          "white": "#3c3836",
+          "yellow": "#b57614",
+          "brightBlack": "#9d8374",
+          "brightBlue": "#458588",
+          "brightCyan": "#689d69",
+          "brightGreen": "#98971a",
+          "brightPurple": "#b16186",
+          "brightRed": "#cc241d",
+          "brightWhite": "#7c6f64",
+          "brightYellow": "#d79921"
+        }
+    ],
 
     // Add any keybinding overrides to this array.
-    // To unbind a default keybinding, set the command to "unbound".
+    // To unbind a default keybinding, set the command to "unbound"
     "keybindings": [
       { "command": "unbound", "keys": "alt+down" },
       { "command": "unbound", "keys": "alt+left" },

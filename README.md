@@ -9,7 +9,7 @@ everything installed and configured.
 
 ### Documentation
 
-- [View screenshots](#screenshots) of the current set up along with previous set ups
+- [View screenshots](#screenshots) of the current set up and how to switch themes
 - [Quickly get set up with these dotfiles](#quickly-get-set-up-with-these-dotfiles)
   - [Debian](#debian) (native or WSL)
   - [Ubuntu LTS](#ubuntu-lts) (native or WSL)
@@ -17,6 +17,8 @@ everything installed and configured.
   - [Extra WSL 1 and WSL 2 steps](#extra-wsl-1-and-wsl-2-steps)
 - [FAQ](#faq)
   - [How to personalize these dotfiles?](#how-to-personalize-these-dotfiles)
+  - [How to add custom themes to the set-theme script?](#how-to-add-custom-themes-to-the-set-theme-script)
+  - [How to use a different terminal in the set-theme script?](#how-to-use-a-different-terminal-in-the-set-theme-script)
   - [How to fix Vim taking a long time to open when inside of WSL?](#how-to-fix-vim-taking-a-long-time-to-open-when-inside-of-wsl)
 - [About the author](#about-the-author)
 
@@ -26,70 +28,51 @@ Since my dotfiles are constantly evolving and I tend to reference them in
 videos, blog posts and various social media posts I thought it would be a good
 idea to include a screenshot of each theme I used and how to switch to it.
 
-### April 14th 2020 (current)
+I prefer using themes that have good contrast ratios and are clear to see in
+video recordings. These dotfiles currently support easily switching between
+[Gruvbox Community](https://github.com/gruvbox-community/gruvbox) and
+[One](https://github.com/rakr/vim-one) but you can use any theme you'd like.
 
-The theme used in the screenshot below is [Vim
-One](https://github.com/rakr/vim-one).
+#### Theme progression
+- January 2021 (Gruvbox Community)
+- April 2020 (One)
+- December 2018 (Gruvbox Community)
 
-![Dotfiles](https://nickjanetakis.com/assets/blog/dotfiles-2020-04-14-e375233b9aaf52ab5d8411ba28963f098094c91860e069a7f1ee45916a051929.jpg)
+### Themes
 
-#### Why did I switch to this theme?
+These dotfiles include a `set-theme` script that you can run from your terminal
+to set your theme to any of the themes listed below. This script takes care of
+configuring your terminal, tmux, Vim and FZF's colors in 1 command.
 
-Like Gruvbox, it has really good syntax highlighting support for the
-technologies I work with on a regular basis and it supports both a dark and
-light variant.
+If you don't like the included themes that's no problem. You can use whatever
+you want, there's no limitations. You could choose to manually change the
+colors or [adjust the set-theme
+script](#how-to-add-custom-themes-to-the-set-theme-script) to add a custom
+theme.
 
-I never used Atom Dark before, so it still looks fresh to me.
-
-I still think Gruvbox is great. Truthfully after almost 18 months of using it
-I started to get bored. I have nothing against Gruvbox and if you like its
-colors then it's a solid pick.
-
-When it comes to One Dark, I'm really enjoying the blue tint to things. There's
-also very good contrast on most things. The only exception to that are
-comments but I think I can get used to that. They are not obnoxiously dim.
-
-### December 18th 2018
-
-The theme used in the screenshot below is
-[Gruvbox](https://github.com/gruvbox-community/gruvbox).
+#### Gruvbox Community
 
 ![Dotfiles](https://nickjanetakis.com/assets/blog/dotfiles-c85f20a61decb0d4676530ff4c65a818ee9b362cf9f380a76c9d44e1254d03f3.jpg)
 
-If you want to use this theme instead of the current theme:
+```sh
+# After installing these dotfiles you can run this from your terminal to toggle dark and light mode:
+set-theme gruvbox --toggle-bg
 
-1. Edit your `.vimrc` file to make these changes:
-
-```vim
-" Gruvbox theme.
-Plug 'gruvbox-community/gruvbox'
-
-" Set the color scheme to use Gruvbox.
-colorscheme gruvbox
+# You can also switch to this theme at any time without toggling the background by running:
+set-theme gruvbox
 ```
 
-2. Edit your `.tmux.conf` file to use these color settings:
+#### One
 
+![Dotfiles](https://nickjanetakis.com/assets/blog/dotfiles-2020-04-14-e375233b9aaf52ab5d8411ba28963f098094c91860e069a7f1ee45916a051929.jpg)
+
+```sh
+# After installing these dotfiles you can run this from your terminal to toggle dark and light mode:
+set-theme one --toggle-bg
+
+# You can also switch to this theme at any time without toggling the background by running:
+set-theme one
 ```
-set -g status-style fg=colour244
-set -g pane-active-border-style fg=colour250
-
-set-window-option -g window-status-current-style fg=colour223
-```
-
-3. Change your terminal's theme (this will depend on which terminal you use)
-
-#### Why did I choose this theme?
-
-It has excellent syntax highlighting support for a bunch of popular programming
-languages. It also has top notch support for both dark and light variants.
-
-The contrast is very good in both variants which is important to me because I
-record video tutorials. It also makes it easy on my eyes to pick out different
-characters when programming and writing all day.
-
-Lastly, I was a big fan of the Quake video game and its colors remind of
-Quake's color palette in the dark variant.
 
 ## Quickly Get Set Up with These Dotfiles
 
@@ -212,7 +195,7 @@ mkdir -p ~/.local/bin && mkdir -p ~/.vim/spell \
   && ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf \
   && ln -s ~/dotfiles/.vimrc ~/.vimrc \
   && ln -s ~/dotfiles/.vim/spell/en.utf-8.add ~/.vim/spell/en.utf-8.add \
-  && ln -s ~/dotfiles/.local/bin/toggle-dark-mode ~/.local/bin/toggle-dark-mode \
+  && ln -s ~/dotfiles/.local/bin/set-theme ~/.local/bin/set-theme \
   && sudo ln -s ~/dotfiles/etc/wsl.conf /etc/wsl.conf
 
 # Create your own personal ~/.gitconfig.user file. After copying the file,
@@ -346,6 +329,34 @@ updates into your branch.
 
 Another option is to fork this repo and use that, then periodically pull and
 merge updates. It's really up to you.
+
+### How to add custom themes to the set-theme script?
+
+After installing these dotfiles you'll have a `~/.local/bin/set-theme` script.
+It's a zero dependency Python 3 script.
+
+1. Open the above file
+2. Check out the `THEMES` dictionary near the top of the file
+3. Copy one of the existing themes' dictionary items, such as `gruvbox` or `one`
+4. Rename the dictionary's key to whatever the theme's colorscheme name is in Vim
+5. Adjust all of the colors and additional values in your new dictionary item as you see fit
+6. Run `set-theme cooltheme`, replacing `cooltheme` with whatever name you used in step 4
+
+Your terminal and tmux colors will update automatically, but if you have Vim
+already open you'll need to manually run this command from within Vim to reload
+your config `:so $MYVIMRC`.
+
+### How to use a different terminal in the set-theme script?
+
+I'm using the Microsoft Terminal but if you're using something else then your
+terminal's colors won't get updated by this script because the script looks for
+strings that are in MS terminal's config, but it's not painful to change.
+
+You'll want to adjust the `set-theme` script by doing this:
+
+1. Change the `terminal_config` variable to reference your terminal config's path
+2. Change the regex in the `change_terminal_theme` function to use your terminal's config option names
+3. Optionally install Gruvbox, One or any other themes (the MS Terminal config in this repo includes them)
 
 ### How to fix Vim taking a long time to open when inside of WSL?
 
