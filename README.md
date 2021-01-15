@@ -333,7 +333,8 @@ merge updates. It's really up to you.
 ### How to add custom themes to the set-theme script?
 
 After installing these dotfiles you'll have a `~/.local/bin/set-theme` script.
-It's a zero dependency Python 3 script.
+It's a [zero dependency Python 3
+script](https://github.com/nickjj/dotfiles/blob/master/.local/bin/set-theme).
 
 1. Open the above file
 2. Check out the `THEMES` dictionary near the top of the file
