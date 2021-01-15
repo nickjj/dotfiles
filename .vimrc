@@ -325,6 +325,10 @@ noremap <F7> :set list!<CR>
 inoremap <F7> <C-o>:set list!<CR>
 cnoremap <F7> <C-c>:set list!<CR>
 
+" Move visually selected lines up or down.
+vnoremap K :m '<-2<CR>gv=gv
+vnoremap J :m '>+1<CR>gv=gv
+
 " Toggle quickfix window.
 function! QuickFix_toggle()
     for i in range(1, winnr('$'))
