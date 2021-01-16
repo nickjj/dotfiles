@@ -339,7 +339,7 @@ script](https://github.com/nickjj/dotfiles/blob/master/.local/bin/set-theme).
 1. Open the above file
 2. Check out the `THEMES` dictionary near the top of the file
 3. Copy one of the existing themes' dictionary items, such as `gruvbox` or `one`
-4. Rename the dictionary's key to whatever the theme's colorscheme name is in Vim
+4. Rename the dictionary's key to whatever your new theme's colorscheme name is in Vim
 5. Adjust all of the colors and additional values in your new dictionary item as you see fit
 6. Run `set-theme cooltheme`, replacing `cooltheme` with whatever name you used in step 4
 
