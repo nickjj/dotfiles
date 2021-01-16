@@ -151,7 +151,7 @@ def change_tmux_theme(theme):
 
 
 def change_vim_theme(theme):
-    replace_in_file(r'^colorscheme.*$', f'colorscheme {theme}', VIM_CONFIG)
+    replace_in_file(r'^colorscheme .*$', f'colorscheme {theme}', VIM_CONFIG)
 
     return None
 
