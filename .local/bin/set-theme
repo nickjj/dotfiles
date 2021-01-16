@@ -6,6 +6,7 @@ import textwrap
 
 from pathlib import Path
 from subprocess import run, PIPE
+from time import sleep
 
 
 THEMES = {
@@ -99,6 +100,19 @@ def toggle_theme_background(theme):
     if active_theme_background() == bg:
         bg = 'light'
 
+    # Without this, if you change your theme with --toggle-bg rapidly I was
+    # running into edge cases around the MS terminal either crashing or
+    # corrupting its settings.json file to the point where it would revert the
+    # settings.json file back to its default state.
+    #
+    # I have no idea what's causing it but it was nearly guaranteed to happen
+    # within 15 seconds if you changed your theme every half second or so. It
+    # only ever happened if you used the --toggle-bg flag too.
+    #
+    # It probably shouldn't happen when using the script normally but adding
+    # this sleep adds an extra level of protection.
+    sleep(1)
+
     replace_in_file(r'^set background=.*$', f'set background={bg}', VIM_CONFIG)
     replace_in_file(r'FZF_DEFAULT_OPTS="--color=.*"$',
                     f'FZF_DEFAULT_OPTS="--color={bg}"', SHELL_CONFIG)
@@ -131,7 +145,7 @@ def change_tmux_theme(theme):
             replace_in_file(rf'^set -g {key} .*$', f'set -g {key} {value}',
                             TMUX_CONFIG)
 
-    run(['tmux', 'source-file', TMUX_CONFIG], stderr=PIPE)
+    run(['tmux', 'source-file', TMUX_CONFIG])
 
     return None
 
