@@ -355,7 +355,7 @@ strings that are in MS terminal's config, but it's not painful to change.
 
 You'll want to adjust the `set-theme` script by doing this:
 
-1. Change the `terminal_config` variable to reference your terminal config's path
+1. Change the `TERMINAL_CONFIG` variable to reference your terminal config's path
 2. Change the regex in the `change_terminal_theme` function to use your terminal's config option names
 3. Optionally install Gruvbox, One or any other themes (the MS Terminal config in this repo includes them)
 
