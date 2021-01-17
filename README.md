@@ -62,6 +62,10 @@ set-theme gruvbox --toggle-bg
 set-theme gruvbox
 ```
 
+*If you get an error about your terminal config file not being found please
+review [this FAQ
+item](#how-to-use-a-different-terminal-in-the-set-theme-script).*
+
 #### One
 
 ![Dotfiles](https://nickjanetakis.com/assets/blog/dotfiles-2020-04-14-e375233b9aaf52ab5d8411ba28963f098094c91860e069a7f1ee45916a051929.jpg)
@@ -73,6 +77,10 @@ set-theme one --toggle-bg
 # You can also switch to this theme at any time without toggling the background by running:
 set-theme one
 ```
+
+*If you get an error about your terminal config file not being found please
+review [this FAQ
+item](#how-to-use-a-different-terminal-in-the-set-theme-script).*
 
 ## Quickly Get Set Up with These Dotfiles
 
@@ -352,6 +360,10 @@ your config `:so $MYVIMRC`.
 I'm using the Microsoft Terminal but if you're using something else then your
 terminal's colors won't get updated by this script because the script looks for
 strings that are in MS terminal's config, but it's not painful to change.
+
+*By the way, if you're using the Microsoft Terminal Preview edition you'll
+still need to do step 1 below because the path of your MS terminal config file
+will be different than the non-preview edition.*
 
 You'll want to adjust the `set-theme` script by doing this:
 
