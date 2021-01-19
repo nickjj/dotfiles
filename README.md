@@ -340,6 +340,9 @@ merge updates. It's really up to you.
 
 ### How to add custom themes to the set-theme script?
 
+Prefer video? [here's a video](https://www.youtube.com/watch?v=h509rn2xIyU&t=191s)
+that demonstrates performing the steps below.
+
 After installing these dotfiles you'll have a `~/.local/bin/set-theme` script.
 It's a [zero dependency Python 3
 script](https://github.com/nickjj/dotfiles/blob/master/.local/bin/set-theme).
@@ -355,7 +358,13 @@ Your terminal and tmux colors will update automatically, but if you have Vim
 already open you'll need to manually run this command from within Vim to reload
 your config `:so $MYVIMRC`.
 
+If you added a theme with good contrast ratios please open a pull request to
+get it added to the script.
+
 ### How to use a different terminal in the set-theme script?
+
+Prefer video? [here's a video](https://www.youtube.com/watch?v=h509rn2xIyU&t=516s)
+that demonstrates performing the steps below.
 
 I'm using the Microsoft Terminal but if you're using something else then your
 terminal's colors won't get updated by this script because the script looks for
