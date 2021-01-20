@@ -340,7 +340,7 @@ merge updates. It's really up to you.
 
 ### How to add custom themes to the set-theme script?
 
-Prefer video? [here's a video](https://www.youtube.com/watch?v=h509rn2xIyU&t=191s)
+Prefer a video? [Here's a video](https://www.youtube.com/watch?v=h509rn2xIyU&t=191s)
 that demonstrates performing the steps below.
 
 After installing these dotfiles you'll have a `~/.local/bin/set-theme` script.
@@ -363,7 +363,7 @@ get it added to the script.
 
 ### How to use a different terminal in the set-theme script?
 
-Prefer video? [here's a video](https://www.youtube.com/watch?v=h509rn2xIyU&t=516s)
+Prefer a video? [Here's a video](https://www.youtube.com/watch?v=h509rn2xIyU&t=516s)
 that demonstrates performing the steps below.
 
 I'm using the Microsoft Terminal but if you're using something else then your
