@@ -325,7 +325,9 @@ noremap <F7> :set list!<CR>
 inoremap <F7> <C-o>:set list!<CR>
 cnoremap <F7> <C-c>:set list!<CR>
 
-" Move visually selected lines up or down.
+" Move visually selected lines up or down in various modes.
+nnoremap K :m .-2<CR>==
+nnoremap J :m .+1<CR>==
 vnoremap K :m '<-2<CR>gv=gv
 vnoremap J :m '>+1<CR>gv=gv
 
