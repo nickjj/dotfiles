@@ -144,11 +144,11 @@ def change_fzf_theme(bg):
             sys.stdout.write(line)
 
 
-def check_theme(str):
-    if str in THEMES.keys():
-        return str
+def check_theme(theme):
+    if theme in THEMES.keys():
+        return theme
     else:
-        msg = f'not a valid theme: "{str}"'
+        msg = f'not a valid theme: "{theme}"'
         raise argparse.ArgumentTypeError(msg)
 
 
