@@ -13,53 +13,53 @@ THEMES = {
   "gruvbox": {
     "dark": {
       "terminal": {
-        "theme-name": "Gruvbox Dark",
-        "cursor-color": "#ffb261",
+        "colorScheme": "Gruvbox Dark",
+        "cursorColor": "#ffb261",
       },
-      "tmux": [
-        {"status-style": "fg=colour244"},
-        {"window-status-current-style": "fg=colour222"},
-        {"pane-border-style": "fg=colour240"},
-        {"pane-active-border-style": "fg=colour243"}
-      ]
+      "tmux": {
+        "status-style": "fg=colour244",
+        "window-status-current-style": "fg=colour222",
+        "pane-border-style": "fg=colour240",
+        "pane-active-border-style": "fg=colour243"
+      }
     },
     "light": {
       "terminal": {
-        "theme-name": "Gruvbox Light",
-        "cursor-color": "#ffb261",
+        "colorScheme": "Gruvbox Light",
+        "cursorColor": "#ffb261",
       },
-      "tmux": [
-        {"status-style": "fg=colour179"},
-        {"window-status-current-style": "fg=colour172"},
-        {"pane-border-style": "fg=colour186"},
-        {"pane-active-border-style": "fg=colour178"}
-      ]
+      "tmux": {
+        "status-style": "fg=colour179",
+        "window-status-current-style": "fg=colour172",
+        "pane-border-style": "fg=colour186",
+        "pane-active-border-style": "fg=colour178"
+      }
     }
   },
   "one": {
     "dark": {
       "terminal": {
-        "theme-name": "One Half Dark",
-        "cursor-color": "#6de6f5",
+        "colorScheme": "One Half Dark",
+        "cursorColor": "#6de6f5",
       },
-      "tmux": [
-        {"status-style": "fg=colour110"},
-        {"window-status-current-style": "fg=colour39"},
-        {"pane-border-style": "fg=colour240"},
-        {"pane-active-border-style": "fg=colour243"}
-      ]
+      "tmux": {
+        "status-style": "fg=colour110",
+        "window-status-current-style": "fg=colour39",
+        "pane-border-style": "fg=colour240",
+        "pane-active-border-style": "fg=colour243"
+      }
     },
     "light": {
       "terminal": {
-        "theme-name": "One Half Light",
-        "cursor-color": "#6de6f5",
+        "colorScheme": "One Half Light",
+        "cursorColor": "#6de6f5",
       },
-      "tmux": [
-        {"status-style": "fg=colour110"},
-        {"window-status-current-style": "fg=colour39"},
-        {"pane-border-style": "fg=colour253"},
-        {"pane-active-border-style": "fg=colour250"}
-      ]
+      "tmux": {
+        "status-style": "fg=colour110",
+        "window-status-current-style": "fg=colour39",
+        "pane-border-style": "fg=colour253",
+        "pane-active-border-style": "fg=colour250"
+      }
     }
   }
 }
@@ -132,15 +132,11 @@ def toggle_theme_background(theme):
 
 
 def change_terminal_theme(theme):
-    terminal = THEMES[theme][active_theme_background()]['terminal']
+    terminal_options = THEMES[theme][active_theme_background()]['terminal']
 
-    replace_in_file(r'"colorScheme": ".*",$',
-                    f'"colorScheme": "{terminal["theme-name"]}",',
-                    TERMINAL_CONFIG)
-
-    replace_in_file(r'"cursorColor": ".*",$',
-                    f'"cursorColor": "{terminal["cursor-color"]}",',
-                    TERMINAL_CONFIG)
+    for key, value in terminal_options.items():
+        replace_in_file(rf'"{key}": ".*"', f'"{key}": "{value}"',
+                        TERMINAL_CONFIG)
 
     return None
 
@@ -148,10 +144,9 @@ def change_terminal_theme(theme):
 def change_tmux_theme(theme):
     tmux_options = THEMES[theme][active_theme_background()]['tmux']
 
-    for option in tmux_options:
-        for key, value in option.items():
-            replace_in_file(rf'^set -g {key} .*$', f'set -g {key} {value}',
-                            TMUX_CONFIG)
+    for key, value in tmux_options.items():
+        replace_in_file(rf'^set -g {key} .*$', f'set -g {key} {value}',
+                        TMUX_CONFIG)
 
     run(['tmux', 'source-file', TMUX_CONFIG])
 
