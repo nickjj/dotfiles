@@ -158,15 +158,10 @@ def parseargs():
         description=textwrap.dedent('''\
         Set a theme along with optionally toggling dark and light backgrounds.
         '''))
-
-    parser.add_argument('theme', default=None,
-                        metavar='THEME', type=check_theme,
+    parser.add_argument('theme', metavar='THEME', type=check_theme, nargs='?',
                         help='the theme name, such as gruvbox or one')
-
-    parser.add_argument('--toggle-bg', default=False, type=bool, nargs='?',
-                        const=True, metavar='BOOL',
+    parser.add_argument('--toggle-bg', action='store_true',
                         help='toggle the background between dark and light')
-
     return parser.parse_args()
 
 
