@@ -170,7 +170,7 @@ def parseargs():
     return parser.parse_args()
 
 
-if __name__ == '__main__':
+def main():
     args = parseargs()
 
     theme, bg = active_theme_and_background()
@@ -185,3 +185,7 @@ if __name__ == '__main__':
     change_tmux_theme(theme, bg)
     change_vim_theme(theme, bg)
     change_fzf_theme(bg)
+
+
+if __name__ == '__main__':
+    main()
