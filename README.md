@@ -363,9 +363,6 @@ get it added to the script.
 
 ### How to use a different terminal in the set-theme script?
 
-Prefer a video? [Here's a video](https://www.youtube.com/watch?v=h509rn2xIyU&t=516s)
-that demonstrates performing the steps below.
-
 I'm using the Microsoft Terminal but if you're using something else then your
 terminal's colors won't get updated by this script because the script looks for
 strings that are in MS terminal's config, but it's not painful to change.
@@ -377,8 +374,9 @@ will be different than the non-preview edition.*
 You'll want to adjust the `set-theme` script by doing this:
 
 1. Change the `TERMINAL_CONFIG` variable to reference your terminal config's path
-2. Change the regex in the `change_terminal_theme` function to use your terminal's config option names
-3. Optionally install Gruvbox, One or any other themes (the MS Terminal config in this repo includes them)
+2. Change the `terminal` attributes in the `THEMES` dictionary to use your terminal's config option names
+3. Change the regex in the `change_terminal_theme` function based on your terminal's config option formatting rules
+4. Optionally install Gruvbox, One or any other themes (the MS Terminal config in this repo includes them)
 
 ### How to fix Vim taking a long time to open when inside of WSL?
 
