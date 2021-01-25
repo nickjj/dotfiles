@@ -1,65 +1,67 @@
 #!/usr/bin/env python3
 
 import argparse
+import fileinput
+import os
 import re
+import sys
 import textwrap
 
 from pathlib import Path
 from subprocess import run, PIPE
-from time import sleep
 
 
 THEMES = {
   "gruvbox": {
     "dark": {
       "terminal": {
-        "theme-name": "Gruvbox Dark",
-        "cursor-color": "#ffb261",
+        "colorScheme": "Gruvbox Dark",
+        "cursorColor": "#ffb261",
       },
-      "tmux": [
-        {"status-style": "fg=colour244"},
-        {"window-status-current-style": "fg=colour222"},
-        {"pane-border-style": "fg=colour240"},
-        {"pane-active-border-style": "fg=colour243"}
-      ]
+      "tmux": {
+        "status-style": "fg=colour244",
+        "window-status-current-style": "fg=colour222",
+        "pane-border-style": "fg=colour240",
+        "pane-active-border-style": "fg=colour243"
+      }
     },
     "light": {
       "terminal": {
-        "theme-name": "Gruvbox Light",
-        "cursor-color": "#ffb261",
+        "colorScheme": "Gruvbox Light",
+        "cursorColor": "#ffb261",
       },
-      "tmux": [
-        {"status-style": "fg=colour179"},
-        {"window-status-current-style": "fg=colour172"},
-        {"pane-border-style": "fg=colour186"},
-        {"pane-active-border-style": "fg=colour178"}
-      ]
+      "tmux": {
+        "status-style": "fg=colour179",
+        "window-status-current-style": "fg=colour172",
+        "pane-border-style": "fg=colour186",
+        "pane-active-border-style": "fg=colour178"
+      }
     }
   },
   "one": {
     "dark": {
       "terminal": {
-        "theme-name": "One Half Dark",
-        "cursor-color": "#6de6f5",
+        "colorScheme": "One Half Dark",
+        "cursorColor": "#6de6f5",
       },
-      "tmux": [
-        {"status-style": "fg=colour110"},
-        {"window-status-current-style": "fg=colour39"},
-        {"pane-border-style": "fg=colour240"},
-        {"pane-active-border-style": "fg=colour243"}
-      ]
+      "tmux": {
+        "status-style": "fg=colour110",
+        "window-status-current-style": "fg=colour39",
+        "pane-border-style": "fg=colour240",
+        "pane-active-border-style": "fg=colour243"
+      }
     },
     "light": {
       "terminal": {
-        "theme-name": "One Half Light",
-        "cursor-color": "#6de6f5",
+        "colorScheme": "One Half Light",
+        "cursorColor": "#6de6f5",
       },
-      "tmux": [
-        {"status-style": "fg=colour110"},
-        {"window-status-current-style": "fg=colour39"},
-        {"pane-border-style": "fg=colour253"},
-        {"pane-active-border-style": "fg=colour250"}
-      ]
+      "tmux": {
+        "status-style": "fg=colour110",
+        "window-status-current-style": "fg=colour39",
+        "pane-border-style": "fg=colour253",
+        "pane-active-border-style": "fg=colour250"
+      }
     }
   }
 }
@@ -80,98 +82,69 @@ TMUX_CONFIG = f'{HOME}/.tmux.conf'
 VIM_CONFIG = f'{HOME}/.vimrc'
 
 
-def replace_in_file(search, replace, file):
-    with open(file, 'r') as f:
-        content = f.read()
+def edit_inplace(file, preserve_symlinks=True):
+    if preserve_symlinks:
+        file = os.path.realpath(file)
 
-    content = re.sub(search, replace, content, flags=re.MULTILINE)
-
-    with open(file, 'w') as f:
-        f.write(content)
-
-    return None
+    return fileinput.input(files=(file,), inplace=True)
 
 
-def active_theme_background():
+def active_theme_and_background():
     with open(VIM_CONFIG, 'r') as f:
-        content = f.read()
+        for line in f:
+            match = re.match('^set background=(.*)$', line)
+            if match:
+                bg = match.group(1)
+                continue
 
-    if bool(re.search('^set background=dark$', content, flags=re.MULTILINE)):
-        return 'dark'
-    else:
-        return 'light'
-
-
-def toggle_theme_background(theme):
-    bg = 'dark'
-
-    if active_theme_background() == bg:
-        bg = 'light'
-
-    # Without this, if you change your theme with --toggle-bg rapidly I was
-    # running into edge cases around the MS terminal either crashing or
-    # corrupting its settings.json file to the point where it would revert the
-    # settings.json file back to its default state.
-    #
-    # I have no idea what's causing it but it was nearly guaranteed to happen
-    # within 15 seconds if you changed your theme every half second or so. It
-    # only ever happened if you used the --toggle-bg flag too.
-    #
-    # It probably shouldn't happen when using the script normally but adding
-    # this sleep adds an extra level of protection.
-    sleep(1)
-
-    replace_in_file(r'^set background=.*$', f'set background={bg}', VIM_CONFIG)
-    replace_in_file(r'FZF_DEFAULT_OPTS="--color=.*"$',
-                    f'FZF_DEFAULT_OPTS="--color={bg}"', SHELL_CONFIG)
-
-    change_terminal_theme(theme)
-    change_tmux_theme(theme)
-
-    return None
+            match = re.match('^colorscheme (.*$)$', line)
+            if match:
+                theme = match.group(1)
+                continue
+    try:
+        return theme, bg
+    except NameError:
+        sys.exit('error: "set background" or "colorscheme" statement not found'
+                 f' in {VIM_CONFIG}')
 
 
-def change_terminal_theme(theme):
-    terminal = THEMES[theme][active_theme_background()]['terminal']
+def change_terminal_theme(theme, bg):
+    terminal_options = THEMES[theme][bg]['terminal']
 
-    replace_in_file(r'"colorScheme": ".*",$',
-                    f'"colorScheme": "{terminal["theme-name"]}",',
-                    TERMINAL_CONFIG)
-
-    replace_in_file(r'"cursorColor": ".*",$',
-                    f'"cursorColor": "{terminal["cursor-color"]}",',
-                    TERMINAL_CONFIG)
-
-    return None
+    with edit_inplace(TERMINAL_CONFIG) as f:
+        for line in f:
+            for key, value in terminal_options.items():
+                line = re.sub(rf'"{key}": ".*"', f'"{key}": "{value}"', line)
+            sys.stdout.write(line)
 
 
-def change_tmux_theme(theme):
-    tmux_options = THEMES[theme][active_theme_background()]['tmux']
+def change_tmux_theme(theme, bg):
+    tmux_options = THEMES[theme][bg]['tmux']
 
-    for option in tmux_options:
-        for key, value in option.items():
-            replace_in_file(rf'^set -g {key} .*$', f'set -g {key} {value}',
-                            TMUX_CONFIG)
+    with edit_inplace(TMUX_CONFIG) as f:
+        for line in f:
+            for key, value in tmux_options.items():
+                line = re.sub(rf'^set -g {key} .*$', f'set -g {key} {value}',
+                              line)
+            sys.stdout.write(line)
 
     run(['tmux', 'source-file', TMUX_CONFIG])
 
-    return None
+
+def change_vim_theme(theme, bg):
+    with edit_inplace(VIM_CONFIG) as f:
+        for line in f:
+            line = re.sub(r'^colorscheme .*$', f'colorscheme {theme}', line)
+            line = re.sub(r'^set background=.*$', f'set background={bg}', line)
+            sys.stdout.write(line)
 
 
-def change_vim_theme(theme):
-    replace_in_file(r'^colorscheme .*$', f'colorscheme {theme}', VIM_CONFIG)
-
-    return None
-
-
-def check_theme(str):
-    str = str.strip()
-
-    if str in THEMES.keys():
-        return str
-    else:
-        msg = f'not a valid theme: "{str}"'
-        raise argparse.ArgumentTypeError(msg)
+def change_fzf_theme(bg):
+    with edit_inplace(SHELL_CONFIG) as f:
+        for line in f:
+            re.sub(r'FZF_DEFAULT_OPTS="--color=.*"$',
+                   f'FZF_DEFAULT_OPTS="--color={bg}"', line)
+            sys.stdout.write(line)
 
 
 def parseargs():
@@ -180,25 +153,34 @@ def parseargs():
         description=textwrap.dedent('''\
         Set a theme along with optionally toggling dark and light backgrounds.
         '''))
-
-    parser.add_argument('theme', default=None,
-                        metavar='THEME', type=check_theme,
-                        help='the theme name, such as gruvbox or one')
-
-    parser.add_argument('--toggle-bg', default=False, type=bool, nargs='?',
-                        const=True, metavar='BOOL',
+    parser.add_argument('theme', choices=THEMES, nargs='?',
+                        help='the theme name')
+    parser.add_argument('--toggle-bg', action='store_true',
                         help='toggle the background between dark and light')
+    args = parser.parse_args()
 
-    return parser.parse_args()
+    if len(sys.argv) == 1:
+        parser.error('at least one argument is required')
+
+    return args
+
+
+def main():
+    args = parseargs()
+
+    theme, bg = active_theme_and_background()
+
+    if args.theme:
+        theme = args.theme
+
+    if args.toggle_bg:
+        bg = 'light' if bg == 'dark' else 'dark'
+
+    change_terminal_theme(theme, bg)
+    change_tmux_theme(theme, bg)
+    change_vim_theme(theme, bg)
+    change_fzf_theme(bg)
 
 
 if __name__ == '__main__':
-    args = parseargs()
-
-    if args.theme:
-        change_terminal_theme(args.theme)
-        change_tmux_theme(args.theme)
-        change_vim_theme(args.theme)
-
-    if args.toggle_bg:
-        toggle_theme_background(args.theme)
+    main()
