@@ -101,8 +101,11 @@ def active_theme_and_background():
             if match:
                 theme = match.group(1)
                 continue
-
-    return theme, bg
+    try:
+        return theme, bg
+    except NameError:
+        sys.exit('error: "set background" or "colorscheme" statement not found'
+                 f' in {VIM_CONFIG}')
 
 
 def change_terminal_theme(theme, bg):
