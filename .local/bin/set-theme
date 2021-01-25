@@ -162,7 +162,12 @@ def parseargs():
                         help='the theme name, such as gruvbox or one')
     parser.add_argument('--toggle-bg', action='store_true',
                         help='toggle the background between dark and light')
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    if len(sys.argv) == 1:
+        parser.error('at least one argument is required')
+
+    return args
 
 
 def main():
