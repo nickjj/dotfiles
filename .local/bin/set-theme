@@ -147,22 +147,14 @@ def change_fzf_theme(bg):
             sys.stdout.write(line)
 
 
-def check_theme(theme):
-    if theme in THEMES.keys():
-        return theme
-    else:
-        msg = f'not a valid theme: "{theme}"'
-        raise argparse.ArgumentTypeError(msg)
-
-
 def parseargs():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=textwrap.dedent('''\
         Set a theme along with optionally toggling dark and light backgrounds.
         '''))
-    parser.add_argument('theme', metavar='THEME', type=check_theme, nargs='?',
-                        help='the theme name, such as gruvbox or one')
+    parser.add_argument('theme', choices=THEMES, nargs='?',
+                        help='the theme name')
     parser.add_argument('--toggle-bg', action='store_true',
                         help='toggle the background between dark and light')
     args = parser.parse_args()
