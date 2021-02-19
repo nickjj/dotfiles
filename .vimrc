@@ -616,7 +616,11 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " janko/vim-test
 " .............................................................................
 
-let test#strategy='vimterminal'
+if has('nvim')
+  let test#strategy='neovim'
+else
+  let test#strategy='vimterminal'
+endif
 
 let test#python#runner='pytest'
 let test#python#pytest#executable='docker-compose exec web py.test'
