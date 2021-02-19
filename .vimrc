@@ -625,6 +625,8 @@ endif
 let test#python#runner='pytest'
 let test#python#pytest#executable='docker-compose exec web py.test'
 
+let test#ruby#rails#executable='docker-compose exec -e RAILS_ENV=test webpacker rails test'
+
 let test#elixir#exunit#executable='docker-compose exec -e MIX_ENV=test web mix test'
 
 nmap <silent> t<C-n> :TestNearest<CR>
