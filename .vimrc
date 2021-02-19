@@ -622,7 +622,6 @@ else
   let test#strategy='vimterminal'
 endif
 
-let test#python#runner='pytest'
 let test#python#pytest#executable='docker-compose exec web py.test'
 
 let test#ruby#rails#executable='docker-compose exec -e RAILS_ENV=test webpacker rails test'
