@@ -22,6 +22,7 @@ CDN
 CI
 CI / CD
 CLI
+CME
 CMS
 CPUs
 CRM
@@ -32,6 +33,7 @@ Caddy
 Camtasia
 CapRover
 Capistrano
+CentOS
 Certbot
 Chromebook
 CircleCI
@@ -159,6 +161,7 @@ Mux
 MySQL
 NEEWER
 NERDTree
+Namespacing
 Neo4j
 Netlify
 Noctua
@@ -264,6 +267,7 @@ VSCode's
 VST
 VSTs
 VcXsrv
+Vertica
 Vimeo
 VirtualBox
 Virtualenv
@@ -292,12 +296,14 @@ balancer
 benchmarking
 blockchain
 boolean
+buildpack
 card
 centos
 centric
 changelog
 codebase
 codebases
+compgen
 config
 cron
 cryptocurrency
@@ -310,6 +316,7 @@ distro
 distros
 dnsmasq
 dotfiles
+eval
 foobar2000
 frictionless
 gmail
@@ -344,6 +351,7 @@ mtime
 mysql
 mysqldump
 namespace
+namespaced
 nginx
 ngrok
 observability
@@ -356,6 +364,7 @@ pgAdmin
 pjax
 podcasting
 pre
+printf
 programmatically
 psql
 purs
@@ -366,6 +375,7 @@ repos
 repurposed
 resize
 rsync
+runnable
 scalable
 schemas
 screencast
