@@ -8,6 +8,8 @@
 
     "requestedTheme": "system",
 
+    "multiLinePasteWarning": false,
+
     "profiles":
     {
         "defaults":
