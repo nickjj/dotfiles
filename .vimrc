@@ -376,6 +376,9 @@ autocmd InsertLeave * silent! set nopaste
 " Make sure all types of requirements.txt files get syntax highlighting.
 autocmd BufNewFile,BufRead requirements*.txt set syntax=python
 
+" Make sure .aliases, .bash_aliases and similar files get syntax highlighting.
+autocmd BufNewFile,BufRead .*aliases set syntax=sh
+
 " Ensure tabs don't get converted to spaces in Makefiles.
 autocmd FileType make setlocal noexpandtab
 
