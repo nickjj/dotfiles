@@ -219,7 +219,7 @@ set nostartofline
 set number relativenumber
 set regexpengine=1
 set ruler
-set scrolloff=3
+set scrolloff=0
 set shiftwidth=2
 set showcmd
 set showmatch
