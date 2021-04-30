@@ -377,7 +377,7 @@ autocmd InsertLeave * silent! set nopaste
 autocmd BufNewFile,BufRead requirements*.txt set ft=python
 
 " Make sure .aliases, .bash_aliases and similar files get syntax highlighting.
-autocmd BufNewFile,BufRead .*aliases set ft=sh
+autocmd BufNewFile,BufRead .*aliases* set ft=sh
 
 " Ensure tabs don't get converted to spaces in Makefiles.
 autocmd FileType make setlocal noexpandtab
