@@ -39,6 +39,7 @@ dtags () {
 }
 
 pw () {
+    # Requires apt, brew, etc. installing the pwgen package.
     pwgen -sync "${1:-48}" -1 | xclip
 }
 
