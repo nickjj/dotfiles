@@ -194,9 +194,9 @@ That means it will take the files being symlinked from my dotfiles repo and
 then delete + overwrite your existing files at the destination.
 
 For example this line `ln -fs ~/dotfiles/.bashrc ~/.bashrc` will take my
-`.bashrc` and overwrite yours without a prompt. If you're using my dotfiles
-that is what you'll want but it also means you should consider backing up your
-original files.
+`.bashrc` and overwrite yours without a `y/n` prompt. If you're using my
+dotfiles that is what you'll want but it also means you should consider backing
+up your original files.
 
 The 2nd command listed below does this for 10+ files, it's the `ln -fs <src>
 <dest>` commands.
