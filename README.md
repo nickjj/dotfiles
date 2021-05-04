@@ -185,26 +185,44 @@ want to modify some of these things based on which tools you want.
 
 #### Install these dotfiles and various tools on your system
 
+---
+
+# 🛑 SUPER ULTRA IMPORTANT WARNING 🛑
+
+Hi, the symlink commands listed below are being run with the `-f` (force) flag.
+That means it will take the files being symlinked from my dotfiles repo and
+then delete + overwrite your existing files at the destination.
+
+For example this line `ln -fs ~/dotfiles/.bashrc ~/.bashrc` will take my
+`.bashrc` and overwrite yours without a prompt. If you're using my dotfiles
+that is what you'll want but it also means you should consider backing up your
+original files.
+
+The 2nd command listed below does this for 10+ files, it's the `ln -fs <src>
+<dest>` commands.
+
+---
+
 ```sh
 # Clone down this dotfiles repo to your home directory. Feel free to place
 # this anywhere you want, but remember where you've cloned things to.
 git clone https://github.com/nickjj/dotfiles ~/dotfiles
 
 # Create symlinks to various dotfiles. If you didn't clone it to ~/dotfiles
-# then adjust the ln -s symlink source (left side) to where you cloned it.
+# then adjust the ln -fs symlink source (left side) to where you cloned it.
 #
 # NOTE: The last one is WSL 1 / 2 specific. Don't do it on native Linux / macOS.
 mkdir -p ~/.local/bin && mkdir -p ~/.vim/spell \
-  && ln -s ~/dotfiles/.aliases ~/.aliases \
-  && ln -s ~/dotfiles/.bashrc ~/.bashrc \
-  && ln -s ~/dotfiles/.gemrc ~/.gemrc \
-  && ln -s ~/dotfiles/.gitconfig ~/.gitconfig \
-  && ln -s ~/dotfiles/.profile ~/.profile \
-  && ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf \
-  && ln -s ~/dotfiles/.vimrc ~/.vimrc \
-  && ln -s ~/dotfiles/.vim/spell/en.utf-8.add ~/.vim/spell/en.utf-8.add \
-  && ln -s ~/dotfiles/.local/bin/set-theme ~/.local/bin/set-theme \
-  && sudo ln -s ~/dotfiles/etc/wsl.conf /etc/wsl.conf
+  && ln -fs ~/dotfiles/.aliases ~/.aliases \
+  && ln -fs ~/dotfiles/.bashrc ~/.bashrc \
+  && ln -fs ~/dotfiles/.gemrc ~/.gemrc \
+  && ln -fs ~/dotfiles/.gitconfig ~/.gitconfig \
+  && ln -fs ~/dotfiles/.profile ~/.profile \
+  && ln -fs ~/dotfiles/.tmux.conf ~/.tmux.conf \
+  && ln -fs ~/dotfiles/.vimrc ~/.vimrc \
+  && ln -fs ~/dotfiles/.vim/spell/en.utf-8.add ~/.vim/spell/en.utf-8.add \
+  && ln -fs ~/dotfiles/.local/bin/set-theme ~/.local/bin/set-theme \
+  && sudo ln -fs ~/dotfiles/etc/wsl.conf /etc/wsl.conf
 
 # Create your own personal ~/.gitconfig.user file. After copying the file,
 # you should edit it to have your name and email address so git can use it.
