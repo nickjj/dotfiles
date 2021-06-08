@@ -8,6 +8,7 @@ APM
 APS
 AT2005
 AWS
+ActiveRecord
 Airtable
 Analytics
 And
@@ -77,11 +78,14 @@ EKS
 ELB
 ENV
 ERD
+ESLint
 ETS
 Ecto
+Edgestore
 ElastiCache
 Elasticsearch
 EmberJS
+FFmpeg
 FZF
 FZF's
 Fargate
@@ -151,7 +155,10 @@ Linode
 Linode's
 LiveView
 Livewire
+Logentries
 MD5
+MP3
+MP3's
 MacBook
 Magento
 Mailchimp
@@ -172,6 +179,7 @@ NERDTree
 Namespacing
 Neo4j
 Netlify
+NoSQL
 Noctua
 NumPy
 OAuth
@@ -205,6 +213,7 @@ PowerShell
 PowerToys
 Prepending
 Prisma
+Pytest
 PythonAnywhere
 QuakeLive
 RDS
@@ -283,12 +292,14 @@ Uptime
 UptimeRobot
 VB6
 VM
+VNC
 VPC
 VSCode
 VSCode's
 VST
 VSTs
 VcXsrv
+Vercel
 Vertica
 Vimeo
 VirtualBox
@@ -361,12 +372,14 @@ irreproducible
 jQuery
 journald
 keyring
+libs
 linters
 linux
 localStorage
 localhost
 macOS
 master
+memcached
 microservice
 microservices
 middleware
@@ -395,6 +408,7 @@ purs
 pwgen
 queueing
 rebase
+renderers
 repo
 repos
 repurposed
@@ -440,5 +454,6 @@ webhook
 webhooks
 websockets
 whitelisting
+writeable
 wsltty
 www
