@@ -16,6 +16,7 @@ AngularJS
 Ansible
 AutoHotkey
 B2B
+BackupPC
 Benchmarking
 BigQuery
 BitBucket
@@ -74,6 +75,7 @@ Dynos
 EC2
 ECR
 ECS
+EEx
 EKS
 ELB
 ENV
@@ -124,6 +126,7 @@ Hatchbox
 Heroku
 Heroku's
 HexChat
+Honeybadger
 Hotwire
 IE8
 IIS
@@ -187,6 +190,7 @@ OKR
 ORM
 OTP
 OVH
+Oban
 OpsGenie
 Overcomplicating
 PDFs
@@ -203,6 +207,7 @@ Pandoc
 Papertrail
 PaymentIntents
 Photoshop
+Pingdom
 Pinterest
 Pipenv
 Plan9
