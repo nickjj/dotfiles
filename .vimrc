@@ -518,6 +518,7 @@ endfunction
 
 " Custom settings and mappings.
 let g:fern#disable_default_mappings = 1
+let g:fern#default_hidden = 1
 
 noremap <silent> <Leader>f :Fern . -drawer -reveal=% -toggle -width=35<CR><C-w>=
 
