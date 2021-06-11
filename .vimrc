@@ -520,7 +520,7 @@ endfunction
 let g:fern#disable_default_mappings = 1
 let g:fern#default_hidden = 1
 
-noremap <silent> <Leader>f :Fern . -drawer -reveal=% -toggle -width=35<CR><C-w>=
+noremap <silent> <Leader>f :Fern . -drawer -reveal=% -toggle -width=35<CR>
 
 function! FernInit() abort
   nmap <buffer><expr>
