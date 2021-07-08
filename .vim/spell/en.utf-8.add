@@ -14,6 +14,7 @@ Analytics
 And
 AngularJS
 Ansible
+Ansible's
 AutoHotkey
 B2B
 BackupPC
@@ -58,6 +59,7 @@ DKIM
 DNS
 DaVinci
 Datadog
+DebOps
 DevOps
 DexPot
 DigitalOcean
@@ -91,6 +93,7 @@ FFmpeg
 FZF
 FZF's
 Fargate
+FastAPI
 Fastly
 Firebase
 Flatpickr
@@ -98,6 +101,7 @@ FlexiSpot
 Focusrite
 GCP
 GCP's
+GDPR
 GKE
 GPG
 GVim
@@ -109,6 +113,7 @@ Gigalixir
 GitLab
 GitOps
 Gitlab
+GlusterFS
 GnuCash
 GoRails
 Golang
@@ -120,6 +125,7 @@ GraphQL
 Graphene
 Gruvbox
 Gumroad
+HIPAA
 HTTPS
 HackerNews
 Hatchbox
@@ -127,6 +133,7 @@ Heroku
 Heroku's
 HexChat
 Honeybadger
+Hotjar
 Hotwire
 IE8
 IIS
@@ -159,6 +166,7 @@ Linode's
 LiveView
 Livewire
 Logentries
+Lua
 MD5
 MP3
 MP3's
@@ -191,6 +199,7 @@ ORM
 OTP
 OVH
 Oban
+OpenJDK
 OpsGenie
 Overcomplicating
 PDFs
@@ -273,11 +282,15 @@ Splunk
 StackOverflow
 StimulusJS
 StimulusReflex
+Strapi
 TCP
 TTY
+Tailkit
+Tailkit's
 TailwindCSS
 TailwindUI
 Technica
+Tensorflow
 Terraform
 That'll
 Theorycrafting
@@ -297,6 +310,7 @@ Uptime
 UptimeRobot
 VB6
 VM
+VMs
 VNC
 VPC
 VSCode
@@ -354,6 +368,8 @@ distro
 distros
 dnsmasq
 dotfiles
+eksctl
+envsubst
 eval
 foobar2000
 frictionless
@@ -438,6 +454,8 @@ symlinked
 syslog
 systemd
 t2
+templated
+templating
 timestamps
 tmux
 toc
