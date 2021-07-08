@@ -145,6 +145,8 @@ alias vdt="rm /tmp/%*"
 
 alias gi="git init && git symbolic-ref HEAD refs/heads/main"
 
+alias k="kubectl"
+
 # A way to define and run tasks in a project. It's like make except it's pure
 # Bash so there's no make limitations like not being able to forward arguments.
 alias run=./run
