@@ -103,24 +103,6 @@ Any version after Buster should be good to go without any backports.
 
 #### Ubuntu LTS
 
-##### Ubuntu 18.04 LTS or older
-
-In order to get Vim 8.1+ you'll want to use the PPA below.
-
-```sh
-# Run this before moving on.
-sudo add-apt-repository ppa:jonathonf/vim
-```
-
-As for tmux you'll need to compile it from source to get 3.0+. If you Google
-around for things like "get latest tmux for Ubuntu 18.04", you'll find
-tutorials. I've even seen some for Ubuntu 16.04. Just make sure you compile
-tmux 3.0+.
-
-If you do end up compiling tmux from source, then make sure to remove tmux from
-the list of packages below. Speaking of which, once you've done the above then
-you can proceed to the Ubuntu 20.04 LTS installation steps below.
-
 ##### Ubuntu 20.04 LTS
 
 It's smooth sailing if you're using 20.04 LTS or newer.
@@ -145,6 +127,24 @@ sudo apt-get update && sudo apt-get install -y \
 
 The GTK version of Vim is to get +clipboard support, we'll still run terminal
 `vim` from the command line.
+
+##### Ubuntu 18.04 LTS or older
+
+In order to get Vim 8.1+ you'll want to use the PPA below.
+
+```sh
+# Run this before moving on.
+sudo add-apt-repository ppa:jonathonf/vim
+```
+
+As for tmux you'll need to compile it from source to get 3.0+. If you Google
+around for things like "get latest tmux for Ubuntu 18.04", you'll find
+tutorials. I've even seen some for Ubuntu 16.04. Just make sure you compile
+tmux 3.0+.
+
+If you do end up compiling tmux from source, then make sure to remove tmux from
+the list of packages below. Speaking of which, once you've done the above then
+you can proceed to the Ubuntu 20.04 LTS installation steps below.
 
 #### Other Linux distros
 
