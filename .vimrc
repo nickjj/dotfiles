@@ -117,6 +117,7 @@ Plug 'tpope/vim-rails'
 Plug 'vim-python/python-syntax'
 Plug 'vim-ruby/vim-ruby'
 Plug 'wgwoods/vim-systemd-syntax'
+Plug 'towolf/vim-helm'
 
 call plug#end()
 
@@ -382,6 +383,9 @@ autocmd BufNewFile,BufRead requirements*.txt set ft=python
 
 " Make sure .aliases, .bash_aliases and similar files get syntax highlighting.
 autocmd BufNewFile,BufRead .*aliases* set ft=sh
+
+" Make sure Kubernetes yaml files end up being set as helm files.
+au BufNewFile,BufRead *.{yaml,yml} if getline(1) =~ '^apiVersion:' || getline(2) =~ '^apiVersion:' | setlocal filetype=helm | endif
 
 " Ensure tabs don't get converted to spaces in Makefiles.
 autocmd FileType make setlocal noexpandtab
