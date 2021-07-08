@@ -413,7 +413,7 @@ endfunction
 " ----------------------------------------------------------------------------
 
 " Allow files to be saved as root when forgetting to start Vim using sudo.
-command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+command Sw :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
 " Add all TODO items to the quickfix list relative to where you opened Vim.
 function! s:todo() abort
