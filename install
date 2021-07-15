@@ -154,12 +154,14 @@ curl -fLo "${HOME}/.vim/autoload/plug.vim" --create-dirs \
 # Install tpm (tmux plugin manager)
 ###############################################################################
 
+rm -rf "${HOME}/.tmux/plugins/tpm"
 git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
 
 ###############################################################################
 # Install fzf (fuzzy finder on the terminal and used by a Vim plugin)
 ###############################################################################
 
+rm -rf "${HOME}/.local/share/fzf"
 git clone --depth 1 https://github.com/junegunn/fzf.git "${HOME}/.local/share/fzf" \
   && yes | "${HOME}/.local/share/fzf/install" --bin --no-update-rc
 
@@ -239,6 +241,7 @@ fi
 
 printf "\n\nInstalling asdf %s...\n" "${install_asdf_version}"
 
+rm -rf "${HOME}/.local/share/asdf"
 git clone --depth 1 https://github.com/asdf-vm/asdf.git --branch "${install_asdf_version}" \
   "${HOME}/.local/share/asdf"
 
@@ -247,7 +250,7 @@ git clone --depth 1 https://github.com/asdf-vm/asdf.git --branch "${install_asdf
 
 printf "\n\nInstalling node %s...\n" "${install_node_version}"
 
-"${HOME}/.local/share/asdf/bin/asdf" plugin add nodejs
+"${HOME}/.local/share/asdf/bin/asdf" plugin add nodejs || true
 "${HOME}/.local/share/asdf/bin/asdf" install nodejs "${install_node_version}"
 "${HOME}/.local/share/asdf/bin/asdf" global nodejs "${install_node_version}"
 
