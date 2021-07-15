@@ -94,7 +94,7 @@ EOF
 
                 break;;
             [Nn]*) exit 0;;
-            * ) echo "Please answer y or no";;
+            *) echo "Please answer y or n";;
         esac
     done
 else

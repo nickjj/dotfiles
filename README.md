@@ -109,7 +109,7 @@ If you're using a different distro of Linux you can run `./install
 can install the packages on your own.
 
 My set up targets zsh 5.0+, tmux 3.0+ and Vim 8.1+. As long as you can meet
-those requirements you'll be good to go.
+those requirements you're good to go.
 
 ### Did you install everything successfully?
 
