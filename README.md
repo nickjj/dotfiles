@@ -94,8 +94,7 @@ It currently supports:
 You can download and run the install script with this 1 liner:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/nickjj/dotfiles/master/install -o install \
-  && chmod +x install && ./install && rm install
+bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
 ```
 
 *If you're not comfortable blindly running a script on the internet, that's no
