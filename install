@@ -1,0 +1,289 @@
+#!/usr/bin/env bash
+
+set -e
+
+skip_install_packages="${1}"
+
+os_type="$(uname -s)"
+
+apt_packages="curl git python3-pip ripgrep tmux vim-gtk zsh"
+apt_packages_optional="gnupg htop jq pass pwgen rsync shellcheck unzip"
+
+brew_packages="git python ripgrep tmux vim zsh"
+brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck"
+
+install_asdf_version="v0.8.1"
+install_node_version="14.17.3"
+
+###############################################################################
+# Detect operating system type
+###############################################################################
+
+case "${os_type}" in
+    Linux*)
+        os_type="Linux"
+
+        if [ ! -f "/etc/debian_version" ]; then
+           echo "Your distro is not fully supported, please check the README"
+           exit 1
+        fi
+
+        ;;
+    Darwin*)
+        os_type="macOS";;
+    *)
+        echo "OS type '${os_type}' is not fully supported, please check the README"
+        exit 1
+esac
+
+###############################################################################
+# Install packages using your OS' package manager
+###############################################################################
+
+function linux_install_packages {
+    # shellcheck disable=SC2086
+    sudo apt-get update && sudo apt-get install -y ${apt_packages} ${apt_packages_optional}
+}
+
+function brew_install_self {
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
+function brew_install_packages {
+    [ -x "$(command -v brew > /dev/null 2>&1)" ] && brew_install_self
+
+    # shellcheck disable=SC2086
+    brew install ${brew_packages} ${brew_packages_optional}
+}
+
+function display_packages {
+    if [ "${os_type}" == "Linux" ]; then
+        echo "${apt_packages} ${apt_packages_optional}"
+    else
+        echo "${brew_packages} ${brew_packages_optional}"
+    fi
+}
+
+if [ -z "${skip_install_packages}" ]; then
+
+cat << EOF
+
+If you choose yes, all of the packages below will be installed:
+
+$(display_packages)
+
+If you choose no, the above packages will not be installed and this script
+will exit. This gives you a chance to edit the list of packages if you don't
+agree with any of the decisions.
+
+The packages listed after zsh are technically optional but are quite useful.
+Keep in mind if you don't install pwgen you won't be able to generate random
+passwords using a custom alias that's included in these dotfiles.
+
+EOF
+
+    while true; do
+        read -rp "Do you want to install the above packages? (y/n) " yn
+        case "${yn}" in
+            [Yy]*)
+                if [ "${os_type}" == "Linux" ]; then
+                    linux_install_packages
+                else
+                    brew_install_packages
+                fi
+
+                break;;
+            [Nn]*) exit 0;;
+            * ) echo "Please answer y or no";;
+        esac
+    done
+else
+    echo "Package installation was skipped!"
+fi
+
+###############################################################################
+# Clone dotfiles
+###############################################################################
+
+read -rep $'\nWhere do you want to clone these dotfiles to [~/dotfiles]? ' clone_path
+clone_path="${clone_path:-"${HOME}/dotfiles"}"
+
+# Ensure path doesn't exist.
+while [ -e "${clone_path}" ]; do
+    read -rep $'\nPath exists, try again? (y) ' y
+    case "${y}" in
+        [Yy]*)
+
+            break;;
+        *) echo "Please answer y or CTRL+c the script to abort everything";;
+    esac
+done
+
+echo
+
+git clone https://github.com/nickjj/dotfiles "${clone_path}"
+
+###############################################################################
+# Create initial directories
+###############################################################################
+
+mkdir -p "${HOME}/.config/zsh" "${HOME}/.cache/zsh" \
+    "${HOME}/.local/bin" "${HOME}/.local/share" \
+    "${HOME}/.local/state" "${HOME}/.vim/spell"
+
+###############################################################################
+# Personalize git user
+###############################################################################
+
+cp "${clone_path}/.gitconfig.user" "${HOME}/.gitconfig.user"
+
+###############################################################################
+# Install zsh plugins
+###############################################################################
+
+"${clone_path}/.local/bin/update-zsh-plugins"
+
+###############################################################################
+# Install Plug (Vim plugin manager)
+###############################################################################
+
+curl -fLo "${HOME}/.vim/autoload/plug.vim" --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+###############################################################################
+# Install tpm (tmux plugin manager)
+###############################################################################
+
+git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+
+###############################################################################
+# Install fzf (fuzzy finder on the terminal and used by a Vim plugin)
+###############################################################################
+
+git clone --depth 1 https://github.com/junegunn/fzf.git "${HOME}/.local/share/fzf" \
+  && yes | "${HOME}/.local/share/fzf/install" --bin --no-update-rc
+
+###############################################################################
+# Carefully create symlinks
+###############################################################################
+
+cat << EOF
+
+-------------------------------------------------------------------------------
+
+ln -fs "${clone_path}/.zshenv" "${HOME}/.zshenv"
+ln -fs "${clone_path}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc"
+ln -fs "${clone_path}/.config/zsh/.zprofile" "${HOME}/.config/zsh/.zprofile"
+ln -fs "${clone_path}/.config/zsh/.aliases" "${HOME}/.config/zsh/.aliases"
+ln -fs "${clone_path}/.gitconfig" "${HOME}/.gitconfig"
+ln -fs "${clone_path}/.vimrc" "${HOME}/.vimrc"
+ln -fs "${clone_path}/.vim/spell/en.utf-8.add" "${HOME}/.vim/spell/en.utf-8.add"
+ln -fs "${clone_path}/.tmux.conf" "${HOME}/.tmux.conf"
+ln -fs "${clone_path}/.local/bin/update-zsh-plugins" "${HOME}/.local/bin/update-zsh-plugins"
+ln -fs "${clone_path}/.local/bin/set-theme" "${HOME}/.local/bin/set-theme"
+
+# And if you happen to be using WSL:
+sudo ln -fs "${clone_path}/etc/wsl.conf" /etc/wsl.conf
+
+-------------------------------------------------------------------------------
+
+A potentially dangerous action is about to happen. The above files are going to
+get forcefully symlinked.
+
+What does that mean?
+
+Any config files you have on the right hand side of the paths are going to get
+overwritten with the files that come with my dotfiles (left side).
+
+If you care about your original config files now would be the time to back
+them up. They will ALL be overwritten if you say yes to the prompt below.
+EOF
+
+while true; do
+  read -rep $'\nReady to continue and apply the symlinks? (y) ' y
+  case "${y}" in
+      [Yy]*)
+
+          break;;
+      *) echo "Please answer y or CTRL+c the script to abort everything";;
+  esac
+done
+
+ln -fs "${clone_path}/.zshenv" "${HOME}/.zshenv" \
+    && ln -fs "${clone_path}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc" \
+    && ln -fs "${clone_path}/.config/zsh/.zprofile" "${HOME}/.config/zsh/.zprofile" \
+    && ln -fs "${clone_path}/.config/zsh/.aliases" "${HOME}/.config/zsh/.aliases" \
+    && ln -fs "${clone_path}/.gitconfig" "${HOME}/.gitconfig" \
+    && ln -fs "${clone_path}/.vimrc" "${HOME}/.vimrc" \
+    && ln -fs "${clone_path}/.vim/spell/en.utf-8.add" "${HOME}/.vim/spell/en.utf-8.add" \
+    && ln -fs "${clone_path}/.tmux.conf" "${HOME}/.tmux.conf" \
+    && ln -fs "${clone_path}/.local/bin/update-zsh-plugins" "${HOME}/.local/bin/update-zsh-plugins" \
+    && ln -fs "${clone_path}/.local/bin/set-theme" "${HOME}/.local/bin/set-theme"
+
+if grep -qE "(Microsoft|microsoft|WSL)" /proc/version &>/dev/null; then
+    sudo ln -fs "${clone_path}/etc/wsl.conf" /etc/wsl.conf
+fi
+
+###############################################################################
+# Change default shell to zsh
+###############################################################################
+
+[ "${os_type}" == "Linux" ] && chsh -s "$(command -v zsh)"
+
+# shellcheck disable=SC1090
+. "${HOME}/.config/zsh/.zprofile"
+
+###############################################################################
+# Install asdf and Node (Node is used for 1 Vim plugin)
+###############################################################################
+
+printf "\n\nInstalling asdf %s...\n" "${install_asdf_version}"
+
+git clone --depth 1 https://github.com/asdf-vm/asdf.git --branch "${install_asdf_version}" \
+  "${HOME}/.local/share/asdf"
+
+# shellcheck disable=SC1090
+. "${HOME}/.local/share/asdf/asdf.sh"
+
+printf "\n\nInstalling node %s...\n" "${install_node_version}"
+
+"${HOME}/.local/share/asdf/bin/asdf" plugin add nodejs
+"${HOME}/.local/share/asdf/bin/asdf" install nodejs "${install_node_version}"
+"${HOME}/.local/share/asdf/bin/asdf" global nodejs "${install_node_version}"
+
+npm install --unsafe-perm=true --allow-root --global yarn
+
+###############################################################################
+# Install tmux plugins
+###############################################################################
+
+printf "\n\nInstalling tmux plugins...\n"
+
+export TMUX_PLUGIN_MANAGER_PATH="${HOME}/.tmux/plugins"
+"${HOME}/.tmux/plugins/tpm/bin/install_plugins"
+
+###############################################################################
+# Install Vim plugins
+###############################################################################
+
+printf "\n\nInstalling Vim plugins...\n"
+
+vim -E +PlugInstall +qall || true
+
+###############################################################################
+# Done!
+###############################################################################
+
+cat << EOF
+Everything was installed successfully!
+
+Check out the README file on GitHub to do 1 quick thing manually:
+
+https://github.com/nickjj/dotfiles#did-you-install-everything-successfully
+
+You can safely close this terminal.
+
+The next time you open your terminal zsh will be ready to go!
+EOF
+
+exit 0

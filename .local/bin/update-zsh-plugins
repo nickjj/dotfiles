@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Install or update zsh plugins.
+
+export XDG_DATA_HOME="${XDG_DATA_HOME:-"${HOME}/.local/share"}"
+
+function clone_or_pull {
+    local repo_path="${1}"
+    local project="$(echo "${repo_path}" | cut -d"/" -f2)"
+    local project_path="${XDG_DATA_HOME}/${project}"
+
+    if cd "${project_path}" > /dev/null 2>&1; then
+        echo "Updating ${repo_path}..."
+        git pull
+        echo
+        cd - > /dev/null 2>&1
+    else
+        echo "Installing ${repo_path}..."
+        git clone "https://github.com/${repo_path}" "${project_path}"
+        echo
+    fi
+}
+
+clone_or_pull "zdharma/fast-syntax-highlighting"
+clone_or_pull "zsh-users/zsh-autosuggestions"

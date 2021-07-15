@@ -11,9 +11,6 @@ everything installed and configured.
 
 - [View screenshots](#screenshots) of the current set up and how to switch themes
 - [Quickly get set up with these dotfiles](#quickly-get-set-up-with-these-dotfiles)
-  - [Debian](#debian) (native or WSL)
-  - [Ubuntu LTS](#ubuntu-lts) (native or WSL)
-  - [macOS](#macos)
   - [Extra WSL 1 and WSL 2 steps](#extra-wsl-1-and-wsl-2-steps)
 - [FAQ](#faq)
   - [How to personalize these dotfiles?](#how-to-personalize-these-dotfiles)
@@ -43,7 +40,7 @@ video recordings. These dotfiles currently support easily switching between
 
 These dotfiles include a `set-theme` script that you can run from your terminal
 to set your theme to any of the themes listed below. This script takes care of
-configuring your terminal, tmux, Vim and FZF's colors in 1 command.
+configuring your terminal, tmux, Vim and fzf's colors in 1 command.
 
 If you don't like the included themes that's no problem. You can use whatever
 you want, there's no limitations. You could choose to manually change the
@@ -84,228 +81,62 @@ item](#how-to-use-a-different-terminal-in-the-set-theme-script).*
 
 ## Quickly Get Set Up with These Dotfiles
 
-I'm going to try my best to provide beginning to end installation instructions
-for Debian, Ubuntu (native or WSL) along with macOS. Fortunately setting up
-most of these tools will be the same on any OS since they're not OS specific.
+There's an `./install` script you can run to automate installing everything.
+It even handles cloning down this repo. You'll get a chance to pick the clone
+location in the script as well as view and / or change any packages that get
+installed.
 
-### OS / distro specific installation steps
+It currently supports:
 
-My set up targets tmux 3.0+ and Vim 8.1+. As long as you can meet those
-requirements you'll be good to go.
+- Ubuntu 20.04 LTS (native or WSL)
+- macOS
 
-#### Debian
-
-If you're on Debian Buster, you'll want to enable backports for  `tmux` before
-installing anything. Once you do that then you can proceed to the Ubuntu 20.04
-LTS installation steps below.
-
-Any version after Buster should be good to go without any backports.
-
-#### Ubuntu LTS
-
-##### Ubuntu 20.04 LTS
-
-It's smooth sailing if you're using 20.04 LTS or newer.
+You can run the install script like this:
 
 ```sh
-sudo apt-get update && sudo apt-get install -y \
-  curl \
-  git \
-  gnupg \
-  htop \
-  jq \
-  pass \
-  pwgen \
-  python3-pip \
-  ripgrep \
-  rsync \
-  shellcheck \
-  tmux \
-  unzip \
-  vim-gtk
+curl -fsSL https://raw.githubusercontent.com/nickjj/dotfiles/master/install | ./install
 ```
 
-The GTK version of Vim is to get +clipboard support, we'll still run terminal
-`vim` from the command line.
+*If you're not comfortable blindly running a script on the internet, that's no
+problem. You can view the [install
+script](https://github.com/nickjj/dotfiles/blob/master/install) to see exactly
+what it does. Each section is commented. Sudo is only used to apt install
+packages and create 1 symlink on WSL.*
 
-##### Ubuntu 18.04 LTS or older
+If you're using a different distro of Linux you can run `./install
+--skip-install-packages` which skips installing all packages in which case you
+can install the packages on your own.
 
-In order to get Vim 8.1+ you'll want to use the PPA below.
+My set up targets zsh 5.0+, tmux 3.0+ and Vim 8.1+. As long as you can meet
+those requirements you'll be good to go.
+
+### Did you install everything successfully?
+
+Nice!
+
+If you haven't done so already please close your terminal and open a new
+one, then follow the step(s) below:
+
+#### 1. Configure your git name and email
+
+One of the things the install script did was copy a git ignored git config file
+into your home directory. You're meant to put in your name and email address so
+that your details are used when you make git commits.
 
 ```sh
-# Run this before moving on.
-sudo add-apt-repository ppa:jonathonf/vim
+vim ~/.gitconfig.user
 ```
 
-As for tmux you'll need to compile it from source to get 3.0+. If you Google
-around for things like "get latest tmux for Ubuntu 18.04", you'll find
-tutorials. I've even seen some for Ubuntu 16.04. Just make sure you compile
-tmux 3.0+.
-
-If you do end up compiling tmux from source, then make sure to remove tmux from
-the list of packages below. Speaking of which, once you've done the above then
-you can proceed to the Ubuntu 20.04 LTS installation steps below.
-
-#### Other Linux distros
-
-If you're not using Debian or Ubuntu that's ok. You can change the `apt`
-commands above to use your distro's package manager instead. Just be mindful of
-making sure you get tmux 3.0+ and Vim 8.1+.
-
-#### macOS
-
-I don't use a Mac but I've tracked down most of these packages in
-[brew](https://brew.sh/). Feel free to open a PR if there's a better way to
-install them. I haven't tested this personally but the tmux and Vim versions
-are good to go based on Homebrew's docs.
+#### 2. (Optional) confirm that a few things work
 
 ```sh
-brew install \
-  curl \
-  git \
-  gnupg \
-  htop \
-  jq \
-  pass \
-  pwgen \
-  python \
-  ripgrep \
-  rsync \
-  shellcheck \
-  tmux \
-  unzip \
-  vim
-```
-
-### Installing everything else (OS neutral)
-
-I would make an effort to read the comments for each command before copy /
-pasting them into a terminal just so you know what's getting installed. You may
-want to modify some of these things based on which tools you want.
-
-#### Install these dotfiles and various tools on your system
-
----
-
-# 🛑 SUPER ULTRA IMPORTANT WARNING 🛑
-
-Hi, the symlink commands listed below are being run with the `-f` (force) flag.
-That means it will take the files being symlinked from my dotfiles repo and
-then delete + overwrite your existing files at the destination.
-
-For example this line `ln -fs ~/dotfiles/.bashrc ~/.bashrc` will take my
-`.bashrc` and overwrite yours without a `y/n` prompt. If you're using my
-dotfiles that is what you'll want but it also means you should consider backing
-up your original files.
-
-The 2nd command listed below does this for 10+ files, it's the `ln -fs <src>
-<dest>` commands.
-
----
-
-```sh
-# Clone down this dotfiles repo to your home directory. Feel free to place
-# this anywhere you want, but remember where you've cloned things to.
-git clone https://github.com/nickjj/dotfiles ~/dotfiles
-
-# Create symlinks to various dotfiles. If you didn't clone it to ~/dotfiles
-# then adjust the ln -fs symlink source (left side) to where you cloned it.
-#
-# NOTE: The last one is WSL 1 / 2 specific. Don't do it on native Linux / macOS.
-mkdir -p ~/.local/bin && mkdir -p ~/.vim/spell \
-  && ln -fs ~/dotfiles/.aliases ~/.aliases \
-  && ln -fs ~/dotfiles/.bashrc ~/.bashrc \
-  && ln -fs ~/dotfiles/.gemrc ~/.gemrc \
-  && ln -fs ~/dotfiles/.gitconfig ~/.gitconfig \
-  && ln -fs ~/dotfiles/.profile ~/.profile \
-  && ln -fs ~/dotfiles/.tmux.conf ~/.tmux.conf \
-  && ln -fs ~/dotfiles/.vimrc ~/.vimrc \
-  && ln -fs ~/dotfiles/.vim/spell/en.utf-8.add ~/.vim/spell/en.utf-8.add \
-  && ln -fs ~/dotfiles/.local/bin/set-theme ~/.local/bin/set-theme \
-  && sudo ln -fs ~/dotfiles/etc/wsl.conf /etc/wsl.conf
-
-# Create your own personal ~/.gitconfig.user file. After copying the file,
-# you should edit it to have your name and email address so git can use it.
-cp ~/dotfiles/.gitconfig.user ~/.gitconfig.user
-
-# Install Plug (Vim plugin manager).
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-# Install TPM (Tmux plugin manager).
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
-# Install FZF (fuzzy finder on the terminal and used by a Vim plugin).
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
-
-# Install ASDF (version manager which I use for non-Dockerized apps).
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.8
-
-# Install Node through ASDF. Even if you don't use Node / Webpack / etc., there
-# is one Vim plugin (Markdown Preview) that requires Node and Yarn.
-asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
-asdf install nodejs 12.18.3
-asdf global nodejs 12.18.3
-
-# Install Yarn.
-npm install --global yarn
-
-# Install system dependencies for Ruby on Debian / Ubuntu.
-#
-# Not using Debian or Ubuntu? Here's alternatives for macOS and other Linux distros:
-#   https://github.com/rbenv/ruby-build/wiki#suggested-build-environment
-sudo apt-get install -y autoconf bison build-essential libssl-dev libyaml-dev \
-  libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev
-
-# Install Ruby through ASDF.
-asdf plugin-add ruby https://github.com/asdf-vm/asdf-ruby.git
-asdf install ruby 2.7.1
-asdf global ruby 2.7.1
-
-# Install Ansible.
-pip3 install --user ansible
-
-# Install AWS CLI v2.
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
-  && unzip awscliv2.zip && sudo ./aws/install && rm awscliv2.zip
-
-# Install Terraform.
-curl "https://releases.hashicorp.com/terraform/1.0.2/terraform_1.0.2_linux_amd64.zip" -o "terraform.zip" \
-  && unzip terraform.zip && chmod +x terraform \
-  && mv terraform ~/.local/bin && rm terraform.zip
-```
-
-#### Install plugins for Vim and tmux
-
-```sh
-# Open Vim and install the configured plugins. You would type in the
-# :PlugInstall command from within Vim and then hit enter to issue the command.
-vim .
-:PlugInstall
-
-# Start a tmux session and install the configured plugins. You would type in
-# ` followed by I (capital i) to issue the command.
-tmux
-`I
-```
-
-#### Optionally confirm that a few things work after closing and re-opening your terminal
-
-```sh
-# Sanity check to see if you can run some of the tools we installed.
-ruby --version
-node --version
-ansible --version
-aws --version
-terraform --version
-
-# Check to make sure git is configured with your name, email and custom settings.
+# Check to make sure git is configured with your name and email.
 git config --list
 
-# If you're using Docker Desktop with WSL 2, these should be accessible too.
-docker info
-docker-compose --version
+# Sanity check to see if you can run some of the tools we installed.
+vim --version
+tmux -V
+node --version
 ```
 
 Before you start customizing certain config files, take a look at the
@@ -332,9 +163,9 @@ values in there that you will very likely want to change before using it.
 message](https://github.com/nickjj/dotfiles/commit/d0f1fc2622204b809cf7fcbb1a82d45b451064c4)
 goes into the details.
 
-Also, you should reboot to activate your `/etc/wsl.conf` file (symlinked
-earlier). That will be necessary if you want to access your mounted drives at
-`/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
+Also, you should reboot to activate your `/etc/wsl.conf` file (the install
+script created this). That will be necessary if you want to access your mounted
+drives at `/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
 
 ## FAQ
 
@@ -407,7 +238,7 @@ will prevent Vim from connecting to an X server. This also means clipboard
 sharing to your system clipboard won't work, but it's good for a test.
 
 Vim will try to connect to that X server by default because `DISPLAY` is
-exported in the `.bashrc` file. Installing and configuring VcXsrv as per these
+exported in the `.zshrc` file. Installing and configuring VcXsrv as per these
 dotfiles will fix that issue.
 
 If it still persists, it might be a software firewall issue. You can open TCP

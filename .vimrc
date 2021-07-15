@@ -16,7 +16,7 @@ Plug 'rakr/vim-one'
 Plug 'gruvbox-community/gruvbox'
 
 " Integrate fzf with Vim.
-Plug '~/.fzf'
+Plug '$XDG_DATA_HOME/fzf'
 Plug 'junegunn/fzf.vim'
 
 " Better manage Vim sessions.
