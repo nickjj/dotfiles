@@ -91,10 +91,11 @@ It currently supports:
 - Ubuntu 20.04 LTS (native or WSL)
 - macOS
 
-You can run the install script like this:
+You can download and run the install script with this 1 liner:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/nickjj/dotfiles/master/install | ./install
+curl -fsSL https://raw.githubusercontent.com/nickjj/dotfiles/master/install -o install \
+  && chmod +x install && ./install && rm install
 ```
 
 *If you're not comfortable blindly running a script on the internet, that's no
