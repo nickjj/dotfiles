@@ -86,12 +86,12 @@ It even handles cloning down this repo. You'll get a chance to pick the clone
 location in the script as well as view and / or change any packages that get
 installed.
 
-It currently supports:
+The install script currently supports:
 
 - Ubuntu 20.04 LTS (native or WSL)
 - macOS
 
-You can download and run the install script with this 1 liner:
+**You can download and run the install script with this 1 liner:**
 
 ```sh
 bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
@@ -103,9 +103,14 @@ script](https://github.com/nickjj/dotfiles/blob/master/install) to see exactly
 what it does. Each section is commented. Sudo is only used to apt install
 packages and create 1 symlink on WSL.*
 
-If you're using a different distro of Linux you can run `./install
---skip-install-packages` which skips installing all packages in which case you
-can install the packages on your own.
+If you're using an unsupported distro of Linux you can run this instead:
+
+```sh
+bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-install-packages
+```
+
+The above skips `apt` installing all packages in which case you can install the
+packages on your own beforehand.
 
 My set up targets zsh 5.0+, tmux 3.0+ and Vim 8.1+. As long as you can meet
 those requirements you're good to go.
