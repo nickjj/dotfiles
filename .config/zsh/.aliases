@@ -46,7 +46,9 @@ start-recording () {
     local from_terminal_font_size="9"
     local to_terminal_font_size="18"
 
+    mv "${HISTFILE}" "${HISTFILE}.bak"
     local HISTSIZE=0
+
     rm -f /tmp/%*
     change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
 
@@ -57,7 +59,7 @@ start-recording () {
     fi
 
     cat << EOF
--> Shell history has been temporarily cleared
+-> Shell history has been backed up to ${HISTFILE}
 -> Temporary Vim files have been deleted from /tmp
 -> Terminal font has been increased to ${to_terminal_font_size}
 
@@ -80,7 +82,9 @@ stop-recording () {
     local from_terminal_font_size="18"
     local to_terminal_font_size="9"
 
+    mv "${HISTFILE}.bak" "${HISTFILE}"
     fc -R
+
     change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
 
     cat << EOF
