@@ -118,7 +118,8 @@ bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install
 ```
 
 That above could be useful if you're using a non-Debian based distro of Linux,
-in which case you'll need to install the dependent system packages on your own
+in which case you'll need to install the [dependent system
+packages](https://github.com/nickjj/dotfiles/blob/master/install) on your own
 beforehand. Besides that, everything else is supported since it's only dealing
 with files in your home directory.
 
