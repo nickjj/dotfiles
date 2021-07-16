@@ -2,7 +2,7 @@
 
 set -e
 
-skip_install_packages="${1}"
+skip_system_packages="${1}"
 
 os_type="$(uname -s)"
 
@@ -16,31 +16,48 @@ install_asdf_version="v0.8.1"
 install_node_version="14.17.3"
 
 ###############################################################################
-# Detect operating system type
+# Detect OS and distro type
 ###############################################################################
+
+function no_system_packages() {
+cat << EOF
+System package installation isn't supported with your OS / distro.
+
+Please install any dependent packages on your own. You can view the list at:
+
+    https://github.com/nickjj/dotfiles/blob/master/install
+
+Then re-run the script and explicitly skip installing system packages:
+
+    bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
+EOF
+
+exit 1
+}
 
 case "${os_type}" in
     Linux*)
         os_type="Linux"
 
-        if [ ! -f "/etc/debian_version" ]; then
-           echo "Your distro is not fully supported, please check the README"
-           exit 1
+        if [  -f "/etc/debian_version" ]; then
+           [ -z "${skip_system_packages}" ] && no_system_packages
         fi
 
         ;;
-    Darwin*)
-        os_type="macOS";;
+    Darwin*) os_type="macOS";;
     *)
-        echo "OS type '${os_type}' is not fully supported, please check the README"
-        exit 1
+      os_type="Other"
+
+      [ -z "${skip_system_packages}" ] && no_system_packages
+
+      ;;
 esac
 
 ###############################################################################
 # Install packages using your OS' package manager
 ###############################################################################
 
-function linux_install_packages {
+function apt_install_packages {
     # shellcheck disable=SC2086
     sudo apt-get update && sudo apt-get install -y ${apt_packages} ${apt_packages_optional}
 }
@@ -64,11 +81,10 @@ function display_packages {
     fi
 }
 
-if [ -z "${skip_install_packages}" ]; then
-
+if [ -z "${skip_system_packages}" ]; then
 cat << EOF
 
-If you choose yes, all of the packages below will be installed:
+If you choose yes, all of the system packages below will be installed:
 
 $(display_packages)
 
@@ -81,13 +97,12 @@ Keep in mind if you don't install pwgen you won't be able to generate random
 passwords using a custom alias that's included in these dotfiles.
 
 EOF
-
     while true; do
         read -rp "Do you want to install the above packages? (y/n) " yn
         case "${yn}" in
             [Yy]*)
                 if [ "${os_type}" == "Linux" ]; then
-                    linux_install_packages
+                    apt_install_packages
                 else
                     brew_install_packages
                 fi
@@ -98,7 +113,7 @@ EOF
         esac
     done
 else
-    echo "Package installation was skipped!"
+    echo "System package installation was skipped!"
 fi
 
 ###############################################################################
@@ -230,7 +245,7 @@ fi
 # Change default shell to zsh
 ###############################################################################
 
-[ "${os_type}" == "Linux" ] && chsh -s "$(command -v zsh)"
+[ "${os_type}" != "macOS" ] && chsh -s "$(command -v zsh)"
 
 # shellcheck disable=SC1090
 . "${HOME}/.config/zsh/.zprofile"

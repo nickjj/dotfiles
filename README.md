@@ -82,14 +82,21 @@ item](#how-to-use-a-different-terminal-in-the-set-theme-script).*
 ## Quickly Get Set Up with These Dotfiles
 
 There's an `./install` script you can run to automate installing everything.
+That includes installing system packages such as tmux, Vim, zsh, etc. and
+configuring a number of tools in your home directory.
+
 It even handles cloning down this repo. You'll get a chance to pick the clone
-location in the script as well as view and / or change any packages that get
-installed.
+location in the script as well as view and / or change any system packages that
+get installed.
 
-The install script currently supports:
+The install script is optimized for:
 
-- Ubuntu 20.04 LTS (native or WSL)
-- macOS
+- Ubuntu 20.04 LTS+ (native or WSL)
+- Debian 11+ (Debian 10 will work if you enable backports for tmux)
+- macOS 10.15+
+
+It will still work with other distros of Linux if you skip installing system
+packages (more details are below).
 
 **You can download and run the install script with this 1 liner:**
 
@@ -100,17 +107,20 @@ bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install
 *If you're not comfortable blindly running a script on the internet, that's no
 problem. You can view the [install
 script](https://github.com/nickjj/dotfiles/blob/master/install) to see exactly
-what it does. Each section is commented. Sudo is only used to apt install
-packages and create 1 symlink on WSL.*
+what it does. Each section is commented. Sudo is only used to install system
+packages. Alternatively you can look around this repo and reference the config
+files directly without using any script.*
 
-If you're using an unsupported distro of Linux you can run this instead:
+You can also run the script without installing system packages:
 
 ```sh
-bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-install-packages
+bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
 ```
 
-The above skips `apt` installing all packages in which case you can install the
-packages on your own beforehand.
+That above could be useful if you're using a non-Debian based distro of Linux,
+in which case you'll need to install the dependent system packages on your own
+beforehand. Besides that, everything else is supported since it's only dealing
+with files in your home directory.
 
 My set up targets zsh 5.0+, tmux 3.0+ and Vim 8.1+. As long as you can meet
 those requirements you're good to go.
