@@ -136,7 +136,12 @@ done
 
 echo
 
-git clone https://github.com/nickjj/dotfiles "${clone_path}"
+# This is used to locally develop the install script.
+if [ "${DEBUG}" == "1" ]; then
+    cp -R "${PWD}/." "${clone_path}"
+else
+    git clone https://github.com/nickjj/dotfiles "${clone_path}"
+fi
 
 ###############################################################################
 # Create initial directories
