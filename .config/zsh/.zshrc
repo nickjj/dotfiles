@@ -65,6 +65,15 @@ zstyle ':completion:*' verbose true
 # Use emacs keybindings even if your $EDITOR is set to Vim.
 bindkey -e
 
+# Ensure home / end keys continue to work.
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[H' beginning-of-line
+bindkey '\e[7~' beginning-of-line
+bindkey '\e[4~' end-of-line
+bindkey '\e[F' end-of-line
+bindkey '\e[8~' end-of-line
+bindkey '\e[3~' delete-char
+
 # Enable FZF (this replaces needing ~/.fzf.zsh in your home directory).
 if [[ ! "${PATH}" == *${XDG_DATA_HOME}/fzf/bin* ]]; then
     export PATH="${PATH:+${PATH}:}/${XDG_DATA_HOME}/fzf/bin"
