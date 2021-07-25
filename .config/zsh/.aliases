@@ -136,7 +136,7 @@ if ! command -v brew > /dev/null 2>&1; then
     alias open="/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe"
 fi
 
-alias vss="sort -u ${HOME}/.vim/spell/en.utf-8.add" -o "${HOME}/.vim/spell/en.utf-8.add"
+alias vss="sort -u ${HOME}/.vim/spell/en.utf-8.add -o ${HOME}/.vim/spell/en.utf-8.add"
 
 alias vdt="rm /tmp/%*"
 
