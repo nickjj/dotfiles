@@ -114,7 +114,7 @@ alias l="ls -CF"
 
 alias sz="source ${XDG_CONFIG_HOME}/zsh/.zshrc"
 
-alias drun='docker run --rm -it -v "${PWD}":/app'
+alias drun='docker run --rm -it -v "${PWD}":/app -w /app'
 
 alias rmpyc="find . -type d -name '__pycache__' -exec rm -rf {} \;"
 
