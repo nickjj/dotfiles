@@ -6,7 +6,7 @@ skip_system_packages="${1}"
 
 os_type="$(uname -s)"
 
-apt_packages="curl git python3-pip ripgrep tmux vim-gtk zsh"
+apt_packages="curl git iproute2 python3-pip ripgrep tmux vim-gtk zsh"
 apt_packages_optional="gnupg htop jq pass pwgen rsync shellcheck unzip"
 
 brew_packages="git python ripgrep tmux vim zsh"
