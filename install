@@ -39,7 +39,7 @@ case "${os_type}" in
     Linux*)
         os_type="Linux"
 
-        if [  -f "/etc/debian_version" ]; then
+        if [ !  -f "/etc/debian_version" ]; then
            [ -z "${skip_system_packages}" ] && no_system_packages
         fi
 
