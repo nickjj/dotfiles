@@ -46,11 +46,11 @@ case "${os_type}" in
         ;;
     Darwin*) os_type="macOS";;
     *)
-      os_type="Other"
+        os_type="Other"
 
-      [ -z "${skip_system_packages}" ] && no_system_packages
+        [ -z "${skip_system_packages}" ] && no_system_packages
 
-      ;;
+        ;;
 esac
 
 ###############################################################################
