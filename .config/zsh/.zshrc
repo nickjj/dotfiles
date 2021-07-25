@@ -50,9 +50,7 @@ zstyle ':completion:*' group-name ''
 
 # dircolors is a GNU utility that's not on macOS by default. With this not
 # being used on macOS it means zsh's complete menu won't have colors.
-if command -v dircolors > /dev/null 2>&1; then
-    eval "$(dircolors -b)"
-fi
+command -v dircolors > /dev/null 2>&1 && eval "$(dircolors -b)"
 
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
