@@ -33,8 +33,8 @@ setopt HIST_IGNORE_SPACE     # Ignore commands that start with a space.
 setopt HIST_REDUCE_BLANKS    # Remove unnecessary blank lines.
 
 # Load aliases if they exist.
-[ -f "${XDG_CONFIG_HOME}/zsh/.aliases" ] && source "${XDG_CONFIG_HOME}/zsh/.aliases"
-[ -f "${XDG_CONFIG_HOME}/zsh/.aliases.local" ] && source "${XDG_CONFIG_HOME}/zsh/.aliases.local"
+[ -f "${XDG_CONFIG_HOME}/zsh/.aliases" ] && . "${XDG_CONFIG_HOME}/zsh/.aliases"
+[ -f "${XDG_CONFIG_HOME}/zsh/.aliases.local" ] && . "${XDG_CONFIG_HOME}/zsh/.aliases.local"
 
 # Use modern completion system. Other than enabling globdots for showing
 # hidden files, these ares values in the default generated zsh config.
@@ -76,11 +76,11 @@ bindkey '\e[3~' delete-char
 if [[ ! "${PATH}" == *${XDG_DATA_HOME}/fzf/bin* ]]; then
     export PATH="${PATH:+${PATH}:}/${XDG_DATA_HOME}/fzf/bin"
 fi
-[[ $- == *i* ]] && source "${XDG_DATA_HOME}/fzf/shell/completion.zsh" 2> /dev/null
-source "${XDG_DATA_HOME}/fzf/shell/key-bindings.zsh"
+[[ $- == *i* ]] && . "${XDG_DATA_HOME}/fzf/shell/completion.zsh" 2> /dev/null
+. "${XDG_DATA_HOME}/fzf/shell/key-bindings.zsh"
 
 # Enable asdf to manage various programming runtime versions.
-[ -f "${XDG_DATA_HOME}/asdf/asdf.sh" ] && source "${XDG_DATA_HOME}/asdf/asdf.sh"
+[ -f "${XDG_DATA_HOME}/asdf/asdf.sh" ] && . "${XDG_DATA_HOME}/asdf/asdf.sh"
 
 # WSL 2 specific settings.
 if grep -q "microsoft" /proc/version &>/dev/null; then
@@ -108,6 +108,6 @@ export FZF_DEFAULT_OPTS="--color=dark"
 # zsh-autosuggestions settings.
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 
-# Load zsh plugins.
-source "${XDG_DATA_HOME}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-source "${XDG_DATA_HOME}/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# Load / source zsh plugins.
+. "${XDG_DATA_HOME}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+. "${XDG_DATA_HOME}/zsh-autosuggestions/zsh-autosuggestions.zsh"
