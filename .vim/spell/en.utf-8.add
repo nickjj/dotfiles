@@ -1,5 +1,6 @@
 1080p
 ACH
+ACM
 AHK
 AMI
 AMIs
@@ -27,6 +28,7 @@ CDN
 CI
 CI / CD
 CLI
+CMD
 CME
 CMS
 CPUs
@@ -42,6 +44,8 @@ CentOS
 Certbot
 Chromebook
 CircleCI
+CloudFormation
+CloudFormation's
 CloudFront
 CloudWatch
 Cloudflare
@@ -75,6 +79,7 @@ Dragonpad
 DropBox
 Dyno
 Dynos
+EBS
 EC2
 ECR
 ECS
@@ -89,6 +94,7 @@ Ecto
 Edgestore
 ElastiCache
 Elasticsearch
+ElephantSQL
 EmberJS
 FFmpeg
 FZF
@@ -100,6 +106,7 @@ Firebase
 Flatpickr
 FlexiSpot
 Focusrite
+Freshping
 GCP
 GCP's
 GDPR
@@ -127,9 +134,11 @@ GraphQL
 Graphene
 Gruvbox
 Gumroad
+HCL
 HIPAA
 HTTPS
 HackerNews
+HashiCorp
 Hatchbox
 Heroku
 Heroku's
@@ -137,9 +146,11 @@ HexChat
 Honeybadger
 Hotjar
 Hotwire
+IAM
 IE8
 IIS
 IPS
+IaC
 Idempotency
 InfluxDB
 InnoGear
@@ -169,6 +180,7 @@ LiveView
 Livewire
 Logentries
 Lua
+M1
 MD5
 MP3
 MP3's
@@ -184,6 +196,7 @@ Microservices
 MobaXterm
 Moby
 MobyLinux
+Modularity
 MongoDB
 Mux
 MySQL
@@ -201,6 +214,7 @@ ORM
 OTP
 OVH
 Oban
+OpenAPI
 OpenJDK
 OpsGenie
 Overcomplicating
@@ -282,6 +296,7 @@ Solr
 SparkPost
 Splunk
 StackOverflow
+StackSet
 StimulusJS
 StimulusReflex
 Strapi
@@ -294,6 +309,7 @@ TailwindUI
 Technica
 Tensorflow
 Terraform
+Terraform's
 That'll
 Theorycrafting
 Threadripper
@@ -339,11 +355,13 @@ YAML
 Youtube
 Zapier
 Zope
+Zsh
 analytics
 anonymized
 ap
 argparse
 args
+asdf
 async
 backports
 balancer
@@ -362,6 +380,8 @@ config
 cron
 cryptocurrency
 datetime
+declaratively
+deliverables
 deploy's
 deployable
 dev
@@ -372,6 +392,7 @@ dnsmasq
 dotfiles
 eksctl
 envsubst
+eslint
 eval
 foobar2000
 frictionless
@@ -392,6 +413,7 @@ htop
 i2
 i3
 iOS
+integrations
 iptables
 irreproducible
 jQuery
@@ -452,9 +474,11 @@ sql
 stateful
 stderr
 stdout
+subnets
 sudo
 symlink
 symlinked
+symlinks
 syslog
 systemd
 t2
@@ -472,6 +496,7 @@ unmarking
 unopinionated
 untracked
 url
+uvicorn
 uwsgi
 vCPUs
 vhost
