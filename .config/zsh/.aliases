@@ -112,7 +112,12 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
 
-alias sz="source ${XDG_CONFIG_HOME}/zsh/.zshrc"
+alias cfa="${EDITOR} ${ZDOTDIR}/.aliases"
+alias cfp="${EDITOR} ${ZDOTDIR}/.zprofile"
+alias cfr="${EDITOR} ${ZDOTDIR}/.zshrc"
+alias sfr=". ${ZDOTDIR}/.zshrc"
+alias cfv="${EDITOR} ${HOME}/.vimrc"
+alias cft="${EDITOR} ${HOME}/.tmux.conf"
 
 alias drun='docker run --rm -it -v "${PWD}":/app -w /app'
 
