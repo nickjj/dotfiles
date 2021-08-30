@@ -17,7 +17,7 @@
             // Put settings here that you want to apply to all profiles
             "colorScheme": "Gruvbox Dark",
             "cursorColor": "#ffb261",
-            "cursorShape": "vintage",
+            "cursorShape": "filledBox",
             "fontFace": "Consolas",
             "fontSize": 9,
             "padding": "1, 1, 1, 1",
