@@ -208,17 +208,7 @@ set autoindent
 set autoread
 set backspace=indent,eol,start
 set backupdir=/tmp//,.
-
-if has("unix")
-  let s:uname = system("uname -s")
-  if s:uname == "Darwin"
-    " macOS clipboard sharing works with unnamed.
-    set clipboard=unnamed
-  else
-    set clipboard=unnamedplus
-  endif
-endif
-
+set clipboard=unnamedplus,unnamed,autoselect
 set colorcolumn=80
 set complete+=kspell
 set completeopt=menuone,longest
