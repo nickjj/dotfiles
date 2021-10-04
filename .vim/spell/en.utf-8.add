@@ -9,6 +9,7 @@ APM
 APS
 AT2005
 AWS
+ActiveJob
 ActiveRecord
 Airtable
 Akka
@@ -44,6 +45,7 @@ CentOS
 Certbot
 Chromebook
 CircleCI
+ClickHouse
 CloudFormation
 CloudFormation's
 CloudFront
@@ -114,6 +116,7 @@ GKE
 GPG
 GVim
 GalliumOS
+Gemfile
 GenServer
 Genomic
 Geocities
@@ -152,12 +155,14 @@ IIS
 IPS
 IaC
 Idempotency
+InertiaJS
 InfluxDB
 InnoGear
 IrfanView
 JIT
 JS
 JSON
+JSONB
 Javascript
 Jinja
 Jira
@@ -181,6 +186,7 @@ Livewire
 Logentries
 Lua
 M1
+MBPs
 MD5
 MP3
 MP3's
@@ -193,6 +199,7 @@ MariaDB
 Memcached
 Metadata
 Microservices
+Mixpanel
 MobaXterm
 Moby
 MobyLinux
@@ -223,6 +230,7 @@ PHP
 PHP's
 PKI
 PM2
+POSIX
 POV
 PPA
 PPI
@@ -246,6 +254,8 @@ Prisma
 Pytest
 PythonAnywhere
 QuakeLive
+QuickBook's
+QuickBooks
 RDS
 README
 RESTPlus
@@ -255,12 +265,16 @@ RPMs
 RQ
 RSS
 RabbitMQ
+Rbenv
 RedHat
 Reddit
 Redis
 Redux
 Rekognition
+Rekognition's
+Resque
 Rogan
+Rollbar
 Route53
 Rubocop
 S3
@@ -280,6 +294,7 @@ SQS
 SSD
 SSDs
 SSL
+SageMaker
 Scarlett
 SendGrid
 Sendy
@@ -310,6 +325,7 @@ Technica
 Tensorflow
 Terraform
 Terraform's
+Textract
 That'll
 Theorycrafting
 Threadripper
@@ -352,6 +368,7 @@ WordPress
 XLR
 Xenial
 YAML
+YCombinator
 Youtube
 Zapier
 Zope
@@ -490,6 +507,7 @@ toc
 tooltip
 transactional
 transcoding
+uncomment
 unlike
 unmaintained
 unmarking
