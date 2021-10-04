@@ -309,9 +309,10 @@ map <Leader><Space> :let @/=''<CR>
 nnoremap <Leader>g gqap
 xnoremap <Leader>g gqa
 
-" Prevent x from overriding what's in the clipboard.
+" Prevent x and the delete key from overriding what's in the clipboard.
 noremap x "_x
 noremap X "_x
+noremap <Del> "_x
 
 " Prevent selecting and pasting from overwriting what you originally copied.
 xnoremap p pgvy
