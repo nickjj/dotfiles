@@ -119,6 +119,7 @@ Plug 'vim-python/python-syntax'
 Plug 'vim-ruby/vim-ruby'
 Plug 'wgwoods/vim-systemd-syntax'
 Plug 'towolf/vim-helm'
+Plug 'hashivim/vim-terraform'
 
 call plug#end()
 
