@@ -149,6 +149,8 @@ alias gi="git init && git symbolic-ref HEAD refs/heads/main"
 
 alias pf="fzf --preview='less {}' --bind shift-up:preview-page-up,shift-down:preview-page-down"
 
+alias gcl="git diff --name-only --diff-filter=U"
+
 alias k="kubectl"
 
 # A way to define and run tasks in a project. It's like make except it's pure
