@@ -1,4 +1,5 @@
 1080p
+3D
 ACH
 ACM
 AHK
@@ -307,6 +308,7 @@ Shopify's
 Shure
 Sidekiq
 Sidekiq's
+SocketIO
 Solr
 SparkPost
 Splunk
@@ -433,6 +435,7 @@ iOS
 integrations
 iptables
 irreproducible
+ish
 jQuery
 journald
 keyring
