@@ -152,6 +152,7 @@ alias pf="fzf --preview='less {}' --bind shift-up:preview-page-up,shift-down:pre
 alias gcl="git diff --name-only --diff-filter=U"
 
 alias k="kubectl"
+alias tf="terraform"
 
 # A way to define and run tasks in a project. It's like make except it's pure
 # Bash so there's no make limitations like not being able to forward arguments.
