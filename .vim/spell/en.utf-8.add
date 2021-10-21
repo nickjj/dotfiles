@@ -174,6 +174,7 @@ K8s
 KPI
 Kanban
 Keyserver
+KinD
 Knex
 Koa
 Kubernetes
@@ -439,6 +440,7 @@ ish
 jQuery
 journald
 keyring
+kubectl
 libs
 linters
 linux

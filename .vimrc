@@ -194,6 +194,10 @@ let maplocalleader=" "
 
 " Use a line cursor within insert mode and a block cursor everywhere else.
 "
+" Using iTerm2? Go-to preferences / profile / colors and disable the smart bar
+" cursor color. Then pick a cursor and highlight color that matches your theme.
+" That will ensure your cursor is always visible within insert mode.
+"
 " Reference chart of values:
 "   Ps = 0  -> blinking block.
 "   Ps = 1  -> blinking block (default).
