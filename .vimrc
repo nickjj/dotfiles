@@ -575,7 +575,7 @@ endfunction
 
 augroup FernGroup
   autocmd!
-  autocmd FileType fern call FernInit()
+  autocmd FileType fern setlocal norelativenumber | setlocal nonumber | call FernInit()
 augroup END
 
 " .............................................................................
