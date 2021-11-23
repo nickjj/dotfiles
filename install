@@ -2,8 +2,6 @@
 
 set -e
 
-skip_system_packages="${1}"
-
 os_type="$(uname -s)"
 
 apt_packages="curl git iproute2 python3-pip ripgrep tmux vim-gtk zsh"
