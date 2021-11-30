@@ -20,5 +20,5 @@ function clone_or_pull {
     fi
 }
 
-clone_or_pull "zdharma/fast-syntax-highlighting"
+clone_or_pull "zdharma-continuum/fast-syntax-highlighting"
 clone_or_pull "zsh-users/zsh-autosuggestions"
