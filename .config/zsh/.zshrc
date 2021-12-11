@@ -74,7 +74,7 @@ bindkey '\e[3~' delete-char
 
 # Enable FZF (this replaces needing ~/.fzf.zsh in your home directory).
 if [[ ! "${PATH}" == *${XDG_DATA_HOME}/fzf/bin* ]]; then
-    export PATH="${PATH:+${PATH}:}/${XDG_DATA_HOME}/fzf/bin"
+    export PATH="${PATH:+${PATH}:}${XDG_DATA_HOME}/fzf/bin"
 fi
 [[ $- == *i* ]] && . "${XDG_DATA_HOME}/fzf/shell/completion.zsh" 2> /dev/null
 . "${XDG_DATA_HOME}/fzf/shell/key-bindings.zsh"
