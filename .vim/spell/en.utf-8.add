@@ -186,6 +186,7 @@ Linode's
 LiveView
 Livewire
 Logentries
+Loggly
 Lua
 M1
 MBPs
@@ -268,6 +269,7 @@ RQ
 RSS
 RabbitMQ
 Rbenv
+Recurly
 RedHat
 Reddit
 Redis
@@ -297,6 +299,7 @@ SSD
 SSDs
 SSL
 SageMaker
+ScaleGrid
 Scarlett
 SendGrid
 Sendy
@@ -397,6 +400,7 @@ codebase
 codebases
 compgen
 config
+configs
 cron
 cryptocurrency
 datetime
@@ -412,6 +416,7 @@ dnsmasq
 dotfiles
 eksctl
 envsubst
+esbuild
 eslint
 eval
 foobar2000
