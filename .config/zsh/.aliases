@@ -39,7 +39,7 @@ change-terminal-font () {
     local windows_user="$(powershell.exe '$env:UserName' | sed -e 's/\r//g')"
     local terminal_config="/c/Users/${windows_user}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
 
-    perl -i -pe "s/\"fontSize\": ${from}/\"fontSize\": ${to}/g" "${terminal_config}"
+    perl -i -pe "s/\"size\": ${from}/\"size\": ${to}/g" "${terminal_config}"
 }
 
 start-recording () {
