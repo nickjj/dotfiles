@@ -337,7 +337,7 @@ map <Leader>sv :source $MYVIMRC<CR>
 map <F5> :setlocal spell!<CR>
 
 " Toggle relative line numbers and regular line numbers.
-nmap <F6> :set invrelativenumber<CR>
+nmap <F6> :set relativenumber!<CR>
 
 " Copy the current buffer's path to your clipboard.
 nmap cp :let @+ = expand("%")<CR>
