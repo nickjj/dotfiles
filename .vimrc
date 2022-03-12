@@ -334,10 +334,12 @@ map <Leader>ev :tabnew $MYVIMRC<CR>
 map <Leader>sv :source $MYVIMRC<CR>
 
 " Toggle spell check.
-map <F5> :setlocal spell!<CR>
+nnoremap <F5> :setlocal spell!<CR>
+inoremap <F5> <C-o>:setlocal spell!<CR>
 
 " Toggle relative line numbers and regular line numbers.
-nmap <F6> :set relativenumber!<CR>
+nnoremap <F6> :set relativenumber!<CR>
+inoremap <F6> <C-o>:set relativenumber!<CR>
 
 " Copy the current buffer's path to your clipboard.
 nmap cp :let @+ = expand("%")<CR>
@@ -347,9 +349,8 @@ nmap cp :let @+ = expand("%")<CR>
 nnoremap <leader>sp :normal! mz[s1z=`z<CR>
 
 " Toggle visually showing all whitespace characters.
-noremap <F7> :set list!<CR>
+nnoremap <F7> :set list!<CR>
 inoremap <F7> <C-o>:set list!<CR>
-cnoremap <F7> <C-c>:set list!<CR>
 
 " Move 1 more lines up or down in normal and visual selection modes.
 nnoremap <C-k> :m .-2<CR>==
