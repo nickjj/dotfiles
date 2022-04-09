@@ -32,11 +32,16 @@ weather () {
 }
 
 change-terminal-font () {
-    [[ -z "${1}" || -z "${2}" ]] && echo "Usage: change-terminal-font FROM_SIZE TO_SIZE"
+    [ -z "${1}" ] || [ -z "${2}" ] && echo "Usage: change-terminal-font FROM_SIZE TO_SIZE"
 
     local from="${1}"
     local to="${2}"
-    local windows_user="$(powershell.exe '$env:UserName' | sed -e 's/\r//g')"
+
+    local windows_user=
+
+    # shellcheck disable=SC2016
+    windows_user="$(powershell.exe '$env:UserName' | sed -e 's/\r//g')"
+
     local terminal_config="/c/Users/${windows_user}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
 
     perl -i -pe "s/\"size\": ${from}/\"size\": ${to}/g" "${terminal_config}"
@@ -52,10 +57,10 @@ start-recording () {
     rm -f /tmp/%*
     change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
 
-    if [[ "${1}" = "--obs" ]]; then
-        cd "/c/Program Files/obs-studio/bin/64bit"
+    if [ "${1}" = "--obs" ]; then
+        cd "/c/Program Files/obs-studio/bin/64bit" || exit
         wslview obs64.exe
-        cd - > /dev/null 2>&1
+        cd - > /dev/null 2>&1 || exit
     fi
 
     cat << EOF
@@ -112,12 +117,13 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
 
-alias cfa="${EDITOR} ${ZDOTDIR}/.aliases"
-alias cfp="${EDITOR} ${ZDOTDIR}/.zprofile"
-alias cfr="${EDITOR} ${ZDOTDIR}/.zshrc"
-alias sfr=". ${ZDOTDIR}/.zshrc"
-alias cfv="${EDITOR} ${HOME}/.vimrc"
-alias cft="${EDITOR} ${HOME}/.tmux.conf"
+alias cfa='${EDITOR} ${ZDOTDIR}/.aliases'
+alias cfp='${EDITOR} ${ZDOTDIR}/.zprofile'
+alias cfr='${EDITOR} ${ZDOTDIR}/.zshrc'
+alias sfr='. ${ZDOTDIR}/.zshrc'
+alias cfv='${EDITOR} ${HOME}/.vimrc'
+alias cft='${EDITOR} ${HOME}/.tmux.conf'
+alias dt='cd ${HOME}/src/github/dotfiles'
 
 alias drun='docker run --rm -it -v "${PWD}":/app -w /app'
 
@@ -141,7 +147,7 @@ if ! command -v brew > /dev/null 2>&1; then
     alias open="/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe"
 fi
 
-alias vss="sort -u ${HOME}/.vim/spell/en.utf-8.add -o ${HOME}/.vim/spell/en.utf-8.add"
+alias vss='sort -u ${HOME}/.vim/spell/en.utf-8.add -o ${HOME}/.vim/spell/en.utf-8.add'
 
 alias vdt="rm /tmp/%*"
 
