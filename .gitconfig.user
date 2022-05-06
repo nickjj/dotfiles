@@ -13,3 +13,7 @@
 # although -m "" works if you want an empty message.
 #[tag]
 #  gpgSign = true
+
+#This option is for setting the path to gpg.exe for git in the windows os environment.
+#[gpg]
+#	 program = C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe
