@@ -29,6 +29,7 @@ Braintree
 CDN
 CI
 CI / CD
+CIDR
 CLI
 CMD
 CME
@@ -80,6 +81,7 @@ Dockerize
 Dockerized
 Dragonpad
 DropBox
+DuckDuckGo
 Dyno
 Dynos
 EBS
@@ -154,6 +156,9 @@ IAM
 IE8
 IIS
 IPS
+IPs
+IPv4
+IPv6
 IaC
 Idempotency
 InertiaJS
@@ -297,6 +302,7 @@ SNS
 SQLAlchemy
 SQLite
 SQS
+SRE
 SSD
 SSDs
 SSL
@@ -314,6 +320,7 @@ Shopify's
 Shure
 Sidekiq
 Sidekiq's
+Snyk
 SocketIO
 Solr
 SparkPost
@@ -324,6 +331,7 @@ StimulusJS
 StimulusReflex
 Strapi
 TCP
+TLD
 TTY
 Tailkit
 Tailkit's
@@ -368,9 +376,11 @@ Virtualenv
 Vue
 VueJS
 WSL
+WTF'd
 Webpack
 Webpacker
 WhatsApp
+Wireshark
 Wistia
 WordPress
 XLR
@@ -390,6 +400,7 @@ asdf
 async
 backports
 balancer
+base64
 benchmarking
 blockchain
 boolean
@@ -413,6 +424,7 @@ deployable
 dev
 devs
 distro
+distro's
 distros
 dnsmasq
 dotfiles
@@ -421,6 +433,7 @@ envsubst
 esbuild
 eslint
 eval
+extensibility
 foobar2000
 frictionless
 gifs
@@ -430,6 +443,7 @@ gunicorn
 gzip
 gzipped
 hackaton
+hacky
 haha
 healthcheck
 hellobar2000
@@ -484,8 +498,10 @@ purs
 pwgen
 queueing
 rebase
+relatable
 renderers
 repo
+repo's
 repos
 repurposed
 resize
@@ -529,6 +545,7 @@ url
 uvicorn
 uwsgi
 vCPUs
+versioning
 vhost
 vscode
 webcomic
