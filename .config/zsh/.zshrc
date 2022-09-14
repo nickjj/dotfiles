@@ -89,7 +89,7 @@ if grep -q "microsoft" /proc/version &>/dev/null; then
 fi
 
 # WSL 1 specific settings.
-if grep -qE "(Microsoft|WSL)" /proc/version &>/dev/null; then
+if grep -q "Microsoft" /proc/version &>/dev/null; then
     if [ "$(umask)" = "0000" ]; then
         umask 0022
     fi
