@@ -8,6 +8,7 @@ AMIs
 APIs
 APM
 APS
+ARGs
 AT2005
 AWS
 ActiveJob
@@ -75,6 +76,7 @@ DigitalOcean
 DigitalOcean's
 Django
 Docker's
+DockerCon
 Dockerfile
 Dockerfiles
 Dockerize
@@ -115,6 +117,7 @@ Freshping
 GCP
 GCP's
 GDPR
+GID
 GKE
 GPG
 GVim
@@ -351,6 +354,7 @@ Trix
 Turbolinks
 TypeScript
 UI
+UID
 URI
 Udemy
 Umar
@@ -474,6 +478,7 @@ microservice
 microservices
 middleware
 mintty
+mortem
 mtime
 mysql
 mysqldump
