@@ -32,6 +32,15 @@ weather () {
     curl "https://wttr.in/${1}"
 }
 
+gcb () {
+    local dry_run="${1}"
+    local branches="${2:-(main|master)}"
+
+    git branch | grep -wEv "${branches}" \
+        | grep -wv "$(git branch --show-current)" \
+        | { if [ -n "${dry_run}" ]; then cat -; else xargs git branch -D; fi; }
+}
+
 change-terminal-font () {
     [ -z "${1}" ] || [ -z "${2}" ] && echo "Usage: change-terminal-font FROM_SIZE TO_SIZE"
 
