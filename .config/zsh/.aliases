@@ -33,10 +33,18 @@ weather () {
 }
 
 gcb () {
-    local dry_run="${1}"
-    local branches="${2:-(main|master)}"
+    local default_branch_whitelist="(main|master)"
+    local skip_branches="${1:-"${default_branch_whitelist}"}"
+    local dry_run="${2}"
 
-    git branch | grep -wEv "${branches}" \
+    # We only have a single --dry-run flag set so use the default branch list
+    # and make sure dry_run is set.
+    if [ "${skip_branches}" = "--dry-run" ]; then
+      skip_branches="${default_branch_whitelist}"
+      dry_run="--dry-run"
+    fi
+
+    git branch | grep -wEv "${skip_branches}" \
         | grep -wv "$(git branch --show-current)" \
         | { if [ -n "${dry_run}" ]; then cat -; else xargs git branch -D; fi; }
 }
