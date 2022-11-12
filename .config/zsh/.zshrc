@@ -11,7 +11,7 @@ setopt interactive_comments
 # the git branch will always be empty. Using single quotes delays the
 # evaluation of the prompt. Also PROMPT is an alias to PS1.
 git_prompt() {
-    local branch="$(git symbolic-ref HEAD 2> /dev/null | cut -d'/' -f3)"
+    local branch="$(git symbolic-ref HEAD 2> /dev/null | cut -d'/' -f3-)"
     local branch_truncated="${branch:0:30}"
     if (( ${#branch} > ${#branch_truncated} )); then
         branch="${branch_truncated}..."
