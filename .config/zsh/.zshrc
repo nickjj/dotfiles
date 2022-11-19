@@ -83,13 +83,13 @@ fi
 [ -f "${XDG_DATA_HOME}/asdf/asdf.sh" ] && . "${XDG_DATA_HOME}/asdf/asdf.sh"
 
 # WSL 2 specific settings.
-if grep -q "microsoft" /proc/version &>/dev/null; then
+if grep -q "microsoft" /proc/version > /dev/null 2>&1; then
     # Requires: https://sourceforge.net/projects/vcxsrv/ (or alternative)
     export DISPLAY="$(/sbin/ip route | awk '/default/ { print $3 }'):0"
 fi
 
 # WSL 1 specific settings.
-if grep -q "Microsoft" /proc/version &>/dev/null; then
+if grep -q "Microsoft" /proc/version > /dev/null 2>&1; then
     if [ "$(umask)" = "0000" ]; then
         umask 0022
     fi
