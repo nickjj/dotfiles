@@ -88,6 +88,7 @@ Dyno
 Dynos
 EBS
 EC2
+ECDSA
 ECR
 ECS
 EEx
@@ -98,6 +99,7 @@ ERD
 ESLint
 ETS
 Ecto
+Ed25519
 Edgestore
 ElastiCache
 Elasticsearch
@@ -234,6 +236,7 @@ OVH
 Oban
 OpenAPI
 OpenJDK
+OpenSSH
 OpenWrt
 OpsGenie
 Overcomplicating
@@ -277,6 +280,7 @@ RESTful
 RHEL
 RPMs
 RQ
+RSA
 RSS
 RabbitMQ
 Rbenv
@@ -393,6 +397,7 @@ XLR
 Xenial
 YAML
 YCombinator
+Yay
 Youtube
 Zapier
 Zope
