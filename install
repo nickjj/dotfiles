@@ -12,8 +12,8 @@ apt_packages_optional="gnupg htop jq pass pwgen rsync shellcheck unzip"
 brew_packages="diffutils git python ripgrep tmux vim zsh"
 brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck"
 
-install_asdf_version="v0.8.1"
-install_node_version="14.17.3"
+install_asdf_version="v0.11.0"
+install_node_version="18.12.1"
 
 ###############################################################################
 # Detect OS and distro type
