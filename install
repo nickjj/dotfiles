@@ -10,7 +10,7 @@ apt_packages="curl git iproute2 python3-pip ripgrep tmux vim-gtk wl-clipboard zs
 apt_packages_optional="gnupg htop inotify-tools jq pass pwgen rsync shellcheck unzip"
 
 brew_packages="diffutils git python ripgrep tmux vim zsh"
-brew_packages_optional="gnupg htop inotify-tools jq pass pwgen rsync shellcheck"
+brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck"
 
 install_asdf_version="v0.11.0"
 install_node_version="18.12.1"
