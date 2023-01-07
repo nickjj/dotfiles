@@ -268,7 +268,7 @@ fi
 
 [ "${os_type}" != "macOS" ] && chsh -s "$(command -v zsh)"
 
-# shellcheck disable=SC1090
+# shellcheck disable=SC1091
 . "${HOME}/.config/zsh/.zprofile"
 
 ###############################################################################
@@ -281,7 +281,7 @@ rm -rf "${HOME}/.local/share/asdf"
 git clone --depth 1 https://github.com/asdf-vm/asdf.git --branch "${install_asdf_version}" \
   "${HOME}/.local/share/asdf"
 
-# shellcheck disable=SC1090
+# shellcheck disable=SC1091
 . "${HOME}/.local/share/asdf/asdf.sh"
 
 printf "\n\nInstalling node %s...\n" "${install_node_version}"
