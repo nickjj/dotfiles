@@ -29,7 +29,6 @@ BitBucket
 Braintree
 CDN
 CI
-CI / CD
 CIDR
 CLI
 CMD
@@ -137,6 +136,7 @@ GnuCash
 GoRails
 Golang
 Golang's
+GoodJob
 Google'd
 GovCloud
 Gracenote
@@ -267,6 +267,7 @@ PowerShell
 PowerToys
 Prepending
 Prisma
+Procfile
 PyPi
 Pytest
 PythonAnywhere
@@ -416,6 +417,7 @@ benchmarking
 blockchain
 boolean
 buildpack
+bundler
 card
 centos
 centric
@@ -485,6 +487,7 @@ memcached
 microservice
 microservices
 middleware
+minified
 mintty
 mortem
 mtime
@@ -518,6 +521,7 @@ repo's
 repos
 repurposed
 resize
+rollout
 rsync
 runnable
 scalable
