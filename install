@@ -69,6 +69,9 @@ function brew_install_self {
 function brew_install_packages {
     [ -x "$(command -v brew > /dev/null 2>&1)" ] && brew_install_self
 
+    # Ensure brew's paths are available for this script
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+
     # shellcheck disable=SC2086
     brew install ${brew_packages} ${brew_packages_optional}
 }
@@ -156,6 +159,19 @@ mkdir -p "${HOME}/.config/zsh" "${HOME}/.cache/zsh" \
 ###############################################################################
 
 cp "${clone_path}/.gitconfig.user" "${HOME}/.gitconfig.user"
+
+###############################################################################
+# macOS: Persist zprofile paths for brew
+###############################################################################
+
+if [ "${os_type}" == "macOS" ]; then
+    zsh_profile="${HOME}/.config/zsh/.zprofile"
+
+    if ! grep -q "eval.*homebrew.*shellenv" "${zsh_profile}" 2> /dev/null; then
+      # shellcheck disable=SC2016
+      printf '\neval "$(/opt/homebrew/bin/brew shellenv)"\n' >> "${zsh_profile}"
+    fi
+fi
 
 ###############################################################################
 # Install zsh plugins
