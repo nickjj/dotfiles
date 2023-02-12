@@ -25,7 +25,7 @@ B2B
 BackupPC
 Benchmarking
 BigQuery
-BitBucket
+Bitbucket
 Braintree
 CDN
 CI
@@ -67,7 +67,9 @@ DDD
 DKIM
 DNS
 DaVinci
+DaemonSet
 Datadog
+Datadog's
 DebOps
 DevOps
 DexPot
@@ -191,6 +193,7 @@ Kubernetes
 LOC
 LTS
 Laravel
+LastPass
 Linode
 Linode's
 LiveView
@@ -243,6 +246,7 @@ Overcomplicating
 PDFs
 PHP
 PHP's
+PII
 PKI
 PM2
 POSIX
@@ -278,6 +282,7 @@ RDS
 README
 RESTPlus
 RESTful
+RGB
 RHEL
 RPMs
 RQ
@@ -373,6 +378,7 @@ VM
 VMs
 VNC
 VPC
+VPN
 VSCode
 VSCode's
 VST
@@ -431,7 +437,9 @@ cron
 cryptocurrency
 datetime
 declaratively
+decrypt
 decrypted
+decrypting
 deliverables
 deploy's
 deployable
@@ -491,6 +499,7 @@ minified
 mintty
 mortem
 mtime
+multiline
 mysql
 mysqldump
 namespace
@@ -572,6 +581,7 @@ webhook
 webhooks
 websockets
 whitelisting
+workspace
 writeable
 wsltty
 www
