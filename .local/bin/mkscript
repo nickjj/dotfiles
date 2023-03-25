@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+file="${1}"
+
+[ -z "${file}" ] && { echo "Please supply a script name to create"; return 1; }
+[ -f "${file}" ] && { echo "${file} already exists, aborting"; return 1; }
+
+mkdir -p "$(dirname "${file}")"
+
+cat > "${file}" << EOF
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+echo "hello world"
+EOF
+
+chmod +x "${file}"

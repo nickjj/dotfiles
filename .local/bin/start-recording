@@ -1,0 +1,39 @@
+#!/usr/bin/env zsh
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+from_terminal_font_size="9"
+to_terminal_font_size="18"
+
+mv "${HISTFILE}" "${HISTFILE}.bak"
+HISTSIZE=0
+
+rm -f /tmp/%*
+change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
+
+if [ "${1:-}" = "--obs" ]; then
+  cd "/c/Program Files/obs-studio/bin/64bit" || exit
+  wslview obs64.exe
+  cd - > /dev/null 2>&1 || exit
+fi
+
+cat << EOF
+-> Shell history has been backed up to ${HISTFILE}
+-> Temporary Vim files have been deleted from /tmp
+-> Terminal font has been increased to ${to_terminal_font_size}
+
+Plan to switch between tmux sessions?
+  - 1. Leader + CTRL + s to save your sessions
+  - 2. tmux kill-server
+
+Going to use a browser?
+  - Use one with a cleared history
+
+Various tips:
+  - Use CTRL + L instead of running clear to clear your screen as needed
+  - Make sure your windows are positioned correctly with Sizer
+  - Be mindful of secrets in any .env file!
+  - Make sure OBS is actually recording / streaming (if and when applicable)
+EOF

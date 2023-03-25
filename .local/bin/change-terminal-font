@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+[ -z "${1:-}" ] || [ -z "${2:-}" ] && echo "Usage: change-terminal-font FROM_SIZE TO_SIZE"
+
+from="${1}"
+to="${2}"
+
+# shellcheck disable=SC2016
+windows_user="$(powershell.exe '$env:UserName' | sed -e 's/\r//g')"
+
+terminal_config="/c/Users/${windows_user}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
+
+perl -i -pe "s/\"size\": ${from}/\"size\": ${to}/g" "${terminal_config}"

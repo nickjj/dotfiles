@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+from_terminal_font_size="18"
+to_terminal_font_size="9"
+
+mv "${HISTFILE}.bak" "${HISTFILE}"
+fc -R
+
+change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
+
+cat << EOF
+-> Shell history has been restored
+-> Terminal font has been reverted to ${to_terminal_font_size}
+
+Nice work, here's a few things to maybe do:
+  - Restore tmux sessions by running tmux and then Leader + CTRL + r
+EOF

@@ -19,3 +19,4 @@ tags
 [._]*.un~/
 
 .aliases.local
+.local/bin/private/

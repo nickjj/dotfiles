@@ -1,155 +1,13 @@
-vdiff () {
-    if [ "${#}" -ne 2 ] ; then
-        echo "vdiff requires two arguments"
-        echo "  comparing dirs:  vdiff dir_a dir_b"
-        echo "  comparing files: vdiff file_a file_b"
-        return 1
-    fi
-
-    local left="${1}"
-    local right="${2}"
-
-    if [ -d "${left}" ] && [ -d "${right}" ]; then
-        vim +"DirDiff ${left} ${right}"
-    else
-        vim -d "${left}" "${right}"
-    fi
-}
-
-dtags () {
-    local image="${1}"
-
-    curl --silent \
-        "https://registry.hub.docker.com/v2/repositories/library/${image}/tags?page_size=1000" \
-        | jq -r ".results[].name" | sort --version-sort
-}
-
-pw () {
-    pwgen -sync "${1:-48}" -1 | if command -v pbcopy > /dev/null 2>&1; then pbcopy; else xclip; fi
-}
-
-weather () {
-    curl "https://wttr.in/${1}"
-}
-
-gcb () {
-    local default_branch_whitelist="(main|master)"
-    local skip_branches="${1:-"${default_branch_whitelist}"}"
-    local dry_run="${2}"
-
-    # We only have a single --dry-run flag set so use the default branch list
-    # and make sure dry_run is set.
-    if [ "${skip_branches}" = "--dry-run" ]; then
-      skip_branches="${default_branch_whitelist}"
-      dry_run="--dry-run"
-    fi
-
-    git branch | grep -wEv "${skip_branches}" \
-        | grep -wv "$(git branch --show-current)" \
-        | { if [ -n "${dry_run}" ]; then cat -; else xargs git branch -D; fi; }
-}
-
-change-terminal-font () {
-    [ -z "${1}" ] || [ -z "${2}" ] && echo "Usage: change-terminal-font FROM_SIZE TO_SIZE"
-
-    local from="${1}"
-    local to="${2}"
-
-    local windows_user=
-
-    # shellcheck disable=SC2016
-    windows_user="$(powershell.exe '$env:UserName' | sed -e 's/\r//g')"
-
-    local terminal_config="/c/Users/${windows_user}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
-
-    perl -i -pe "s/\"size\": ${from}/\"size\": ${to}/g" "${terminal_config}"
-}
-
-start-recording () {
-    local from_terminal_font_size="9"
-    local to_terminal_font_size="18"
-
-    mv "${HISTFILE}" "${HISTFILE}.bak"
-    local HISTSIZE=0
-
-    rm -f /tmp/%*
-    change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
-
-    if [ "${1}" = "--obs" ]; then
-        cd "/c/Program Files/obs-studio/bin/64bit" || exit
-        wslview obs64.exe
-        cd - > /dev/null 2>&1 || exit
-    fi
-
-    cat << EOF
--> Shell history has been backed up to ${HISTFILE}
--> Temporary Vim files have been deleted from /tmp
--> Terminal font has been increased to ${to_terminal_font_size}
-
-Plan to switch between tmux sessions?
-  - 1. Leader + CTRL + s to save your sessions
-  - 2. tmux kill-server
-
-Going to use a browser?
-  - Use one with a cleared history
-
-Various tips:
-  - Use CTRL + L instead of running clear to clear your screen as needed
-  - Make sure your windows are positioned correctly with Sizer
-  - Be mindful of secrets in any .env file!
-  - Make sure OBS is actually recording / streaming (if and when applicable)
-EOF
-}
-
-stop-recording () {
-    local from_terminal_font_size="18"
-    local to_terminal_font_size="9"
-
-    mv "${HISTFILE}.bak" "${HISTFILE}"
-    fc -R
-
-    change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
-
-    cat << EOF
--> Shell history has been restored
--> Terminal font has been reverted to ${to_terminal_font_size}
-
-Nice work, here's a few things to maybe do:
-  - Restore tmux sessions by running tmux and then Leader + CTRL + r
-EOF
-}
-
-function mkscript () {
-    local file="${1}"
-
-    [ -z "${file}" ] && { echo "Please supply a script name to create"; return 1; }
-    [ -f "${file}" ] && { echo "${file} already exists, aborting"; return 1; }
-
-    mkdir -p "$(dirname "${file}")"
-
-    cat > "${file}" << EOF
-#!/usr/bin/env bash
-
-set -o errexit
-set -o pipefail
-set -o nounset
-
-echo "hello world"
-EOF
-
-    chmod +x "${file}"
-}
-
 if command -v brew > /dev/null 2>&1; then
-    alias ls="ls -G"
-    alias grep="grep -G"
-    alias fgrep="fgrep -G"
-    alias egrep="egrep -G"
+  alias ls="ls -G"
+  alias grep="grep -G"
+  alias fgrep="fgrep -G"
+  alias egrep="egrep -G"
 else
-    alias ls="ls --color=auto"
-    alias grep="grep --color=auto"
-    alias fgrep="fgrep --color=auto"
-    alias egrep="egrep --color=auto"
+  alias ls="ls --color=auto"
+  alias grep="grep --color=auto"
+  alias fgrep="fgrep --color=auto"
+  alias egrep="egrep --color=auto"
 fi
 
 alias ll="ls -alF"
@@ -183,7 +41,7 @@ alias 755d="find . -type d -exec chmod 755 {} \;"
 alias 644f="find . -type f -exec chmod 644 {} \;"
 
 if ! command -v brew > /dev/null 2>&1; then
-    alias open="/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe"
+  alias open="/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe"
 fi
 
 alias vss='sort -u ${HOME}/.vim/spell/en.utf-8.add -o ${HOME}/.vim/spell/en.utf-8.add'
