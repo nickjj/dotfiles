@@ -4,10 +4,10 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-file="${1}"
+file="${1:-}"
 
-[ -z "${file}" ] && { echo "Please supply a script name to create"; return 1; }
-[ -f "${file}" ] && { echo "${file} already exists, aborting"; return 1; }
+[ -z "${file}" ] && { echo "Please supply a script name to create"; exit 1; }
+[ -f "${file}" ] && { echo "${file} already exists, aborting"; exit 1; }
 
 mkdir -p "$(dirname "${file}")"
 
