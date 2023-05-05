@@ -7,7 +7,7 @@ set -o nounset
 from_terminal_font_size="18"
 to_terminal_font_size="9"
 
-mv "${HISTFILE}.bak" "${HISTFILE}"
+cp "${HISTFILE}.bak" "${HISTFILE}"
 fc -R
 
 change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"

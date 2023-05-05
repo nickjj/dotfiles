@@ -7,8 +7,8 @@ set -o nounset
 from_terminal_font_size="9"
 to_terminal_font_size="18"
 
-mv "${HISTFILE}" "${HISTFILE}.bak"
-HISTSIZE=0
+cp "${HISTFILE}" "${HISTFILE}.bak"
+rm "${HISTFILE}"
 
 rm -f /tmp/%*
 change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
