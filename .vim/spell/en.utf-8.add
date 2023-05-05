@@ -460,6 +460,8 @@ foobar2000
 frictionless
 gifs
 git's
+globbing
+globstar
 gmail
 gmail's
 gunicorn
@@ -508,6 +510,7 @@ namespaced
 nginx
 ngrok
 observability
+ok
 openssl
 peasy
 pem
@@ -572,6 +575,8 @@ unstage
 unstaged
 unstaging
 untracked
+uprecords
+uptime
 url
 uvicorn
 uwsgi
@@ -589,3 +594,4 @@ workspace
 writeable
 wsltty
 www
+zsh
