@@ -1,14 +1,12 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 set -o errexit
 set -o pipefail
-set -o nounset
 
 from_terminal_font_size="18"
 to_terminal_font_size="9"
 
 cp "${HISTFILE}.bak" "${HISTFILE}"
-fc -R
 
 change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
 
