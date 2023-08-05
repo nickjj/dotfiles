@@ -13,7 +13,7 @@ brew_packages="diffutils git python ripgrep tmux vim zsh"
 brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck"
 
 install_asdf_version="v0.11.0"
-install_node_version="18.12.1"
+install_node_version="18.17.0"
 
 ###############################################################################
 # Detect OS and distro type
