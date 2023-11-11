@@ -32,10 +32,6 @@ setopt HIST_IGNORE_ALL_DUPS  # Never add duplicate entries.
 setopt HIST_IGNORE_SPACE     # Ignore commands that start with a space.
 setopt HIST_REDUCE_BLANKS    # Remove unnecessary blank lines.
 
-# Load aliases if they exist.
-[ -f "${XDG_CONFIG_HOME}/zsh/.aliases" ] && . "${XDG_CONFIG_HOME}/zsh/.aliases"
-[ -f "${XDG_CONFIG_HOME}/zsh/.aliases.local" ] && . "${XDG_CONFIG_HOME}/zsh/.aliases.local"
-
 # Use modern completion system. Other than enabling globdots for showing
 # hidden files, these ares values in the default generated zsh config.
 autoload -U compinit
@@ -104,6 +100,7 @@ export GPG_TTY="$(tty)"
 # Configure FZF.
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
 export FZF_DEFAULT_OPTS="--color=dark"
+export FZF_CTRL_T_OPTS="--preview='less {}' --bind shift-up:preview-page-up,shift-down:preview-page-down"
 
 # zsh-autosuggestions settings.
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
@@ -111,3 +108,7 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 # Load / source zsh plugins.
 . "${XDG_DATA_HOME}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 . "${XDG_DATA_HOME}/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+# Load aliases if they exist.
+[ -f "${XDG_CONFIG_HOME}/zsh/.aliases" ] && . "${XDG_CONFIG_HOME}/zsh/.aliases"
+[ -f "${XDG_CONFIG_HOME}/zsh/.aliases.local" ] && . "${XDG_CONFIG_HOME}/zsh/.aliases.local"

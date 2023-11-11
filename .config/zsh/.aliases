@@ -50,7 +50,7 @@ alias vdt="rm /tmp/%*"
 
 alias gi="git init && git symbolic-ref HEAD refs/heads/main"
 
-alias pf="fzf --preview='less {}' --bind shift-up:preview-page-up,shift-down:preview-page-down"
+alias pf="fzf ${FZF_CTRL_T_OPTS}"
 
 alias gcl="git diff --name-only --diff-filter=U"
 
