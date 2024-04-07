@@ -3,12 +3,14 @@
 ACH
 ACM
 AHK
+AMD64
 AMI
 AMIs
 APIs
 APM
 APS
 ARGs
+ARM64
 AT2005
 AWS
 ActiveJob
@@ -27,6 +29,7 @@ Benchmarking
 BigQuery
 Bitbucket
 Braintree
+Buildx
 CDN
 CI
 CIDR
@@ -39,6 +42,7 @@ CRM
 CSRF
 CSS
 CSV
+CTRL
 Caddy
 Camtasia
 CapRover
@@ -191,6 +195,7 @@ KinD
 Knex
 Koa
 Kubernetes
+Kustomize
 LOC
 LTS
 Laravel
@@ -228,6 +233,8 @@ NEEWER
 NERDTree
 Namespacing
 Neo4j
+Neovim
+Netcat
 Netlify
 NoSQL
 Noctua
@@ -239,6 +246,7 @@ OTP
 OVH
 Oban
 OpenAPI
+OpenBSD
 OpenJDK
 OpenSSH
 OpenWrt
