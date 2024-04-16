@@ -2,6 +2,7 @@
 3D
 ACH
 ACM
+ADHOC
 AHK
 AMD64
 AMI
@@ -42,6 +43,7 @@ CRM
 CSRF
 CSS
 CSV
+CTO
 CTRL
 Caddy
 Camtasia
@@ -68,7 +70,9 @@ Cronitor
 DAW
 DBeaver
 DDD
+DDoS
 DKIM
+DMARC
 DNS
 DaVinci
 DaemonSet
@@ -117,6 +121,7 @@ Fargate
 FastAPI
 Fastly
 Firebase
+Flake8
 Flatpickr
 FlexiSpot
 Focusrite
@@ -166,6 +171,7 @@ Hotwire
 IAM
 IE8
 IIS
+IOPS
 IPS
 IPs
 IPv4
@@ -231,6 +237,7 @@ Mux
 MySQL
 NEEWER
 NERDTree
+NGiNX
 Namespacing
 Neo4j
 Neovim
@@ -245,6 +252,7 @@ ORM
 OTP
 OVH
 Oban
+Okta
 OpenAPI
 OpenBSD
 OpenJDK
@@ -314,10 +322,13 @@ Rubocop
 S3
 SAAS
 SCA
+SCP
 SDK
 SDKs
 SES
 SHA
+SIGKILL
+SIGTERM
 SKUs
 SM7B
 SMTP
@@ -329,9 +340,11 @@ SRE
 SSD
 SSDs
 SSL
+SSO
 SageMaker
 ScaleGrid
 Scarlett
+SealedSecrets
 SendGrid
 Sendy
 Sennheiser
@@ -355,6 +368,7 @@ StimulusReflex
 Strapi
 TCP
 TLD
+TLS
 TTY
 TXT
 Tailkit
@@ -389,6 +403,7 @@ VMs
 VNC
 VPC
 VPN
+VPS
 VSCode
 VSCode's
 VST
@@ -403,6 +418,7 @@ Vue
 VueJS
 WSL
 WTF'd
+WebSockets
 Webpack
 Webpacker
 WhatsApp
@@ -443,6 +459,7 @@ codebases
 compgen
 config
 configs
+containerd
 cron
 cryptocurrency
 datetime
@@ -459,6 +476,7 @@ distro
 distro's
 distros
 dnsmasq
+dockershim
 dotfiles
 eksctl
 envsubst
@@ -484,6 +502,7 @@ healthcheck
 hellobar2000
 heredoc
 hostname
+hostnames
 html
 htop
 i2
@@ -547,6 +566,7 @@ resize
 rollout
 rsync
 runnable
+runtimes
 scalable
 schemas
 screencast
@@ -562,6 +582,7 @@ stdout
 subnet
 subnets
 sudo
+swiss
 symlink
 symlinked
 symlinks
@@ -594,14 +615,15 @@ vCPUs
 vLAN
 versioning
 vhost
+virtualized
 vscode
 webcomic
 webhook
 webhooks
-websockets
 whitelisting
 workspace
 writeable
+wrk
 wsltty
 www
 zsh
