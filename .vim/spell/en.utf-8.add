@@ -30,6 +30,7 @@ Benchmarking
 BigQuery
 Bitbucket
 Braintree
+BuildKit
 Buildx
 CDN
 CI
@@ -38,6 +39,7 @@ CLI
 CMD
 CME
 CMS
+CNAME
 CPUs
 CRM
 CSRF
@@ -256,6 +258,7 @@ Okta
 OpenAPI
 OpenBSD
 OpenJDK
+OpenKeychain
 OpenSSH
 OpenWrt
 OpsGenie
@@ -289,6 +292,7 @@ PowerToys
 Prepending
 Prisma
 Procfile
+PyPI
 PyPi
 Pytest
 PythonAnywhere
@@ -319,6 +323,7 @@ Rogan
 Rollbar
 Route53
 Rubocop
+RubyGems
 S3
 SAAS
 SCA
@@ -341,6 +346,7 @@ SSD
 SSDs
 SSL
 SSO
+STDIN
 SageMaker
 ScaleGrid
 Scarlett
