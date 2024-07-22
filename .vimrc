@@ -412,6 +412,8 @@ autocmd BufNewFile,BufRead requirements*.txt set ft=python
 " Make sure .aliases, .bash_aliases and similar files get syntax highlighting.
 autocmd BufNewFile,BufRead .*aliases* set ft=sh
 
+autocmd BufNewFile,BufRead *.md if getline(1) =~ '---' | setlocal filetype=liquid.markdown | endif
+
 " Make sure Kubernetes yaml files end up being set as helm files.
 au BufNewFile,BufRead *.{yaml,yml} if getline(1) =~ '^apiVersion:' || getline(2) =~ '^apiVersion:' | setlocal filetype=helm | endif
 
