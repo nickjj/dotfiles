@@ -412,7 +412,11 @@ autocmd BufNewFile,BufRead requirements*.txt set ft=python
 " Make sure .aliases, .bash_aliases and similar files get syntax highlighting.
 autocmd BufNewFile,BufRead .*aliases* set ft=sh
 
+" Make frontmatter enabled Markdown files use Liquid syntax highlighting.
 autocmd BufNewFile,BufRead *.md if getline(1) =~ '---' | setlocal filetype=liquid.markdown | endif
+
+" Ensure all Markdown files don't get whitespace stripped but let it be visible.
+autocmd FileType markdown DisableStripWhitespaceOnSave
 
 " Make sure Kubernetes yaml files end up being set as helm files.
 au BufNewFile,BufRead *.{yaml,yml} if getline(1) =~ '^apiVersion:' || getline(2) =~ '^apiVersion:' | setlocal filetype=helm | endif
@@ -628,6 +632,7 @@ xmap <Leader>R
 let g:strip_whitespace_confirm=0
 let g:strip_whitelines_at_eof=1
 let g:strip_whitespace_on_save=1
+let g:better_whitespace_filetypes_blacklist=["diff", "git", "gitcommit", "unite", "qf", "help", "fugitive"]
 
 " .............................................................................
 " Konfekt/FastFold
