@@ -23,8 +23,10 @@ And
 AngularJS
 Ansible
 Ansible's
+AutoHotKey
 AutoHotkey
 B2B
+BOM
 BackupPC
 Benchmarking
 BigQuery
@@ -397,6 +399,7 @@ TypeScript
 UI
 UID
 URI
+UTF-8
 Udemy
 Umar
 Unikernel
@@ -587,6 +590,7 @@ stderr
 stdout
 subnet
 subnets
+substring
 sudo
 swiss
 symlink
@@ -627,6 +631,7 @@ webcomic
 webhook
 webhooks
 whitelisting
+wildcard
 workspace
 writeable
 wrk
