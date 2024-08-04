@@ -3,6 +3,7 @@
 ACH
 ACM
 ADHOC
+AGPL
 AHK
 AMD64
 AMI
@@ -55,6 +56,7 @@ CapRover
 Capistrano
 CentOS
 Certbot
+Chroma
 Chromebook
 CircleCI
 ClickHouse
@@ -65,6 +67,7 @@ CloudWatch
 Cloudflare
 Cloudlifter
 CodeIgniter
+CommonMark
 Compose's
 ConEmu
 Connexion
@@ -87,6 +90,7 @@ DevOps
 DexPot
 DigitalOcean
 DigitalOcean's
+Disqus
 Django
 Docker's
 DockerCon
@@ -124,6 +128,7 @@ FZF's
 Fargate
 FastAPI
 Fastly
+Favicon
 Firebase
 Flake8
 Flatpickr
@@ -231,6 +236,7 @@ MariaDB
 Memcached
 Metadata
 Microservices
+Minify
 Mixpanel
 MobaXterm
 Moby
@@ -249,6 +255,7 @@ Netcat
 Netlify
 NoSQL
 Noctua
+Nokogiri
 NumPy
 OAuth
 OKR
@@ -259,6 +266,7 @@ Oban
 Okta
 OpenAPI
 OpenBSD
+OpenGraph
 OpenJDK
 OpenKeychain
 OpenSSH
@@ -281,6 +289,7 @@ PagerDuty
 Pandoc
 Papertrail
 PaymentIntents
+Permalink
 Photoshop
 Pingdom
 Pinterest
@@ -296,6 +305,7 @@ Prisma
 Procfile
 PyPI
 PyPi
+Pygments
 Pytest
 PythonAnywhere
 QuakeLive
@@ -320,6 +330,7 @@ Redis
 Redux
 Rekognition
 Rekognition's
+RelPermalink
 Resque
 Rogan
 Rollbar
@@ -330,8 +341,10 @@ S3
 SAAS
 SCA
 SCP
+SCSS
 SDK
 SDKs
+SEO
 SES
 SHA
 SIGKILL
@@ -361,9 +374,11 @@ Serverless
 ShellCheck
 Shopify
 Shopify's
+Shortcodes
 Shure
 Sidekiq
 Sidekiq's
+Sitemap
 Snyk
 SocketIO
 Solr
@@ -377,6 +392,8 @@ Strapi
 TCP
 TLD
 TLS
+TODO
+TOML
 TTY
 TXT
 Tailkit
@@ -459,6 +476,8 @@ blockchain
 boolean
 buildpack
 bundler
+callout
+callouts
 card
 centos
 centric
@@ -495,6 +514,7 @@ eval
 extensibility
 foobar2000
 frictionless
+frontmatter
 gifs
 git's
 globbing
@@ -517,6 +537,7 @@ htop
 i2
 i3
 iOS
+impactful
 integrations
 iptables
 irreproducible
@@ -537,6 +558,7 @@ microservice
 microservices
 middleware
 minified
+minifies
 mintty
 mortem
 mtime
@@ -547,6 +569,7 @@ namespace
 namespaced
 nginx
 ngrok
+nitty
 observability
 ok
 openssl
@@ -583,7 +606,10 @@ screencasts
 searchable
 sed
 sendgrid
+shortcode
+shortcodes
 sibilance
+sitemap
 sql
 stateful
 stderr
@@ -631,6 +657,7 @@ webcomic
 webhook
 webhooks
 whitelisting
+whitespace
 wildcard
 workspace
 writeable
