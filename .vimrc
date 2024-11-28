@@ -534,8 +534,10 @@ command! -bang -nargs=* Rg
 " lambdalisue/fern.vim
 " .............................................................................
 
+let g:fern_disable_startup_warnings = 1
+
 " Disable netrw.
-let g:loaded_netrw  = 1
+let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
 let g:loaded_netrwSettings = 1
 let g:loaded_netrwFileHandlers = 1
