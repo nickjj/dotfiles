@@ -3,14 +3,14 @@
 set -o errexit
 set -o pipefail
 
-from_terminal_font_size="18"
-to_terminal_font_size="9"
+from_terminal_font_size="20"
+to_terminal_font_size="10"
 
 cp "${HISTFILE}.bak" "${HISTFILE}"
 
 change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
 
-cat << EOF
+cat <<EOF
 -> Shell history has been restored
 -> Terminal font has been reverted to ${to_terminal_font_size}
 

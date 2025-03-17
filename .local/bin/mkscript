@@ -6,12 +6,18 @@ set -o nounset
 
 file="${1:-}"
 
-[ -z "${file}" ] && { echo "Please supply a script name to create"; exit 1; }
-[ -f "${file}" ] && { echo "${file} already exists, aborting"; exit 1; }
+[ -z "${file}" ] && {
+  echo "Please supply a script name to create"
+  exit 1
+}
+[ -f "${file}" ] && {
+  echo "${file} already exists, aborting"
+  exit 1
+}
 
 mkdir -p "$(dirname "${file}")"
 
-cat > "${file}" << EOF
+cat >"${file}" <<EOF
 #!/usr/bin/env bash
 
 set -o errexit

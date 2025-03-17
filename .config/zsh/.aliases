@@ -1,4 +1,4 @@
-if command -v brew > /dev/null 2>&1; then
+if command -v brew >/dev/null 2>&1; then
   alias ls="ls -G"
   alias grep="grep -G"
   alias fgrep="fgrep -G"
@@ -18,11 +18,11 @@ alias cfa='${EDITOR} ${ZDOTDIR}/.aliases'
 alias cfp='${EDITOR} ${ZDOTDIR}/.zprofile'
 alias cfr='${EDITOR} ${ZDOTDIR}/.zshrc'
 alias sfr='. ${ZDOTDIR}/.zshrc'
-alias cfv='${EDITOR} ${HOME}/.vimrc'
+alias cfv='${EDITOR} ${HOME}/.config/nvim'
 alias cft='${EDITOR} ${HOME}/.tmux.conf'
 alias dt='cd ${HOME}/src/github/dotfiles'
 
-alias drun='docker run --rm -it -v "${PWD}":/app -w /app'
+alias drun='docker container run --rm -it -v "${PWD}":/app -w /app'
 
 alias rmpyc="find . -type d -name '__pycache__' -exec rm -rf {} \;"
 
@@ -40,14 +40,14 @@ alias 755d="find . -type d -exec chmod 755 {} \;"
 
 alias 644f="find . -type f -exec chmod 644 {} \;"
 
-if ! command -v brew > /dev/null 2>&1; then
+if ! command -v brew >/dev/null 2>&1; then
   alias open="/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe"
   alias wopen="cmd.exe /C start 2> /dev/null"
 fi
 
-alias vss='sort -u ${HOME}/.vim/spell/en.utf-8.add -o ${HOME}/.vim/spell/en.utf-8.add'
+alias vss='sort -u ${HOME}/.config/nvim/spell/en.utf-8.add -o ${HOME}/.config/nvim/spell/en.utf-8.add'
 
-alias vdt="rm /tmp/%*"
+alias vdt="rm ${HOME}/.local/state/nvim/swap/%*"
 
 alias gi="git init && git symbolic-ref HEAD refs/heads/main"
 

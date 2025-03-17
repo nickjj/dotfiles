@@ -16,8 +16,8 @@ file="${1:-}"
 if [ -f "${file}" ]; then
   shift
   # shellcheck disable=SC2068
-  jq ${@:-} < "${file}"
+  jq ${@:-} <"${file}"
 else
   # shellcheck disable=SC2068
-  if command -v pbpaste > /dev/null 2>&1; then pbpaste; else xclip -out -selection clipboard; fi | jq ${@:-}
+  if command -v pbpaste >/dev/null 2>&1; then pbpaste; else xclip -out -selection clipboard; fi | jq ${@:-}
 fi

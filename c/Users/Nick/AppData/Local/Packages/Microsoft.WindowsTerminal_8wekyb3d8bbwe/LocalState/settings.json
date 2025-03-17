@@ -1,119 +1,219 @@
-// To view the default settings, hold "alt" while clicking on the "Settings" button.
-// For documentation on these settings, see: https://aka.ms/terminal-documentation
-
 {
-    "$schema": "https://aka.ms/terminal-profiles-schema",
-
-    "defaultProfile": "{07b52e3e-de2c-5db4-bd2d-ba144ed6c273}",
-
-    "requestedTheme": "system",
-
-    "multiLinePasteWarning": false,
-
-    "profiles":
+  "$help": "https://aka.ms/terminal-documentation",
+  "$schema": "https://aka.ms/terminal-profiles-schema",
+  "actions": [
     {
-        "defaults":
-        {
-            // Put settings here that you want to apply to all profiles
-            "colorScheme": "Gruvbox Dark",
-            "cursorColor": "#ffb261",
-            "cursorShape": "filledBox",
-            "fontFace": "Consolas",
-            "fontSize": 9,
-            "padding": "1, 1, 1, 1",
-            "scrollbarState": "hidden"
-        },
-        "list":
-        [
-            {
-                // Make changes here to the powershell.exe profile
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "name": "Windows PowerShell",
-                "commandline": "powershell.exe",
-                "hidden": false
-            },
-            {
-                // Make changes here to the cmd.exe profile
-                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                "name": "cmd",
-                "commandline": "cmd.exe",
-                "hidden": false
-            },
-            {
-                "guid": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
-                "hidden": false,
-                "name": "Ubuntu-18.04",
-                "source": "Windows.Terminal.Wsl"
-            },
-            {
-                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
-                "hidden": false,
-                "name": "Azure Cloud Shell",
-                "source": "Windows.Terminal.Azure"
-            },
-            {
-                "guid": "{07b52e3e-de2c-5db4-bd2d-ba144ed6c273}",
-                "hidden": false,
-                "name": "Ubuntu-20.04",
-                "commandline": "wsl.exe ~",
-                "source": "Windows.Terminal.Wsl"
-
-            }
-        ]
+      "command": "unbound",
+      "keys": "alt+down"
     },
-
-    // Add custom color schemes to this array
-    "schemes": [
-        {
-          "name": "Gruvbox Dark",
-          "background": "#282828",
-          "foreground": "#ebdbb2",
-          "black": "#282828",
-          "blue": "#458588",
-          "cyan": "#689d6a",
-          "green": "#98971a",
-          "purple" : "#b16286",
-          "red": "#cc241d",
-          "white": "#a89984",
-          "yellow": "#d79921",
-          "brightBlack": "#928374",
-          "brightBlue": "#83a598",
-          "brightCyan": "#8ec07c",
-          "brightGreen": "#b8bb26",
-          "brightPurple": "#d3869b",
-          "brightRed": "#fb4934",
-          "brightWhite": "#ebdbb2",
-          "brightYellow": "#fabd2f"
+    {
+      "command": "unbound",
+      "keys": "alt+left"
+    },
+    {
+      "command": "unbound",
+      "keys": "alt+right"
+    },
+    {
+      "command": "unbound",
+      "keys": "alt+up"
+    },
+    {
+      "command": "unbound",
+      "keys": "ctrl+shift+k"
+    },
+    {
+      "command": {
+        "action": "clearBuffer",
+        "clear": "all"
+      },
+      "id": "User.clearBuffer.87C324ED",
+      "keys": "ctrl+k"
+    }
+  ],
+  "defaultProfile": "{51855cb2-8cce-5362-8f54-464b92b32386}",
+  "multiLinePasteWarning": false,
+  "newTabMenu": [
+    {
+      "type": "remainingProfiles"
+    }
+  ],
+  "profiles": {
+    "defaults": {
+      "adjustIndistinguishableColors": "indexed",
+      "colorScheme": "Tokyonight Moon",
+      "cursorShape": "filledBox",
+      "experimental.retroTerminalEffect": false,
+      "font": {
+        "face": "Inconsolata Nerd Font",
+        "size": 10,
+        "weight": "normal"
+      },
+      "opacity": 100,
+      "padding": "1, 1, 1, 1",
+      "scrollbarState": "hidden",
+      "useAcrylic": false
+    },
+    "list": [
+      {
+        "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+        "hidden": false,
+        "name": "Windows PowerShell"
+      },
+      {
+        "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+        "hidden": false,
+        "name": "cmd"
+      },
+      {
+        "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+        "hidden": false,
+        "name": "Azure Cloud Shell",
+        "source": "Windows.Terminal.Azure"
+      },
+      {
+        "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+        "hidden": true,
+        "name": "Ubuntu 22.04",
+        "source": "Windows.Terminal.Wsl",
+        "useAcrylic": false
+      },
+      {
+        "adjustIndistinguishableColors": "never",
+        "font": {
+          "size": 10
         },
-        {
-          "name": "Gruvbox Light",
-          "background": "#f9f5d7",
-          "foreground": "#282828",
-          "black": "#fbf1c7",
-          "blue": "#076678",
-          "cyan": "#427b58",
-          "green": "#79740e",
-          "purple": "#8f3f71",
-          "red": "#9d0006",
-          "white": "#3c3836",
-          "yellow": "#b57614",
-          "brightBlack": "#9d8374",
-          "brightBlue": "#458588",
-          "brightCyan": "#689d69",
-          "brightGreen": "#98971a",
-          "brightPurple": "#b16186",
-          "brightRed": "#cc241d",
-          "brightWhite": "#7c6f64",
-          "brightYellow": "#d79921"
-        }
-    ],
-
-    // Add any keybinding overrides to this array.
-    // To unbind a default keybinding, set the command to "unbound"
-    "keybindings": [
-      { "command": "unbound", "keys": "alt+down" },
-      { "command": "unbound", "keys": "alt+left" },
-      { "command": "unbound", "keys": "alt+right" },
-      { "command": "unbound", "keys": "alt+up" }
+        "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
+        "hidden": false,
+        "name": "Ubuntu 22.04",
+        "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc",
+        "useAcrylic": false
+      }
     ]
+  },
+  "schemes": [
+    {
+      "background": "#F4F4F4",
+      "black": "#3E3E3E",
+      "blue": "#003E8A",
+      "brightBlack": "#666666",
+      "brightBlue": "#2E6CBA",
+      "brightCyan": "#16C6C9",
+      "brightGreen": "#67A37C",
+      "brightPurple": "#FFA29F",
+      "brightRed": "#DE0000",
+      "brightWhite": "#FFFFFF",
+      "brightYellow": "#F1D007",
+      "cursorColor": "#FFB261",
+      "cyan": "#89D1EC",
+      "foreground": "#3E3E3E",
+      "green": "#07962A",
+      "name": "Github",
+      "purple": "#E94691",
+      "red": "#970B16",
+      "selectionBackground": "#A9C1E2",
+      "white": "#FFFFFF",
+      "yellow": "#F8EEC7"
+    },
+    {
+      "background": "#282828",
+      "black": "#282828",
+      "blue": "#458588",
+      "brightBlack": "#928374",
+      "brightBlue": "#83A598",
+      "brightCyan": "#8EC07C",
+      "brightGreen": "#B8BB26",
+      "brightPurple": "#D3869B",
+      "brightRed": "#FB4934",
+      "brightWhite": "#EBDBB2",
+      "brightYellow": "#FABD2F",
+      "cursorColor": "#FFB261",
+      "cyan": "#689D6A",
+      "foreground": "#EBDBB2",
+      "green": "#98971A",
+      "name": "Gruvbox Dark Medium",
+      "purple": "#B16286",
+      "red": "#CC241D",
+      "selectionBackground": "#FFFFFF",
+      "white": "#A89984",
+      "yellow": "#D79921"
+    },
+    {
+      "background": "#222436",
+      "black": "#1B1D2B",
+      "blue": "#82AAFF",
+      "brightBlack": "#444A73",
+      "brightBlue": "#82AAFF",
+      "brightCyan": "#86E1FC",
+      "brightGreen": "#C3E88D",
+      "brightPurple": "#FCA7EA",
+      "brightRed": "#FF757F",
+      "brightWhite": "#C8D3F5",
+      "brightYellow": "#FFC777",
+      "cursorColor": "#C8D3F5",
+      "cyan": "#86E1FC",
+      "foreground": "#C8D3F5",
+      "green": "#C3E88D",
+      "name": "Tokyonight Moon",
+      "purple": "#C099FF",
+      "red": "#FF757F",
+      "selectionBackground": "#2D3F76",
+      "white": "#828BB8",
+      "yellow": "#FFC777"
+    },
+    {
+      "background": "#300A24",
+      "black": "#171421",
+      "blue": "#0037DA",
+      "brightBlack": "#767676",
+      "brightBlue": "#08458F",
+      "brightCyan": "#2C9FB3",
+      "brightGreen": "#26A269",
+      "brightPurple": "#A347BA",
+      "brightRed": "#C01C28",
+      "brightWhite": "#F2F2F2",
+      "brightYellow": "#A2734C",
+      "cursorColor": "#FFB261",
+      "cyan": "#3A96DD",
+      "foreground": "#FFFFFF",
+      "green": "#26A269",
+      "name": "Ubuntu-22.04-ColorScheme",
+      "purple": "#881798",
+      "red": "#C21A23",
+      "selectionBackground": "#FFFFFF",
+      "white": "#CCCCCC",
+      "yellow": "#A2734C"
+    }
+  ],
+  "theme": "Tokyonight Moon",
+  "themes": [
+    {
+      "name": "Tokyonight Moon",
+      "window": {
+        "applicationTheme": "dark"
+      },
+      "tab": {
+        "background": "#2A2E45",
+        "unfocusedBackground": "terminalBackground"
+      },
+      "tabRow": {
+        "background": "#1D1F2E",
+        "unfocusedBackground": "#1D1F2E"
+      }
+    },
+    {
+      "name": "Gruvbox Dark Medium",
+      "window": {
+        "applicationTheme": "dark"
+      },
+      "tab": {
+        "background": "#282828",
+        "unfocusedBackground": "terminalBackground"
+      },
+      "tabRow": {
+        "background": "#1D2021",
+        "unfocusedBackground": "#1D2021"
+      }
+    }
+  ]
 }

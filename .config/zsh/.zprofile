@@ -11,7 +11,7 @@ export XDG_STATE_HOME="${HOME}/.local/state"
 export PATH="${PATH}:${HOME}/.local/bin:${HOME}/.local/bin/private"
 
 # Default programs to run.
-export EDITOR="vim"
+export EDITOR="nvim"
 
 # Add colors to the less and man commands.
 export LESS=-R

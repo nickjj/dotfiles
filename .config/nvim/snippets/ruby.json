@@ -1,0 +1,19 @@
+{
+  "Rails model scaffold": {
+    "prefix": "rms",
+    "body": [
+      "\t# Includes\n",
+      "\t# Default scope\n",
+      "\t# Constants\n",
+      "\t# Attributes\n",
+      "\t# Enums\n",
+      "\t# belongs_to\n",
+      "\t# has_many",
+      "\t# has_one\n",
+      "\t# Validates\n",
+      "\t# Callbacks\n",
+      "\t# Other macros\n",
+      "\t# Scopes\n"
+    ]
+  }
+}

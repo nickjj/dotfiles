@@ -11,75 +11,57 @@ from pathlib import Path
 from subprocess import run, PIPE
 
 
-THEMES = {
-  "gruvbox": {
-    "dark": {
-      "terminal": {
-        "colorScheme": "Gruvbox Dark",
-        "cursorColor": "#ffb261",
-      },
-      "tmux": {
-        "status-style": "fg=colour244",
-        "window-status-current-style": "fg=colour222",
-        "pane-border-style": "fg=colour240",
-        "pane-active-border-style": "fg=colour243"
-      }
-    },
-    "light": {
-      "terminal": {
-        "colorScheme": "Gruvbox Light",
-        "cursorColor": "#ffb261",
-      },
-      "tmux": {
-        "status-style": "fg=colour179",
-        "window-status-current-style": "fg=colour172",
-        "pane-border-style": "fg=colour186",
-        "pane-active-border-style": "fg=colour178"
-      }
-    }
-  },
-  "one": {
-    "dark": {
-      "terminal": {
-        "colorScheme": "One Half Dark",
-        "cursorColor": "#6de6f5",
-      },
-      "tmux": {
-        "status-style": "fg=colour110",
-        "window-status-current-style": "fg=colour39",
-        "pane-border-style": "fg=colour240",
-        "pane-active-border-style": "fg=colour243"
-      }
-    },
-    "light": {
-      "terminal": {
-        "colorScheme": "One Half Light",
-        "cursorColor": "#6de6f5",
-      },
-      "tmux": {
-        "status-style": "fg=colour110",
-        "window-status-current-style": "fg=colour39",
-        "pane-border-style": "fg=colour253",
-        "pane-active-border-style": "fg=colour250"
-      }
-    }
-  }
-}
-
-
 def get_windows_user():
-    result = run(['powershell.exe', '$env:UserName'],
-                 stdout=PIPE,
-                 universal_newlines=True)
-    return result.stdout.rstrip()
+    try:
+        result = run(['powershell.exe', '$env:UserName'],
+                    stdout=PIPE,
+                    universal_newlines=True)
+
+        return result.stdout.rstrip()
+    except FileNotFoundError:
+        result = ""
+
+    return None
 
 
 HOME = str(Path.home())
+TERMINALS = {
+    'windows-terminal': {
+        'path': f'/c/Users/{get_windows_user()}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json',  # noqa: E501
+        'matches': [
+            {
+                'find': '"colorScheme": ".*"',
+                'replace': '"colorScheme": "%theme"',
+            },
+            {
+                'find': '"theme": ".*"',
+                'replace': '"theme": "%theme"',
+            }
+        ]
+    }
+}
 
-TERMINAL_CONFIG = f'/c/Users/{get_windows_user()}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'  # noqa: E501
+THEMES = {
+    'tokyonight-moon': {
+        'terminal': 'Tokyonight Moon',
+    },
+    "gruvbox-dark-medium": {
+        'terminal': 'Gruvbox Dark Medium',
+        'nvim': {
+            'colorscheme': 'gruvbox',
+            'variant': {
+                'find': '^      contrast = ".*",$',
+                'replace': '      contrast = "medium",'
+
+            }
+        },
+    }
+}
+
 SHELL_CONFIG = f'{os.environ.get("XDG_CONFIG_HOME")}/zsh/.zshrc'
 TMUX_CONFIG = f'{HOME}/.tmux.conf'
-VIM_CONFIG = f'{HOME}/.vimrc'
+NVIM_COLORSCHEME_CONFIG = f'{HOME}/.config/nvim/lua/plugins/colorscheme.lua'
+GITUI_CONFIG_PATH = f'{HOME}/.config/gitui'
 
 
 def edit_inplace(file, preserve_symlinks=True):
@@ -89,74 +71,101 @@ def edit_inplace(file, preserve_symlinks=True):
     return fileinput.input(files=(file,), inplace=True)
 
 
-def active_theme_and_background():
-    with open(VIM_CONFIG, 'r') as f:
-        for line in f:
-            match = re.match('^set background=(.*)$', line)
-            if match:
-                bg = match.group(1)
-                continue
-
-            match = re.match('^colorscheme (.*$)$', line)
-            if match:
-                theme = match.group(1)
-                continue
+def active_theme():
     try:
-        return theme, bg
+        with open(NVIM_COLORSCHEME_CONFIG, 'r') as f:
+            for line in f:
+                match = re.match('^      colorscheme = "(.*)"', line)
+                if match:
+                    theme = match.group(1)
+                    continue
+
+        return theme
+    except FileNotFoundError:
+        sys.exit(f'ERROR: {NVIM_COLORSCHEME_CONFIG} not found')
     except NameError:
-        sys.exit('error: "set background" or "colorscheme" statement not found'
-                 f' in {VIM_CONFIG}')
+        sys.exit('ERROR: "colorscheme" statement not found'
+                 f' in {NVIM_COLORSCHEME_CONFIG}')
 
 
-def change_terminal_theme(theme, bg):
-    terminal_options = THEMES[theme][bg]['terminal']
+def change_terminal_theme(theme):
+    terminal = TERMINALS['windows-terminal']
+    theme = THEMES[theme]['terminal']
+    unknown = '''SKIPPING [Terminal]: Terminal config path unknown / not found
 
-    with edit_inplace(TERMINAL_CONFIG) as f:
+Please check the docs for this at:
+
+https://github.com/nickjj/dotfiles#how-to-get-theme-support-in-your-terminal'''
+
+    if not os.path.exists(terminal['path']):
+        print(unknown)
+        sys.exit(1)
+
+    with edit_inplace(terminal['path']) as f:
         for line in f:
-            for key, value in terminal_options.items():
-                line = re.sub(rf'"{key}": ".*"', f'"{key}": "{value}"', line)
+            for match in terminal['matches']:
+                line = re.sub(rf'{match["find"]}', match['replace'].replace('%theme', theme), line)
             sys.stdout.write(line)
 
 
-def change_tmux_theme(theme, bg):
-    tmux_options = THEMES[theme][bg]['tmux']
-
+def change_tmux_theme(theme):
     with edit_inplace(TMUX_CONFIG) as f:
         for line in f:
-            for key, value in tmux_options.items():
-                line = re.sub(rf'^set -g {key} .*$', f'set -g {key} {value}',
-                              line)
+            line = re.sub(r'\/themes\/.*\.conf"',
+                          f'/themes/{theme}.conf"', line)
             sys.stdout.write(line)
 
     run(['tmux', 'source-file', TMUX_CONFIG])
 
 
-def change_vim_theme(theme, bg):
-    with edit_inplace(VIM_CONFIG) as f:
+def change_nvim_theme(theme):
+    color_scheme = theme
+    variant = None
+
+    if THEMES[theme].get('nvim'):
+        color_scheme = THEMES[theme]['nvim']['colorscheme']
+        variant = THEMES[theme]['nvim']['variant']
+
+    with edit_inplace(NVIM_COLORSCHEME_CONFIG) as f:
         for line in f:
-            line = re.sub(r'^colorscheme .*$', f'colorscheme {theme}', line)
-            line = re.sub(r'^set background=.*$', f'set background={bg}', line)
+            line = re.sub(r'^      colorscheme = ".*",$', f'      colorscheme = "{color_scheme}",', line)
+
+            if variant is not None:
+                line = re.sub(rf'{variant["find"]}', variant["replace"], line)
+
             sys.stdout.write(line)
 
 
-def change_fzf_theme(bg):
+def change_fzf_theme(theme):
     with edit_inplace(SHELL_CONFIG) as f:
         for line in f:
-            re.sub(r'FZF_DEFAULT_OPTS="--color=.*"$',
-                   f'FZF_DEFAULT_OPTS="--color={bg}"', line)
+            line = re.sub(r'\/themes\/fzf\/.*\.sh"',
+                          f'/themes/fzf/{theme}.sh"', line)
             sys.stdout.write(line)
+
+
+def change_gitui_theme(theme):
+    # We want the symlink to be relative to the gitui config path instead
+    # of including the user's home dir since this symlink is commit.
+    os.chdir(GITUI_CONFIG_PATH)
+
+    theme_path = f'{theme}.ron'
+    link_path = 'theme.ron'
+
+    if os.path.exists(link_path):
+        os.remove(link_path)
+
+    os.symlink(theme_path, link_path)
 
 
 def parseargs():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=textwrap.dedent('''\
-        Set a theme along with optionally toggling dark and light backgrounds.
+        Set a specific theme for a number of command line tools.
         '''))
     parser.add_argument('theme', choices=THEMES, nargs='?',
-                        help='the theme name')
-    parser.add_argument('--toggle-bg', action='store_true',
-                        help='toggle the background between dark and light')
+                        help='theme name')
     args = parser.parse_args()
 
     if len(sys.argv) == 1:
@@ -168,18 +177,16 @@ def parseargs():
 def main():
     args = parseargs()
 
-    theme, bg = active_theme_and_background()
+    theme = active_theme()
 
     if args.theme:
         theme = args.theme
 
-    if args.toggle_bg:
-        bg = 'light' if bg == 'dark' else 'dark'
-
-    change_terminal_theme(theme, bg)
-    change_tmux_theme(theme, bg)
-    change_vim_theme(theme, bg)
-    change_fzf_theme(bg)
+    change_terminal_theme(theme)
+    change_tmux_theme(theme)
+    change_nvim_theme(theme)
+    change_fzf_theme(theme)
+    change_gitui_theme(theme)
 
 
 if __name__ == '__main__':

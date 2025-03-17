@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 
-set -e
+set -o errexit
 
 skip_system_packages="${1}"
 
-os_type="$(uname -s)"
+apt_packages="curl git iproute2 python3-pip ripgrep tmux wl-clipboard zsh xz-utils"
+apt_packages_optional="gnupg htop inotify-tools jq pass pwgen rsync unzip"
 
-apt_packages="curl git iproute2 python3-pip ripgrep tmux vim-gtk wl-clipboard zsh"
-apt_packages_optional="gnupg htop inotify-tools jq pass pwgen rsync shellcheck unzip"
+brew_packages="diffutils git nvim python ripgrep shellcheck shfmt tmux zsh xz"
+brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck shfmt"
 
-brew_packages="diffutils git python ripgrep tmux vim zsh"
-brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck"
+install_nvim_version="v0.10.4"
+install_shellcheck_version="v0.10.0"
+install_shfmt_version="v3.11.0"
 
 install_asdf_version="v0.11.0"
 install_node_version="18.17.0"
@@ -20,7 +22,7 @@ install_node_version="18.17.0"
 ###############################################################################
 
 function no_system_packages() {
-cat << EOF
+  cat <<EOF
 System package installation isn't supported with your OS / distro.
 
 Please install any dependent packages on your own. You can view the list at:
@@ -32,60 +34,95 @@ Then re-run the script and explicitly skip installing system packages:
     bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
 EOF
 
-exit 1
+  exit 1
 }
 
+cpu_arch="$(uname -m)"
+os_type="$(uname | tr "[:upper:]" "[:lower:]")"
+
 case "${os_type}" in
-    Linux*)
-        os_type="Linux"
+linux)
+  if [ ! -f "/etc/debian_version" ]; then
+    [ -z "${skip_system_packages}" ] && no_system_packages
+  fi
 
-        if [ !  -f "/etc/debian_version" ]; then
-           [ -z "${skip_system_packages}" ] && no_system_packages
-        fi
+  ;;
+darwin) ;;
+*)
+  exit 1
 
-        ;;
-    Darwin*) os_type="macOS";;
-    *)
-        os_type="Other"
-
-        [ -z "${skip_system_packages}" ] && no_system_packages
-
-        ;;
+  ;;
 esac
 
 ###############################################################################
-# Install packages using your OS' package manager
+# Create initial directories
+###############################################################################
+
+mkdir -p "${HOME}/.config/zsh" "${HOME}/.cache/zsh" \
+  "${HOME}/.local/bin" "${HOME}/.local/share"
+
+###############################################################################
+# Install OS specific tools
 ###############################################################################
 
 function apt_install_packages {
-    # shellcheck disable=SC2086
-    sudo apt-get update && sudo apt-get install -y ${apt_packages} ${apt_packages_optional}
+  # shellcheck disable=SC2086
+  sudo apt-get update && sudo apt-get install -y ${apt_packages} ${apt_packages_optional}
+
+  local original_cpu_arch="${cpu_arch}"
+
+  # ShellCheck uses a different file name than what uname -m may output. I have
+  # no idea if this will work since I have no arm64 Linux device to test on.
+  [[ "${cpu_arch}" =~ ^arm ]] && cpu_arch="armv6hf"
+
+  # We're only doing this on Linux because macOS has the latest versions
+  # available with brew and we want the latest releases of each of these tools.
+  curl -s -o /tmp/shellcheck.tar.xz -L "https://github.com/koalaman/shellcheck/releases/download/${install_shellcheck_version}/shellcheck-${install_shellcheck_version}.${os_type}.${cpu_arch}.tar.xz" &&
+    mkdir -p /tmp/shellcheck &&
+    tar -xJf /tmp/shellcheck.tar.xz -C /tmp/shellcheck --strip-components=1 &&
+    chmod +x /tmp/shellcheck/shellcheck &&
+    sudo mv "${_}" /usr/local/bin &&
+    rm -rf /tmp/shellcheck.tar.xz
+
+  cpu_arch="${original_cpu_arch}"
+
+  # shfmt uses a different file name than what uname -m will output.
+  [[ "${cpu_arch}" == "x86_64" ]] && cpu_arch="amd64"
+
+  curl -s -o /tmp/shfmt -L "https://github.com/mvdan/sh/releases/download/${install_shfmt_version}/shfmt_${install_shfmt_version}_${os_type}_${cpu_arch}" &&
+    chmod +x /tmp/shfmt && sudo mv /tmp/shfmt /usr/local/bin
+
+  cpu_arch="${original_cpu_arch}"
+
+  curl -s -o /tmp/nvim.tar.gz -L "https://github.com/neovim/neovim/releases/download/${install_nvim_version}/nvim-${os_type}-${cpu_arch}.tar.gz" &&
+    tar -xzf /tmp/nvim.tar.gz -C "${HOME}/.local" --strip-components=1 &&
+    rm -rf /tmp/nvim.tar.gz
 }
 
 function brew_install_self {
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
 function brew_install_packages {
-    [ -x "$(command -v brew > /dev/null 2>&1)" ] && brew_install_self
+  [ -x "$(command -v brew >/dev/null 2>&1)" ] && brew_install_self
 
-    # Ensure brew's paths are available for this script
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+  # Ensure brew's paths are available for this script
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 
-    # shellcheck disable=SC2086
-    brew install ${brew_packages} ${brew_packages_optional}
+  # shellcheck disable=SC2086
+  brew install ${brew_packages} ${brew_packages_optional}
 }
 
 function display_packages {
-    if [ "${os_type}" == "Linux" ]; then
-        echo "${apt_packages} ${apt_packages_optional}"
-    else
-        echo "${brew_packages} ${brew_packages_optional}"
-    fi
+  if [ "${os_type}" == "linux" ]; then
+    echo "${apt_packages} ${apt_packages_optional}"
+  else
+    echo "${brew_packages} ${brew_packages_optional}"
+  fi
 }
 
 if [ -z "${skip_system_packages}" ]; then
-cat << EOF
+  cat <<EOF
 
 If you choose yes, all of the system packages below will be installed:
 
@@ -95,28 +132,29 @@ If you choose no, the above packages will not be installed and this script
 will exit. This gives you a chance to edit the list of packages if you don't
 agree with any of the decisions.
 
-The packages listed after zsh are technically optional but are quite useful.
+The packages listed after xz are technically optional but are quite useful.
 Keep in mind if you don't install pwgen you won't be able to generate random
 passwords using a custom alias that's included in these dotfiles.
 
 EOF
-    while true; do
-        read -rp "Do you want to install the above packages? (y/n) " yn
-        case "${yn}" in
-            [Yy]*)
-                if [ "${os_type}" == "Linux" ]; then
-                    apt_install_packages
-                else
-                    brew_install_packages
-                fi
+  while true; do
+    read -rp "Do you want to install the above packages? (y/n) " yn
+    case "${yn}" in
+    [Yy]*)
+      if [ "${os_type}" == "linux" ]; then
+        apt_install_packages
+      else
+        brew_install_packages
+      fi
 
-                break;;
-            [Nn]*) exit 0;;
-            *) echo "Please answer y or n";;
-        esac
-    done
+      break
+      ;;
+    [Nn]*) exit 0 ;;
+    *) echo "Please answer y or n" ;;
+    esac
+  done
 else
-    echo "System package installation was skipped!"
+  echo "System package installation was skipped!"
 fi
 
 ###############################################################################
@@ -128,31 +166,24 @@ clone_path="${clone_path:-"${HOME}/dotfiles"}"
 
 # Ensure path doesn't exist.
 while [ -e "${clone_path}" ]; do
-    read -rep $'\nPath exists, try again? (y) ' y
-    case "${y}" in
-        [Yy]*)
+  read -rep $'\n Clone path exists, try again? (y) ' y
+  case "${y}" in
+  [Yy]*)
 
-            break;;
-        *) echo "Please answer y or CTRL+c the script to abort everything";;
-    esac
+    break
+    ;;
+  *) echo "Please answer y or CTRL+c the script to abort everything" ;;
+  esac
 done
 
 echo
 
 # This is used to locally develop the install script.
 if [ "${DEBUG}" == "1" ]; then
-    cp -R "${PWD}/." "${clone_path}"
+  cp -R "${PWD}/." "${clone_path}"
 else
-    git clone https://github.com/nickjj/dotfiles "${clone_path}"
+  git clone https://github.com/nickjj/dotfiles "${clone_path}"
 fi
-
-###############################################################################
-# Create initial directories
-###############################################################################
-
-mkdir -p "${HOME}/.config/zsh" "${HOME}/.cache/zsh" \
-    "${HOME}/.local/bin" "${HOME}/.local/share" \
-    "${HOME}/.local/state" "${HOME}/.vim/spell"
 
 ###############################################################################
 # Personalize git user
@@ -164,13 +195,13 @@ cp "${clone_path}/.gitconfig.user" "${HOME}/.gitconfig.user"
 # macOS: Persist zprofile paths for brew
 ###############################################################################
 
-if [ "${os_type}" == "macOS" ]; then
-    zsh_profile="${HOME}/.config/zsh/.zprofile"
+if [ "${os_type}" == "darwin" ]; then
+  zsh_profile="${HOME}/.config/zsh/.zprofile"
 
-    if ! grep -q "eval.*homebrew.*shellenv" "${zsh_profile}" 2> /dev/null; then
-      # shellcheck disable=SC2016
-      printf '\neval "$(/opt/homebrew/bin/brew shellenv)"\n' >> "${zsh_profile}"
-    fi
+  if ! grep -q "eval.*homebrew.*shellenv" "${zsh_profile}" 2>/dev/null; then
+    # shellcheck disable=SC2016
+    printf '\neval "$(/opt/homebrew/bin/brew shellenv)"\n' >>"${zsh_profile}"
+  fi
 fi
 
 ###############################################################################
@@ -180,13 +211,6 @@ fi
 "${clone_path}/.local/bin/update-zsh-plugins"
 
 ###############################################################################
-# Install Plug (Vim plugin manager)
-###############################################################################
-
-curl -fLo "${HOME}/.vim/autoload/plug.vim" --create-dirs \
-  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-###############################################################################
 # Install tpm (tmux plugin manager)
 ###############################################################################
 
@@ -194,18 +218,18 @@ rm -rf "${HOME}/.tmux/plugins/tpm"
 git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
 
 ###############################################################################
-# Install fzf (fuzzy finder on the terminal and used by a Vim plugin)
+# Install fzf (fuzzy finder on the terminal)
 ###############################################################################
 
 rm -rf "${HOME}/.local/share/fzf"
-git clone --depth 1 https://github.com/junegunn/fzf.git "${HOME}/.local/share/fzf" \
-  && yes | "${HOME}/.local/share/fzf/install" --bin --no-update-rc
+git clone --depth 1 https://github.com/junegunn/fzf.git "${HOME}/.local/share/fzf" &&
+  yes | "${HOME}/.local/share/fzf/install" --bin --no-update-rc
 
 ###############################################################################
 # Carefully create symlinks
 ###############################################################################
 
-cat << EOF
+cat <<EOF
 
 -------------------------------------------------------------------------------
 
@@ -213,10 +237,13 @@ ln -fs "${clone_path}/.zshenv" "${HOME}/.zshenv"
 ln -fs "${clone_path}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc"
 ln -fs "${clone_path}/.config/zsh/.zprofile" "${HOME}/.config/zsh/.zprofile"
 ln -fs "${clone_path}/.config/zsh/.aliases" "${HOME}/.config/zsh/.aliases"
+ln -fs "${clone_path}/.config/zsh/themes" "${HOME}/.config/zsh/themes"
+ln -fs "${clone_path}/.config/gitui" "${HOME}/.config/gitui"
+ln -fs "${clone_path}/.config/nvim" "${HOME}/.config/nvim"
 ln -fs "${clone_path}/.gitconfig" "${HOME}/.gitconfig"
-ln -fs "${clone_path}/.vimrc" "${HOME}/.vimrc"
-ln -fs "${clone_path}/.vim/spell/en.utf-8.add" "${HOME}/.vim/spell/en.utf-8.add"
 ln -fs "${clone_path}/.tmux.conf" "${HOME}/.tmux.conf"
+ln -fs "${clone_path}/.tmux/thems" "${HOME}/.tmux/themes"
+ln -fs "${clone_path}/.local/lib/css" "${HOME}/.local/lib/css"
 ln -fs "${clone_path}/.local/bin/"* "${HOME}/.local/bin/"
 
 # And if you happen to be using WSL:
@@ -224,13 +251,13 @@ sudo ln -fs "${clone_path}/etc/wsl.conf" /etc/wsl.conf
 
 -------------------------------------------------------------------------------
 
-A potentially dangerous action is about to happen. The above files are going to
-get forcefully symlinked.
+A potentially dangerous action is about to happen. The above directories and
+files are going to get forcefully symlinked.
 
 What does that mean?
 
 Any config files you have on the right hand side of the paths are going to get
-overwritten with the files that come with my dotfiles (left side).
+overwritten with the files that come with these dotfiles (left side).
 
 If you care about your original config files now would be the time to back
 them up. They will ALL be overwritten if you say yes to the prompt below.
@@ -239,38 +266,42 @@ EOF
 while true; do
   read -rep $'\nReady to continue and apply the symlinks? (y) ' y
   case "${y}" in
-      [Yy]*)
+  [Yy]*)
 
-          break;;
-      *) echo "Please answer y or CTRL+c the script to abort everything";;
+    break
+    ;;
+  *) echo "Please answer y or CTRL+c the script to abort everything" ;;
   esac
 done
 
-ln -fs "${clone_path}/.zshenv" "${HOME}/.zshenv" \
-    && ln -fs "${clone_path}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc" \
-    && ln -fs "${clone_path}/.config/zsh/.zprofile" "${HOME}/.config/zsh/.zprofile" \
-    && ln -fs "${clone_path}/.config/zsh/.aliases" "${HOME}/.config/zsh/.aliases" \
-    && ln -fs "${clone_path}/.gitconfig" "${HOME}/.gitconfig" \
-    && ln -fs "${clone_path}/.vimrc" "${HOME}/.vimrc" \
-    && ln -fs "${clone_path}/.vim/spell/en.utf-8.add" "${HOME}/.vim/spell/en.utf-8.add" \
-    && ln -fs "${clone_path}/.tmux.conf" "${HOME}/.tmux.conf" \
-    && ln -fs "${clone_path}/.local/bin/"* "${HOME}/.local/bin/"
+ln -fs "${clone_path}/.zshenv" "${HOME}/.zshenv" &&
+  ln -fs "${clone_path}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc" &&
+  ln -fs "${clone_path}/.config/zsh/.zprofile" "${HOME}/.config/zsh/.zprofile" &&
+  ln -fs "${clone_path}/.config/zsh/.aliases" "${HOME}/.config/zsh/.aliases" &&
+  ln -fs "${clone_path}/.config/zsh/themes" "${HOME}/.config/zsh/themes" &&
+  ln -fs "${clone_path}/.config/gitui" "${HOME}/.config/gitui" &&
+  ln -fs "${clone_path}/.config/nvim" "${HOME}/.config/nvim" &&
+  ln -fs "${clone_path}/.gitconfig" "${HOME}/.gitconfig" &&
+  ln -fs "${clone_path}/.tmux.conf" "${HOME}/.tmux.conf" &&
+  ln -fs "${clone_path}/.tmux/themes" "${HOME}/.tmux/themes" &&
+  ln -fs "${clone_path}/.local/lib/css" "${HOME}/.local/lib/css" &&
+  ln -fs "${clone_path}/.local/bin/"* "${HOME}/.local/bin/"
 
 if grep -qE "(Microsoft|microsoft|WSL)" /proc/version &>/dev/null; then
-    sudo ln -fs "${clone_path}/etc/wsl.conf" /etc/wsl.conf
+  sudo ln -fs "${clone_path}/etc/wsl.conf" /etc/wsl.conf
 fi
 
 ###############################################################################
 # Change default shell to zsh
 ###############################################################################
 
-[ "${os_type}" != "macOS" ] && chsh -s "$(command -v zsh)"
+[ "${os_type}" != "darwin" ] && chsh -s "$(command -v zsh)"
 
 # shellcheck disable=SC1091
 . "${HOME}/.config/zsh/.zprofile"
 
 ###############################################################################
-# Install asdf and Node (Node is used for 1 Vim plugin)
+# Install asdf and Node (Node is used for 1 Neovim plugin)
 ###############################################################################
 
 printf "\n\nInstalling asdf %s...\n" "${install_asdf_version}"
@@ -300,18 +331,18 @@ export TMUX_PLUGIN_MANAGER_PATH="${HOME}/.tmux/plugins"
 "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
 
 ###############################################################################
-# Install Vim plugins
+# Install Neovim plugins
 ###############################################################################
 
-printf "\n\nInstalling Vim plugins...\n"
+printf "\n\nInstalling Neovim plugins...\n"
 
-vim -E +PlugInstall +qall || true
+nvim +q
 
 ###############################################################################
 # Done!
 ###############################################################################
 
-cat << EOF
+cat <<EOF
 Everything was installed successfully!
 
 Check out the README file on GitHub to do 1 quick thing manually:

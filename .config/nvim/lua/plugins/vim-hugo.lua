@@ -1,0 +1,3 @@
+return {
+  { "phelipetls/vim-hugo" },
+}

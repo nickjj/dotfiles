@@ -1,5 +1,5 @@
 [core]
-	editor = vim
+	editor = nvim
 
 [color "diff"]
 	whitespace = red reverse

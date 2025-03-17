@@ -1,11 +1,11 @@
 # dotfiles
 
-Here's a bunch of settings for the [various tools I
+Here's a bunch of configuration for the [tools I
 use](https://nickjanetakis.com/blog/the-tools-i-use). I also have a number of
 [blog posts and
 videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials)
-related to my dev environment. There's also this documentation to help you get
-everything installed and configured.
+related to my dev environment. This readme along with an install script
+will help you get everything running in a few commands.
 
 ### Documentation
 
@@ -14,33 +14,34 @@ everything installed and configured.
   - [Extra WSL 1 and WSL 2 steps](#extra-wsl-1-and-wsl-2-steps)
 - [FAQ](#faq)
   - [How to personalize these dotfiles?](#how-to-personalize-these-dotfiles)
+  - [How to get theme support in your terminal?](#how-to-get-theme-support-in-your-terminal)
   - [How to add custom themes to the set-theme script?](#how-to-add-custom-themes-to-the-set-theme-script)
-  - [How to use a different terminal in the set-theme script?](#how-to-use-a-different-terminal-in-the-set-theme-script)
-  - [How to fix Vim taking a long time to open when inside of WSL?](#how-to-fix-vim-taking-a-long-time-to-open-when-inside-of-wsl)
+  - [How to fix Neovim taking a long time to open when inside of WSL?](#how-to-fix-vim-taking-a-long-time-to-open-when-inside-of-wsl)
 - [About the author](#about-the-author)
 
-## Screenshots
+## Themes
 
-Since my dotfiles are constantly evolving and I tend to reference them in
-videos, blog posts and various social media posts I thought it would be a good
-idea to include a screenshot of each theme I used and how to switch to it.
+Since these dotfiles are constantly evolving and I tend to reference them in
+videos, blog posts and other places I thought it would be a good idea to
+include screenshots in 1 spot.
+
+#### Tokyonight Moon
+
+![Tokyonight Moon](https://nickjanetakis.com/assets/screenshots/dotfiles-tokyonight-moon-7320a3fb8a76462e64d13bc125a2f284.jpg)
+
+#### Gruvbox Dark (Medium)
+
+![Gruvbox Dark Medium](https://nickjanetakis.com/assets/screenshots/dotfiles-gruvbox-dark-medium-cfde05b1e4ccfa0ca9ebf0c089d99a28.jpg)
 
 I prefer using themes that have good contrast ratios and are clear to see in
 video recordings. These dotfiles currently support easily switching between
-[Gruvbox Community](https://github.com/gruvbox-community/gruvbox) and
-[One](https://github.com/rakr/vim-one) but you can use any theme you'd like.
+both themes but you can use any theme you'd like.
 
-#### Theme progression
-
-- January 2021 (Gruvbox Community)
-- April 2020 (One)
-- December 2018 (Gruvbox Community)
-
-### Themes
+### Setting a theme
 
 These dotfiles include a `set-theme` script that you can run from your terminal
-to set your theme to any of the themes listed below. This script takes care of
-configuring your terminal, tmux, Vim and fzf's colors in 1 command.
+to set your theme to any of the themes listed above. This script takes care of
+configuring your terminal, tmux, Neovim, GitUI and FZF in 1 command.
 
 If you don't like the included themes that's no problem. You can use whatever
 you want, there's no limitations. You could choose to manually change the
@@ -48,41 +49,23 @@ colors or [adjust the set-theme
 script](#how-to-add-custom-themes-to-the-set-theme-script) to add a custom
 theme.
 
-Ater installing these dotfiles you can run this from your terminal:
+After installing these dotfiles you can switch themes with:
 
 ```sh
-# Switch to a supported theme.
-# Theme names are listed below near the screenshots.
-# You can also run set-theme --help to see a list of themes.
-set-theme [theme_name]
-
-# Switch between dark and light backgrounds for the active theme.
-set-theme --toggle-bg
-
-# Switch the theme and toggle the background in 1 command.
-set-theme [theme_name] --toggle-bg
+# Available themes are: tokyonight-moon and gruvbox-dark-medium
+set-theme THEME_NAME
 ```
 
-*If you get an error about your terminal config file not being found please
-review [this FAQ
-item](#how-to-use-a-different-terminal-in-the-set-theme-script).*
+When switching themes your terminal and tmux colors will update automatically,
+but if you have Neovim already open you'll need to manually close and open it.
 
-#### Gruvbox Community
-
-`set-theme gruvbox`
-
-![Dotfiles](https://nickjanetakis.com/assets/blog/dotfiles-c85f20a61decb0d4676530ff4c65a818ee9b362cf9f380a76c9d44e1254d03f3.jpg)
-
-#### One
-
-`set-theme one`
-
-![Dotfiles](https://nickjanetakis.com/assets/blog/dotfiles-2020-04-14-e375233b9aaf52ab5d8411ba28963f098094c91860e069a7f1ee45916a051929.jpg)
+*If you get a message about your terminal being unknown please review [this FAQ
+item](#how-to-get-theme-support-in-your-terminal).*
 
 ## Quickly Get Set Up with These Dotfiles
 
 There's an `./install` script you can run to automate installing everything.
-That includes installing system packages such as tmux, Vim, zsh, etc. and
+That includes installing system packages such as zsh, tmux, Neovim, etc. and
 configuring a number of tools in your home directory.
 
 It even handles cloning down this repo. You'll get a chance to pick the clone
@@ -91,8 +74,8 @@ get installed.
 
 The install script is optimized for:
 
-- Ubuntu 20.04 LTS+ (native or WSL)
-- Debian 11+ (Debian 10 will work if you enable backports for tmux)
+- Ubuntu 22.04 LTS+ (native or WSL)
+- Debian 11+
 - macOS 10.15+
 
 It will still work with other distros of Linux if you skip installing system
@@ -123,8 +106,30 @@ packages](https://github.com/nickjj/dotfiles/blob/master/install) on your own
 beforehand. Besides that, everything else is supported since it's only dealing
 with files in your home directory.
 
-My set up targets zsh 5.0+, tmux 3.0+ and Vim 8.1+. As long as you can meet
-those requirements you're good to go.
+This set up targets zsh 5.0+, tmux 3.0+ and Neovim v0.10+. As long as you can
+meet those requirements you're good to go. The install script will take care
+of installing these for you unless you've skipped system packages.
+
+**Try it in Docker without modifying your system:**
+
+```sh
+# Start a Debian container.
+docker container run --rm -it -v "${PWD}:/app" -w /app debian:bookworm-slim
+
+# [All of the commands below are expected to be run in the container]
+
+# curl and sudo don't exist in this image by default so let's install them.
+# Chances are you can skip this when running it on your real system.
+apt-get update -y && apt-get install -y curl sudo
+
+# Follow the usual installation steps.
+bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
+
+# Since we can't open a new terminal in the container we'll launch zsh and
+# manually source a few files. These 2 commands are only needed in Docker.
+zsh 2>/dev/null
+. ~/.config/zsh/.zprofile && . ~/.config/zsh/.zshrc
+```
 
 ### Did you install everything successfully?
 
@@ -140,7 +145,7 @@ into your home directory. You're meant to put in your name and email address so
 that your details are used when you make git commits.
 
 ```sh
-vim ~/.gitconfig.user
+nvim ~/.gitconfig.user
 ```
 
 #### 2. (Optional) confirm that a few things work
@@ -150,7 +155,7 @@ vim ~/.gitconfig.user
 git config --list
 
 # Sanity check to see if you can run some of the tools we installed.
-vim --version
+nvim --version
 tmux -V
 node --version
 ```
@@ -161,7 +166,8 @@ Before you start customizing certain config files, take a look at the
 ### Extra WSL 1 and WSL 2 steps
 
 In addition to the Linux side of things, there's a few config files that I have
-in various directories of this dotfiles repo. These have long Windows paths.
+in various directories of this dotfiles repo. These have long Windows paths and
+are in the `c/` directory.
 
 It would be expected that you copy those over to your system while replacing
 "Nick" with your Windows user name if you want to use those things, such as my
@@ -187,9 +193,9 @@ drives at `/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
 
 ### How to personalize these dotfiles?
 
-Chances are you'll want to personalize some of these files, such as various Vim
-settings. Since this is a git repo you can always do a `git pull` to get the
-most up to date copy of these dotfiles, but then you may find yourself
+Chances are you'll want to personalize some of these files, such as various
+Neovim settings. Since this is a git repo you can always do a `git pull` to get
+the most up to date copy of these dotfiles, but then you may find yourself
 clobbering over your own personal changes.
 
 Since we're using git here, we have a few reasonable options.
@@ -203,10 +209,57 @@ updates into your branch.
 Another option is to fork this repo and use that, then periodically pull and
 merge updates. It's really up to you.
 
-### How to add custom themes to the set-theme script?
+### How to get theme support in your terminal?
 
-Prefer a video? [Here's a video](https://www.youtube.com/watch?v=h509rn2xIyU&t=191s)
-that demonstrates performing the steps below.
+The `set-theme` script tries to be pretty flexible but it's not super tuned to
+support every terminal in every operating system. If it can't find a valid
+terminal config it will skip trying to set the theme and try to provide a
+helpful message.
+
+#### Windows Terminal
+
+These dotfiles have my exact config in
+`c/Users/Nick/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json`,
+you can copy / paste that config to a similar path within your Windows set up.
+It comes set up with all supported themes. This is only necessary to do once.
+It's not automated because it would be pretty rude if the install script
+overwrote your Windows files.
+
+Once you have that set up, running `set-theme THEME_NAME` will work without
+further manual adjustments.
+
+#### iTerm2
+
+These dotfiles have color presets for all supported themes in
+`c/Users/Nick/iTerm2`. You'll want to import them into your iTerm2 profile.
+This is only necessary to do once. Here's the steps to take:
+
+1. Open *iTerm2*
+2. Goto *Settings*
+3. Goto *Profiles* (tab within settings)
+4. Goto *Colors* (tab within profiles)
+5. Click the *Color Presets..*. drop down box in the bottom right
+6. Select *Import...* and choose the theme you want to import
+7. Repeat these steps for each theme you're interested in
+
+I don't use a Mac full time (only on a work laptop) so I haven't automated much
+but iTerm2 appears a little tricky to fully automate with theme switching. When
+you run `set-theme THEME_NAME` to switch themes you will need to manually pick
+the theme in iTerm2. You can run through steps 1-5 above and pick it from the
+list instead of importing it. If you have a way to automate this reliably
+please open a PR!
+
+#### Everything else
+
+If you're using a popular terminal and want it officially supported please open
+a pull request. You'd modify `set-theme` for the `TERMINALS` dictionary as well
+as the `change_terminal_theme` function. The basic idea is it tries to find
+specific lines within the config file and does a regex find and replace to swap
+in the theme name.
+
+Happy to assist in your PR to answer questions.
+
+### How to add custom themes to the set-theme script?
 
 After installing these dotfiles you'll have a `~/.local/bin/set-theme` script.
 It's a [zero dependency Python 3
@@ -214,46 +267,30 @@ script](https://github.com/nickjj/dotfiles/blob/master/.local/bin/set-theme).
 
 1. Open the above file
 2. Check out the `THEMES` dictionary near the top of the file
-3. Copy one of the existing themes' dictionary items, such as `gruvbox` or `one`
-4. Rename the dictionary's key to whatever your new theme's colorscheme name is in Vim
-5. Adjust all of the colors and additional values in your new dictionary item as you see fit
-6. Run `set-theme cooltheme`, replacing `cooltheme` with whatever name you used in step 4
-
-Your terminal and tmux colors will update automatically, but if you have Vim
-already open you'll need to manually run this command from within Vim to reload
-your config `:so $MYVIMRC`.
+3. Copy one of the existing themes' dictionary items, such as `tokyonight-moon` or `gruvbox-dark-medium`
+    - If your theme has Neovim variants, copy Gruvbox else copy Tokyonight
+4. Rename the dictionary's key to whatever your new theme's name is
+    - If the Neovim theme name is the same as the dictionary key, that will be used
+5. Create the associated `tmux` theme in `~/.tmux/themes`
+6. Create the associated `fzf` theme in `~/.config/zsh/themes/fzf`
+7. Create the associated `gitui` theme in `~/.config/gitui`
+8. Modify any supported terminal configs to add the theme
+9. Run `set-theme cooltheme`, replacing `cooltheme` with whatever name you used in step 4
 
 If you added a theme with good contrast ratios please open a pull request to
 get it added to the script.
 
-### How to use a different terminal in the set-theme script?
-
-I'm using the Microsoft Terminal but if you're using something else then your
-terminal's colors won't get updated by this script because the script looks for
-strings that are in MS terminal's config, but it's not painful to change.
-
-*By the way, if you're using the Microsoft Terminal Preview edition you'll
-still need to do step 1 below because the path of your MS terminal config file
-will be different than the non-preview edition.*
-
-You'll want to adjust the `set-theme` script by doing this:
-
-1. Change the `TERMINAL_CONFIG` variable to reference your terminal config's path
-2. Change the `terminal` attributes in the `THEMES` dictionary to use your terminal's config option names
-3. Change the regex in the `change_terminal_theme` function based on your terminal's config option formatting rules
-4. Optionally install Gruvbox, One or any other themes (the MS Terminal config in this repo includes them)
-
-### How to fix Vim taking a long time to open when inside of WSL?
+### How to fix Neovim taking a long time to open when inside of WSL?
 
 It primarily comes down to either VcXsrv not running or a firewall tool
 blocking access to VcXsrv and it takes a bit of time for the connection to time
 out.
 
-You can verify this by starting Vim with `vim -X` instead of `vim`. This
-will prevent Vim from connecting to an X server. This also means clipboard
+You can verify this by starting Neovim with `nvim -X` instead of `nvim`. This
+will prevent Neovim from connecting to an X server. This also means clipboard
 sharing to your system clipboard won't work, but it's good for a test.
 
-Vim will try to connect to that X server by default because `DISPLAY` is
+Neovim will try to connect to that X server by default because `DISPLAY` is
 exported in the `.zshrc` file. Installing and configuring VcXsrv as per these
 dotfiles will fix that issue.
 
