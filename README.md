@@ -1,11 +1,11 @@
 # dotfiles
 
-Here's a bunch of configuration for the [tools I
+This readme along with an install script will help you get everything running
+in a few commands. It contains a bunch of configuration for the [tools I
 use](https://nickjanetakis.com/blog/the-tools-i-use). I also have a number of
 [blog posts and
 videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials)
-related to my dev environment. This readme along with an install script
-will help you get everything running in a few commands.
+related to my dev environment.
 
 ### Documentation
 
