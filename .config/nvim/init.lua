@@ -1,4 +1,4 @@
--- Global variables
+-- Global variables.
 MAP = vim.keymap.set
 DEL = vim.keymap.del
 
