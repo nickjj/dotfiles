@@ -35,4 +35,4 @@ if grep -q "microsoft" /proc/version > /dev/null 2>&1; then
 fi
 
 # Load local settings if they exist.
-[ -f "${XDG_CONFIG_HOME}/zsh/.zprofile.local" ] && . "${XDG_CONFIG_HOME}/zsh/.zprofile.local"
+[ -f "${XDG_CONFIG_HOME}/zsh/.zprofile.local" ] && . "${XDG_CONFIG_HOME}/zsh/.zprofile.local" || true
