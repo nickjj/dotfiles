@@ -13,9 +13,9 @@ from subprocess import run, PIPE
 
 def get_windows_user():
     try:
-        result = run(['powershell.exe', '$env:UserName'],
-                    stdout=PIPE,
-                    universal_newlines=True)
+        result = run(
+            ["powershell.exe", "$env:UserName"], stdout=PIPE, universal_newlines=True
+        )
 
         return result.stdout.rstrip()
     except FileNotFoundError:
@@ -26,42 +26,41 @@ def get_windows_user():
 
 HOME = str(Path.home())
 TERMINALS = {
-    'windows-terminal': {
-        'path': f'/c/Users/{get_windows_user()}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json',  # noqa: E501
-        'matches': [
+    "windows-terminal": {
+        "path": f"/c/Users/{get_windows_user()}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json",  # noqa: E501
+        "matches": [
             {
-                'find': '"colorScheme": ".*"',
-                'replace': '"colorScheme": "%theme"',
+                "find": '"colorScheme": ".*"',
+                "replace": '"colorScheme": "%theme"',
             },
             {
-                'find': '"theme": ".*"',
-                'replace': '"theme": "%theme"',
-            }
-        ]
+                "find": '"theme": ".*"',
+                "replace": '"theme": "%theme"',
+            },
+        ],
     }
 }
 
 THEMES = {
-    'tokyonight-moon': {
-        'terminal': 'Tokyonight Moon',
+    "tokyonight-moon": {
+        "terminal": "Tokyonight Moon",
     },
     "gruvbox-dark-medium": {
-        'terminal': 'Gruvbox Dark Medium',
-        'nvim': {
-            'colorscheme': 'gruvbox',
-            'variant': {
-                'find': '^      contrast = ".*",$',
-                'replace': '      contrast = "medium",'
-
-            }
+        "terminal": "Gruvbox Dark Medium",
+        "nvim": {
+            "colorscheme": "gruvbox",
+            "variant": {
+                "find": '^      contrast = ".*",$',
+                "replace": '      contrast = "medium",',
+            },
         },
-    }
+    },
 }
 
-SHELL_CONFIG = f'{os.environ.get("XDG_CONFIG_HOME")}/zsh/.zshrc'
-TMUX_CONFIG = f'{HOME}/.tmux.conf'
-NVIM_COLORSCHEME_CONFIG = f'{HOME}/.config/nvim/lua/plugins/colorscheme.lua'
-GITUI_CONFIG_PATH = f'{HOME}/.config/gitui'
+SHELL_CONFIG = f"{os.environ.get('XDG_CONFIG_HOME')}/zsh/.zshrc"
+TMUX_CONFIG = f"{HOME}/.tmux.conf"
+NVIM_COLORSCHEME_CONFIG = f"{HOME}/.config/nvim/lua/plugins/colorscheme.lua"
+GITUI_CONFIG_PATH = f"{HOME}/.config/gitui"
 
 
 def edit_inplace(file, preserve_symlinks=True):
@@ -73,7 +72,7 @@ def edit_inplace(file, preserve_symlinks=True):
 
 def active_theme():
     try:
-        with open(NVIM_COLORSCHEME_CONFIG, 'r') as f:
+        with open(NVIM_COLORSCHEME_CONFIG, "r") as f:
             for line in f:
                 match = re.match('^      colorscheme = "(.*)"', line)
                 if match:
@@ -82,56 +81,62 @@ def active_theme():
 
         return theme
     except FileNotFoundError:
-        sys.exit(f'ERROR: {NVIM_COLORSCHEME_CONFIG} not found')
+        sys.exit(f"ERROR: {NVIM_COLORSCHEME_CONFIG} not found")
     except NameError:
-        sys.exit('ERROR: "colorscheme" statement not found'
-                 f' in {NVIM_COLORSCHEME_CONFIG}')
+        sys.exit(
+            f'ERROR: "colorscheme" statement not found in {NVIM_COLORSCHEME_CONFIG}'
+        )
 
 
 def change_terminal_theme(theme):
-    terminal = TERMINALS['windows-terminal']
-    theme = THEMES[theme]['terminal']
-    unknown = '''SKIPPING [Terminal]: Terminal config path unknown / not found
+    terminal = TERMINALS["windows-terminal"]
+    theme = THEMES[theme]["terminal"]
+    unknown = """SKIPPING [Terminal]: Terminal config path unknown / not found
 
 Please check the docs for this at:
 
-https://github.com/nickjj/dotfiles#how-to-get-theme-support-in-your-terminal'''
+https://github.com/nickjj/dotfiles#how-to-get-theme-support-in-your-terminal"""
 
-    if not os.path.exists(terminal['path']):
+    if not os.path.exists(terminal["path"]):
         print(unknown)
         sys.exit(1)
 
-    with edit_inplace(terminal['path']) as f:
+    with edit_inplace(terminal["path"]) as f:
         for line in f:
-            for match in terminal['matches']:
-                line = re.sub(rf'{match["find"]}', match['replace'].replace('%theme', theme), line)
+            for match in terminal["matches"]:
+                line = re.sub(
+                    rf"{match['find']}", match["replace"].replace("%theme", theme), line
+                )
             sys.stdout.write(line)
 
 
 def change_tmux_theme(theme):
     with edit_inplace(TMUX_CONFIG) as f:
         for line in f:
-            line = re.sub(r'\/themes\/.*\.conf"',
-                          f'/themes/{theme}.conf"', line)
+            line = re.sub(r'\/themes\/.*\.conf"', f'/themes/{theme}.conf"', line)
             sys.stdout.write(line)
 
-    run(['tmux', 'source-file', TMUX_CONFIG])
+    run(["tmux", "source-file", TMUX_CONFIG])
 
 
 def change_nvim_theme(theme):
     color_scheme = theme
     variant = None
 
-    if THEMES[theme].get('nvim'):
-        color_scheme = THEMES[theme]['nvim']['colorscheme']
-        variant = THEMES[theme]['nvim']['variant']
+    if THEMES[theme].get("nvim"):
+        color_scheme = THEMES[theme]["nvim"]["colorscheme"]
+        variant = THEMES[theme]["nvim"]["variant"]
 
     with edit_inplace(NVIM_COLORSCHEME_CONFIG) as f:
         for line in f:
-            line = re.sub(r'^      colorscheme = ".*",$', f'      colorscheme = "{color_scheme}",', line)
+            line = re.sub(
+                r'^      colorscheme = ".*",$',
+                f'      colorscheme = "{color_scheme}",',
+                line,
+            )
 
             if variant is not None:
-                line = re.sub(rf'{variant["find"]}', variant["replace"], line)
+                line = re.sub(rf"{variant['find']}", variant["replace"], line)
 
             sys.stdout.write(line)
 
@@ -139,8 +144,7 @@ def change_nvim_theme(theme):
 def change_fzf_theme(theme):
     with edit_inplace(SHELL_CONFIG) as f:
         for line in f:
-            line = re.sub(r'\/themes\/fzf\/.*\.sh"',
-                          f'/themes/fzf/{theme}.sh"', line)
+            line = re.sub(r'\/themes\/fzf\/.*\.sh"', f'/themes/fzf/{theme}.sh"', line)
             sys.stdout.write(line)
 
 
@@ -149,8 +153,8 @@ def change_gitui_theme(theme):
     # of including the user's home dir since this symlink is commit.
     os.chdir(GITUI_CONFIG_PATH)
 
-    theme_path = f'{theme}.ron'
-    link_path = 'theme.ron'
+    theme_path = f"{theme}.ron"
+    link_path = "theme.ron"
 
     if os.path.exists(link_path):
         os.remove(link_path)
@@ -161,15 +165,15 @@ def change_gitui_theme(theme):
 def parseargs():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description=textwrap.dedent('''\
+        description=textwrap.dedent("""\
         Set a specific theme for a number of command line tools.
-        '''))
-    parser.add_argument('theme', choices=THEMES, nargs='?',
-                        help='theme name')
+        """),
+    )
+    parser.add_argument("theme", choices=THEMES, nargs="?", help="theme name")
     args = parser.parse_args()
 
     if len(sys.argv) == 1:
-        parser.error('at least one argument is required')
+        parser.error("at least one argument is required")
 
     return args
 
@@ -189,5 +193,5 @@ def main():
     change_gitui_theme(theme)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
