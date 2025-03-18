@@ -8,7 +8,7 @@ apt_packages="curl git iproute2 python3-pip ripgrep tmux wl-clipboard zsh xz-uti
 apt_packages_optional="gnupg htop inotify-tools jq pass pwgen rsync unzip"
 
 brew_packages="diffutils git nvim python ripgrep shellcheck shfmt tmux zsh xz"
-brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck shfmt"
+brew_packages_optional="gnupg htop jq pass pwgen rsync"
 
 install_nvim_version="v0.10.4"
 install_shellcheck_version="v0.10.0"
