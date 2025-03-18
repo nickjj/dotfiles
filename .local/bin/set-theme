@@ -99,7 +99,7 @@ https://github.com/nickjj/dotfiles#how-to-get-theme-support-in-your-terminal"""
 
     if not os.path.exists(terminal["path"]):
         print(unknown)
-        sys.exit(1)
+        return None
 
     with edit_inplace(terminal["path"]) as f:
         for line in f:
