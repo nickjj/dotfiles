@@ -131,6 +131,10 @@ zsh 2>/dev/null
 . ~/.config/zsh/.zprofile && . ~/.config/zsh/.zshrc
 ```
 
+*Keep in mind with the Docker set up, unless your terminal is already
+configured to use Tokyonight Moon then the colors may look off. That's because
+your local terminal's config will not get updated.*
+
 ### Did you install everything successfully?
 
 Nice!
