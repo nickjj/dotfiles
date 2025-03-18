@@ -20,4 +20,4 @@ tags
 
 .aliases.local
 .local/bin/private/
-.spl
+*.spl
