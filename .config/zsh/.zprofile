@@ -8,7 +8,7 @@ export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
 
 # Add all local binaries to the system path.
-export PATH="${PATH}:${HOME}/.local/bin:${HOME}/.local/bin/private"
+export PATH="${PATH}:${HOME}/.local/bin:${HOME}/.local/bin/local"
 
 # Default programs to run.
 export EDITOR="nvim"
@@ -33,3 +33,6 @@ if grep -q "microsoft" /proc/version > /dev/null 2>&1; then
             --exec /usr/sbin/service docker start > /dev/null 2>&1
     fi
 fi
+
+# Load local settings if they exist.
+[ -f "${XDG_CONFIG_HOME}/zsh/.zprofile.local" ] && . "${XDG_CONFIG_HOME}/zsh/.zprofile.local"

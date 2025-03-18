@@ -19,5 +19,7 @@ tags
 [._]*.un~/
 
 .aliases.local
-.local/bin/private/
+.zshrc.local
+.zprofile.local
+.local/bin/local/
 *.spl

@@ -235,8 +235,11 @@ cat <<EOF
 
 ln -fs "${clone_path}/.zshenv" "${HOME}/.zshenv"
 ln -fs "${clone_path}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc"
+ln -fs "${clone_path}/.config/zsh/.zshrc.local" "${HOME}/.config/zsh/.zshrc.local"
 ln -fs "${clone_path}/.config/zsh/.zprofile" "${HOME}/.config/zsh/.zprofile"
+ln -fs "${clone_path}/.config/zsh/.zprofile.local" "${HOME}/.config/zsh/.zprofile.local"
 ln -fs "${clone_path}/.config/zsh/.aliases" "${HOME}/.config/zsh/.aliases"
+ln -fs "${clone_path}/.config/zsh/.aliases.local" "${HOME}/.config/zsh/.aliases.local"
 ln -fs "${clone_path}/.config/zsh/themes" "${HOME}/.config/zsh/themes"
 ln -fs "${clone_path}/.config/gitui" "${HOME}/.config/gitui"
 ln -fs "${clone_path}/.config/nvim" "${HOME}/.config/nvim"
@@ -274,10 +277,16 @@ while true; do
   esac
 done
 
+echo "# Any settings defined here are gitignored" |
+  tee "${clone_path}/.config/zsh/"{.zshrc.local,.zprofile.local,.aliases.local}
+
 ln -fs "${clone_path}/.zshenv" "${HOME}/.zshenv" &&
   ln -fs "${clone_path}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc" &&
+  ln -fs "${clone_path}/.config/zsh/.zshrc.local" "${HOME}/.config/zsh/.zshrc.local" &&
   ln -fs "${clone_path}/.config/zsh/.zprofile" "${HOME}/.config/zsh/.zprofile" &&
+  ln -fs "${clone_path}/.config/zsh/.zprofile.local" "${HOME}/.config/zsh/.zprofile.local" &&
   ln -fs "${clone_path}/.config/zsh/.aliases" "${HOME}/.config/zsh/.aliases" &&
+  ln -fs "${clone_path}/.config/zsh/.aliases.local" "${HOME}/.config/zsh/.aliases.local" &&
   ln -fs "${clone_path}/.config/zsh/themes" "${HOME}/.config/zsh/themes" &&
   ln -fs "${clone_path}/.config/gitui" "${HOME}/.config/gitui" &&
   ln -fs "${clone_path}/.config/nvim" "${HOME}/.config/nvim" &&
