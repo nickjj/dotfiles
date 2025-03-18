@@ -17,6 +17,7 @@ related to my dev environment.
   - [How to get theme support in your terminal?](#how-to-get-theme-support-in-your-terminal)
   - [How to add custom themes to the set-theme script?](#how-to-add-custom-themes-to-the-set-theme-script)
   - [How to fix Neovim taking a long time to open when inside of WSL?](#how-to-fix-vim-taking-a-long-time-to-open-when-inside-of-wsl)
+  - [Where is the original Vim config?](#where-is-the-original-vim-config)
 - [About the author](#about-the-author)
 
 ## Themes
@@ -301,6 +302,20 @@ dotfiles will fix that issue.
 If it still persists, it might be a software firewall issue. You can open TCP
 port 6000 and also restrict access to it from only WSL 2. This will depend on
 which tool you're using to configure that but that should do the trick.
+
+### Where is the original Vim config?
+
+I've made dozens of [blog posts and
+videos](https://nickjanetakis.com/blog/tag/vim-tips-tricks-and-tutorials) about
+Vim. Sometimes I linked directly to a commit so there's a permalink to it but
+other times I did not.
+
+Before switching to Neovim I made a `vim` git tag. You can check out the state
+of the repo for that tag by [going
+here](https://github.com/nickjj/dotfiles/tree/vim). You'll see `.vimrc` in the
+root directory. If you cloned these dotfiles locally you can `git checkout
+vim`. Keep in mind that's frozen to that point in time. Future updates
+unrelated to Vim will not be included in that tag.
 
 ## About the Author
 
