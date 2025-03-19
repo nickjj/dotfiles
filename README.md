@@ -283,7 +283,7 @@ script](https://github.com/nickjj/dotfiles/blob/master/.local/bin/set-theme).
     - If your theme has Neovim variants, copy Gruvbox else copy Tokyonight
 4. Rename the dictionary's key to whatever your new theme's name is
     - If the Neovim theme name is the same as the dictionary key, that will be used
-5. Create the associated `tmux` theme in `~/.local/share/tmux/themes`
+5. Create the associated `tmux` theme in `~/.config/tmux/themes`
 6. Create the associated `fzf` theme in `~/.config/zsh/themes/fzf`
 7. Create the associated `gitui` theme in `~/.config/gitui`
 8. Modify any supported terminal configs to add the theme
