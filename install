@@ -363,7 +363,7 @@ You can safely close this terminal.
 The next time you open your terminal zsh will be ready to go!
 EOF
 
-if [ "${os_type}" != "darwin" ]; then
+if [ "${os_type}" == "darwin" ]; then
   cat <<EOF
 
 P.S., it looks like you're on macOS.
