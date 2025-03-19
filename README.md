@@ -259,6 +259,11 @@ the theme in iTerm2. You can run through steps 1-5 above and pick it from the
 list instead of importing it. If you have a way to automate this reliably
 please open a PR!
 
+Also, if you noticed ALT+x keymaps within Neovim aren't working that's because
+you need to goto your profile (step 3 from above), then the *Keys* tab and
+enable "Esc+" for the ALT keys you plan to use (left and / or right). If it's
+set to "Normal" (the likely default) then they won't work out of the box.
+
 #### Everything else
 
 If you're using a popular terminal and want it officially supported please open

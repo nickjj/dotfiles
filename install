@@ -363,4 +363,17 @@ You can safely close this terminal.
 The next time you open your terminal zsh will be ready to go!
 EOF
 
+if [ "${os_type}" != "darwin" ]; then
+  cat <<EOF
+
+P.S., it looks like you're on macOS.
+
+If you're using iTerm2 as your terminal you'll want to goto Settings ->
+Profiles -> Keys (tab) and then change your ALT keys to use "Esc+" instead of
+"Normal", otherwise ALT+x keymaps in Neovim won't work.
+
+If you're not using iTerm2 you may still need to do similar steps.
+EOF
+fi
+
 exit 0
