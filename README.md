@@ -119,14 +119,11 @@ of installing these for you unless you've skipped system packages.
 **Try it in Docker without modifying your system:**
 
 ```sh
-# Start a Debian container.
-docker container run --rm -it -v "${PWD}:/app" -w /app debian:bookworm-slim
+# Start a Debian container. We're setting a custom env var because the install
+# script will set a few extra things up when it's running in a container.
+docker container run --rm -it -e "CONTAINER=1" -v "${PWD}:/app" -w /app debian:bookworm-slim
 
 # [All of the commands below are expected to be run in the container]
-
-# curl and sudo don't exist in this image by default so let's install them.
-# Chances are you can skip this when running it on your real system.
-apt-get update -y && apt-get install -y curl sudo
 
 # Follow the usual installation steps.
 bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
@@ -139,7 +136,7 @@ zsh 2>/dev/null
 
 *Keep in mind with the Docker set up, unless your terminal is already
 configured to use Tokyonight Moon then the colors may look off. That's because
-your local terminal's config will not get updated.*
+your local terminal's config will not get automatically updated.*
 
 ### Did you install everything successfully?
 

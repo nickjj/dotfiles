@@ -66,6 +66,11 @@ mkdir -p "${HOME}/.config/zsh" "${HOME}/.cache/zsh" \
 ###############################################################################
 
 function apt_install_packages {
+  # Install extra packages in a container.
+  if [ -n "${CONTAINER:-}" ]; then
+    apt-get update && apt-get install -y sudo
+  fi
+
   # shellcheck disable=SC2086
   sudo apt-get update && sudo apt-get install -y ${apt_packages} ${apt_packages_optional}
 
