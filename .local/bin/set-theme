@@ -58,7 +58,7 @@ THEMES = {
 }
 
 SHELL_CONFIG = f"{os.environ.get('XDG_CONFIG_HOME')}/zsh/.zshrc"
-TMUX_CONFIG = f"{HOME}/.tmux.conf"
+TMUX_CONFIG = f"{HOME}/.config/tmux/tmux.conf"
 NVIM_COLORSCHEME_CONFIG = f"{HOME}/.config/nvim/lua/plugins/colorscheme.lua"
 GITUI_CONFIG_PATH = f"{HOME}/.config/gitui"
 

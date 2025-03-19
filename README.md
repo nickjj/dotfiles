@@ -112,7 +112,7 @@ packages](https://github.com/nickjj/dotfiles/blob/master/install) on your own
 beforehand. Besides that, everything else is supported since it's only dealing
 with files in your home directory.
 
-This set up targets zsh 5.0+, tmux 3.0+ and Neovim v0.10+. As long as you can
+This set up targets zsh 5.0+, tmux 3.1+ and Neovim v0.10+. As long as you can
 meet those requirements you're good to go. The install script will take care
 of installing these for you unless you've skipped system packages.
 
