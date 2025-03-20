@@ -59,7 +59,7 @@ _install_packages_apt() {
     tar -xJf "${shellcheck_xz_path}" -C "${shellcheck_install_path}" --strip-components=1 &&
     chmod +x "${shellcheck_install_path}/shellcheck" &&
     sudo mv "${_}" /usr/local/bin &&
-    rm -rf "${shellcheck_xz_path}"
+    rm -rf "${shellcheck_xz_path}" "${shellcheck_install_path}"
 
   CPU_ARCH="${original_cpu_arch}"
 
