@@ -119,19 +119,19 @@ of installing these for you unless you've skipped system packages.
 **Try it in Docker without modifying your system:**
 
 ```sh
-# Start a Debian container. We're setting a custom env var because the install
-# script will set a few extra things up when it's running in a container.
-docker container run --rm -it -e "CONTAINER=1" -v "${PWD}:/app" -w /app debian:bookworm-slim
+# Start a Debian container.
+docker container run --rm -it -v "${PWD}:/app" -w /app debian:bookworm-slim
 
-# [All of the commands below are expected to be run in the container]
-
-# Follow the usual installation steps.
-bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
-
-# Since we can't open a new terminal in the container we'll launch zsh and
-# manually source a few files. These 2 commands are only needed in Docker.
-zsh 2>/dev/null
-. ~/.config/zsh/.zprofile && . ~/.config/zsh/.zshrc
+# Copy / paste all 3 lines into the container's prompt and run it.
+#
+# We need to install curl + sudo beforehand because they're not installed by
+# default in this Docker image.
+#
+# Also, since we can't open a new terminal in a container we'll need to manually
+# launch zsh and source a few files.
+apt-get update && apt-get install -y curl sudo \
+  && bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) \
+  && zsh -c ". ~/.config/zsh/.zprofile && . ~/.config/zsh/.zshrc; zsh -i"
 ```
 
 *Keep in mind with the Docker set up, unless your terminal is already

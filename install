@@ -41,11 +41,6 @@ EOF
 }
 
 _install_packages_apt() {
-  # Install extra packages when running in a container.
-  if [ -n "${CONTAINER:-}" ]; then
-    apt-get update && apt-get install -y sudo
-  fi
-
   # shellcheck disable=SC2086
   sudo apt-get update && sudo apt-get install -y ${APT_PACKAGES} ${APT_PACKAGES_OPTIONAL}
 
@@ -365,6 +360,7 @@ EOF
   fi
 }
 
+detect_env
 create_initial_dirs
 install_packages
 clone_dotfiles
