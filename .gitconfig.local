@@ -1,10 +1,10 @@
 [user]
   name = Cody McCodePants
-  email = cody@mccodepants.com
+  email = cody.mccodepants@example.com
   # Uncomment the options below to auto-sign your git commits / tags using GPG.
   # Learn more about how to set up a GPG key pair here:
   #   https://nickjanetakis.com/blog/creating-and-managing-a-gpg-key-pair
-  #signingkey = cody@mccodepants.com
+  #signingkey = cody.mccodepants@example.com
 
 #[commit]
 #  gpgsign = true

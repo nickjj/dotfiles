@@ -292,7 +292,7 @@ configure_shell() {
 }
 
 configure_git() {
-  cp "${CLONE_PATH}/.gitconfig.user" "${HOME}/.gitconfig.user"
+  cp "${CLONE_PATH}/.gitconfig.local" "${HOME}/.gitconfig.local"
 }
 
 install_asdf() {

@@ -41,7 +41,7 @@ vim.filetype.add({ pattern = { ["%.*aliases.*"] = "bash" } })
 vim.filetype.add({ pattern = { ["%.env.*"] = "sh" } })
 vim.filetype.add({ pattern = { [".env.example"] = "conf" } })
 
--- Set .gitconfig.user or any variant as "git_config".
+-- Set .gitconfig.local or any variant as "git_config".
 vim.filetype.add({ pattern = { ["%.gitconfig.*"] = "git_config" } })
 
 -- Set requirements-lock.txt or any variant as "requirements".
