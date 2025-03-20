@@ -3,10 +3,6 @@ return {
   cmd = { "GrugFar", "GrugFarWithin" },
   config = function()
     vim.api.nvim_create_autocmd("FileType", {
-      group = vim.api.nvim_create_augroup(
-        "grug-far-personal",
-        { clear = true }
-      ),
       pattern = { "grug-far" },
       callback = function()
         MAP({ "i", "n", "x" }, "<A-h>", function()
@@ -17,7 +13,7 @@ return {
             "grug-far: toggled --hidden --glob !.git/ "
               .. (state and "ON" or "OFF")
           )
-        end, { buffer = true })
+        end, { desc = "Toggle Hidden Files", buffer = true })
       end,
     })
   end,
