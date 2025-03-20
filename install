@@ -48,7 +48,7 @@ _install_packages_apt() {
 
   # ShellCheck uses a different file name than what uname -m may output. I have
   # no idea if this will work since I have no arm64 Linux device to test on.
-  [[ "${CPU_ARCH}" =~ ^arm ]] && CPU_ARCH="armv6hf"
+  [[ "${CPU_ARCH}" =~ ^arm ]] && CPU_ARCH="aarch64"
 
   # We're only doing this on Linux because macOS has the latest versions
   # available with brew and we want the latest releases of each of these tools.
