@@ -14,7 +14,7 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
 
-alias sfr='. ${ZDOTDIR}/.zshrc'
+alias sz='. ${ZDOTDIR}/.zprofile && . ${ZDOTDIR}/.zshrc'
 alias dt='cd ${HOME}/dotfiles && nvim .'
 
 alias drun='docker container run --rm -it -v "${PWD}":/app -w /app'
