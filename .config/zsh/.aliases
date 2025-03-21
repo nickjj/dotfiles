@@ -19,7 +19,7 @@ alias cfp='${EDITOR} ${ZDOTDIR}/.zprofile'
 alias cfr='${EDITOR} ${ZDOTDIR}/.zshrc'
 alias sfr='. ${ZDOTDIR}/.zshrc'
 alias cfv='${EDITOR} ${HOME}/.config/nvim'
-alias cft='${EDITOR} ${HOME}/.tmux.conf'
+alias cft='${EDITOR} ${HOME}/.config/tmux/tmux.conf'
 alias dt='cd ${HOME}/src/github/dotfiles'
 
 alias drun='docker container run --rm -it -v "${PWD}":/app -w /app'
