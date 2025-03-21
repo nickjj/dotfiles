@@ -14,13 +14,8 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
 
-alias cfa='${EDITOR} ${ZDOTDIR}/.aliases'
-alias cfp='${EDITOR} ${ZDOTDIR}/.zprofile'
-alias cfr='${EDITOR} ${ZDOTDIR}/.zshrc'
 alias sfr='. ${ZDOTDIR}/.zshrc'
-alias cfv='${EDITOR} ${HOME}/.config/nvim'
-alias cft='${EDITOR} ${HOME}/.config/tmux/tmux.conf'
-alias dt='cd ${HOME}/src/github/dotfiles'
+alias dt='cd ${HOME}/dotfiles && nvim .'
 
 alias drun='docker container run --rm -it -v "${PWD}":/app -w /app'
 
