@@ -164,7 +164,10 @@ EOF
 
 clone_dotfiles() {
   read -rep $'\nWhere do you want to clone these dotfiles to [~/dotfiles]? ' clone_path
-  CLONE_PATH="${clone_path:-"${HOME}/dotfiles"}"
+
+  [[ -z "${clone_path}" ]] && clone_path="${HOME}/dotfiles"
+
+  CLONE_PATH="${clone_path//\~/"${HOME}"}"
 
   # Ensure path doesn't exist.
   while [ -e "${CLONE_PATH}" ]; do
@@ -177,6 +180,8 @@ clone_dotfiles() {
     *) echo "Please answer y or CTRL+c the script to abort everything" ;;
     esac
   done
+
+  mkdir -p "$(dirname "${CLONE_PATH}")"
 
   echo
 
