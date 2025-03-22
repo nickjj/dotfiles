@@ -197,6 +197,7 @@ clone_or_update_dotfiles() {
   local default_dotfiles_path="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
 
   read -rep "Where do you want to clone these dotfiles to [${default_dotfiles_path}]? " dotfiles_path
+  echo
 
   [[ -z "${dotfiles_path}" ]] && dotfiles_path="${default_dotfiles_path}"
 
@@ -208,7 +209,7 @@ clone_or_update_dotfiles() {
       cp -R "${PWD}/." "${DOTFILES_PATH}"
     fi
 
-    printf "\nThey've been copied to '%s'\n" "${DOTFILES_PATH}"
+    printf "They've been copied to '%s'\n" "${DOTFILES_PATH}"
     return
   fi
 
