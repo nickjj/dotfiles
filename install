@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+# Usage:
+#   ./install          # Clone my dotfiles
+#   DEBUG=1 ./install  # Copy the local dotfiles directory instead of cloning
+#
+#   # Customize which dotfiles URL to clone from
+#   DOTFILES_URL="https://github.com/example/dotfiles" ./install
 
 set -o errexit
 
