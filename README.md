@@ -78,6 +78,8 @@ It even handles cloning down this repo. You'll get a chance to pick the clone
 location in the script as well as view and / or change any system packages that
 get installed.
 
+The script is idempotent so you can run it more than once to stay updated.
+
 The install script is optimized for:
 
 - Ubuntu 22.04 LTS+ (native or WSL)

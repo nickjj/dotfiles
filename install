@@ -26,7 +26,7 @@ CPU_ARCH="$(uname -m)"
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
 
 DOTFILES_URL="${DOTFILES_URL:-https://github.com/nickjj/dotfiles}"
-DOTFILES_PATH=
+DOTFILES_PATH="${DOTFILES_PATH:-}"
 
 # -----------------------------------------------------------------------------
 # Helper functions
@@ -74,27 +74,28 @@ _install_packages_apt() {
   # available with brew and we want the latest releases of each of these tools.
   local shellcheck_install_path="/tmp/shellcheck"
   local shellcheck_xz_path="/tmp/shellcheck.tar.xz"
-  curl -s -o "${shellcheck_xz_path}" -L "https://github.com/koalaman/shellcheck/releases/download/${INSTALL_SHELLCHECK_VERSION}/shellcheck-${INSTALL_SHELLCHECK_VERSION}.${OS_TYPE}.${CPU_ARCH}.tar.xz" &&
-    mkdir -p "${shellcheck_install_path}" &&
-    tar -xJf "${shellcheck_xz_path}" -C "${shellcheck_install_path}" --strip-components=1 &&
-    chmod +x "${shellcheck_install_path}/shellcheck" &&
-    sudo mv "${_}" /usr/local/bin &&
-    rm -rf "${shellcheck_xz_path}" "${shellcheck_install_path}"
+  curl -s -o "${shellcheck_xz_path}" -L "https://github.com/koalaman/shellcheck/releases/download/${INSTALL_SHELLCHECK_VERSION}/shellcheck-${INSTALL_SHELLCHECK_VERSION}.${OS_TYPE}.${CPU_ARCH}.tar.xz"
+  mkdir -p "${shellcheck_install_path}"
+  tar -xJf "${shellcheck_xz_path}" -C "${shellcheck_install_path}" --strip-components=1
+  chmod +x "${shellcheck_install_path}/shellcheck"
+  sudo mv "${_}" /usr/local/bin
+  rm -rf "${shellcheck_xz_path}" "${shellcheck_install_path}"
 
   CPU_ARCH="${original_cpu_arch}"
 
   # shfmt uses a different file name than what uname -m will output.
   [[ "${CPU_ARCH}" == "x86_64" ]] && CPU_ARCH="amd64"
 
-  curl -s -o /tmp/shfmt -L "https://github.com/mvdan/sh/releases/download/${INSTALL_SHFMT_VERSION}/shfmt_${INSTALL_SHFMT_VERSION}_${OS_TYPE}_${CPU_ARCH}" &&
-    chmod +x /tmp/shfmt && sudo mv "${_}" /usr/local/bin
+  curl -s -o /tmp/shfmt -L "https://github.com/mvdan/sh/releases/download/${INSTALL_SHFMT_VERSION}/shfmt_${INSTALL_SHFMT_VERSION}_${OS_TYPE}_${CPU_ARCH}"
+  chmod +x /tmp/shfmt
+  sudo mv "${_}" /usr/local/bin
 
   CPU_ARCH="${original_cpu_arch}"
 
   local nvim_gz_path="/tmp/nvim.tar.gz"
-  curl -s -o "${nvim_gz_path}" -L "https://github.com/neovim/neovim/releases/download/${INSTALL_NVIM_VERSION}/nvim-${OS_TYPE}-${CPU_ARCH}.tar.gz" &&
-    tar -xzf "${nvim_gz_path}" -C "${HOME}/.local" --strip-components=1 &&
-    rm -rf "${nvim_gz_path}"
+  curl -s -o "${nvim_gz_path}" -L "https://github.com/neovim/neovim/releases/download/${INSTALL_NVIM_VERSION}/nvim-${OS_TYPE}-${CPU_ARCH}.tar.gz"
+  tar -xzf "${nvim_gz_path}" -C "${HOME}/.local" --strip-components=1
+  rm -rf "${nvim_gz_path}"
 }
 
 _install_packages_brew() {
@@ -151,7 +152,7 @@ install_packages() {
   fi
 
   cat <<EOF
-If you choose yes, all of the system packages below will be installed:
+If you choose y, all of the system packages below will be installed:
 
 $(_display_packages)
 
@@ -183,35 +184,39 @@ EOF
 
 }
 
-clone_dotfiles() {
-  _info "CLONE DOTFILES"
+clone_or_update_dotfiles() {
+  _info "CLONE OR UPDATE DOTFILES"
 
-  read -rep $'Where do you want to clone these dotfiles to [~/dotfiles]? ' dotfiles_path
+  local local_zprofile="${HOME}/.config/zsh/.zprofile.local"
 
-  [[ -z "${dotfiles_path}" ]] && dotfiles_path="${HOME}/dotfiles"
+  if [ -f "${local_zprofile}" ]; then
+    # shellcheck disable=SC1090
+    . "${local_zprofile}"
+  fi
+
+  local default_dotfiles_path="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
+
+  read -rep "Where do you want to clone these dotfiles to [${default_dotfiles_path}]? " dotfiles_path
+
+  [[ -z "${dotfiles_path}" ]] && dotfiles_path="${default_dotfiles_path}"
 
   DOTFILES_PATH="${dotfiles_path//\~/"${HOME}"}"
 
-  # Ensure path doesn't exist.
-  while [ -e "${DOTFILES_PATH}" ]; do
-    read -rep $'\nDotfiles path exists, try again? (y) ' y
-    case "${y}" in
-    [Yy]*)
-
-      break
-      ;;
-    *) echo "Please answer y or CTRL+c the script to abort everything" ;;
-    esac
-  done
-
-  mkdir -p "$(dirname "${DOTFILES_PATH}")"
-
   # This is used to locally develop the install script.
   if [ "${DEBUG}" == "1" ]; then
-    cp -R "${PWD}/." "${DOTFILES_PATH}"
+    if [ "${PWD}" != "${DOTFILES_PATH}" ]; then
+      cp -R "${PWD}/." "${DOTFILES_PATH}"
+    fi
 
     printf "\nThey've been copied to '%s'\n" "${DOTFILES_PATH}"
+    return
+  fi
+
+  if [ -e "${DOTFILES_PATH}" ]; then
+    # Let's get the latest updates.
+    git -C "${DOTFILES_PATH}" pull
   else
+    mkdir -p "$(dirname "${DOTFILES_PATH}")"
     git clone "${DOTFILES_URL}" "${DOTFILES_PATH}"
   fi
 }
@@ -275,56 +280,74 @@ sudo ln -fs "${DOTFILES_PATH}/etc/wsl.conf" /etc/wsl.conf
 -------------------------------------------------------------------------------
 
 A potentially dangerous action is about to happen. The above directories and
-files are going to get forcefully symlinked.
+files are going to get forcefully symlinked if you type y in the prompt below.
 
 What does that mean?
 
 Any config files you have on the right hand side of the paths are going to get
 overwritten with the files that come with these dotfiles (left side).
 
-If you care about your original config files now would be the time to back
-them up. They will all be overwritten if you say yes to the prompt below.
+Without these symlinks, these dotfiles will not work. If you plan to type y
+and have existing files now would be a good time to back them up.
+
 EOF
 
   while true; do
-    read -rep $'\nReady to continue and apply the symlinks? (y) ' y
-    case "${y}" in
+    read -rep "Ready to continue? Enter y to apply them all or n to skip (y/n) " yn
+    case "${yn}" in
     [Yy]*)
+      ln -fs "${DOTFILES_PATH}/.zshenv" "${HOME}/.zshenv" &&
+        ln -fs "${DOTFILES_PATH}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc" &&
+        ln -fs "${DOTFILES_PATH}/.config/zsh/.zshrc.local" "${HOME}/.config/zsh/.zshrc.local" &&
+        ln -fs "${DOTFILES_PATH}/.config/zsh/.zprofile" "${HOME}/.config/zsh/.zprofile" &&
+        ln -fs "${DOTFILES_PATH}/.config/zsh/.zprofile.local" "${HOME}/.config/zsh/.zprofile.local" &&
+        ln -fs "${DOTFILES_PATH}/.config/zsh/.aliases" "${HOME}/.config/zsh/.aliases" &&
+        ln -fs "${DOTFILES_PATH}/.config/zsh/.aliases.local" "${HOME}/.config/zsh/.aliases.local" &&
+        ln -fs "${DOTFILES_PATH}/.config/tmux/tmux.conf" "${HOME}/.config/tmux/tmux.conf" &&
+        ln -fTs "${DOTFILES_PATH}/.config/zsh/themes" "${HOME}/.config/zsh/themes" &&
+        ln -fTs "${DOTFILES_PATH}/.config/tmux/themes" "${HOME}/.config/tmux/themes" &&
+        ln -fTs "${DOTFILES_PATH}/.config/gitui" "${HOME}/.config/gitui" &&
+        ln -fTs "${DOTFILES_PATH}/.config/nvim" "${HOME}/.config/nvim" &&
+        ln -fs "${DOTFILES_PATH}/.gitconfig" "${HOME}/.gitconfig" &&
+        ln -fTs "${DOTFILES_PATH}/.local/lib/css" "${HOME}/.local/lib/css" &&
+        ln -fs "${DOTFILES_PATH}/.local/bin/"* "${HOME}/.local/bin/"
+
+      if grep -qE "(Microsoft|microsoft|WSL)" /proc/version &>/dev/null; then
+        sudo ln -fs "${DOTFILES_PATH}/etc/wsl.conf" /etc/wsl.conf
+      fi
 
       break
       ;;
-    *) echo "Please answer y or CTRL+c the script to abort" ;;
+    [Nn]*)
+
+      break
+      ;;
+    *) echo "Please answer y or n" ;;
     esac
   done
-
-  ln -fs "${DOTFILES_PATH}/.zshenv" "${HOME}/.zshenv" &&
-    ln -fs "${DOTFILES_PATH}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc" &&
-    ln -fs "${DOTFILES_PATH}/.config/zsh/.zshrc.local" "${HOME}/.config/zsh/.zshrc.local" &&
-    ln -fs "${DOTFILES_PATH}/.config/zsh/.zprofile" "${HOME}/.config/zsh/.zprofile" &&
-    ln -fs "${DOTFILES_PATH}/.config/zsh/.zprofile.local" "${HOME}/.config/zsh/.zprofile.local" &&
-    ln -fs "${DOTFILES_PATH}/.config/zsh/.aliases" "${HOME}/.config/zsh/.aliases" &&
-    ln -fs "${DOTFILES_PATH}/.config/zsh/.aliases.local" "${HOME}/.config/zsh/.aliases.local" &&
-    ln -fs "${DOTFILES_PATH}/.config/tmux/tmux.conf" "${HOME}/.config/tmux/tmux.conf" &&
-    ln -fs "${DOTFILES_PATH}/.config/zsh/themes" "${HOME}/.config/zsh/themes" &&
-    ln -fs "${DOTFILES_PATH}/.config/tmux/themes" "${HOME}/.config/tmux/themes" &&
-    ln -fs "${DOTFILES_PATH}/.config/gitui" "${HOME}/.config/gitui" &&
-    ln -fs "${DOTFILES_PATH}/.config/nvim" "${HOME}/.config/nvim" &&
-    ln -fs "${DOTFILES_PATH}/.gitconfig" "${HOME}/.gitconfig" &&
-    ln -fs "${DOTFILES_PATH}/.local/lib/css" "${HOME}/.local/lib/css" &&
-    ln -fs "${DOTFILES_PATH}/.local/bin/"* "${HOME}/.local/bin/"
-
-  if grep -qE "(Microsoft|microsoft|WSL)" /proc/version &>/dev/null; then
-    sudo ln -fs "${DOTFILES_PATH}/etc/wsl.conf" /etc/wsl.conf
-  fi
 }
 
 configure_shell() {
   _info "CONFIGURE SHELL"
 
-  echo "# Any settings defined here are gitignored" |
-    tee "${DOTFILES_PATH}/.config/zsh/"{.zshrc.local,.zprofile.local,.aliases.local} >/dev/null
+  local_files=(".zshrc.local" ".zprofile.local" ".aliases.local")
 
-  [ "${OS_TYPE}" != "darwin" ] && chsh -s "$(command -v zsh)"
+  for file in "${local_files[@]}"; do
+    local file_path="${HOME}/.config/zsh/${file}"
+
+    if [ ! -f "${file_path}" ]; then
+      echo "# Any settings defined here are gitignored" >"${file_path}"
+    fi
+  done
+
+  local zprofile_path="${HOME}/.config/zsh/.zprofile.local"
+  if ! grep -q "^export DOTFILES_PATH=.*$" "${zprofile_path}" 2>/dev/null; then
+    printf '\nexport DOTFILES_PATH="%s"\n' "${DOTFILES_PATH}" >>"${zprofile_path}"
+  fi
+
+  if [ "${OS_TYPE}" != "darwin" ]; then
+    [ "${SHELL}" != "$(command -v zsh)" ] && chsh -s "$(command -v zsh)"
+  fi
 
   # shellcheck disable=SC1091
   . "${HOME}/.config/zsh/.zprofile"
@@ -337,7 +360,7 @@ configure_git() {
 
   local git_local_path="${HOME}/.gitconfig.local"
 
-  cp "${DOTFILES_PATH}/.gitconfig.local" "${git_local_path}"
+  cp -n "${DOTFILES_PATH}/.gitconfig.local" "${git_local_path}" 2>/dev/null || true
 
   echo "It has been configured in '${git_local_path}'"
 }
@@ -354,19 +377,24 @@ install_asdf() {
   # shellcheck disable=SC1091
   . "${asdf_path}/asdf.sh"
 
-  printf "Installing Node %s...\n\n" "${INSTALL_NODE_VERSION}"
+  if ! node --version >/dev/null 2>&1; then
+    printf "Installing Node %s...\n\n" "${INSTALL_NODE_VERSION}"
 
-  "${asdf_path}/bin/asdf" plugin add nodejs || true
-  "${asdf_path}/bin/asdf" install nodejs "${INSTALL_NODE_VERSION}"
-  "${asdf_path}/bin/asdf" global nodejs "${INSTALL_NODE_VERSION}"
+    "${asdf_path}/bin/asdf" plugin add nodejs || true
+    "${asdf_path}/bin/asdf" install nodejs "${INSTALL_NODE_VERSION}"
+    "${asdf_path}/bin/asdf" global nodejs "${INSTALL_NODE_VERSION}"
+  fi
 
-  npm install --unsafe-perm=true --allow-root --global yarn
+  if ! yarn --version >/dev/null 2>&1; then
+    npm install --unsafe-perm=true --allow-root --global yarn
+  fi
 }
 
 install_tmux_plugins() {
   _info "INSTALL TMUX PLUGINS"
 
-  local tpm_path="${HOME}/.config/tmux/plugins/tpm"
+  local plugin_path="${HOME}/.config/tmux/plugins"
+  local tpm_path="${plugin_path}/tpm"
 
   rm -rf "${tpm_path}"
   git clone --depth 1 https://github.com/tmux-plugins/tpm "${tpm_path}"
@@ -392,7 +420,7 @@ https://github.com/nickjj/dotfiles#did-you-install-everything-successfully
 
 You can safely close this terminal.
 
-The next time you open your terminal zsh will be ready to go!
+The next time you open your terminal everything will be ready to go!
 EOF
 
   if [ "${OS_TYPE}" == "darwin" ]; then
@@ -412,7 +440,7 @@ EOF
 detect_env
 create_initial_dirs
 install_packages
-clone_dotfiles
+clone_or_update_dotfiles
 configure_brew
 install_zsh_plugins
 install_fzf
