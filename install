@@ -24,6 +24,18 @@ DOTFILES_PATH=
 # Helper functions
 # -----------------------------------------------------------------------------
 
+_error() {
+  local message="${1:-}"
+
+  printf "\e[31;1mERROR:\e[0m %s\n\n" "${message}" >&2
+  exit 1
+}
+
+_info() {
+  local message="${1:-}"
+  printf "\n\n\e[36;1m%s:\e[0m\n\n" "${message}"
+}
+
 _no_system_packages() {
   cat <<EOF
 System package installation isn't supported with your OS / distro.
@@ -111,7 +123,7 @@ detect_env() {
     ;;
   darwin) ;;
   *)
-    exit 1
+    _error "'${OS_TYPE}' is not supported"
 
     ;;
   esac
@@ -123,13 +135,14 @@ create_initial_dirs() {
 }
 
 install_packages() {
+  _info "INSTALL PACKAGES"
+
   if [ -n "${SKIP_SYSTEM_PACKAGES}" ]; then
-    echo "SKIPPED: Installing system packages"
+    echo "Skipping, you've chosen not to or your OS is unsupported"
     return
   fi
 
   cat <<EOF
-
 If you choose yes, all of the system packages below will be installed:
 
 $(_display_packages)
@@ -163,7 +176,9 @@ EOF
 }
 
 clone_dotfiles() {
-  read -rep $'\nWhere do you want to clone these dotfiles to [~/dotfiles]? ' dotfiles_path
+  _info "CLONE DOTFILES"
+
+  read -rep $'Where do you want to clone these dotfiles to [~/dotfiles]? ' dotfiles_path
 
   [[ -z "${dotfiles_path}" ]] && dotfiles_path="${HOME}/dotfiles"
 
@@ -171,7 +186,7 @@ clone_dotfiles() {
 
   # Ensure path doesn't exist.
   while [ -e "${DOTFILES_PATH}" ]; do
-    read -rep $'\n Dotfiles path exists, try again? (y) ' y
+    read -rep $'\nDotfiles path exists, try again? (y) ' y
     case "${y}" in
     [Yy]*)
 
@@ -183,11 +198,11 @@ clone_dotfiles() {
 
   mkdir -p "$(dirname "${DOTFILES_PATH}")"
 
-  echo
-
   # This is used to locally develop the install script.
   if [ "${DEBUG}" == "1" ]; then
     cp -R "${PWD}/." "${DOTFILES_PATH}"
+
+    printf "\nThey've been copied to '%s'\n" "${DOTFILES_PATH}"
   else
     git clone https://github.com/nickjj/dotfiles "${DOTFILES_PATH}"
   fi
@@ -195,20 +210,28 @@ clone_dotfiles() {
 
 configure_brew() {
   if [ "${OS_TYPE}" == "darwin" ]; then
+    _info "CONFIGURE BREW"
+
     local zsh_profile="${HOME}/.config/zsh/.zprofile"
 
     if ! grep -q "eval.*homebrew.*shellenv" "${zsh_profile}" 2>/dev/null; then
       # shellcheck disable=SC2016
       printf '\neval "$(/opt/homebrew/bin/brew shellenv)"\n' >>"${zsh_profile}"
     fi
+
+    echo "It's been configured in '${zsh_profile}'"
   fi
 }
 
 install_zsh_plugins() {
+  _info "INSTALL ZSH PLUGINS"
+
   "${DOTFILES_PATH}/.local/bin/update-zsh-plugins"
 }
 
 install_fzf() {
+  _info "INSTALL FZF"
+
   local fzf_path="${HOME}/.local/share/fzf"
 
   rm -rf "${fzf_path}"
@@ -217,8 +240,9 @@ install_fzf() {
 }
 
 create_symlinks() {
-  cat <<EOF
+  _info "CREATE SYMLINKS"
 
+  cat <<EOF
 -------------------------------------------------------------------------------
 
 ln -fs "${DOTFILES_PATH}/.zshenv" "${HOME}/.zshenv"
@@ -287,6 +311,8 @@ EOF
 }
 
 configure_shell() {
+  _info "CONFIGURE SHELL"
+
   echo "# Any settings defined here are gitignored" |
     tee "${DOTFILES_PATH}/.config/zsh/"{.zshrc.local,.zprofile.local,.aliases.local} >/dev/null
 
@@ -294,14 +320,22 @@ configure_shell() {
 
   # shellcheck disable=SC1091
   . "${HOME}/.config/zsh/.zprofile"
+
+  echo "It has been configured in '${HOME}/.config.zsh/'"
 }
 
 configure_git() {
-  cp "${DOTFILES_PATH}/.gitconfig.local" "${HOME}/.gitconfig.local"
+  _info "CONFIGURE GIT"
+
+  local git_local_path="${HOME}/.gitconfig.local"
+
+  cp "${DOTFILES_PATH}/.gitconfig.local" "${git_local_path}"
+
+  echo "It has been configured in '${git_local_path}'"
 }
 
 install_asdf() {
-  printf "\n\nInstalling asdf %s...\n" "${INSTALL_ASDF_VERSION}"
+  _info "INSTALL ASDF (${INSTALL_ASDF_VERSION})"
 
   local asdf_path="${HOME}/.local/share/asdf"
 
@@ -312,7 +346,7 @@ install_asdf() {
   # shellcheck disable=SC1091
   . "${asdf_path}/asdf.sh"
 
-  printf "\n\nInstalling node %s...\n" "${INSTALL_NODE_VERSION}"
+  printf "Installing Node %s...\n\n" "${INSTALL_NODE_VERSION}"
 
   "${asdf_path}/bin/asdf" plugin add nodejs || true
   "${asdf_path}/bin/asdf" install nodejs "${INSTALL_NODE_VERSION}"
@@ -322,7 +356,7 @@ install_asdf() {
 }
 
 install_tmux_plugins() {
-  printf "\n\nInstalling tmux plugins...\n"
+  _info "INSTALL TMUX PLUGINS"
 
   local tpm_path="${HOME}/.config/tmux/plugins/tpm"
 
@@ -333,15 +367,17 @@ install_tmux_plugins() {
 }
 
 install_nvim_plugins() {
-  printf "\n\nInstalling Neovim plugins...\n"
+  _info "INSTALL NEOVIM PLUGINS"
 
   nvim +q
+
+  echo "They've been installed"
 }
 
 completed_message() {
-  cat <<EOF
-Everything was installed successfully!
+  _info "EVERYTHING WORKED"
 
+  cat <<EOF
 Check out the README file on GitHub to do 1 quick thing manually:
 
 https://github.com/nickjj/dotfiles#did-you-install-everything-successfully
