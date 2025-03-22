@@ -64,6 +64,9 @@ _install_packages_apt() {
   # shellcheck disable=SC2086
   sudo apt-get update && sudo apt-get install -y ${APT_PACKAGES} ${APT_PACKAGES_OPTIONAL}
 
+  # Allow using fd with fd instead of fdfind.
+  ln -fs "$(which fdfind)" "${HOME}/.local/bin/fd"
+
   local original_cpu_arch="${CPU_ARCH}"
 
   # ShellCheck uses a different file name than what uname -m may output. I have
