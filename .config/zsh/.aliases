@@ -42,16 +42,17 @@ fi
 
 alias vss='sort -u ${HOME}/.config/nvim/spell/en.utf-8.add -o ${HOME}/.config/nvim/spell/en.utf-8.add'
 
-alias vdt="rm ${HOME}/.local/state/nvim/swap/%*"
+alias vdt='rm ${HOME}/.local/state/nvim/swap/%*'
 
 alias gi="git init && git symbolic-ref HEAD refs/heads/main"
 
+# shellcheck disable=SC2139
 alias pf="fzf ${FZF_CTRL_T_OPTS}"
 
 alias gcl="git diff --name-only --diff-filter=U"
 
 alias start-rec="start-recording && HISTSIZE=0"
-alias stop-rec="stop-recording && HISTSIZE=${SAVEHIST} && fc -R"
+alias stop-rec='stop-recording && HISTSIZE=${SAVEHIST} && fc -R'
 
 alias k="kubectl"
 alias tf="terraform"
