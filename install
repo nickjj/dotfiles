@@ -18,6 +18,8 @@ INSTALL_NODE_VERSION="18.17.0"
 
 CPU_ARCH="$(uname -m)"
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
+
+DOTFILES_URL="${DOTFILES_URL:-https://github.com/nickjj/dotfiles}"
 DOTFILES_PATH=
 
 # -----------------------------------------------------------------------------
@@ -204,7 +206,7 @@ clone_dotfiles() {
 
     printf "\nThey've been copied to '%s'\n" "${DOTFILES_PATH}"
   else
-    git clone https://github.com/nickjj/dotfiles "${DOTFILES_PATH}"
+    git clone "${DOTFILES_URL}" "${DOTFILES_PATH}"
   fi
 }
 
