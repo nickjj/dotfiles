@@ -77,12 +77,12 @@ _install_packages_apt() {
   # available with brew and we want the latest releases of each of these tools.
   local shellcheck_install_path="/tmp/shellcheck"
   local shellcheck_xz_path="/tmp/shellcheck.tar.xz"
+  rm -rf "${shellcheck_xz_path}" "${shellcheck_install_path}"
   curl -s -o "${shellcheck_xz_path}" -L "https://github.com/koalaman/shellcheck/releases/download/${INSTALL_SHELLCHECK_VERSION}/shellcheck-${INSTALL_SHELLCHECK_VERSION}.${OS_TYPE}.${CPU_ARCH}.tar.xz"
   mkdir -p "${shellcheck_install_path}"
   tar -xJf "${shellcheck_xz_path}" -C "${shellcheck_install_path}" --strip-components=1
   chmod +x "${shellcheck_install_path}/shellcheck"
   sudo mv "${_}" /usr/local/bin
-  rm -rf "${shellcheck_xz_path}" "${shellcheck_install_path}"
 
   CPU_ARCH="${original_cpu_arch}"
 
@@ -96,9 +96,9 @@ _install_packages_apt() {
   CPU_ARCH="${original_cpu_arch}"
 
   local nvim_gz_path="/tmp/nvim.tar.gz"
+  rm -rf "${nvim_gz_path}"
   curl -s -o "${nvim_gz_path}" -L "https://github.com/neovim/neovim/releases/download/${INSTALL_NVIM_VERSION}/nvim-${OS_TYPE}-${CPU_ARCH}.tar.gz"
   tar -xzf "${nvim_gz_path}" -C "${HOME}/.local" --strip-components=1
-  rm -rf "${nvim_gz_path}"
 }
 
 _install_packages_brew() {
