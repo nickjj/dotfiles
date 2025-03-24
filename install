@@ -300,12 +300,14 @@ EOF
     read -rep "Ready to continue? Enter y to apply them all or n to skip (y/n) " yn
     case "${yn}" in
     [Yy]*)
-      # Avoid using ln -T flag since it doesn't exist on macOS.
-      unlink "${HOME}/.config/zsh/themes"
-      unlink "${HOME}/.config/tmux/themes"
-      unlink "${HOME}/.config/gitui"
-      unlink "${HOME}/.config/nvim"
-      unlink "${HOME}/.local/lib/css"
+      # Avoid using ln -T flag since it doesn't exist on macOS. We're being
+      # extra careful here to only delete symlinks if they exist. Technically
+      # rm -f would work but that could delete real files potentially.
+      [ -L "${HOME}/.config/zsh/themes" ] && rm "${HOME}/.config/zsh/themes"
+      [ -L "${HOME}/.config/tmux/themes" ] && rm "${HOME}/.config/tmux/themes"
+      [ -L "${HOME}/.config/gitui" ] && rm "${HOME}/.config/gitui"
+      [ -L "${HOME}/.config/nvim" ] && rm "${HOME}/.config/nvim"
+      [ -L "${HOME}/.local/lib/css" ] && rm "${HOME}/.local/lib/css"
 
       ln -fs "${DOTFILES_PATH}/.zshenv" "${HOME}/.zshenv" &&
         ln -fs "${DOTFILES_PATH}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc" &&
