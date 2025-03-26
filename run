@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+lint() {
+  # Lint all supported file types.
+  shfmt --diff .
+
+  bash -O extglob -c "shellcheck run install .local/bin/!(local|set-theme)"
+
+  ruff check "${@}"
+}
+
+format() {
+  # Format all supported file types.
+  shfmt --write .
+
+  ruff check --fix "${@}"
+  ruff format "${@}"
+}
+
+quality() {
+  # Perform all code quality commands together.
+  format "${@}"
+  lint "${@}"
+}
+
+help() {
+  printf "%s <task> [args]\n\nTasks:\n" "${0}"
+
+  compgen -A function | grep -v "^_" | cat -n
+
+  printf "\nExtended help:\n  Each task has comments for general usage\n"
+}
+
+TIMEFORMAT=$'\nTask completed in %3lR'
+time "${@:-help}"

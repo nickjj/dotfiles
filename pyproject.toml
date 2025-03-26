@@ -1,5 +1,12 @@
 [tool.ruff]
 line-length = 79
+include = [
+  "*.py",
+  "*.pyi",
+  "*.ipynb",
+  "**/pyproject.toml",
+  ".local/bin/set-theme",
+]
 
 [tool.ruff.lint]
-extend-select = ["SIM"]
+extend-select = ["I", "SIM"]
