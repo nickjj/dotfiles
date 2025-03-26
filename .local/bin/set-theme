@@ -6,15 +6,16 @@ import os
 import re
 import sys
 import textwrap
-
 from pathlib import Path
-from subprocess import run, PIPE
+from subprocess import PIPE, run
 
 
 def get_windows_user():
     try:
         result = run(
-            ["powershell.exe", "$env:UserName"], stdout=PIPE, universal_newlines=True
+            ["powershell.exe", "$env:UserName"],
+            stdout=PIPE,
+            universal_newlines=True,
         )
 
         return result.stdout.rstrip()
@@ -84,7 +85,7 @@ def active_theme():
         sys.exit(f"ERROR: {NVIM_COLORSCHEME_CONFIG} not found")
     except NameError:
         sys.exit(
-            f'ERROR: "colorscheme" statement not found in {NVIM_COLORSCHEME_CONFIG}'
+            f'ERROR: "colorscheme" not found in {NVIM_COLORSCHEME_CONFIG}'
         )
 
 
@@ -105,7 +106,9 @@ https://github.com/nickjj/dotfiles#how-to-get-theme-support-in-your-terminal"""
         for line in f:
             for match in terminal["matches"]:
                 line = re.sub(
-                    rf"{match['find']}", match["replace"].replace("%theme", theme), line
+                    rf"{match['find']}",
+                    match["replace"].replace("%theme", theme),
+                    line,
                 )
             sys.stdout.write(line)
 
@@ -113,7 +116,9 @@ https://github.com/nickjj/dotfiles#how-to-get-theme-support-in-your-terminal"""
 def change_tmux_theme(theme):
     with edit_inplace(TMUX_CONFIG) as f:
         for line in f:
-            line = re.sub(r'\/themes\/.*\.conf"', f'/themes/{theme}.conf"', line)
+            line = re.sub(
+                r'\/themes\/.*\.conf"', f'/themes/{theme}.conf"', line
+            )
             sys.stdout.write(line)
 
     run(["tmux", "source-file", TMUX_CONFIG])
@@ -144,7 +149,9 @@ def change_nvim_theme(theme):
 def change_fzf_theme(theme):
     with edit_inplace(SHELL_CONFIG) as f:
         for line in f:
-            line = re.sub(r'\/themes\/fzf\/.*\.sh"', f'/themes/fzf/{theme}.sh"', line)
+            line = re.sub(
+                r'\/themes\/fzf\/.*\.sh"', f'/themes/fzf/{theme}.sh"', line
+            )
             sys.stdout.write(line)
 
 

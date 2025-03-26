@@ -1,0 +1,5 @@
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+extend-select = ["SIM"]
