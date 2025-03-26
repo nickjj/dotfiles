@@ -25,7 +25,6 @@ def get_windows_user():
     return None
 
 
-HOME = str(Path.home())
 TERMINALS = {
     "windows-terminal": {
         "path": f"/c/Users/{get_windows_user()}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json",  # noqa: E501
@@ -58,6 +57,7 @@ THEMES = {
     },
 }
 
+HOME = str(Path.home())
 SHELL_CONFIG = f"{os.environ.get('XDG_CONFIG_HOME')}/zsh/.zshrc"
 TMUX_CONFIG = f"{HOME}/.config/tmux/tmux.conf"
 NVIM_COLORSCHEME_CONFIG = f"{HOME}/.config/nvim/lua/plugins/colorscheme.lua"
