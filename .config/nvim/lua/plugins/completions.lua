@@ -1,3 +1,5 @@
+local luasnip = require("luasnip")
+
 return {
   {
     "rafamadriz/friendly-snippets",
@@ -60,6 +62,8 @@ return {
             vim.schedule(function()
               vim.snippet.jump(1)
             end)
+          elseif luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
           elseif has_words_before() then
             cmp.complete()
           else
@@ -77,6 +81,7 @@ return {
             fallback()
           end
         end, { "i", "s" }),
+        ["<C-e>"] = cmp.mapping.abort(),
       })
     end,
   },
