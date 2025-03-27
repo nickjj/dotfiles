@@ -16,7 +16,7 @@ format() {
   # Format all supported file types.
   shfmt --write .
 
-  ruff check --fix "${@}"
+  ruff check --fix
   ruff format "${@}"
 }
 
