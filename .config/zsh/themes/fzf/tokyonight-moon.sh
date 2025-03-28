@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} \
   --color=bg+:#2d3f76 \
   --color=bg:#1e2030 \

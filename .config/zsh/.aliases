@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 if command -v brew >/dev/null 2>&1; then
   alias ls="ls -G"
   alias grep="grep -G"

@@ -349,7 +349,7 @@ configure_shell() {
     local file_path="${HOME}/.config/zsh/${file}"
 
     if [ ! -f "${file_path}" ]; then
-      echo "# Any settings defined here are gitignored" >"${file_path}"
+      printf "# shellcheck shell=bash\n\n# Any settings defined here are gitignored\n" >"${file_path}"
     fi
   done
 
