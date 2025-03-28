@@ -5,10 +5,15 @@ set -o pipefail
 
 lint() {
   # Lint all supported file types
-  local cmd=(shellcheck)
+  local shellcheck_cmd=(shellcheck)
+  local ruff_cmd=(ruff)
 
   if ! command -v shellcheck >/dev/null 2>&1; then
-    local cmd=(docker container run --rm -i -v "${PWD}:/mnt" koalaman/shellcheck:stable)
+    local shellcheck_cmd=(docker container run --rm -i -v "${PWD}:/mnt" koalaman/shellcheck:stable)
+  fi
+
+  if ! command -v ruff >/dev/null 2>&1; then
+    local ruff_cmd=(docker container run --rm -i -v "${PWD}:/io" -u "$(id -u):$(id -g)" ghcr.io/astral-sh/ruff:0.11.1)
   fi
 
   find . -type f \
@@ -16,17 +21,22 @@ lint() {
     ! -path "./.ruff_cache/*" \
     ! -path "./.pytest_cache/*" \
     ! -path "./c/*" \
-    -exec grep --quiet -E '^(#!.*sh|# shellcheck shell=)' {} \; -exec "${cmd[@]}" {} +
+    -exec grep --quiet -E '^(#!.*sh|# shellcheck shell=)' {} \; -exec "${shellcheck_cmd[@]}" {} +
 
-  ruff check "${@}"
+  "${ruff_cmd[@]}" check "${@}"
 }
 
 format() {
   # Format all supported file types
   local shfmt_cmd=(shfmt)
+  local ruff_cmd=(ruff)
 
   if ! command -v shfmt >/dev/null 2>&1; then
     local shfmt_cmd=(docker container run --rm -i -v "${PWD}:/mnt" -u "$(id -u):$(id -g)" -w /mnt mvdan/shfmt:v3)
+  fi
+
+  if ! command -v ruff >/dev/null 2>&1; then
+    local ruff_cmd=(docker container run --rm -i -v "${PWD}:/io" -u "$(id -u):$(id -g)" ghcr.io/astral-sh/ruff:0.11.1)
   fi
 
   local maybe_write=("--write")
@@ -39,8 +49,8 @@ format() {
 
   "${shfmt_cmd[@]}" "${maybe_write[@]}" "${@}" . .config/zsh/.{aliases,zprofile,zshrc}
 
-  ruff check --fix
-  ruff format "${@}"
+  "${ruff_cmd[@]}" check --fix
+  "${ruff_cmd[@]}" format "${@}"
 }
 
 quality() {
