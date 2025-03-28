@@ -5,8 +5,6 @@ set -o pipefail
 
 lint() {
   # Lint all supported file types.
-  shfmt --diff .
-
   bash -O extglob -c "shellcheck run install .local/bin/!(local|set-theme)"
 
   ruff check "${@}"
@@ -22,8 +20,8 @@ format() {
 
 quality() {
   # Perform all code quality commands together.
-  format "${@}"
   lint "${@}"
+  format "${@}"
 }
 
 help() {
