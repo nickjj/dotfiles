@@ -22,15 +22,29 @@ lint() {
 }
 
 format() {
-  # Format all supported file types.
-  shfmt --write .
+  # Format all supported file types
+  local shfmt_cmd=(shfmt)
+
+  if ! command -v shfmt >/dev/null 2>&1; then
+    local shfmt_cmd=(docker container run --rm -i -v "${PWD}:/mnt" -u "$(id -u):$(id -g)" -w /mnt mvdan/shfmt:v3)
+  fi
+
+  local maybe_write=("--write")
+
+  for arg in "${@}"; do
+    if [ "${arg}" == "-d" ] || [ "${arg}" == "--diff" ]; then
+      unset "maybe_write[0]"
+    fi
+  done
+
+  "${shfmt_cmd[@]}" "${maybe_write[@]}" "${@}" . .config/zsh/.{aliases,zprofile,zshrc}
 
   ruff check --fix
   ruff format "${@}"
 }
 
 quality() {
-  # Perform all code quality commands together.
+  # Perform all code quality commands together
   lint "${@}"
   format "${@}"
 }
