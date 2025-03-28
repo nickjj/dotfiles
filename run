@@ -4,8 +4,19 @@ set -o errexit
 set -o pipefail
 
 lint() {
-  # Lint all supported file types.
-  bash -O extglob -c "shellcheck run install .local/bin/!(local|set-theme)"
+  # Lint all supported file types
+  local cmd=(shellcheck)
+
+  if ! command -v shellcheck >/dev/null 2>&1; then
+    local cmd=(docker container run --rm -i -v "${PWD}:/mnt" koalaman/shellcheck:stable)
+  fi
+
+  find . -type f \
+    ! -path "./.git/*" \
+    ! -path "./.ruff_cache/*" \
+    ! -path "./.pytest_cache/*" \
+    ! -path "./c/*" \
+    -exec grep --quiet -E '^(#!.*sh|# shellcheck shell=)' {} \; -exec "${cmd[@]}" {} +
 
   ruff check "${@}"
 }
