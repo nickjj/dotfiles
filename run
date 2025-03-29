@@ -39,15 +39,17 @@ format() {
     local ruff_cmd=(docker container run --rm -i -v "${PWD}:/io" -u "$(id -u):$(id -g)" ghcr.io/astral-sh/ruff:0.11.1)
   fi
 
-  local maybe_write=("--write")
+  local shfmt_args=("--write")
 
   for arg in "${@}"; do
-    if [ "${arg}" == "-d" ] || [ "${arg}" == "--diff" ]; then
-      unset "maybe_write[0]"
+    [ "${arg}" == "--check" ] && shfmt_args+=("--diff")
+
+    if [ "${arg}" == "-d" ] || [ "${arg}" == "--diff" ] || [ "${shfmt_args[1]}" == "--diff" ]; then
+      unset "shfmt_args[0]"
     fi
   done
 
-  "${shfmt_cmd[@]}" "${maybe_write[@]}" "${@}" . .config/zsh/.{aliases,zprofile,zshrc}
+  "${shfmt_cmd[@]}" "${shfmt_args[@]}" . .config/zsh/.{aliases,zprofile,zshrc}
 
   "${ruff_cmd[@]}" check --fix
   "${ruff_cmd[@]}" format "${@}"
