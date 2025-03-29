@@ -16,7 +16,7 @@ APT_PACKAGES_OPTIONAL="gnupg htop inotify-tools jq pass pwgen rsync unzip"
 BREW_PACKAGES="diffutils fd git nvim python ripgrep shellcheck shfmt tmux zsh xz"
 BREW_PACKAGES_OPTIONAL="gnupg htop jq pass pwgen rsync"
 
-INSTALL_NVIM_VERSION="v0.10.4"
+INSTALL_NVIM_VERSION="v0.11.0"
 INSTALL_SHELLCHECK_VERSION="v0.10.0"
 INSTALL_SHFMT_VERSION="v3.11.0"
 INSTALL_ASDF_VERSION="v0.11.0"
