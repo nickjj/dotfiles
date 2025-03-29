@@ -61,6 +61,12 @@ quality() {
   format "${@}"
 }
 
+ci:test() {
+  # Execute Continuous Integration (CI) pipeline
+  lint
+  format --check --diff
+}
+
 help() {
   printf "%s <task> [args]\n\nTasks:\n" "${0}"
 
