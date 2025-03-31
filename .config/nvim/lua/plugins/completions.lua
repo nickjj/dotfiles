@@ -24,6 +24,7 @@ return {
           },
         },
       },
+      signature = { enabled = true },
       cmdline = {
         enabled = true,
         completion = {
