@@ -304,6 +304,7 @@ LazyVim
 libs
 Linode
 Linode's
+linter
 linters
 linux
 LiveView
@@ -614,6 +615,7 @@ UptimeRobot
 URI
 url
 UTF-8
+UUID
 uvicorn
 uwsgi
 VB6
