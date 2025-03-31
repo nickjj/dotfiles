@@ -1,0 +1,17 @@
+# Globally set options. If you have a project specific directory you can
+# overwrite these globals with a .markdownlint-cli2.yaml file or add inline
+# comments to your document, such as:
+#   <!-- markdownlint-disable-next-line MD013 -->
+#   <!-- markdownlint-configure-file { "MD013": { "line_length": 100} } -->
+#
+config:
+  # Disable everything by default. Set this to true to enable everything.
+  # Additionally, even with it set to false you can define individual rules
+  # here to turn them on for both linting and formatting.
+  #
+  # My goal is to over time opt into specific rules when I'm more comfortable
+  # with the rules since I have over 500+ blog posts not in git so I can't
+  # easily track if something changed on save.
+  #
+  # That is why I didn't disable the linter and formatter at the Lua level.
+  default: false

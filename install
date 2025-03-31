@@ -275,7 +275,6 @@ ln -fs "${DOTFILES_PATH}/.config/tmux/themes" "${HOME}/.config/tmux/themes"
 ln -fs "${DOTFILES_PATH}/.config/gitui" "${HOME}/.config/gitui"
 ln -fs "${DOTFILES_PATH}/.config/nvim" "${HOME}/.config/nvim"
 ln -fs "${DOTFILES_PATH}/.gitconfig" "${HOME}/.gitconfig"
-ln -fs "${DOTFILES_PATH}/.local/lib/css" "${HOME}/.local/lib/css"
 ln -fs "${DOTFILES_PATH}/.local/bin/"* "${HOME}/.local/bin/"
 
 # And if you happen to be using WSL:
@@ -307,7 +306,6 @@ EOF
       [ -L "${HOME}/.config/tmux/themes" ] && rm "${HOME}/.config/tmux/themes"
       [ -L "${HOME}/.config/gitui" ] && rm "${HOME}/.config/gitui"
       [ -L "${HOME}/.config/nvim" ] && rm "${HOME}/.config/nvim"
-      [ -L "${HOME}/.local/lib/css" ] && rm "${HOME}/.local/lib/css"
 
       ln -fs "${DOTFILES_PATH}/.zshenv" "${HOME}/.zshenv" &&
         ln -fs "${DOTFILES_PATH}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc" &&
@@ -322,7 +320,6 @@ EOF
         ln -fs "${DOTFILES_PATH}/.config/gitui" "${HOME}/.config/gitui" &&
         ln -fs "${DOTFILES_PATH}/.config/nvim" "${HOME}/.config/nvim" &&
         ln -fs "${DOTFILES_PATH}/.gitconfig" "${HOME}/.gitconfig" &&
-        ln -fs "${DOTFILES_PATH}/.local/lib/css" "${HOME}/.local/lib/css" &&
         ln -fs "${DOTFILES_PATH}/.local/bin/"* "${HOME}/.local/bin/"
 
       if grep -qE "(Microsoft|microsoft|WSL)" /proc/version &>/dev/null; then
