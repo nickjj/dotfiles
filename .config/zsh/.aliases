@@ -18,6 +18,8 @@ alias l="ls -CF"
 
 alias sz='. ${ZDOTDIR}/.zprofile && . ${ZDOTDIR}/.zshrc'
 alias dt='cd ${DOTFILES_PATH} && nvim .'
+alias lz='cd ${HOME}/.local/share/nvim/lazy/LazyVim && nvim .'
+alias lp='cd ${HOME}/.local/share/nvim/lazy && nvim .'
 
 alias drun='docker container run --rm -it -v "${PWD}":/app -w /app'
 
