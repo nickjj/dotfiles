@@ -45,7 +45,7 @@ MAP("n", "<leader>bc", ":let @+ = expand('%:.')<CR>", { desc = "Copy Path" })
 
 MAP(
   "x",
-  "<leader>ct",
+  "gt",
   "c<C-r>=system('tcc', getreg('\"'))[:-2]<CR>",
   { desc = "Titleize Text" }
 )
