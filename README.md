@@ -7,7 +7,7 @@ use](https://nickjanetakis.com/blog/the-tools-i-use). I also have a number of
 videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials)
 related to my dev environment.
 
-### Documentation
+## 🧾 Documentation
 
 - [View screenshots](#screenshots) of the current set up and how to switch themes
 - [Quickly get set up with these dotfiles](#quickly-get-set-up-with-these-dotfiles)
@@ -20,17 +20,17 @@ related to my dev environment.
   - [Where is the original Vim config?](#where-is-the-original-vim-config)
 - [About the author](#about-the-author)
 
-## Themes
+## 🎨 Themes
 
 Since these dotfiles are constantly evolving and I tend to reference them in
 videos, blog posts and other places I thought it would be a good idea to
 include screenshots in 1 spot.
 
-#### Tokyonight Moon
+### Tokyonight Moon
 
 ![Tokyonight Moon](https://nickjanetakis.com/assets/screenshots/dotfiles-tokyonight-moon-7320a3fb8a76462e64d13bc125a2f284.jpg)
 
-#### Gruvbox Dark (Medium)
+### Gruvbox Dark (Medium)
 
 ![Gruvbox Dark Medium](https://nickjanetakis.com/assets/screenshots/dotfiles-gruvbox-dark-medium-cfde05b1e4ccfa0ca9ebf0c089d99a28.jpg)
 
@@ -68,7 +68,7 @@ but if you have Neovim already open you'll need to manually close and open it.
 *If you get a message about your terminal being unknown please review [this FAQ
 item](#how-to-get-theme-support-in-your-terminal).*
 
-## Quickly Get Set Up with These Dotfiles
+## ✨ Quickly Get Set Up with These Dotfiles
 
 There's an `./install` script you can run to automate installing everything.
 That includes installing system packages such as zsh, tmux, Neovim, etc. and
@@ -198,7 +198,7 @@ Also, you should reboot to activate your `/etc/wsl.conf` file (the install
 script created this). That will be necessary if you want to access your mounted
 drives at `/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
 
-## FAQ
+## 🔍 FAQ
 
 ### How to personalize these dotfiles?
 
@@ -326,7 +326,7 @@ root directory. If you cloned these dotfiles locally you can `git checkout
 vim`. Keep in mind that's frozen to that point in time. Future updates
 unrelated to Vim will not be included in that tag.
 
-## About the Author
+## 👀 About the Author
 
 I'm a self taught developer and have been freelancing for the last ~20 years.
 You can read about everything I've learned along the way on my site at
