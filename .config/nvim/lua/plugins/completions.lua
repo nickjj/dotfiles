@@ -28,11 +28,18 @@ return {
       cmdline = {
         enabled = true,
         completion = {
-          menu = { auto_show = true },
+          menu = {
+            auto_show = function(_)
+              -- Only trigger the menu for :, this avoids triggering it when
+              -- doing / (search) or other commands.
+              return vim.fn.getcmdtype() == ":"
+            end,
+          },
         },
         keymap = {
           ["<CR>"] = { "accept_and_enter", "fallback" },
         },
+
         -- This is only needed until LazyVim ships its next version since it
         -- currently sets sources = {} in v14.14.0.
         sources = function()
