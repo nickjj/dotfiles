@@ -1,6 +1,7 @@
 local data_path = vim.fn.stdpath("config") .. "/lua/plugins/data"
 local markdownlint_cli2_path = data_path .. "/.markdownlint-cli2.yaml"
 local markdown_preview_css_path = data_path .. "/github-markdown.css"
+local colorcolumn = tonumber(vim.o.colorcolumn)
 
 return {
   {
@@ -36,11 +37,11 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {
       win_options = {
-        colorcolumn = { default = vim.o.colorcolumn, rendered = "" },
+        colorcolumn = { default = colorcolumn, rendered = "" },
       },
       heading = {
         width = "block",
-        min_width = vim.o.colorcolumn,
+        min_width = colorcolumn,
       },
     },
   },
