@@ -30,6 +30,9 @@ return {
         completion = {
           menu = { auto_show = true },
         },
+        keymap = {
+          ["<CR>"] = { "accept_and_enter", "fallback" },
+        },
         -- This is only needed until LazyVim ships its next version since it
         -- currently sets sources = {} in v14.14.0.
         sources = function()
@@ -44,6 +47,22 @@ return {
           end
           return {}
         end,
+      },
+      sources = {
+        providers = {
+          cmdline = {
+            min_keyword_length = function(ctx)
+              -- Only show after inputting 3+ characters.
+              if
+                ctx.mode == "cmdline" and string.find(ctx.line, " ") == nil
+              then
+                return 3
+              end
+
+              return 0
+            end,
+          },
+        },
       },
     },
   },
