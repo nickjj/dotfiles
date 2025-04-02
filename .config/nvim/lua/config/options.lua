@@ -35,11 +35,18 @@ vim.opt.wrap = true
 -- Set .aliases or any variant as "bash".
 vim.filetype.add({ pattern = { ["%.*aliases.*"] = "bash" } })
 
--- Set .env or any variant as "sh" except we want .env.example to be treated
--- differently so it's easier to know we are editing an example file. This
--- has less syntax highlighting and comes up with a different explorer icon.
-vim.filetype.add({ pattern = { ["%.env.*"] = "sh" } })
+-- Set .env or any variant as "dotenv" except we want .env.example to be
+-- treated differently so it's easier to know we are editing an example file.
+-- This has less syntax highlighting and comes up with a different explorer
+-- icon so it's easier to know it's not the "real" env file.
+vim.filetype.add({ pattern = { ["%.env.*"] = "dotenv" } })
 vim.filetype.add({ pattern = { [".env.example"] = "conf" } })
+
+-- Ensure all .env files and variants are syntax highlighted as shell scripts.
+-- This goes along with the filetype addition above. We do this to avoid using
+-- bash or sh so the BashLSP linter and formatter doesn't affect env files
+-- since that can create a lot of unwanted false positives and side effects.
+vim.treesitter.language.register("bash", "dotenv")
 
 -- Set .gitconfig.local or any variant as "git_config".
 vim.filetype.add({ pattern = { ["%.gitconfig.*"] = "git_config" } })
