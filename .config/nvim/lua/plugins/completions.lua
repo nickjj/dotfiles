@@ -37,7 +37,7 @@ return {
           },
         },
         keymap = {
-          ["<CR>"] = { "accept_and_enter", "fallback" },
+          ["<CR>"] = { "accept", "fallback" },
         },
 
         -- This is only needed until LazyVim ships its next version since it
