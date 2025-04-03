@@ -23,6 +23,7 @@ return {
             auto_insert = false,
           },
         },
+        ghost_text = { enabled = false },
       },
       signature = { enabled = true },
       cmdline = {
