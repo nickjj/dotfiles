@@ -15,6 +15,7 @@ return {
           settings = {
             yaml = {
               customTags = {
+                -- These are all related to AWS CloudFormation.
                 "!And sequence",
                 "!Base64",
                 "!Cidr sequence",
