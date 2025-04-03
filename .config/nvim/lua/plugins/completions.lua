@@ -60,11 +60,11 @@ return {
         providers = {
           cmdline = {
             min_keyword_length = function(ctx)
-              -- Only show after inputting 3+ characters.
+              -- Only show after inputting 4+ characters.
               if
                 ctx.mode == "cmdline" and string.find(ctx.line, " ") == nil
               then
-                return 3
+                return 4
               end
 
               return 0
