@@ -39,8 +39,12 @@ vim.filetype.add({ pattern = { ["%.*aliases.*"] = "bash" } })
 -- treated differently so it's easier to know we are editing an example file.
 -- This has less syntax highlighting and comes up with a different explorer
 -- icon so it's easier to know it's not the "real" env file.
-vim.filetype.add({ pattern = { ["%.env.*"] = "dotenv" } })
-vim.filetype.add({ pattern = { [".env.example"] = "conf" } })
+vim.filetype.add({
+  pattern = {
+    ["%.env.*"] = "dotenv",
+    ["%.env.example"] = { "conf", { priority = 1 } },
+  },
+})
 
 -- Ensure all .env files and variants are syntax highlighted as shell scripts.
 -- This goes along with the filetype addition above. We do this to avoid using
