@@ -29,6 +29,7 @@ return {
       cmdline = {
         enabled = true,
         completion = {
+          list = { selection = { preselect = false } },
           menu = {
             auto_show = function(_)
               -- Only trigger the menu for :, this avoids triggering it when
@@ -38,7 +39,7 @@ return {
           },
         },
         keymap = {
-          ["<CR>"] = { "accept", "fallback" },
+          ["<CR>"] = { "accept_and_enter", "fallback" },
         },
 
         -- This is only needed until LazyVim ships its next version since it
