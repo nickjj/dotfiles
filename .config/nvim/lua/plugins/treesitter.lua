@@ -10,6 +10,7 @@ return {
         "go",
         "heex",
         "helm",
+        "htmldjango",
         "kdl",
         "liquid",
         "nginx",
