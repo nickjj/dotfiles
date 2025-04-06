@@ -39,7 +39,6 @@ return {
       },
     },
   },
-
   {
     "folke/tokyonight.nvim",
     opts = {
@@ -56,8 +55,6 @@ return {
       end,
     },
   },
-
-  -- Configure LazyVim to load the theme.
   {
     "LazyVim/LazyVim",
     opts = {
