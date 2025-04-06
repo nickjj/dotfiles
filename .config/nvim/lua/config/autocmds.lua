@@ -44,11 +44,3 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
     end
   end,
 })
-
--- vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
---   pattern = { "snacks_dashboard" },
---   callback = function()
---     vim.cmd([[DisableWhitespace]])
---   end,
--- })
---
