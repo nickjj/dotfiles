@@ -1,6 +1,9 @@
 -- Set .aliases or any variant as "bash".
 vim.filetype.add({ pattern = { ["%.*aliases.*"] = "bash" } })
 
+-- Set .zprofile or any variant as "bash".
+vim.filetype.add({ pattern = { ["%.*zprofile.*"] = "bash" } })
+
 -- Set .env or any variant as "dotenv" except we want .env.example files to be
 -- treated differently so it's easier to know we are editing an example file.
 -- This has less syntax highlighting and comes up with a different explorer
