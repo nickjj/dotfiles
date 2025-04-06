@@ -7,6 +7,7 @@ return {
         "csv",
         "dockerfile",
         "elixir",
+        "embedded_template",
         "go",
         "heex",
         "helm",
