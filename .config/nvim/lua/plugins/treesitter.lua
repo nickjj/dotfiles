@@ -8,6 +8,7 @@ return {
         "dockerfile",
         "elixir",
         "go",
+        "heex",
         "helm",
         "kdl",
         "liquid",
