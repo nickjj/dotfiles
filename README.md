@@ -154,7 +154,7 @@ into your home directory. You're meant to put in your name and email address so
 that your details are used when you make git commits.
 
 ```sh
-nvim ~/.gitconfig.local
+nvim ~/.config/git/config.local
 ```
 
 #### 2. (Optional) confirm that a few things work

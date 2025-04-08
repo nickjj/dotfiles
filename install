@@ -142,7 +142,7 @@ detect_env() {
 }
 
 create_initial_dirs() {
-  mkdir -p "${HOME}/.config/tmux/plugins" "${HOME}/.config/zsh" "${HOME}/.cache/zsh" \
+  mkdir -p "${HOME}/.config/tmux/plugins" "${HOME}/.config/git" "${HOME}/.config/zsh" "${HOME}/.cache/zsh" \
     "${HOME}/.local/bin" "${HOME}/.local/share"
 }
 
@@ -272,9 +272,9 @@ ln -fs "${DOTFILES_PATH}/.config/zsh/.aliases.local" "${HOME}/.config/zsh/.alias
 ln -fs "${DOTFILES_PATH}/.config/tmux/tmux.conf" "${HOME}/.config/tmux/tmux.conf"
 ln -fs "${DOTFILES_PATH}/.config/zsh/themes" "${HOME}/.config/zsh/themes"
 ln -fs "${DOTFILES_PATH}/.config/tmux/themes" "${HOME}/.config/tmux/themes"
+ln -fs "${DOTFILES_PATH}/.config/git/config" "${HOME}/.config/git/config"
 ln -fs "${DOTFILES_PATH}/.config/gitui" "${HOME}/.config/gitui"
 ln -fs "${DOTFILES_PATH}/.config/nvim" "${HOME}/.config/nvim"
-ln -fs "${DOTFILES_PATH}/.gitconfig" "${HOME}/.gitconfig"
 ln -fs "${DOTFILES_PATH}/.local/bin/"* "${HOME}/.local/bin/"
 
 # And if you happen to be using WSL:
@@ -317,9 +317,9 @@ EOF
         ln -fs "${DOTFILES_PATH}/.config/tmux/tmux.conf" "${HOME}/.config/tmux/tmux.conf" &&
         ln -fs "${DOTFILES_PATH}/.config/zsh/themes" "${HOME}/.config/zsh/themes" &&
         ln -fs "${DOTFILES_PATH}/.config/tmux/themes" "${HOME}/.config/tmux/themes" &&
+        ln -fs "${DOTFILES_PATH}/.config/git/config" "${HOME}/.config/git/config" &&
         ln -fs "${DOTFILES_PATH}/.config/gitui" "${HOME}/.config/gitui" &&
         ln -fs "${DOTFILES_PATH}/.config/nvim" "${HOME}/.config/nvim" &&
-        ln -fs "${DOTFILES_PATH}/.gitconfig" "${HOME}/.gitconfig" &&
         ln -fs "${DOTFILES_PATH}/.local/bin/"* "${HOME}/.local/bin/"
 
       if grep -qE "(Microsoft|microsoft|WSL)" /proc/version &>/dev/null; then
@@ -368,11 +368,12 @@ configure_shell() {
 configure_git() {
   _info "CONFIGURE GIT"
 
-  local git_local_path="${HOME}/.gitconfig.local"
+  local git_config_path="${HOME}/.config/git"
+  local git_local_path="${git_config_path}/config.local"
 
-  cp -n "${DOTFILES_PATH}/.gitconfig.local" "${git_local_path}" 2>/dev/null || true
+  cp -n "${DOTFILES_PATH}/.config/git/config.local" "${git_local_path}" 2>/dev/null || true
 
-  echo "It has been configured in '${git_local_path}'"
+  echo "It has been configured in '${git_config_path}'"
 }
 
 install_asdf() {

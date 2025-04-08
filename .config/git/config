@@ -1,8 +1,8 @@
 [core]
-	editor = nvim
+  editor = nvim
 
 [color "diff"]
-	whitespace = red reverse
+  whitespace = red reverse
 
 [diff]
   tool = nvimdiff
@@ -21,4 +21,4 @@
   cmd = "nvim -d \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\" -c 'wincmd J | wincmd ='"
 
 [include]
-	path = ~/.gitconfig.local
+  path = ~/.config/git/config.local
