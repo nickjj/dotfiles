@@ -4,5 +4,21 @@
 [color "diff"]
 	whitespace = red reverse
 
+[diff]
+  tool = nvimdiff
+
+[difftool "nvimdiff"]
+  cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+
+[merge]
+  tool = nvimdiff
+
+[mergetool]
+  keepBackup = false
+  prompt = false
+
+[mergetool "nvimdiff"]
+  cmd = "nvim -d \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\" -c 'wincmd J | wincmd ='"
+
 [include]
 	path = ~/.gitconfig.local
