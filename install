@@ -338,7 +338,8 @@ EOF
 configure_shell() {
   _info "CONFIGURE SHELL"
 
-  local_files=(".zshrc.local" ".zprofile.local" ".aliases.local")
+  local local_files=(".zshrc.local" ".zprofile.local" ".aliases.local")
+  local original_dotfiles_path="${DOTFILES_PATH}"
 
   for file in "${local_files[@]}"; do
     local file_path="${HOME}/.config/zsh/${file}"
@@ -348,7 +349,7 @@ configure_shell() {
     fi
   done
 
-  local zprofile_path="${HOME}/.config/zsh/.zprofile.local"
+  local zprofile_path="${DOTFILES_PATH}/.config/zsh/.zprofile.local"
   if ! grep -q "^export DOTFILES_PATH=.*$" "${zprofile_path}" 2>/dev/null; then
     printf '\nexport DOTFILES_PATH="%s"\n' "${DOTFILES_PATH}" >>"${zprofile_path}"
   fi
@@ -359,6 +360,12 @@ configure_shell() {
 
   # shellcheck disable=SC1091
   . "${HOME}/.config/zsh/.zprofile"
+
+  # Given the above line sets this env var if it's defined, this ensures we
+  # always use the value that was set when running this script. This is mainly
+  # to make testing this script easier in Docker since the .local files are
+  # volume mounted and this value will be different in Docker.
+  DOTFILES_PATH="${original_dotfiles_path}"
 
   echo "It has been configured in '${HOME}/.config.zsh/'"
 }
