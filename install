@@ -26,7 +26,7 @@ CPU_ARCH="$(uname -m)"
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
 
 DOTFILES_URL="${DOTFILES_URL:-https://github.com/nickjj/dotfiles}"
-DOTFILES_PATH="${DOTFILES_PATH:-}"
+DOTFILES_PATH="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
 
 # -----------------------------------------------------------------------------
 # Helper functions
@@ -197,12 +197,10 @@ clone_or_update_dotfiles() {
     . "${local_zprofile}"
   fi
 
-  local default_dotfiles_path="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
-
-  read -rep "Where do you want to clone these dotfiles to [${default_dotfiles_path}]? " dotfiles_path
+  read -rep "Where do you want to clone these dotfiles to [${DOTFILES_PATH}]? " dotfiles_path
   echo
 
-  [[ -z "${dotfiles_path}" ]] && dotfiles_path="${default_dotfiles_path}"
+  [[ -z "${dotfiles_path}" ]] && dotfiles_path="${DOTFILES_PATH}"
 
   DOTFILES_PATH="${dotfiles_path//\~/"${HOME}"}"
 
