@@ -271,6 +271,7 @@ ln -fs "${DOTFILES_PATH}/.config/tmux/tmux.conf" "${HOME}/.config/tmux/tmux.conf
 ln -fs "${DOTFILES_PATH}/.config/zsh/themes" "${HOME}/.config/zsh/themes"
 ln -fs "${DOTFILES_PATH}/.config/tmux/themes" "${HOME}/.config/tmux/themes"
 ln -fs "${DOTFILES_PATH}/.config/git/config" "${HOME}/.config/git/config"
+ln -fs "${DOTFILES_PATH}/.config/git/config.local" "${HOME}/.config/git/config.local"
 ln -fs "${DOTFILES_PATH}/.config/gitui" "${HOME}/.config/gitui"
 ln -fs "${DOTFILES_PATH}/.config/nvim" "${HOME}/.config/nvim"
 ln -fs "${DOTFILES_PATH}/.local/bin/"* "${HOME}/.local/bin/"
@@ -316,6 +317,7 @@ EOF
         ln -fs "${DOTFILES_PATH}/.config/zsh/themes" "${HOME}/.config/zsh/themes" &&
         ln -fs "${DOTFILES_PATH}/.config/tmux/themes" "${HOME}/.config/tmux/themes" &&
         ln -fs "${DOTFILES_PATH}/.config/git/config" "${HOME}/.config/git/config" &&
+        ln -fs "${DOTFILES_PATH}/.config/git/config.local" "${HOME}/.config/git/config.local" &&
         ln -fs "${DOTFILES_PATH}/.config/gitui" "${HOME}/.config/gitui" &&
         ln -fs "${DOTFILES_PATH}/.config/nvim" "${HOME}/.config/nvim" &&
         ln -fs "${DOTFILES_PATH}/.local/bin/"* "${HOME}/.local/bin/"
@@ -373,12 +375,29 @@ configure_shell() {
 configure_git() {
   _info "CONFIGURE GIT"
 
-  local git_config_path="${HOME}/.config/git"
-  local git_local_path="${git_config_path}/config.local"
+  local git_config_local_path="${DOTFILES_PATH}/.config/git/config.local"
 
-  cp -n "${DOTFILES_PATH}/.config/git/config.local" "${git_local_path}" 2>/dev/null || true
+  if [ ! -f "${git_config_local_path}" ]; then
+    cat <<EOF >"${git_config_local_path}"
+[user]
+  name = Cody McCodePants
+  email = cody.mccodepants@example.com
+  # Uncomment the options below to auto-sign your git commits / tags using GPG.
+  # Learn more about how to set up a GPG key pair here:
+  #   https://nickjanetakis.com/blog/creating-and-managing-a-gpg-key-pair
+  #signingkey = cody.mccodepants@example.com
 
-  echo "It has been configured in '${git_config_path}'"
+#[commit]
+#  gpgsign = true
+
+# This option requires git 2.23+ to work and you must annotate your tags,
+# although -m "" works if you want an empty message.
+#[tag]
+#  gpgSign = true
+EOF
+  fi
+
+  echo "It has been configured in '$(dirname "${git_config_local_path}")'"
 }
 
 install_asdf() {
