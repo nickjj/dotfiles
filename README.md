@@ -149,13 +149,17 @@ one, then follow the step(s) below:
 
 #### 1. Configure your git name and email
 
-One of the things the install script did was copy a git ignored git config file
-into your home directory. You're meant to put in your name and email address so
-that your details are used when you make git commits.
+One of the things the install script did was create a git ignored
+`.config/git/config.local` file in your dotfiles directory and symlinked it to
+`~/.config/git/config.local`. You're meant to put in your name and email
+address so your details are used when you make git commits.
 
 ```sh
 nvim ~/.config/git/config.local
 ```
+
+*There are other git ignored "local" files unrelated to git in `.config/zsh/`
+too.*
 
 #### 2. (Optional) confirm that a few things work
 
