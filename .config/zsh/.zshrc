@@ -87,23 +87,6 @@ fi
 # shellcheck disable=SC1091
 [ -f "${XDG_DATA_HOME}/asdf/asdf.sh" ] && . "${XDG_DATA_HOME}/asdf/asdf.sh"
 
-# WSL 2 specific settings.
-if grep -q "microsoft" /proc/version >/dev/null 2>&1; then
-  # Requires: https://sourceforge.net/projects/vcxsrv/ (or alternative)
-  DISPLAY="$(/sbin/ip route | awk '/default/ { print $3 }'):0"
-  export DISPLAY
-fi
-
-# WSL 1 specific settings.
-if grep -q "Microsoft" /proc/version >/dev/null 2>&1; then
-  if [ "$(umask)" = "0000" ]; then
-    umask 0022
-  fi
-
-  # Requires: https://sourceforge.net/projects/vcxsrv/ (or alternative)
-  export DISPLAY=:0
-fi
-
 # Allows your gpg passphrase prompt to spawn (useful for signing commits).
 GPG_TTY="$(tty)"
 export GPG_TTY

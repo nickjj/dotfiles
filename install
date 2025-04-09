@@ -348,6 +348,40 @@ configure_shell() {
       printf '\neval "$(/opt/homebrew/bin/brew shellenv)"\n' >>"${zprofile_path}"
     fi
   else
+    # Are we in WSL 2?
+    if grep -q "\-WSL2" /proc/version; then
+      if ! grep -q "^DISPLAY=.*route | awk.*$" "${zprofile_path}" 2>/dev/null; then
+        local display=
+        display=$(
+          cat <<'EOF'
+# Requires: https://sourceforge.net/projects/vcxsrv/ (or alternative)
+DISPLAY="$(/sbin/ip route | awk '/default/ { print $3 }'):0"
+export DISPLAY
+EOF
+        )
+
+        printf "\n%s" "${display}" >>"${zprofile_path}"
+      fi
+
+      if ! grep -q "^if service docker status.*$" "${zprofile_path}" 2>/dev/null; then
+        local docker=
+        docker=$(
+          cat <<'EOF'
+# Ensure Docker is running on WSL 2. This expects you've installed Docker and
+# Docker Compose directly within your WSL distro instead of Docker Desktop, such as:
+#   - https://nickjanetakis.com/blog/install-docker-in-wsl-2-without-docker-desktop
+if service docker status 2>&1 | grep -q "is not running"; then
+  wsl.exe --distribution "${WSL_DISTRO_NAME}" --user root \
+    --exec /usr/sbin/service docker start >/dev/null 2>&1
+fi
+EOF
+        )
+
+        printf "\n\n%s" "${docker}" >>"${zprofile_path}"
+      fi
+    fi
+
+    # This should happen on all Linux distros.
     [ "${SHELL}" != "$(command -v zsh)" ] && chsh -s "$(command -v zsh)"
   fi
 

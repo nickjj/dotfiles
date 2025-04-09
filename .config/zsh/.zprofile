@@ -27,16 +27,6 @@ export LESS_TERMCAP_me=$'\e[0m'       # end mode
 export LESS_TERMCAP_ue=$'\e[0m'       # end underline
 export LESS_TERMCAP_se=$'\e[0m'       # end standout-mode
 
-# Ensure Docker is running on WSL 2. This expects you've installed Docker and
-# Docker Compose directly within your WSL distro instead of Docker Desktop, such as:
-#   - https://nickjanetakis.com/blog/install-docker-in-wsl-2-without-docker-desktop
-if grep -q "microsoft" /proc/version >/dev/null 2>&1; then
-  if service docker status 2>&1 | grep -q "is not running"; then
-    wsl.exe --distribution "${WSL_DISTRO_NAME}" --user root \
-      --exec /usr/sbin/service docker start >/dev/null 2>&1
-  fi
-fi
-
 # Load local settings if they exist.
 # shellcheck disable=SC1091
 if [ -f "${XDG_CONFIG_HOME}/zsh/.zprofile.local" ]; then . "${XDG_CONFIG_HOME}/zsh/.zprofile.local"; fi
