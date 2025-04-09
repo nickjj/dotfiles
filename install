@@ -223,21 +223,6 @@ clone_or_update_dotfiles() {
   fi
 }
 
-configure_brew() {
-  if [ "${OS_TYPE}" == "darwin" ]; then
-    _info "CONFIGURE BREW"
-
-    local zsh_profile="${HOME}/.config/zsh/.zprofile"
-
-    if ! grep -q "eval.*homebrew.*shellenv" "${zsh_profile}" 2>/dev/null; then
-      # shellcheck disable=SC2016
-      printf '\neval "$(/opt/homebrew/bin/brew shellenv)"\n' >>"${zsh_profile}"
-    fi
-
-    echo "It's been configured in '${zsh_profile}'"
-  fi
-}
-
 install_zsh_plugins() {
   _info "INSTALL ZSH PLUGINS"
 
@@ -352,11 +337,17 @@ configure_shell() {
   done
 
   local zprofile_path="${DOTFILES_PATH}/.config/zsh/.zprofile.local"
+
   if ! grep -q "^export DOTFILES_PATH=.*$" "${zprofile_path}" 2>/dev/null; then
     printf '\nexport DOTFILES_PATH="%s"\n' "${DOTFILES_PATH}" >>"${zprofile_path}"
   fi
 
-  if [ "${OS_TYPE}" != "darwin" ]; then
+  if [ "${OS_TYPE}" == "darwin" ]; then
+    if ! grep -q "eval.*homebrew.*shellenv" "${zprofile_path}" 2>/dev/null; then
+      # shellcheck disable=SC2016
+      printf '\neval "$(/opt/homebrew/bin/brew shellenv)"\n' >>"${zprofile_path}"
+    fi
+  else
     [ "${SHELL}" != "$(command -v zsh)" ] && chsh -s "$(command -v zsh)"
   fi
 
@@ -476,7 +467,6 @@ detect_env
 create_initial_dirs
 install_packages
 clone_or_update_dotfiles
-configure_brew
 install_zsh_plugins
 install_fzf
 create_symlinks
