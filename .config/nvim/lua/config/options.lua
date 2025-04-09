@@ -1,6 +1,12 @@
 -- Options are automatically loaded before lazy.nvim startup.
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 
+-- The ~/.local/state/nvim/lsp.log can get pretty noisy. Mine was ~28MB after 2
+-- weeks with the default setting. My thought process here is it can remain OFF
+-- by default but if you're looking to troubleshoot something you can
+-- temporarily set this to WARN or ERROR.
+vim.lsp.set_log_level("OFF")
+
 local opt = vim.opt
 
 -- I prefer seeing all characters by default.
