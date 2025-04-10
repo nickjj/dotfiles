@@ -363,10 +363,15 @@ EOF
         printf "\n%s" "${display}" >>"${zprofile_path}"
       fi
 
-      if ! grep -q "^if service docker status.*$" "${zprofile_path}" 2>/dev/null; then
-        local docker=
-        docker=$(
-          cat <<'EOF'
+      # This only applies if you have Docker installed without Docker Desktop
+      # and you're not using systemd.
+      if command -v docker >/dev/null 2>&1; then
+        if [ ! -d "${HOME}/.docker/desktop" ]; then
+          if [ ! -d /run/systemd/system ]; then
+            if ! grep -q "^if service docker status.*$" "${zprofile_path}" 2>/dev/null; then
+              local docker=
+              docker=$(
+                cat <<'EOF'
 # Ensure Docker is running on WSL 2. This expects you've installed Docker and
 # Docker Compose directly within your WSL distro instead of Docker Desktop, such as:
 #   - https://nickjanetakis.com/blog/install-docker-in-wsl-2-without-docker-desktop
@@ -375,9 +380,12 @@ if service docker status 2>&1 | grep -q "is not running"; then
     --exec /usr/sbin/service docker start >/dev/null 2>&1
 fi
 EOF
-        )
+              )
 
-        printf "\n\n%s" "${docker}" >>"${zprofile_path}"
+              printf "\n\n%s" "${docker}" >>"${zprofile_path}"
+            fi
+          fi
+        fi
       fi
     fi
 
