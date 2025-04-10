@@ -1,37 +1,30 @@
 {
   "$help": "https://aka.ms/terminal-documentation",
   "$schema": "https://aka.ms/terminal-profiles-schema",
-  "actions": [
+  "actions": [],
+  "defaultProfile": "{51855cb2-8cce-5362-8f54-464b92b32386}",
+  "keybindings": [
     {
-      "command": "unbound",
+      "id": null,
       "keys": "alt+down"
     },
     {
-      "command": "unbound",
+      "id": null,
       "keys": "alt+left"
     },
     {
-      "command": "unbound",
+      "id": null,
       "keys": "alt+right"
     },
     {
-      "command": "unbound",
+      "id": null,
       "keys": "alt+up"
     },
     {
-      "command": "unbound",
+      "id": null,
       "keys": "ctrl+shift+k"
-    },
-    {
-      "command": {
-        "action": "clearBuffer",
-        "clear": "all"
-      },
-      "id": "User.clearBuffer.87C324ED",
-      "keys": "ctrl+k"
     }
   ],
-  "defaultProfile": "{51855cb2-8cce-5362-8f54-464b92b32386}",
   "multiLinePasteWarning": false,
   "newTabMenu": [
     {
@@ -46,8 +39,7 @@
       "experimental.retroTerminalEffect": false,
       "font": {
         "face": "Inconsolata Nerd Font",
-        "size": 10,
-        "weight": "normal"
+        "size": 10
       },
       "opacity": 100,
       "padding": "1, 1, 1, 1",
@@ -72,49 +64,14 @@
         "source": "Windows.Terminal.Azure"
       },
       {
-        "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
-        "hidden": true,
-        "name": "Ubuntu 22.04",
-        "source": "Windows.Terminal.Wsl",
-        "useAcrylic": false
-      },
-      {
-        "adjustIndistinguishableColors": "never",
-        "font": {
-          "size": 10
-        },
         "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
         "hidden": false,
         "name": "Ubuntu 22.04",
-        "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc",
-        "useAcrylic": false
+        "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc"
       }
     ]
   },
   "schemes": [
-    {
-      "background": "#F4F4F4",
-      "black": "#3E3E3E",
-      "blue": "#003E8A",
-      "brightBlack": "#666666",
-      "brightBlue": "#2E6CBA",
-      "brightCyan": "#16C6C9",
-      "brightGreen": "#67A37C",
-      "brightPurple": "#FFA29F",
-      "brightRed": "#DE0000",
-      "brightWhite": "#FFFFFF",
-      "brightYellow": "#F1D007",
-      "cursorColor": "#FFB261",
-      "cyan": "#89D1EC",
-      "foreground": "#3E3E3E",
-      "green": "#07962A",
-      "name": "Github",
-      "purple": "#E94691",
-      "red": "#970B16",
-      "selectionBackground": "#A9C1E2",
-      "white": "#FFFFFF",
-      "yellow": "#F8EEC7"
-    },
     {
       "background": "#282828",
       "black": "#282828",
@@ -160,59 +117,48 @@
       "selectionBackground": "#2D3F76",
       "white": "#828BB8",
       "yellow": "#FFC777"
-    },
-    {
-      "background": "#300A24",
-      "black": "#171421",
-      "blue": "#0037DA",
-      "brightBlack": "#767676",
-      "brightBlue": "#08458F",
-      "brightCyan": "#2C9FB3",
-      "brightGreen": "#26A269",
-      "brightPurple": "#A347BA",
-      "brightRed": "#C01C28",
-      "brightWhite": "#F2F2F2",
-      "brightYellow": "#A2734C",
-      "cursorColor": "#FFB261",
-      "cyan": "#3A96DD",
-      "foreground": "#FFFFFF",
-      "green": "#26A269",
-      "name": "Ubuntu-22.04-ColorScheme",
-      "purple": "#881798",
-      "red": "#C21A23",
-      "selectionBackground": "#FFFFFF",
-      "white": "#CCCCCC",
-      "yellow": "#A2734C"
     }
   ],
   "theme": "Tokyonight Moon",
   "themes": [
     {
-      "name": "Tokyonight Moon",
-      "window": {
-        "applicationTheme": "dark"
-      },
+      "name": "Gruvbox Dark Medium",
       "tab": {
-        "background": "#2A2E45",
+        "background": "#282828FF",
+        "iconStyle": "default",
+        "showCloseButton": "always",
         "unfocusedBackground": "terminalBackground"
       },
       "tabRow": {
-        "background": "#1D1F2E",
-        "unfocusedBackground": "#1D1F2E"
+        "background": "#1D2021FF",
+        "unfocusedBackground": "#1D2021FF"
+      },
+      "window": {
+        "applicationTheme": "dark",
+        "experimental.rainbowFrame": false,
+        "frame": null,
+        "unfocusedFrame": null,
+        "useMica": false
       }
     },
     {
-      "name": "Gruvbox Dark Medium",
-      "window": {
-        "applicationTheme": "dark"
-      },
+      "name": "Tokyonight Moon",
       "tab": {
-        "background": "#282828",
+        "background": "#2A2E45FF",
+        "iconStyle": "default",
+        "showCloseButton": "always",
         "unfocusedBackground": "terminalBackground"
       },
       "tabRow": {
-        "background": "#1D2021",
-        "unfocusedBackground": "#1D2021"
+        "background": "#1D1F2EFF",
+        "unfocusedBackground": "#1D1F2EFF"
+      },
+      "window": {
+        "applicationTheme": "dark",
+        "experimental.rainbowFrame": false,
+        "frame": null,
+        "unfocusedFrame": null,
+        "useMica": false
       }
     }
   ]

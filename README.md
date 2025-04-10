@@ -184,8 +184,9 @@ are in the `c/` directory.
 
 It would be expected that you copy those over to your system while replacing
 "Nick" with your Windows user name if you want to use those things, such as my
-Microsoft Terminal `settings.json` file and others. Some of the paths may
-also contain unique IDs too, so adjust them as needed on your end.
+Microsoft Terminal `settings.json` file and others. Some of the paths and guids
+(WSL distros, etc.) may also contain unique IDs too, so adjust them as needed
+on your end.
 
 Some of these configs expect that you have certain programs or tools installed
 on Windows. The [tools I use blog
