@@ -80,11 +80,10 @@ get installed.
 
 The script is idempotent so you can run it more than once to stay updated.
 
-The install script is optimized for:
+The install script is optimized for these operating systems and distros:
 
-- Ubuntu 22.04 LTS+ (native or WSL)
-- Debian 11+
-- macOS 10.15+
+- Debian, Ubuntu and its derivatives
+- macOS
 
 It will still work with other distros of Linux if you skip installing system
 packages (more details are below).
@@ -108,8 +107,8 @@ You can also run the script without installing system packages:
 bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
 ```
 
-That above could be useful if you're using a non-Debian based distro of Linux,
-in which case you'll need to install the [dependent system
+The above can be useful if you're using an unsupported distro of Linux in which
+you'll need to install the [dependent system
 packages](https://github.com/nickjj/dotfiles/blob/master/install) on your own
 beforehand. Besides that, everything else is supported since it's only dealing
 with files in your home directory.

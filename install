@@ -10,19 +10,57 @@ set -o errexit
 
 SKIP_SYSTEM_PACKAGES="${1:-}"
 
-APT_PACKAGES="curl fd-find git iproute2 python3-pip ripgrep tmux wl-clipboard zsh xz-utils"
-APT_PACKAGES_OPTIONAL="gnupg htop inotify-tools jq pass pwgen rsync unzip"
+APT_PACKAGES="
+  curl
+  fd-find
+  git
+  gnupg
+  htop
+  inotify-tools
+  iproute2
+  jq
+  openssh-server
+  pass
+  pwgen
+  python3-pip
+  ripgrep
+  rsync
+  tmux
+  unzip
+  wl-clipboard
+  xz-utils
+  zsh
+"
 
-BREW_PACKAGES="diffutils fd git nvim mise python ripgrep shellcheck shfmt tmux zsh xz"
-BREW_PACKAGES_OPTIONAL="gnupg htop jq pass pwgen rsync"
+BREW_PACKAGES="
+  bash
+  diffutils
+  fd
+  fzf
+  git
+  gnupg
+  htop
+  jq
+  mise
+  nvim
+  openssh
+  pass
+  pwgen
+  python
+  ripgrep
+  rsync
+  shellcheck
+  shfmt
+  tmux
+  xz
+  zsh
+"
 
-INSTALL_NVIM_VERSION="v0.11.0"
-INSTALL_SHELLCHECK_VERSION="v0.10.0"
-INSTALL_SHFMT_VERSION="v3.11.0"
 INSTALL_NODE_VERSION="22.14"
 
 CPU_ARCH="$(uname -m)"
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
+OS_DISTRO=
 
 DOTFILES_URL="${DOTFILES_URL:-https://github.com/nickjj/dotfiles}"
 DOTFILES_PATH="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
@@ -45,13 +83,13 @@ _info() {
 
 _no_system_packages() {
   cat <<EOF
-System package installation isn't supported with your OS / distro.
+System package installation isn't supported with your distro (${OS_DISTRO})
 
-Please install any dependent packages on your own. You can view the list at:
+Please install any comparable packages on your own, you can view the list at:
 
     https://github.com/nickjj/dotfiles/blob/master/install
 
-Then re-run the script and explicitly skip installing system packages:
+Then re-run this script and explicitly skip installing system packages:
 
     bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
 EOF
@@ -60,8 +98,16 @@ EOF
 }
 
 _install_packages_apt() {
+  # Apt's packages typically have older versions since Debian and Ubuntu are
+  # stable distros. In most cases the version included is fine but we do want
+  # the latest and greatest versions for certain tools.
+
+  local version_nvim="v0.11.0"
+  local version_shellcheck="v0.10.0"
+  local version_shfmt="v3.11.0"
+
   # shellcheck disable=SC2086
-  sudo apt-get update && sudo apt-get install -y ${APT_PACKAGES} ${APT_PACKAGES_OPTIONAL}
+  sudo apt-get update && sudo apt-get install -y ${APT_PACKAGES}
 
   # Allow using fd with fd instead of fdfind.
   ln -fs "$(which fdfind)" "${HOME}/.local/bin/fd"
@@ -72,37 +118,41 @@ _install_packages_apt() {
   echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
   sudo apt-get update && sudo apt-get install -y mise
 
+  # Install fzf.
+  local fzf_path="${HOME}/.local/share/fzf"
+  rm -rf "${fzf_path}"
+  git clone --depth 1 https://github.com/junegunn/fzf.git "${fzf_path}" &&
+    yes | "${fzf_path}/install" --bin --no-update-rc
+
   local original_cpu_arch="${CPU_ARCH}"
 
   # ShellCheck uses a different file name than what uname -m may output. I have
   # no idea if this will work since I have no arm64 Linux device to test on.
   [[ "${CPU_ARCH}" =~ ^arm ]] && CPU_ARCH="aarch64"
 
-  # We're only doing this on Linux because macOS has the latest versions
-  # available with brew and we want the latest releases of each of these tools.
   local shellcheck_install_path="/tmp/shellcheck"
   local shellcheck_xz_path="/tmp/shellcheck.tar.xz"
   rm -rf "${shellcheck_xz_path}" "${shellcheck_install_path}"
-  curl -s -o "${shellcheck_xz_path}" -L "https://github.com/koalaman/shellcheck/releases/download/${INSTALL_SHELLCHECK_VERSION}/shellcheck-${INSTALL_SHELLCHECK_VERSION}.${OS_TYPE}.${CPU_ARCH}.tar.xz"
+  curl -s -o "${shellcheck_xz_path}" -L "https://github.com/koalaman/shellcheck/releases/download/${version_shellcheck}/shellcheck-${version_shellcheck}.${OS_TYPE}.${CPU_ARCH}.tar.xz"
   mkdir -p "${shellcheck_install_path}"
   tar -xJf "${shellcheck_xz_path}" -C "${shellcheck_install_path}" --strip-components=1
   chmod +x "${shellcheck_install_path}/shellcheck"
-  sudo mv "${_}" /usr/local/bin
+  mv "${_}" "${HOME}/.local/bin"
 
   CPU_ARCH="${original_cpu_arch}"
 
   # shfmt uses a different file name than what uname -m will output.
   [[ "${CPU_ARCH}" == "x86_64" ]] && CPU_ARCH="amd64"
 
-  curl -s -o /tmp/shfmt -L "https://github.com/mvdan/sh/releases/download/${INSTALL_SHFMT_VERSION}/shfmt_${INSTALL_SHFMT_VERSION}_${OS_TYPE}_${CPU_ARCH}"
+  curl -s -o /tmp/shfmt -L "https://github.com/mvdan/sh/releases/download/${version_shfmt}/shfmt_${version_shfmt}_${OS_TYPE}_${CPU_ARCH}"
   chmod +x /tmp/shfmt
-  sudo mv "${_}" /usr/local/bin
+  mv "${_}" "${HOME}/.local/bin"
 
   CPU_ARCH="${original_cpu_arch}"
 
   local nvim_gz_path="/tmp/nvim.tar.gz"
   rm -rf "${nvim_gz_path}"
-  curl -s -o "${nvim_gz_path}" -L "https://github.com/neovim/neovim/releases/download/${INSTALL_NVIM_VERSION}/nvim-${OS_TYPE}-${CPU_ARCH}.tar.gz"
+  curl -s -o "${nvim_gz_path}" -L "https://github.com/neovim/neovim/releases/download/${version_nvim}/nvim-${OS_TYPE}-${CPU_ARCH}.tar.gz"
   tar -xzf "${nvim_gz_path}" -C "${HOME}/.local" --strip-components=1
 }
 
@@ -115,14 +165,16 @@ _install_packages_brew() {
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
   # shellcheck disable=SC2086
-  brew install ${BREW_PACKAGES} ${BREW_PACKAGES_OPTIONAL}
+  brew install ${BREW_PACKAGES}
 }
 
 _display_packages() {
   if [ "${OS_TYPE}" == "linux" ]; then
-    echo "${APT_PACKAGES} ${APT_PACKAGES_OPTIONAL}"
+    if [ "${OS_DISTRO}" == "debian" ]; then
+      echo "${APT_PACKAGES}"
+    fi
   else
-    echo "${BREW_PACKAGES} ${BREW_PACKAGES_OPTIONAL}"
+    echo "${BREW_PACKAGES}"
   fi
 }
 
@@ -133,7 +185,17 @@ _display_packages() {
 detect_env() {
   case "${OS_TYPE}" in
   linux)
-    if [ ! -f "/etc/debian_version" ]; then
+    if [ -r /etc/os-release ]; then
+      OS_DISTRO="$(. /etc/os-release && echo "${ID_LIKE:-${ID}}")"
+
+      # Technically ID_LIKE can have a space separated list of distros but
+      # we really only care that we have a Debian based system where apt is
+      # available to use.
+      [[ "${OS_DISTRO}" =~ (ubuntu|debian) ]] && OS_DISTRO="debian"
+    fi
+
+    # Only fully support these Linux distros.
+    if [[ -z "${OS_DISTRO}" || ! "ubuntu debian raspbian" =~ ${OS_DISTRO} ]]; then
       [ -z "${SKIP_SYSTEM_PACKAGES}" ] && _no_system_packages
     fi
 
@@ -155,7 +217,7 @@ install_packages() {
   _info "INSTALL PACKAGES"
 
   if [ -n "${SKIP_SYSTEM_PACKAGES}" ]; then
-    echo "Skipping, you've chosen not to or your OS is unsupported"
+    echo "Skipping, you've chosen not to or your distro isn't fully supported"
     return
   fi
 
@@ -164,12 +226,10 @@ If you choose y, all of the system packages below will be installed:
 
 $(_display_packages)
 
+
 If you choose no, the above packages will not be installed and this script
 will exit. This gives you a chance to edit the list of packages if you don't
 agree with any of the decisions.
-
-The packages listed after xz are technically optional but are quite useful.
-Certain aliases depend on these optional packages being installed.
 
 EOF
 
@@ -178,7 +238,9 @@ EOF
     case "${yn}" in
     [Yy]*)
       if [ "${OS_TYPE}" == "linux" ]; then
-        _install_packages_apt
+        if [ "${OS_DISTRO}" == "debian" ]; then
+          _install_packages_apt
+        fi
       else
         _install_packages_brew
       fi
@@ -232,16 +294,6 @@ install_zsh_plugins() {
   _info "INSTALL ZSH PLUGINS"
 
   "${DOTFILES_PATH}/.local/bin/update-zsh-plugins"
-}
-
-install_fzf() {
-  _info "INSTALL FZF"
-
-  local fzf_path="${HOME}/.local/share/fzf"
-
-  rm -rf "${fzf_path}"
-  git clone --depth 1 https://github.com/junegunn/fzf.git "${fzf_path}" &&
-    yes | "${fzf_path}/install" --bin --no-update-rc
 }
 
 create_symlinks() {
@@ -506,7 +558,6 @@ create_initial_dirs
 install_packages
 clone_or_update_dotfiles
 install_zsh_plugins
-install_fzf
 create_symlinks
 configure_shell
 configure_git
