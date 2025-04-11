@@ -78,8 +78,11 @@ bindkey "\e[3~" delete-char
 GPG_TTY="$(tty)"
 export GPG_TTY
 
-# Set up fzf keymaps, shell integration and configure it.
+# Set up fzf keymaps and shell integration.
+# shellcheck disable=SC1090
 . <(fzf --zsh)
+
+# Configure fzf.
 export FZF_DEFAULT_COMMAND="rg --files --follow --hidden --glob '!.git'"
 export FZF_DEFAULT_OPTS="--highlight-line --info=inline-right --ansi --layout=reverse --border=none"
 export FZF_CTRL_T_OPTS="--preview='less {}' --height=100% --bind shift-up:preview-page-up,shift-down:preview-page-down"
