@@ -15,6 +15,11 @@ export PATH="${PATH}:${HOME}/.local/bin:${HOME}/.local/bin/local"
 # Confiure Mise (programming language run-time manager)
 export PATH="${XDG_DATA_HOME}/mise/shims:${PATH}"
 
+# Add fzf to your PATH but only if it's needed (such as when git installed).
+if [ -d "${XDG_DATA_HOME}/fzf/bin" ]; then
+  export PATH="${PATH}:${XDG_DATA_HOME}/fzf/bin"
+fi
+
 # Default programs to run.
 export EDITOR="nvim"
 

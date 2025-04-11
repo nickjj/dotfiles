@@ -74,20 +74,12 @@ bindkey "\e[F" end-of-line
 bindkey "\e[8~" end-of-line
 bindkey "\e[3~" delete-char
 
-# Enable FZF (this replaces needing ~/.fzf.zsh in your home directory).
-if [[ ! "${PATH}" == *${XDG_DATA_HOME}/fzf/bin* ]]; then
-  export PATH="${PATH:+${PATH}:}${XDG_DATA_HOME}/fzf/bin"
-fi
-# shellcheck disable=SC1091
-[[ $- == *i* ]] && . "${XDG_DATA_HOME}/fzf/shell/completion.zsh" 2>/dev/null
-# shellcheck disable=SC1091
-. "${XDG_DATA_HOME}/fzf/shell/key-bindings.zsh"
-
 # Allows your gpg passphrase prompt to spawn (useful for signing commits).
 GPG_TTY="$(tty)"
 export GPG_TTY
 
-# Configure FZF.
+# Set up fzf keymaps, shell integration and configure it.
+. <(fzf --zsh)
 export FZF_DEFAULT_COMMAND="rg --files --follow --hidden --glob '!.git'"
 export FZF_DEFAULT_OPTS="--highlight-line --info=inline-right --ansi --layout=reverse --border=none"
 export FZF_CTRL_T_OPTS="--preview='less {}' --height=100% --bind shift-up:preview-page-up,shift-down:preview-page-down"
