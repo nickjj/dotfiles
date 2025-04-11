@@ -13,14 +13,13 @@ SKIP_SYSTEM_PACKAGES="${1:-}"
 APT_PACKAGES="curl fd-find git iproute2 python3-pip ripgrep tmux wl-clipboard zsh xz-utils"
 APT_PACKAGES_OPTIONAL="gnupg htop inotify-tools jq pass pwgen rsync unzip"
 
-BREW_PACKAGES="diffutils fd git nvim python ripgrep shellcheck shfmt tmux zsh xz"
+BREW_PACKAGES="diffutils fd git nvim mise python ripgrep shellcheck shfmt tmux zsh xz"
 BREW_PACKAGES_OPTIONAL="gnupg htop jq pass pwgen rsync"
 
 INSTALL_NVIM_VERSION="v0.11.0"
 INSTALL_SHELLCHECK_VERSION="v0.10.0"
 INSTALL_SHFMT_VERSION="v3.11.0"
-INSTALL_ASDF_VERSION="v0.11.0"
-INSTALL_NODE_VERSION="18.17.0"
+INSTALL_NODE_VERSION="22.14"
 
 CPU_ARCH="$(uname -m)"
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
@@ -66,6 +65,12 @@ _install_packages_apt() {
 
   # Allow using fd with fd instead of fdfind.
   ln -fs "$(which fdfind)" "${HOME}/.local/bin/fd"
+
+  # Install Mise.
+  sudo install -dm 755 /etc/apt/keyrings
+  curl -fsSL https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+  echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
+  sudo apt-get update && sudo apt-get install -y mise
 
   local original_cpu_arch="${CPU_ARCH}"
 
@@ -433,24 +438,15 @@ EOF
   echo "It has been configured in '$(dirname "${git_config_local_path}")'"
 }
 
-install_asdf() {
-  _info "INSTALL ASDF (${INSTALL_ASDF_VERSION})"
+install_programming_runtimes() {
+  _info "INSTALL PROGRAMMING RUN-TIMES"
 
-  local asdf_path="${HOME}/.local/share/asdf"
-
-  rm -rf "${asdf_path}"
-  git clone --depth 1 https://github.com/asdf-vm/asdf.git --branch "${INSTALL_ASDF_VERSION}" \
-    "${asdf_path}"
-
-  # shellcheck disable=SC1091
-  . "${asdf_path}/asdf.sh"
-
-  if ! node --version >/dev/null 2>&1; then
+  if node --version >/dev/null 2>&1; then
+    echo "Skipping Node, it's already installed, uninstall it first to upgrade"
+  else
     printf "Installing Node %s...\n\n" "${INSTALL_NODE_VERSION}"
 
-    "${asdf_path}/bin/asdf" plugin add nodejs || true
-    "${asdf_path}/bin/asdf" install nodejs "${INSTALL_NODE_VERSION}"
-    "${asdf_path}/bin/asdf" global nodejs "${INSTALL_NODE_VERSION}"
+    mise use --global "node@${INSTALL_NODE_VERSION}"
   fi
 
   if ! yarn --version >/dev/null 2>&1; then
@@ -514,7 +510,7 @@ install_fzf
 create_symlinks
 configure_shell
 configure_git
-install_asdf
+install_programming_runtimes
 install_tmux_plugins
 install_nvim_plugins
 completed_message

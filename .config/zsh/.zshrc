@@ -83,10 +83,6 @@ fi
 # shellcheck disable=SC1091
 . "${XDG_DATA_HOME}/fzf/shell/key-bindings.zsh"
 
-# Enable asdf to manage various programming runtime versions.
-# shellcheck disable=SC1091
-[ -f "${XDG_DATA_HOME}/asdf/asdf.sh" ] && . "${XDG_DATA_HOME}/asdf/asdf.sh"
-
 # Allows your gpg passphrase prompt to spawn (useful for signing commits).
 GPG_TTY="$(tty)"
 export GPG_TTY
