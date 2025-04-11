@@ -186,6 +186,7 @@ detect_env() {
   case "${OS_TYPE}" in
   linux)
     if [ -r /etc/os-release ]; then
+      # shellcheck disable=SC1091
       OS_DISTRO="$(. /etc/os-release && echo "${ID_LIKE:-${ID}}")"
 
       # Technically ID_LIKE can have a space separated list of distros but
