@@ -49,7 +49,11 @@ tmux list-panes -a -F "#{session_name}:#{window_index}.#{pane_index} #{pane_pid}
   was_killed=
 
   if [[ -n "${KILL}" && -n "${child_pid}" ]]; then
+    # We're using pkill and kill so child processes get killed for processes
+    # that spawn a parent which cannot be killed with a normal kill. pkill is
+    # useful for processes like docker compose up.
     kill "${child_pid}"
+    pkill -P "${child_pid}"
     was_killed=1
   fi
 
