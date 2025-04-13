@@ -17,6 +17,7 @@ alias la="ls -A"
 alias l="ls -CF"
 
 alias sz='. ${ZDOTDIR}/.zprofile && . ${ZDOTDIR}/.zshrc'
+alias SZ='tmux-shell-cmd --kill "sz"'
 alias dt='cd ${DOTFILES_PATH} && nvim .'
 alias lz='cd ${HOME}/.local/share/nvim/lazy/LazyVim && nvim .'
 alias lp='cd ${HOME}/.local/share/nvim/lazy && nvim .'

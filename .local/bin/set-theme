@@ -169,6 +169,10 @@ def change_gitui_theme(theme):
     os.symlink(theme_path, link_path)
 
 
+def update_tmux_shells():
+    print("Please run the 'SZ' alias to reload all of your tmux shells.")
+
+
 def parseargs():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -198,6 +202,7 @@ def main():
     change_nvim_theme(theme)
     change_fzf_theme(theme)
     change_gitui_theme(theme)
+    update_tmux_shells()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# Run a shell command in all open tmux sessions, windows and panes.
+
+set -o pipefail
+set -o nounset
+
+AUTO_KILL="${AUTO_KILL:-}"
+KILL=
+ARGS=()
+
+for arg in "${@}"; do
+  case "${arg}" in
+  --kill)
+    KILL=1
+    ;;
+  *)
+    ARGS+=("${arg}")
+    ;;
+  esac
+done
+
+COMMAND="${ARGS[*]}"
+
+if [[ -z "${COMMAND:-}" ]]; then
+  cat <<EOF
+Usage:
+  tmux-shell-cmd whoami
+  tmux-shell-cmd --kill "echo 'kill any process before running this command'"
+  AUTO_KILL=1 tmux-shell-cmd --kill <same as above except it won't prompt you>
+EOF
+  exit 1
+fi
+
+if [[ -n "${KILL}" && -z "${AUTO_KILL}" ]]; then
+  printf "All processes running in any tmux shell session (nvim, etc.) will be killed, save you work! Are you sure? (y/n) "
+  read -r yn
+
+  if [[ "${yn}" != "y" ]]; then
+    printf "\nAborting, your command was not run within any shell session.\n"
+    exit
+  fi
+fi
+
+tmux list-panes -a -F "#{session_name}:#{window_index}.#{pane_index} #{pane_pid}" | while read -r pane pid; do
+  # The running process will always be your shell (zsh, bash, etc.), in this
+  # case if we have something like nvim or htop running there will be a child
+  # process of that pid.
+  child_pid=$(pgrep -P "${pid}")
+  was_killed=
+
+  if [[ -n "${KILL}" && -n "${child_pid}" ]]; then
+    kill "${child_pid}"
+    was_killed=1
+  fi
+
+  [[ -z "${child_pid}" || -n "${was_killed}" ]] && tmux send-keys -t "${pane}" "${COMMAND}" "C-m"
+done
