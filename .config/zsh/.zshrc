@@ -64,6 +64,8 @@ zstyle ":completion:*" verbose true
 
 # Use emacs keybindings even if your $EDITOR is set to Vim.
 bindkey -e
+bindkey "^p" history-search-backward
+bindkey "^n" history-search-forward
 
 # Ensure home / end keys continue to work.
 bindkey "\e[1~" beginning-of-line
