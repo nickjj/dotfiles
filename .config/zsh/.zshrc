@@ -99,6 +99,8 @@ export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 . "${XDG_DATA_HOME}/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 # shellcheck disable=SC1091
 . "${XDG_DATA_HOME}/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# shellcheck disable=SC1091
+. "${XDG_DATA_HOME}/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
 
 # Load aliases if they exist.
 # shellcheck disable=SC1091

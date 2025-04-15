@@ -9,17 +9,18 @@ function clone_or_pull {
   project="$(echo "${repo_path}" | cut -d"/" -f2)"
   local project_path="${XDG_DATA_HOME}/${project}"
 
+  echo
+
   if cd "${project_path}" >/dev/null 2>&1; then
     echo "Updating ${repo_path}..."
     git pull
-    echo
     cd - >/dev/null 2>&1 || exit
   else
     echo "Installing ${repo_path}..."
     git clone "https://github.com/${repo_path}" "${project_path}"
-    echo
   fi
 }
 
 clone_or_pull "zdharma-continuum/fast-syntax-highlighting"
 clone_or_pull "zsh-users/zsh-autosuggestions"
+clone_or_pull "jeffreytse/zsh-vi-mode"
