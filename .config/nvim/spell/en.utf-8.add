@@ -23,6 +23,7 @@ ap
 APIs
 APM
 APS
+arg
 argparse
 args
 ARGs
@@ -63,6 +64,7 @@ CentOS
 centric
 Certbot
 changelog
+chown'ing
 Chroma
 Chromebook
 CI
@@ -126,6 +128,7 @@ devs
 DexPot
 DigitalOcean
 DigitalOcean's
+dir
 Disqus
 distro
 distro's
@@ -164,6 +167,8 @@ Elasticsearch
 ELB
 ElephantSQL
 EmberJS
+entrypoint
+env
 ENV
 envsubst
 ERD
@@ -225,13 +230,15 @@ Graphene
 GraphQL
 Gruvbox
 Gumroad
-gunicorn
+Gunicorn
+Gunicorn's
 GVim
 gzip
 gzipped
 hackaton
 HackerNews
 hacky
+Hadolint
 haha
 HashiCorp
 Hatchbox
@@ -406,12 +413,14 @@ pgAdmin
 Photoshop
 PHP
 PHP's
+pid
 PII
 Pingdom
 Pinterest
 Pipenv
 pjax
 PKI
+pkill
 Plan9
 PM2
 podcasting
@@ -446,6 +455,7 @@ QuickBook's
 QuickBooks
 RabbitMQ
 Rbenv
+rc
 RDS
 README
 rebase
@@ -510,6 +520,7 @@ ServerPilot
 SES
 SHA
 ShellCheck
+shfmt
 Shopify
 Shopify's
 shortcode
