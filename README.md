@@ -120,8 +120,8 @@ of installing these for you unless you've skipped system packages.
 **Try it in Docker without modifying your system:**
 
 ```sh
-# Start a Python container. We're using Python for Python LSP support.
-docker container run --rm -it -v "${PWD}:/app" -w /app python:3.13.2-slim-bookworm bash
+# Start a Debian container.
+docker container run --rm -it -v "${PWD}:/app" -w /app debian:stable-slim bash
 
 # Copy / paste all 3 lines into the container's prompt and run it.
 #

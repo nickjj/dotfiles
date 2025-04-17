@@ -20,7 +20,6 @@ APT_PACKAGES="
   openssh-server
   pass
   pwgen
-  python3-pip
   rsync
   tmux
   unzip
@@ -53,7 +52,6 @@ BREW_PACKAGES="
   openssh
   pass
   pwgen
-  python
   ripgrep
   rsync
   shellcheck
@@ -64,6 +62,7 @@ BREW_PACKAGES="
 "
 
 INSTALL_NODE_VERSION="22.14"
+INSTALL_PYTHON_VERSION="3.13"
 
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
 OS_DISTRO=
@@ -477,16 +476,21 @@ EOF
 install_programming_languages() {
   _info "INSTALL PROGRAMMING LANGUAGES"
 
-  if node --version >/dev/null 2>&1; then
+  printf "Installing Node %s...\n\n" "${INSTALL_NODE_VERSION}"
+  if command -v "${HOME}/.local/share/mise/shims/node" 1>/dev/null; then
     echo "Skipping Node, it's already installed, run 'mise upgrade node --bump' to upgrade"
   else
-    printf "Installing Node %s...\n\n" "${INSTALL_NODE_VERSION}"
-
     mise use --global "node@${INSTALL_NODE_VERSION}"
   fi
-
   if ! yarn --version >/dev/null 2>&1; then
     npm install --unsafe-perm=true --allow-root --global yarn
+  fi
+
+  printf "\nInstalling Python %s...\n\n" "${INSTALL_PYTHON_VERSION}"
+  if command -v "${HOME}/.local/share/mise/shims/python3" 1>/dev/null; then
+    echo "Skipping Python, it's already installed, run 'mise upgrade python --bump' to upgrade"
+  else
+    mise use --global "python@${INSTALL_PYTHON_VERSION}"
   fi
 }
 
