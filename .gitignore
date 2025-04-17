@@ -21,6 +21,7 @@ tags
 .aliases.local
 .zshrc.local
 .zprofile.local
+.zsh_history*
 .config/git/config.local
 .local/bin/local/
 *.spl
