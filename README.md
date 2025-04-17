@@ -120,8 +120,8 @@ of installing these for you unless you've skipped system packages.
 **Try it in Docker without modifying your system:**
 
 ```sh
-# Start a Debian container.
-docker container run --rm -it -v "${PWD}:/app" -w /app debian:stable-slim bash
+# Start a Debian container, we're passing in an env var to be explicit we're in Docker.
+docker container run --rm -it -e "IN_CONTAINER=1" -v "${PWD}:/app" -w /app debian:stable-slim bash
 
 # Copy / paste all 3 lines into the container's prompt and run it.
 #

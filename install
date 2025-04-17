@@ -11,6 +11,7 @@ set -o errexit
 SKIP_SYSTEM_PACKAGES="${1:-}"
 
 APT_PACKAGES="
+  build-essential
   curl
   git
   gnupg
@@ -243,6 +244,15 @@ clone_or_update_dotfiles() {
   if [ "${DEBUG}" == "1" ]; then
     if [ "${PWD}" != "${DOTFILES_PATH}" ]; then
       cp -R "${PWD}/." "${DOTFILES_PATH}"
+
+      # Ensure the containerized environment starts fresh.
+      if [[ -n "${IN_CONTAINER}" ]]; then
+        rm \
+          "${DOTFILES_PATH}/.config/zsh/.zsh_history" \
+          "${DOTFILES_PATH}/.config/zsh/.aliases.local" \
+          "${DOTFILES_PATH}/.config/zsh/.zprofile.local" \
+          "${DOTFILES_PATH}/.config/zsh/.zshrc.local"
+      fi
     fi
 
     printf "They've been copied to '%s'\n" "${DOTFILES_PATH}"
