@@ -14,6 +14,14 @@ return {
               .. (state and "ON" or "OFF")
           )
         end, { desc = "Toggle Hidden Files", buffer = true })
+
+        MAP({ "i", "n", "x" }, "<A-i>", function()
+          local state =
+            unpack(require("grug-far").toggle_flags({ "--no-ignore" }))
+          vim.notify(
+            "grug-far: toggled --no-ignore " .. (state and "ON" or "OFF")
+          )
+        end, { desc = "Toggle Ignored Files", buffer = true })
       end,
     })
   end,
