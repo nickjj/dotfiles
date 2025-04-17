@@ -12,24 +12,31 @@ SKIP_SYSTEM_PACKAGES="${1:-}"
 
 APT_PACKAGES="
   curl
-  fd-find
   git
   gnupg
   htop
   inotify-tools
   iproute2
-  jq
   openssh-server
   pass
   pwgen
   python3-pip
-  ripgrep
   rsync
   tmux
   unzip
   wl-clipboard
   xz-utils
   zsh
+"
+
+MISE_PACKAGES_DEBIAN_DISTROS_ONLY="
+  fd
+  fzf
+  jq
+  neovim
+  ripgrep
+  shellcheck
+  shfmt
 "
 
 BREW_PACKAGES="
@@ -58,7 +65,6 @@ BREW_PACKAGES="
 
 INSTALL_NODE_VERSION="22.14"
 
-CPU_ARCH="$(uname -m)"
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
 OS_DISTRO=
 
@@ -98,19 +104,8 @@ EOF
 }
 
 _install_packages_apt() {
-  # Apt's packages typically have older versions since Debian and Ubuntu are
-  # stable distros. In most cases the version included is fine but we do want
-  # the latest and greatest versions for certain tools.
-
-  local version_nvim="v0.11.0"
-  local version_shellcheck="v0.10.0"
-  local version_shfmt="v3.11.0"
-
   # shellcheck disable=SC2086
   sudo apt-get update && sudo apt-get install -y ${APT_PACKAGES}
-
-  # Allow using fd with fd instead of fdfind.
-  ln -fs "$(which fdfind)" "${HOME}/.local/bin/fd"
 
   # Install Mise.
   sudo install -dm 755 /etc/apt/keyrings
@@ -118,42 +113,14 @@ _install_packages_apt() {
   echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
   sudo apt-get update && sudo apt-get install -y mise
 
-  # Install fzf.
-  local fzf_path="${HOME}/.local/share/fzf"
-  rm -rf "${fzf_path}"
-  git clone --depth 1 https://github.com/junegunn/fzf.git "${fzf_path}" &&
-    yes | "${fzf_path}/install" --bin --no-update-rc
-
-  local original_cpu_arch="${CPU_ARCH}"
-
-  # ShellCheck uses a different file name than what uname -m may output. I have
-  # no idea if this will work since I have no arm64 Linux device to test on.
-  [[ "${CPU_ARCH}" =~ ^arm ]] && CPU_ARCH="aarch64"
-
-  local shellcheck_install_path="/tmp/shellcheck"
-  local shellcheck_xz_path="/tmp/shellcheck.tar.xz"
-  rm -rf "${shellcheck_xz_path}" "${shellcheck_install_path}"
-  curl -s -o "${shellcheck_xz_path}" -L "https://github.com/koalaman/shellcheck/releases/download/${version_shellcheck}/shellcheck-${version_shellcheck}.${OS_TYPE}.${CPU_ARCH}.tar.xz"
-  mkdir -p "${shellcheck_install_path}"
-  tar -xJf "${shellcheck_xz_path}" -C "${shellcheck_install_path}" --strip-components=1
-  chmod +x "${shellcheck_install_path}/shellcheck"
-  mv "${_}" "${HOME}/.local/bin"
-
-  CPU_ARCH="${original_cpu_arch}"
-
-  # shfmt uses a different file name than what uname -m will output.
-  [[ "${CPU_ARCH}" == "x86_64" ]] && CPU_ARCH="amd64"
-
-  curl -s -o /tmp/shfmt -L "https://github.com/mvdan/sh/releases/download/${version_shfmt}/shfmt_${version_shfmt}_${OS_TYPE}_${CPU_ARCH}"
-  chmod +x /tmp/shfmt
-  mv "${_}" "${HOME}/.local/bin"
-
-  CPU_ARCH="${original_cpu_arch}"
-
-  local nvim_gz_path="/tmp/nvim.tar.gz"
-  rm -rf "${nvim_gz_path}"
-  curl -s -o "${nvim_gz_path}" -L "https://github.com/neovim/neovim/releases/download/${version_nvim}/nvim-${OS_TYPE}-${CPU_ARCH}.tar.gz"
-  tar -xzf "${nvim_gz_path}" -C "${HOME}/.local" --strip-components=1
+  # Install Mise packages.
+  #
+  # Apt's packages typically have older versions since Debian and Ubuntu are
+  # stable distros. In most cases the version included is fine but we do want
+  # the latest and greatest versions for certain tools.
+  echo
+  # shellcheck disable=SC2086
+  mise use --global ${MISE_PACKAGES_DEBIAN_DISTROS_ONLY}
 }
 
 _install_packages_brew() {
@@ -172,6 +139,7 @@ _display_packages() {
   if [ "${OS_TYPE}" == "linux" ]; then
     if [ "${OS_DISTRO}" == "debian" ]; then
       echo "${APT_PACKAGES}"
+      echo "${MISE_PACKAGES_DEBIAN_DISTROS_ONLY}"
     fi
   else
     echo "${BREW_PACKAGES}"
@@ -506,11 +474,11 @@ EOF
   echo "It has been configured in '$(dirname "${git_config_local_path}")'"
 }
 
-install_programming_runtimes() {
-  _info "INSTALL PROGRAMMING RUN-TIMES"
+install_programming_languages() {
+  _info "INSTALL PROGRAMMING LANGUAGES"
 
   if node --version >/dev/null 2>&1; then
-    echo "Skipping Node, it's already installed, uninstall it first to upgrade"
+    echo "Skipping Node, it's already installed, run 'mise upgrade node --bump' to upgrade"
   else
     printf "Installing Node %s...\n\n" "${INSTALL_NODE_VERSION}"
 
@@ -577,7 +545,7 @@ install_zsh_plugins
 create_symlinks
 configure_shell
 configure_git
-install_programming_runtimes
+install_programming_languages
 install_tmux_plugins
 install_nvim_plugins
 completed_message
