@@ -389,13 +389,13 @@ configure_shell() {
   fi
 
   if [ "${OS_TYPE}" == "darwin" ]; then
+    if ! grep -q "HOMEBREW_NO_ANALYTICS" "${zprofile_path}" 2>/dev/null; then
+      printf '\nexport HOMEBREW_NO_ANALYTICS=1\n' >>"${zprofile_path}"
+    fi
+
     if ! grep -q "eval.*homebrew.*shellenv" "${zprofile_path}" 2>/dev/null; then
       # shellcheck disable=SC2016
       printf '\neval "$(/opt/homebrew/bin/brew shellenv)"\n' >>"${zprofile_path}"
-    fi
-
-    if ! grep -q "HOMEBREW_NO_ANALYTICS" "${zprofile_path}" 2>/dev/null; then
-      printf '\nexport HOMEBREW_NO_ANALYTICS=1\n' >>"${zprofile_path}"
     fi
   else
     # Are we in WSL 2?
