@@ -12,6 +12,7 @@ SKIP_SYSTEM_PACKAGES="${1:-}"
 
 APT_PACKAGES="
   aspell
+  bc
   build-essential
   curl
   git
@@ -43,6 +44,7 @@ MISE_PACKAGES_DEBIAN_DISTROS_ONLY="
 BREW_PACKAGES="
   aspell
   bash
+  bc
   diffutils
   fd
   fzf
