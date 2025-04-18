@@ -16,7 +16,7 @@ related to my dev environment.
   - [How to personalize these dotfiles?](#how-to-personalize-these-dotfiles)
   - [How to get theme support in your terminal?](#how-to-get-theme-support-in-your-terminal)
   - [How to add custom themes to the set-theme script?](#how-to-add-custom-themes-to-the-set-theme-script)
-  - [How to fix Neovim taking a long time to open when inside of WSL?](#how-to-fix-vim-taking-a-long-time-to-open-when-inside-of-wsl)
+  - [How to fix Neovim taking a long time to open when inside of WSL?](#how-to-fix-neovim-taking-a-long-time-to-open-when-inside-of-wsl)
   - [Where is the original Vim config?](#where-is-the-original-vim-config)
 - [About the author](#-about-the-author)
 
