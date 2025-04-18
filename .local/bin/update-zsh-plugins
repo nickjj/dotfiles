@@ -24,3 +24,4 @@ function clone_or_pull {
 clone_or_pull "zdharma-continuum/fast-syntax-highlighting"
 clone_or_pull "zsh-users/zsh-autosuggestions"
 clone_or_pull "jeffreytse/zsh-vi-mode"
+clone_or_pull "Aloxaf/fzf-tab"

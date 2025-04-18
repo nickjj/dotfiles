@@ -63,7 +63,7 @@ zstyle ":completion:*" use-compctl false
 zstyle ":completion:*" verbose true
 
 # Use emacs keybindings.
-bindkey -e
+bindkey -v
 
 # Ensure home / end keys continue to work.
 bindkey "\e[1~" beginning-of-line
@@ -104,6 +104,14 @@ export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 . "${XDG_DATA_HOME}/zsh-autosuggestions/zsh-autosuggestions.zsh"
 # shellcheck disable=SC1091
 . "${XDG_DATA_HOME}/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+# shellcheck disable=SC1091
+. "${XDG_DATA_HOME}/fzf-tab/fzf-tab.plugin.zsh"
+
+# Ensure colors match by using FZF_DEFAULT_OPTS.
+zstyle ":fzf-tab:*" use-fzf-default-opts yes
+
+# Preview file contents when tab completing directories.
+zstyle ":fzf-tab:complete:cd:*" fzf-preview "ls --color=always \${realpath}"
 
 # Load aliases if they exist.
 # shellcheck disable=SC1091
