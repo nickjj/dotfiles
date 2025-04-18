@@ -78,6 +78,7 @@ INSTALL_PYTHON_VERSION="3.13"
 
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
 OS_DISTRO=
+OS_IN_WSL=
 
 DOTFILES_URL="${DOTFILES_URL:-https://github.com/nickjj/dotfiles}"
 DOTFILES_PATH="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
@@ -177,6 +178,17 @@ detect_env() {
     # Only fully support these Linux distros.
     if [[ -z "${OS_DISTRO}" || ! "ubuntu debian raspbian" =~ ${OS_DISTRO} ]]; then
       [ -z "${SKIP_SYSTEM_PACKAGES}" ] && _no_system_packages
+    fi
+
+    # Are we in WSL?
+    if grep -q "\-WSL2" /proc/version; then
+      OS_IN_WSL=1
+    fi
+
+    # Adjust packages depending on which display server is in use.
+    if [[ -z "${WAYLAND_DISPLAY}" ]]; then
+      APT_PACKAGES="${APT_PACKAGES//wl-clipboard/xclip}"
+      ARCH_PACKAGES="${ARCH_PACKAGES//wl-clipboard/xclip}"
     fi
 
     ;;
@@ -353,7 +365,7 @@ EOF
         ln -fs "${DOTFILES_PATH}/.config/nvim" "${HOME}/.config/nvim" &&
         ln -fs "${DOTFILES_PATH}/.local/bin/"* "${HOME}/.local/bin/"
 
-      if grep -qE "(Microsoft|microsoft|WSL)" /proc/version &>/dev/null; then
+      if [ -n "${OS_IN_WSL}" ]; then
         sudo ln -fs "${DOTFILES_PATH}/etc/wsl.conf" /etc/wsl.conf
       fi
 
@@ -399,7 +411,7 @@ configure_shell() {
     fi
   else
     # Are we in WSL 2?
-    if grep -q "\-WSL2" /proc/version; then
+    if [ -n "${OS_IN_WSL}" ]; then
       if ! grep -q "^DISPLAY=.*route | awk.*$" "${zprofile_path}" 2>/dev/null; then
         local display=
         display=$(
