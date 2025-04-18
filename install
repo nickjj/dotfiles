@@ -20,14 +20,18 @@ APT_PACKAGES="
   htop
   inotify-tools
   iproute2
+  netcat-openbsd
   openssh-server
   pass
   pwgen
   rsync
   tmux
   unzip
+  wget
+  whois
   wl-clipboard
   xz-utils
+  zip
   zsh
 "
 
@@ -51,6 +55,7 @@ BREW_PACKAGES="
   git
   gnupg
   htop
+  inotify-tools
   jq
   mise
   nvim
@@ -62,6 +67,8 @@ BREW_PACKAGES="
   shellcheck
   shfmt
   tmux
+  unzip
+  wget
   xz
   zsh
 "
