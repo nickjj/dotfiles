@@ -9,16 +9,16 @@ related to my dev environment.
 
 ## 🧾 Documentation
 
-- [View screenshots](#screenshots) of the current set up and how to switch themes
-- [Quickly get set up with these dotfiles](#quickly-get-set-up-with-these-dotfiles)
+- [View screenshots](#-themes) of the current set up and how to switch themes
+- [Quickly get set up with these dotfiles](#-quickly-get-set-up-with-these-dotfiles)
   - [Extra WSL 1 and WSL 2 steps](#extra-wsl-1-and-wsl-2-steps)
-- [FAQ](#faq)
+- [FAQ](#-faq)
   - [How to personalize these dotfiles?](#how-to-personalize-these-dotfiles)
   - [How to get theme support in your terminal?](#how-to-get-theme-support-in-your-terminal)
   - [How to add custom themes to the set-theme script?](#how-to-add-custom-themes-to-the-set-theme-script)
   - [How to fix Neovim taking a long time to open when inside of WSL?](#how-to-fix-vim-taking-a-long-time-to-open-when-inside-of-wsl)
   - [Where is the original Vim config?](#where-is-the-original-vim-config)
-- [About the author](#about-the-author)
+- [About the author](#-about-the-author)
 
 ## 🎨 Themes
 
