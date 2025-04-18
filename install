@@ -428,21 +428,6 @@ EOF
       fi
     fi
 
-    # We only need this on Debian based systems.
-    if [ "${OS_DISTRO}" = "debian" ]; then
-      if ! grep -q "^.*\/fzf\/bin.*$" "${zprofile_path}" 2>/dev/null; then
-        local fzf=
-        fzf=$(
-          cat <<'EOF'
-# Add fzf to your PATH when it has been git installed.
-export PATH="${PATH}:${XDG_DATA_HOME}/fzf/bin"
-EOF
-        )
-
-        printf "\n\n%s" "${fzf}" >>"${zprofile_path}"
-      fi
-    fi
-
     # This should happen on all Linux distros.
     [ "${SHELL}" != "$(command -v zsh)" ] && chsh -s "$(command -v zsh)"
   fi

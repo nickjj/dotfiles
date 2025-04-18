@@ -80,9 +80,11 @@ bindkey "\e[3~" delete-char
 GPG_TTY="$(tty)"
 export GPG_TTY
 
-# Set up fzf keymaps and shell integration.
+# Set up fzf binds and shell integration. It's called this way to work with the
+# zsh-vi-mode-plugin since that plugin also binds CTRL+r. If you remove that
+# plugin then you can remove zvm_after_init_commands and follow fzf's docs.
 # shellcheck disable=SC1090
-. <(fzf --zsh)
+zvm_after_init_commands+=(". <(fzf --zsh)")
 
 # Configure fzf.
 export FZF_DEFAULT_COMMAND="rg --files --follow --hidden --glob '!.git'"
