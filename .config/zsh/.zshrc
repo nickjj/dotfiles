@@ -62,10 +62,8 @@ zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p
 zstyle ":completion:*" use-compctl false
 zstyle ":completion:*" verbose true
 
-# Use emacs keybindings even if your $EDITOR is set to Vim.
+# Use emacs keybindings.
 bindkey -e
-bindkey "^p" history-search-backward
-bindkey "^n" history-search-forward
 
 # Ensure home / end keys continue to work.
 bindkey "\e[1~" beginning-of-line
@@ -80,11 +78,14 @@ bindkey "\e[3~" delete-char
 GPG_TTY="$(tty)"
 export GPG_TTY
 
-# Set up fzf binds and shell integration. It's called this way to work with the
-# zsh-vi-mode-plugin since that plugin also binds CTRL+r. If you remove that
-# plugin then you can remove zvm_after_init_commands and follow fzf's docs.
-# shellcheck disable=SC1090
-zvm_after_init_commands+=(". <(fzf --zsh)")
+# zsh-vi-mode-plugin sets a few key binds such as CTRL+r/p/n which may conflict
+# with other binds. This ensures fzf and our binds always win. If you choose
+# to remove this zsh plugin then each array item can exist normally in zshrc.
+zvm_after_init_commands+=(
+  ". <(fzf --zsh)"
+  "bindkey '^p' history-search-backward"
+  "bindkey '^n' history-search-forward"
+)
 
 # Configure fzf.
 export FZF_DEFAULT_COMMAND="rg --files --follow --hidden --glob '!.git'"
