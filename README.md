@@ -76,12 +76,16 @@ configuring a number of tools in your home directory.
 
 It even handles cloning down this repo. You'll get a chance to pick the clone
 location in the script as well as view and / or change any system packages that
-get installed.
+get installed before your system is modified.
 
-The script is idempotent so you can run it more than once to stay updated.
+You can run this on a new system as well as an existing one. Any destructive
+changes like overwriting config files will show a warning first. The script is
+idempotent so you can run it more than once to stay updated.
 
-The install script is optimized for these operating systems and distros:
+**The install script is optimized for these operating systems. All Linux
+distros support WSL 2 if you're using it:**
 
+- Arch Linux and its derivatives
 - Debian, Ubuntu and its derivatives
 - macOS
 

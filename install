@@ -10,6 +10,38 @@ set -o errexit
 
 SKIP_SYSTEM_PACKAGES="${1:-}"
 
+ARCH_PACKAGES="
+  aspell
+  base
+  base-devel
+  bc
+  curl
+  fd
+  fzf
+  git
+  gnupg
+  htop
+  inotify-tools
+  jq
+  mise
+  neovim
+  openbsd-netcat
+  openssh
+  pass
+  pwgen
+  ripgrep
+  rsync
+  shellcheck
+  shfmt
+  tmux
+  unzip
+  wget
+  whois
+  wl-clipboard
+  zip
+  zsh
+"
+
 APT_PACKAGES="
   aspell
   bc
@@ -115,6 +147,11 @@ EOF
   exit 1
 }
 
+_install_packages_arch() {
+  # shellcheck disable=SC2086
+  sudo pacman -Syu --noconfirm ${ARCH_PACKAGES}
+}
+
 _install_packages_apt() {
   # shellcheck disable=SC2086
   sudo apt-get update && sudo apt-get install -y ${APT_PACKAGES}
@@ -149,7 +186,9 @@ _install_packages_brew() {
 
 _display_packages() {
   if [ "${OS_TYPE}" == "linux" ]; then
-    if [ "${OS_DISTRO}" == "debian" ]; then
+    if [ "${OS_DISTRO}" == "arch" ]; then
+      echo "${ARCH_PACKAGES}"
+    elif [ "${OS_DISTRO}" == "debian" ]; then
       echo "${APT_PACKAGES}"
       echo "${MISE_PACKAGES_DEBIAN_DISTROS_ONLY}"
     fi
@@ -176,7 +215,7 @@ detect_env() {
     fi
 
     # Only fully support these Linux distros.
-    if [[ -z "${OS_DISTRO}" || ! "ubuntu debian raspbian" =~ ${OS_DISTRO} ]]; then
+    if [[ -z "${OS_DISTRO}" || ! "arch ubuntu debian raspbian" =~ ${OS_DISTRO} ]]; then
       [ -z "${SKIP_SYSTEM_PACKAGES}" ] && _no_system_packages
     fi
 
@@ -220,8 +259,8 @@ $(_display_packages)
 
 
 If you choose no, the above packages will not be installed and this script
-will exit. This gives you a chance to edit the list of packages if you don't
-agree with any of the decisions.
+will exit. This gives you a chance to edit the list of packages if you want
+to adjust them.
 
 EOF
 
@@ -230,7 +269,9 @@ EOF
     case "${yn}" in
     [Yy]*)
       if [ "${OS_TYPE}" == "linux" ]; then
-        if [ "${OS_DISTRO}" == "debian" ]; then
+        if [ "${OS_DISTRO}" == "arch" ]; then
+          _install_packages_arch
+        elif [ "${OS_DISTRO}" == "debian" ]; then
           _install_packages_apt
         fi
       else
@@ -381,7 +422,7 @@ EOF
 }
 
 configure_shell() {
-  _info "CONFIGURE SHELL"
+  _info "CONFIGURE SHELL (ZSH)"
 
   local local_files=(".zshrc.local" ".zprofile.local" ".aliases.local")
   local original_dotfiles_path="${DOTFILES_PATH}"
@@ -452,7 +493,7 @@ EOF
     fi
 
     # This should happen on all Linux distros.
-    [ "${SHELL}" != "$(command -v zsh)" ] && chsh -s "$(command -v zsh)"
+    [ "${SHELL: -3}" != "zsh" ] && chsh -s "/usr/bin/zsh"
   fi
 
   # shellcheck disable=SC1091
@@ -464,7 +505,7 @@ EOF
   # volume mounted and this value will be different in Docker.
   DOTFILES_PATH="${original_dotfiles_path}"
 
-  echo "It has been configured in '${HOME}/.config.zsh/'"
+  echo "It has been configured in '${HOME}/.config/zsh/'"
 }
 
 configure_git() {
