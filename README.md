@@ -309,8 +309,8 @@ will prevent Neovim from connecting to an X server. This also means clipboard
 sharing to your system clipboard won't work, but it's good for a test.
 
 Neovim will try to connect to that X server by default because `DISPLAY` is
-exported in the `.zshrc` file. Installing and configuring VcXsrv as per these
-dotfiles will fix that issue.
+exported in the `.config/zsh/.zprofile.local` file. Installing and configuring
+VcXsrv as per these dotfiles will fix that issue.
 
 If it still persists, it might be a software firewall issue. You can open TCP
 port 6000 and also restrict access to it from only WSL 2. This will depend on
