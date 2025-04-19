@@ -582,6 +582,60 @@ create_ssh_key() {
   cat "${key_path}.pub"
 }
 
+create_gpg_key() {
+  _info "CREATING GPG KEY"
+
+  local gpg_home="${GNUPGHOME:-"${HOME}/.gnupg"}"
+  local gpg_key=
+
+  set +o errexit
+  gpg_key="$(gpg --export --armor "${EMAIL}" 2>/dev/null)"
+  set -o errexit
+
+  if [[ "${gpg_key}" =~ "PGP PUBLIC KEY" ]]; then
+    echo "Skipping, since a key already exists for '${EMAIL}'"
+  else
+    mkdir -p "${gpg_home}"
+    chmod 700 "${gpg_home}"
+
+    while true; do
+      printf "Please set a passphrase (password) for your key: "
+      read -sr passphrase
+
+      if [[ ! ${passphrase} =~ [^[:space:]]+ ]]; then
+        printf "\nPlease enter at least 1 non-space character\n\n"
+        continue
+      fi
+
+      printf "\n\nPlease confirm your passphrase: "
+      read -sr passphrase_confirm
+
+      [ "${passphrase}" = "${passphrase_confirm}" ] && break
+
+      printf "\nYour passphrase did not match, please try again\n\n"
+    done
+
+    printf "\n\nGenerating GPG key...\n\n"
+
+    gpg --batch --gen-key <<EOF
+     Key-Type: 1
+     Key-Length: 3072
+     Subkey-Type: 1
+     Subkey-Length: 3072
+     Name-Real: ${NAME}
+     Name-Email: ${EMAIL}
+     Passphrase: ${passphrase}
+     Expire-Date: 1y
+EOF
+
+    gpg_key="$(gpg --export --armor "${EMAIL}" 2>/dev/null)"
+  fi
+
+  _info "SHOWING PUBLIC GPG KEY"
+
+  echo "${gpg_key}" | gpg --show-keys
+}
+
 configure_git() {
   _info "CONFIGURE GIT"
 
@@ -593,9 +647,8 @@ configure_git() {
   name = ${NAME}
   email = ${EMAIL}
   # Uncomment the options below to auto-sign your git commits / tags using GPG.
-  # Learn more about how to set up a GPG key pair here:
-  #   https://nickjanetakis.com/blog/creating-and-managing-a-gpg-key-pair
-  #signingkey = ${EMAIL}
+  # Learn more about signing git commits here:
+  #   https://nickjanetakis.com/blog/signing-and-verifying-git-commits-on-the-command-line-and-github
 
 #[commit]
 #  gpgsign = true
@@ -719,6 +772,7 @@ configure_shell
 ask_for_name
 ask_for_email
 create_ssh_key
+create_gpg_key
 configure_git
 install_programming_languages
 install_tmux_plugins
