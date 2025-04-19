@@ -1,17 +1,42 @@
 # dotfiles
 
 This readme along with an install script will help you get everything running
-in a few commands. It contains a bunch of configuration for the [tools I
+in a few minutes. It contains a bunch of configuration for the [tools I
 use](https://nickjanetakis.com/blog/the-tools-i-use). I also have a number of
 [blog posts and
 videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials)
 related to my dev environment.
 
+## 🧬 Who Is This For?
+
+This project is more than a few config files. **In 1 command and ~5 minutes it
+can take a new or existing system and install / configure a number of tools
+aimed at developers**. It will prompt or warn you if it's doing a destructive
+action like overwriting a config file. You can run the idempotent [install
+script](https://github.com/nickjj/dotfiles/blob/master/install) multiple times
+to stay up to date.
+
+There's too many things to list here but here's the highlights:
+
+- Set you up for success with command line tools and workflows
+  - Tweak out your shell (zsh)
+  - Set up tmux
+  - Fully configure Neovim
+  - Create SSH / GPG keys if they don't already exist
+  - Install modern CLI tools
+  - Install programming languages
+
+It supports Arch Linux, Debian, Ubuntu and macOS. It also supports WSL 2 for
+any supported Linux distro.
+
+*If you don't plan to run the install script that's ok, everything is MIT
+licensed. The code is here to look at.*
+
 ## 🧾 Documentation
 
 - [View screenshots](#-themes) of the current set up and how to switch themes
 - [Quickly get set up with these dotfiles](#-quickly-get-set-up-with-these-dotfiles)
-  - [Extra WSL 1 and WSL 2 steps](#extra-wsl-1-and-wsl-2-steps)
+  - [Extra WSL 2 steps](#extra-wsl-2-steps)
 - [FAQ](#-faq)
   - [How to personalize these dotfiles?](#how-to-personalize-these-dotfiles)
   - [How to get theme support in your terminal?](#how-to-get-theme-support-in-your-terminal)
@@ -81,20 +106,6 @@ It even handles cloning down this repo. You'll get a chance to pick the clone
 location in the script as well as view and / or change any system packages that
 get installed before your system is modified.
 
-You can run this on a new system as well as an existing one. Any destructive
-changes like overwriting config files will show a warning first. The script is
-idempotent so you can run it more than once to stay updated.
-
-**The install script is optimized for these operating systems. All Linux
-distros support WSL 2 if you're using it:**
-
-- Arch Linux and its derivatives
-- Debian, Ubuntu and its derivatives
-- macOS
-
-It will still work with other distros of Linux if you skip installing system
-packages (more details are below).
-
 **You can download and run the install script with this 1 liner:**
 
 ```sh
@@ -104,18 +115,22 @@ bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install
 *If you're not comfortable blindly running a script on the internet, that's no
 problem. You can view the [install
 script](https://github.com/nickjj/dotfiles/blob/master/install) to see exactly
-what it does. Each section is commented. Sudo is only used to install system
-packages. Alternatively you can look around this repo and reference the config
-files directly without using any script.*
+what it does. The bottom of the file is a good place to start. Sudo is only
+used to install system packages. Alternatively you can look around this repo
+and reference the config files directly without using any script.*
 
-You can also run the script without installing system packages:
+*Please understand if you run this script on your existing system and hit yes
+to some of the prompts your config files will get overwritten. Always have good
+backups!*
+
+**You can also run the script without installing system packages:**
 
 ```sh
 bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
 ```
 
 The above can be useful if you're using an unsupported distro of Linux in which
-you'll need to install the [dependent system
+case you'll need to install the [dependent system
 packages](https://github.com/nickjj/dotfiles/blob/master/install) on your own
 beforehand. Besides that, everything else is supported since it's only dealing
 with files in your home directory.
