@@ -16,6 +16,7 @@ ARCH_PACKAGES="
   base-devel
   bc
   curl
+  fastfetch
   fd
   fzf
   git
@@ -83,6 +84,7 @@ BREW_PACKAGES="
   bash
   bc
   diffutils
+  fastfetch
   fd
   fzf
   git
@@ -174,6 +176,14 @@ _install_packages_apt() {
   echo
   # shellcheck disable=SC2086
   mise use --global ${MISE_PACKAGES_DEBIAN_DISTROS_ONLY}
+
+  # Install packages manually since they don't exist elsewhere.
+
+  # fastfetch, Debian 13 / Ubuntu 26.04 LTS will have it in apt by default.
+  echo
+  curl -fsSL https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.deb -o /tmp/fastfetch.deb
+  sudo dpkg -i "${_}"
+  rm "${_}"
 }
 
 _install_packages_brew() {
@@ -717,10 +727,6 @@ ${DOTFILES_PATH}
 
 $(git config --get-regex "user.(name|email)")
 
-:: zsh:
-
-$(zsh --version)
-
 :: tmux:
 
 $(tmux -V)
@@ -733,7 +739,12 @@ $(nvim --version)
 
 Node $(node --version)
 $(python --version)
+
+:: Fastfetch:
+
 EOF
+
+  fastfetch
 }
 
 completed_message() {
