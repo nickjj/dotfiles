@@ -2,7 +2,7 @@
   "$help": "https://aka.ms/terminal-documentation",
   "$schema": "https://aka.ms/terminal-profiles-schema",
   "actions": [],
-  "defaultProfile": "{51855cb2-8cce-5362-8f54-464b92b32386}",
+  "defaultProfile": "{a9741877-f895-512d-a385-bb120648fbbe}",
   "keybindings": [
     {
       "id": null,
@@ -14,11 +14,11 @@
     },
     {
       "id": null,
-      "keys": "alt+right"
+      "keys": "alt+up"
     },
     {
       "id": null,
-      "keys": "alt+up"
+      "keys": "alt+right"
     },
     {
       "id": null,
@@ -64,10 +64,10 @@
         "source": "Windows.Terminal.Azure"
       },
       {
-        "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
+        "guid": "{a9741877-f895-512d-a385-bb120648fbbe}",
         "hidden": false,
-        "name": "Ubuntu 22.04",
-        "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc"
+        "name": "Arch Linux",
+        "source": "Microsoft.WSL"
       }
     ]
   },
