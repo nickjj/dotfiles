@@ -179,7 +179,7 @@ node --version
 Before you start customizing certain config files, take a look at the
 [personalization question in the FAQ](#how-to-personalize-these-dotfiles).
 
-### Extra WSL 1 and WSL 2 steps
+### Extra WSL 2 steps
 
 In addition to the Linux side of things, there's a few config files that I have
 in various directories of this dotfiles repo. These have long Windows paths and
@@ -202,9 +202,14 @@ values in there that you will very likely want to change before using it.
 message](https://github.com/nickjj/dotfiles/commit/d0f1fc2622204b809cf7fcbb1a82d45b451064c4)
 goes into the details.
 
-Also, you should reboot to activate your `/etc/wsl.conf` file (the install
-script created this). That will be necessary if you want to access your mounted
-drives at `/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
+Also, you should reboot or restart your WSL instance to activate your
+`/etc/wsl.conf` file (the install script created this). That will be necessary
+if you want to access your mounted drives at `/c` or `/d` instead of `/mnt/c`
+or `/mnt/d`.
+
+You may have noticed I don't enable systemd within WSL 2. That is on purpose.
+I've found it delays opening WSL 2 by ~10-15 seconds and also any systemd
+services were delayed from starting by ~2 minutes.
 
 ## 🔍 FAQ
 
