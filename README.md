@@ -149,18 +149,6 @@ Nice!
 
 If you haven't done so already please close your terminal and open a new one.
 
-#### 1. (Optional) confirm that a few things work
-
-```sh
-# Check to make sure git is configured with your name and email.
-git config --list
-
-# Sanity check to see if you can run some of the tools we installed.
-nvim --version
-tmux -V
-node --version
-```
-
 Before you start customizing certain config files, take a look at the
 [personalization question in the FAQ](#how-to-personalize-these-dotfiles).
 

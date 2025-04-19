@@ -635,6 +635,37 @@ install_nvim_plugins() {
   echo "They've been installed"
 }
 
+healthcheck() {
+  _info "CHECK INFORMATION AND TOOL VERSIONS"
+
+  cat <<EOF
+:: Dotfiles path:
+
+${DOTFILES_PATH}
+
+:: Git user:
+
+$(git config --get-regex "user.(name|email)")
+
+:: zsh:
+
+$(zsh --version)
+
+:: tmux:
+
+$(tmux -V)
+
+:: Neovim:
+
+$(nvim --version)
+
+:: Programming languages:
+
+Node $(node --version)
+$(python --version)
+EOF
+}
+
 completed_message() {
   _info "EVERYTHING WORKED"
 
@@ -675,4 +706,5 @@ configure_git
 install_programming_languages
 install_tmux_plugins
 install_nvim_plugins
+healthcheck
 completed_message
