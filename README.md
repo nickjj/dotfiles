@@ -147,24 +147,9 @@ your local terminal's config will not get automatically updated.*
 
 Nice!
 
-If you haven't done so already please close your terminal and open a new
-one, then follow the step(s) below:
+If you haven't done so already please close your terminal and open a new one.
 
-#### 1. Configure your git name and email
-
-One of the things the install script did was create a git ignored
-`.config/git/config.local` file in your dotfiles directory and symlinked it to
-`~/.config/git/config.local`. You're meant to put in your name and email
-address so your details are used when you make git commits.
-
-```sh
-nvim ~/.config/git/config.local
-```
-
-*There are other git ignored "local" files unrelated to git in `.config/zsh/`
-too.*
-
-#### 2. (Optional) confirm that a few things work
+#### 1. (Optional) confirm that a few things work
 
 ```sh
 # Check to make sure git is configured with your name and email.

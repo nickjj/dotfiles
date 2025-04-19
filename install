@@ -105,6 +105,9 @@ BREW_PACKAGES="
   zsh
 "
 
+NAME=
+EMAIL=
+
 INSTALL_NODE_VERSION="22.14"
 INSTALL_PYTHON_VERSION="3.13"
 
@@ -315,7 +318,8 @@ clone_or_update_dotfiles() {
           "${DOTFILES_PATH}/.config/zsh/.zsh_history" \
           "${DOTFILES_PATH}/.config/zsh/.aliases.local" \
           "${DOTFILES_PATH}/.config/zsh/.zprofile.local" \
-          "${DOTFILES_PATH}/.config/zsh/.zshrc.local"
+          "${DOTFILES_PATH}/.config/zsh/.zshrc.local" \
+          "${DOTFILES_PATH}/.config/git/config.local"
       fi
     fi
 
@@ -508,6 +512,60 @@ EOF
   echo "It has been configured in '${HOME}/.config/zsh/'"
 }
 
+ask_for_name() {
+  _info "ASKING FOR YOUR NAME TO CONFIGURE GIT"
+
+  local name=
+
+  set +o errexit
+  name="$(git config user.name)"
+  set -o errexit
+
+  if [[ -n "${name}" ]]; then
+    echo "Skipping, since '${name}' was retrieved from your git config"
+  else
+    while true; do
+      printf "What is your full name (ie. Dade Murphy)? "
+      read -r name
+
+      if [[ ${name} =~ [^[:space:]]+ ]]; then
+        break
+      else
+        printf "Please enter at least your first name\n\n"
+      fi
+    done
+  fi
+
+  NAME="${name}"
+}
+
+ask_for_email() {
+  _info "ASKING FOR YOUR EMAIL TO CONFIGURE GIT"
+
+  local email=
+
+  set +o errexit
+  email="$(git config user.email)"
+  set -o errexit
+
+  if [[ -n "${email}" ]]; then
+    echo "Skipping, since '${email}' was retrieved from your git config"
+  else
+    while true; do
+      printf "What is your email address (ie. zerocool@example.com)? "
+      read -r email
+
+      if [[ ${email} =~ .+@.+ ]]; then
+        break
+      else
+        printf "Please enter a valid email address\n\n"
+      fi
+    done
+  fi
+
+  EMAIL="${email}"
+}
+
 configure_git() {
   _info "CONFIGURE GIT"
 
@@ -516,12 +574,12 @@ configure_git() {
   if [ ! -f "${git_config_local_path}" ]; then
     cat <<EOF >"${git_config_local_path}"
 [user]
-  name = Cody McCodePants
-  email = cody.mccodepants@example.com
+  name = ${NAME}
+  email = ${EMAIL}
   # Uncomment the options below to auto-sign your git commits / tags using GPG.
   # Learn more about how to set up a GPG key pair here:
   #   https://nickjanetakis.com/blog/creating-and-managing-a-gpg-key-pair
-  #signingkey = cody.mccodepants@example.com
+  #signingkey = ${EMAIL}
 
 #[commit]
 #  gpgsign = true
@@ -581,7 +639,7 @@ completed_message() {
   _info "EVERYTHING WORKED"
 
   cat <<EOF
-Check out the README file on GitHub to do 1 quick thing manually:
+Check out the README file on GitHub for any next steps:
 
 https://github.com/nickjj/dotfiles#did-you-install-everything-successfully
 
@@ -611,6 +669,8 @@ clone_or_update_dotfiles
 install_zsh_plugins
 create_symlinks
 configure_shell
+ask_for_name
+ask_for_email
 configure_git
 install_programming_languages
 install_tmux_plugins
