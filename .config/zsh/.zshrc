@@ -85,6 +85,10 @@ zvm_after_init_commands+=(
   ". <(fzf --zsh)"
   "bindkey '^p' history-search-backward"
   "bindkey '^n' history-search-forward"
+  "bindkey '^[OA' history-search-backward"
+  "bindkey '^[OB' history-search-forward"
+  "bindkey '^[[A' history-search-backward"
+  "bindkey '^[[B' history-search-forward"
 )
 
 # Configure fzf.
