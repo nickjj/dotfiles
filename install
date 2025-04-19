@@ -566,6 +566,22 @@ ask_for_email() {
   EMAIL="${email}"
 }
 
+create_ssh_key() {
+  _info "CREATING SSH KEY"
+
+  local -r key_path="${HOME}/.ssh/id_ed25519"
+
+  if [[ -f "${key_path}" ]]; then
+    echo "Skipping, since a key already exists at '${key_path}'"
+  else
+    ssh-keygen -t ed25519 -C "${EMAIL}" -N "" -f "${key_path}"
+  fi
+
+  _info "SHOWING PUBLIC SSH KEY"
+
+  cat "${key_path}.pub"
+}
+
 configure_git() {
   _info "CONFIGURE GIT"
 
@@ -702,6 +718,7 @@ create_symlinks
 configure_shell
 ask_for_name
 ask_for_email
+create_ssh_key
 configure_git
 install_programming_languages
 install_tmux_plugins
