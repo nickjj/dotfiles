@@ -63,7 +63,10 @@ set-theme THEME_NAME
 ```
 
 When switching themes your terminal and tmux colors will update automatically,
-but if you have Neovim already open you'll need to manually close and open it.
+but if you have Neovim already open you'll need to manually close and open it
+or run the `SZ` ([source
+zsh](https://nickjanetakis.com/blog/running-commands-in-all-tmux-sessions-windows-and-panes))
+alias.
 
 *If you get a message about your terminal being unknown please review [this FAQ
 item](#how-to-get-theme-support-in-your-terminal).*
