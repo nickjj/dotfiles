@@ -168,9 +168,9 @@ Microsoft Terminal `settings.json` file and others. Some of the paths and guids
 on your end.
 
 Some of these configs expect that you have certain programs or tools installed
-on Windows. The [tools I use blog
-post](https://nickjanetakis.com/blog/the-tools-i-use) has a complete list of
-those tools so you can pick the ones you want to install.
+on Windows like [VcXsrv](https://sourceforge.net/projects/vcxsrv/). The [tools
+I use blog post](https://nickjanetakis.com/blog/the-tools-i-use) has a complete
+list of those tools so you can pick the ones you want to install.
 
 Pay very close attention to the `c/Users/Nick/.wslconfig` file because it has
 values in there that you will very likely want to change before using it.
@@ -295,7 +295,8 @@ sharing to your system clipboard won't work, but it's good for a test.
 
 Neovim will try to connect to that X server by default because `DISPLAY` is
 exported in the `.config/zsh/.zprofile.local` file. Installing and configuring
-VcXsrv as per these dotfiles will fix that issue.
+[VcXsrv](https://sourceforge.net/projects/vcxsrv/) as per these dotfiles will
+fix that issue.
 
 If it still persists, it might be a software firewall issue. You can open TCP
 port 6000 and also restrict access to it from only WSL 2. This will depend on
