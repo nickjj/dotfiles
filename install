@@ -23,6 +23,7 @@ ARCH_PACKAGES="
   htop
   inotify-tools
   jq
+  less
   mise
   neovim
   openbsd-netcat
