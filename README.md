@@ -26,8 +26,8 @@ There's too many things to list here but here's the highlights:
   - Install modern CLI tools
   - Install programming languages
 
-It supports Arch Linux, Debian, Ubuntu and macOS. It also supports WSL 2 for
-any supported Linux distro.
+**It supports Arch Linux, Debian, Ubuntu and macOS. It also supports WSL 2 for
+any supported Linux distro.**
 
 *If you don't plan to run the install script that's ok, everything is MIT
 licensed. The code is here to look at.*
