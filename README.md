@@ -193,10 +193,10 @@ values in there that you will very likely want to change before using it.
 message](https://github.com/nickjj/dotfiles/commit/d0f1fc2622204b809cf7fcbb1a82d45b451064c4)
 goes into the details.
 
-Also, you should reboot or restart your WSL instance to activate your
-`/etc/wsl.conf` file (the install script created this). That will be necessary
-if you want to access your mounted drives at `/c` or `/d` instead of `/mnt/c`
-or `/mnt/d`.
+Also, you should reboot or from PowerShell run `wsl --shutdown` and then
+re-open your WSL instance to activate your `/etc/wsl.conf` file (the install
+script created this). That will be necessary if you want to access your mounted
+drives at `/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
 
 You may have noticed I don't enable systemd within WSL 2. That is on purpose.
 I've found it delays opening WSL 2 by ~10-15 seconds and also any systemd
