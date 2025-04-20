@@ -713,9 +713,10 @@ configure_git() {
 [user]
   name = ${NAME}
   email = ${EMAIL}
-  # Uncomment the options below to auto-sign your git commits / tags using GPG.
-  # Learn more about signing git commits here:
-  #   https://nickjanetakis.com/blog/signing-and-verifying-git-commits-on-the-command-line-and-github
+
+# Uncomment the options below to auto-sign your git commits / tags using GPG.
+# Learn more about signing git commits here:
+#   https://nickjanetakis.com/blog/signing-and-verifying-git-commits-on-the-command-line-and-github
 
 #[commit]
 #  gpgsign = true
