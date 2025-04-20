@@ -25,6 +25,8 @@ ARCH_PACKAGES="
   inotify-tools
   jq
   less
+  man-db
+  man-pages
   mise
   neovim
   openbsd-netcat
