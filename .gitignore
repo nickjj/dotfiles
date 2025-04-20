@@ -25,3 +25,4 @@ tags
 .config/git/config.local
 .local/bin/local/
 *.spl
+etc/pacman.d/02-ignore.conf.example

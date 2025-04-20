@@ -17,6 +17,7 @@ export PATH="${XDG_DATA_HOME}/mise/shims:${PATH}"
 
 # Default programs to run.
 export EDITOR="nvim"
+export DIFFPROG="nvim -d"
 
 # Add colors to the less and man commands.
 export LESS=-R

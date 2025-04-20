@@ -31,6 +31,7 @@ ARCH_PACKAGES="
   neovim
   openbsd-netcat
   openssh
+  pacman-contrib
   pass
   pwgen
   ripgrep
@@ -436,6 +437,16 @@ create_symlinks() {
     symlinks_system+=("sudo ln -fs \"${DOTFILES_PATH}/etc/wsl.conf\" \"/etc/wsl.conf\"")
   fi
 
+  if [ "${OS_DISTRO}" = "arch" ]; then
+    symlinks_system+=("sudo ln -fs \"${DOTFILES_PATH}/etc/pacman.d/01-options.conf\" \"/etc/pacman.d/01-options.conf\"")
+
+    if [ -f "etc/pacman.d/02-ignore.conf" ]; then
+      symlinks_system+=("sudo ln -fs \"${DOTFILES_PATH}/etc/pacman.d/02-ignore.conf\" \"/etc/pacman.d/02-ignore.conf\"")
+    else
+      sudo rm -f "/etc/pacman.d/02-ignore.conf"
+    fi
+  fi
+
   printf -- "-------------------------------------------------------------------------------\n\n"
 
   for link in "${symlinks[@]}"; do
@@ -492,6 +503,19 @@ EOF
     *) echo "Please answer y or n" ;;
     esac
   done
+}
+
+configure_system_configs() {
+  _info "CONFIGURE SYSTEM CONFIGS"
+
+  if [ "${OS_DISTRO}" = "arch" ]; then
+    local etc_pacman_conf_path="/etc/pacman.conf"
+    if ! grep -q "Include = /etc/pacman\.d/\*\.conf" "${etc_pacman_conf_path}" 2>/dev/null; then
+      printf "\nInclude = /etc/pacman.d/*.conf\n" | sudo tee --append "${etc_pacman_conf_path}" 1>/dev/null
+    fi
+  fi
+
+  echo "Everything that required updating was updated"
 }
 
 configure_shell() {
@@ -841,6 +865,7 @@ install_packages
 clone_or_update_dotfiles
 install_zsh_plugins
 create_symlinks
+configure_system_configs
 configure_shell
 ask_for_name
 ask_for_email
