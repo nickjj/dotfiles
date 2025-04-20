@@ -85,6 +85,7 @@ BREW_PACKAGES="
   aspell
   bash
   bc
+  curl
   diffutils
   fastfetch
   fd
@@ -116,6 +117,7 @@ EMAIL=
 INSTALL_NODE_VERSION="22.14"
 INSTALL_PYTHON_VERSION="3.13"
 
+CPU_ARCH="$(uname -m)"
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
 OS_DISTRO=
 OS_IN_WSL=
@@ -189,12 +191,11 @@ _install_packages_apt() {
 }
 
 _install_packages_brew() {
-  # Install brew itself.
-  [ -x "$(command -v brew >/dev/null 2>&1)" ] &&
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  local prefix="/opt/homebrew"
+  [[ "${CPU_ARCH}" == "x86_64" ]] && prefix="/usr/local"
 
   # Ensure brew's paths are available for this script
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+  eval "$("${prefix}/bin/brew shellenv")"
 
   # shellcheck disable=SC2086
   brew install ${BREW_PACKAGES}
@@ -277,6 +278,35 @@ EOF
     *) printf "Please answer y or n\n\n" ;;
     esac
   done
+}
+
+check_prereqs() {
+  _info "CHECKING SYSTEM COMPATABILITY"
+
+  local missing_packages=()
+
+  if ! command -v "sudo" 1>/dev/null; then missing_packages+=("sudo"); fi
+
+  if [[ -z "${missing_packages[*]}" ]]; then
+    echo "Everything is good to go"
+    return 0
+  fi
+
+  cat <<EOF
+This script is going to switch to the root user to install sudo then the rest
+of the script will run as your user and use sudo as needed.
+
+EOF
+
+  case "${OS_DISTRO}" in
+  arch)
+    su -c "pacman -Syu --noconfirm ${missing_packages[*]}"
+    ;;
+  debian)
+    su -c "apt-get update && apt-get install -y ${missing_packages[*]}"
+    ;;
+  *) ;;
+  esac
 }
 
 create_initial_dirs() {
@@ -802,6 +832,7 @@ EOF
 
 detect_env
 warn_root
+check_prereqs
 create_initial_dirs
 install_packages
 clone_or_update_dotfiles

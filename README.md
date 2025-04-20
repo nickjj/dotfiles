@@ -106,6 +106,59 @@ It even handles cloning down this repo. You'll get a chance to pick the clone
 location in the script as well as view and / or change any system packages that
 get installed before your system is modified.
 
+### On a fresh system? Please install these dependencies first
+
+We're in a catch-22 where this install script will set everything up for you
+but to download and run the script to completion a few things need to exist on
+your system first.
+
+**It comes down to needing these packages, you can skip this step if you have
+them**:
+
+- `curl` to download the install script
+- `bash 4+` since the install script uses modern Bash features
+  - This is only related to macOS, all supported Linux distros are good to go out of the box
+
+Here's 1 liners you can copy / paste once to meet the above requirements on all
+supported platforms:
+
+#### Arch Linux
+
+```sh
+# You can run this as root.
+pacman -Syu --noconfirm curl
+```
+
+#### Debian / Ubuntu
+
+```sh
+# You can run this as root.
+apt-get update && apt-get install -y curl
+```
+
+#### macOS
+
+If you run `bash --version` and it says you're using Bash 3.X please follow
+the instructions below:
+
+```sh
+# Curl is installed by default but bash needs to be upgraded, we can do that
+# by brew installing bash. Once this command completes you can run the install
+# script in the same terminal where you ran this command.
+
+# OPTION 1: Using Apple Silicon?
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+ && brew install bash \
+ && eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# OPTION 2: Using an Intel CPU?
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+ && brew install bash \
+ && eval "$(/usr/local/bin/brew shellenv)"
+```
+
+### Install script
+
 **You can download and run the install script with this 1 liner:**
 
 ```sh
@@ -147,12 +200,9 @@ docker container run --rm -it -e "IN_CONTAINER=1" -v "${PWD}:/app" -w /app debia
 
 # Copy / paste all 3 lines into the container's prompt and run it.
 #
-# We need to install curl + sudo beforehand because they're not installed by
-# default in this Docker image.
-#
-# Also, since we can't open a new terminal in a container we'll need to manually
-# launch zsh and source a few files.
-apt-get update && apt-get install -y curl sudo \
+# Since we can't open a new terminal in a container we'll need to manually
+# launch zsh and source a few files. That's what the last line is doing.
+apt-get update && apt-get install -y curl \
   && bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) \
   && zsh -c ". ~/.config/zsh/.zprofile && . ~/.config/zsh/.zshrc; zsh -i"
 ```
