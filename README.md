@@ -229,10 +229,12 @@ Microsoft Terminal `settings.json` file and others. Some of the paths and guids
 (WSL distros, etc.) may also contain unique IDs too, so adjust them as needed
 on your end.
 
-Some of these configs expect that you have certain programs or tools installed
-on Windows like [VcXsrv](https://sourceforge.net/projects/vcxsrv/). The [tools
-I use blog post](https://nickjanetakis.com/blog/the-tools-i-use) has a complete
-list of those tools so you can pick the ones you want to install.
+It's expected you're running WSL 2 with WSLg support to get clipboard sharing
+to work between Windows and WSL 2. You can run `wsl.exe --version` from WSL 2
+to check if WSLg is listed. Chances are you have it since it has been supported
+since 2022! All of this should "just work". If clipboard sharing isn't working,
+check your `.wslconfig` file in your Windows user's directory and make sure
+`guiApplications=false` isn't set.
 
 Pay very close attention to the `c/Users/Nick/.wslconfig` file because it has
 values in there that you will very likely want to change before using it.
@@ -344,25 +346,6 @@ script](https://github.com/nickjj/dotfiles/blob/master/.local/bin/set-theme).
 
 If you added a theme with good contrast ratios please open a pull request to
 get it added to the script.
-
-### How to fix Neovim taking a long time to open when inside of WSL?
-
-It primarily comes down to either VcXsrv not running or a firewall tool
-blocking access to VcXsrv and it takes a bit of time for the connection to time
-out.
-
-You can verify this by starting Neovim with `nvim -X` instead of `nvim`. This
-will prevent Neovim from connecting to an X server. This also means clipboard
-sharing to your system clipboard won't work, but it's good for a test.
-
-Neovim will try to connect to that X server by default because `DISPLAY` is
-exported in the `.config/zsh/.zprofile.local` file. Installing and configuring
-[VcXsrv](https://sourceforge.net/projects/vcxsrv/) as per these dotfiles will
-fix that issue.
-
-If it still persists, it might be a software firewall issue. You can open TCP
-port 6000 and also restrict access to it from only WSL 2. This will depend on
-which tool you're using to configure that but that should do the trick.
 
 ### Where is the original Vim config?
 

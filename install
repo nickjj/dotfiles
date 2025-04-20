@@ -550,19 +550,6 @@ configure_shell() {
   else
     # Are we in WSL 2?
     if [ -n "${OS_IN_WSL}" ]; then
-      if ! grep -q "^DISPLAY=.*route | awk.*$" "${zprofile_path}" 2>/dev/null; then
-        local display=
-        display=$(
-          cat <<'EOF'
-# Requires: https://sourceforge.net/projects/vcxsrv/ (or alternative)
-DISPLAY="$(/sbin/ip route | awk '/default/ { print $3 }'):0"
-export DISPLAY
-EOF
-        )
-
-        printf "\n%s" "${display}" >>"${zprofile_path}"
-      fi
-
       # This only applies if you have Docker installed without Docker Desktop
       # and you're not using systemd.
       if command -v docker >/dev/null 2>&1; then
