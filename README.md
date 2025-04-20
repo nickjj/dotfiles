@@ -210,7 +210,7 @@ apt-get update && apt-get install -y curl \
 configured to use Tokyonight Moon then the colors may look off. That's because
 your local terminal's config will not get automatically updated.*
 
-### 🛠 Make It Your Own
+### 🛠 Make it your own
 
 If you haven't done so already please close your terminal and open a new one.
 
