@@ -62,7 +62,7 @@ zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p
 zstyle ":completion:*" use-compctl false
 zstyle ":completion:*" verbose true
 
-# Use emacs keybindings.
+# Use Vim key binds.
 bindkey -v
 
 # Ensure home / end keys continue to work.
