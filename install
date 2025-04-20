@@ -255,6 +255,30 @@ detect_env() {
   esac
 }
 
+warn_root() {
+  # Root will have an effective uid of 0, but it's ok if we're in a container.
+  [[ "${EUID}" != 0 || -n "${IN_CONTAINER}" ]] && return 0
+
+  cat <<EOF
+Here are details about this user:
+
+$(id)
+
+EOF
+
+  local msg="as root"
+  [[ -n "${SUDO_USER}" ]] && msg="with sudo as ${SUDO_USER}"
+
+  while true; do
+    read -rp "This script is meant to run as a non-root user, are you sure you want to run this ${msg}? (y/n) " yn
+    case "${yn}" in
+    [Yy]*) break ;;
+    [Nn]*) exit ;;
+    *) printf "Please answer y or n\n\n" ;;
+    esac
+  done
+}
+
 create_initial_dirs() {
   mkdir -p "${HOME}/.config/tmux/plugins" "${HOME}/.config/git" "${HOME}/.config/zsh" "${HOME}/.cache/zsh" \
     "${HOME}/.local/bin" "${HOME}/.local/share"
@@ -777,6 +801,7 @@ EOF
 }
 
 detect_env
+warn_root
 create_initial_dirs
 install_packages
 clone_or_update_dotfiles
