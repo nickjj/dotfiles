@@ -34,16 +34,15 @@ licensed. The code is here to look at.*
 
 ## 🧾 Documentation
 
-- [View screenshots](#-themes) of the current set up and how to switch themes
-- [Quickly get set up with these dotfiles](#-quickly-get-set-up-with-these-dotfiles)
-  - [Extra WSL 2 steps](#extra-wsl-2-steps)
+- [Themes](#-themes)
+- [Quickly Get Set Up](#-quickly-get-set-up)
 - [FAQ](#-faq)
   - [How to personalize these dotfiles?](#how-to-personalize-these-dotfiles)
   - [How to get theme support in your terminal?](#how-to-get-theme-support-in-your-terminal)
   - [How to add custom themes to the set-theme script?](#how-to-add-custom-themes-to-the-set-theme-script)
   - [How to fix Neovim taking a long time to open when inside of WSL?](#how-to-fix-neovim-taking-a-long-time-to-open-when-inside-of-wsl)
   - [Where is the original Vim config?](#where-is-the-original-vim-config)
-- [About the author](#-about-the-author)
+- [About the Author](#-about-the-author)
 
 ## 🎨 Themes
 
@@ -96,7 +95,7 @@ alias.
 *If you get a message about your terminal being unknown please review [this FAQ
 item](#how-to-get-theme-support-in-your-terminal).*
 
-## ✨ Quickly Get Set Up with These Dotfiles
+## ✨ Quickly Get Set Up
 
 There's an `./install` script you can run to automate installing everything.
 That includes installing system packages such as zsh, tmux, Neovim, etc. and
@@ -106,7 +105,7 @@ It even handles cloning down this repo. You'll get a chance to pick the clone
 location in the script as well as view and / or change any system packages that
 get installed before your system is modified.
 
-### On a fresh system? Please install these dependencies first
+### 🌱 On a fresh system?
 
 We're in a catch-22 where this install script will set everything up for you
 but to download and run the script to completion a few things need to exist on
@@ -157,7 +156,7 @@ the instructions below:
  && eval "$(/usr/local/bin/brew shellenv)"
 ```
 
-### Install script
+### ⚡️ Install script
 
 **You can download and run the install script with this 1 liner:**
 
@@ -192,7 +191,7 @@ This set up targets zsh 5.0+, tmux 3.1+ and Neovim v0.10+. As long as you can
 meet those requirements you're good to go. The install script will take care
 of installing these for you unless you've skipped system packages.
 
-**Try it in Docker without modifying your system:**
+🐳 **Try it in Docker without modifying your system:**
 
 ```sh
 # Start a Debian container, we're passing in an env var to be explicit we're in Docker.
@@ -211,16 +210,14 @@ apt-get update && apt-get install -y curl \
 configured to use Tokyonight Moon then the colors may look off. That's because
 your local terminal's config will not get automatically updated.*
 
-### Did you install everything successfully?
-
-Nice!
+### 🛠 Make It Your Own
 
 If you haven't done so already please close your terminal and open a new one.
 
 Before you start customizing certain config files, take a look at the
 [personalization question in the FAQ](#how-to-personalize-these-dotfiles).
 
-### Extra WSL 2 steps
+### 🪟 Extra WSL 2 steps
 
 In addition to the Linux side of things, there's a few config files that I have
 in various directories of this dotfiles repo. These have long Windows paths and

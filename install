@@ -807,12 +807,12 @@ EOF
 }
 
 completed_message() {
-  _info "EVERYTHING WORKED"
+  _info "NEXT STEPS (MAKE IT YOUR OWN)"
 
   cat <<EOF
 Check out the README file on GitHub for any next steps:
 
-https://github.com/nickjj/dotfiles#did-you-install-everything-successfully
+https://github.com/nickjj/dotfiles#-make-it-your-own
 
 You can safely close this terminal.
 
