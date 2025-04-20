@@ -412,31 +412,45 @@ install_zsh_plugins() {
 create_symlinks() {
   _info "CREATE SYMLINKS"
 
+  local symlinks=(
+    "ln -fs \"${DOTFILES_PATH}/.zshenv\" \"${HOME}/.zshenv\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zshrc\" \"${HOME}/.config/zsh/.zshrc\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zshrc.local\" \"${HOME}/.config/zsh/.zshrc.local\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zprofile\" \"${HOME}/.config/zsh/.zprofile\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zprofile.local\" \"${HOME}/.config/zsh/.zprofile.local\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.aliases\" \"${HOME}/.config/zsh/.aliases\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.aliases.local\" \"${HOME}/.config/zsh/.aliases.local\""
+    "ln -fs \"${DOTFILES_PATH}/.config/tmux/tmux.conf\" \"${HOME}/.config/tmux/tmux.conf\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/themes\" \"${HOME}/.config/zsh/themes\""
+    "ln -fs \"${DOTFILES_PATH}/.config/tmux/themes\" \"${HOME}/.config/tmux/themes\""
+    "ln -fs \"${DOTFILES_PATH}/.config/git/config\" \"${HOME}/.config/git/config\""
+    "ln -fs \"${DOTFILES_PATH}/.config/git/config.local\" \"${HOME}/.config/git/config.local\""
+    "ln -fs \"${DOTFILES_PATH}/.config/gitui\" \"${HOME}/.config/gitui\""
+    "ln -fs \"${DOTFILES_PATH}/.config/nvim\" \"${HOME}/.config/nvim\""
+    "ln -fs \"${DOTFILES_PATH}/.local/bin/\"* \"${HOME}/.local/bin/\""
+  )
+
+  local symlinks_system=()
+
+  if [ -n "${OS_IN_WSL}" ]; then
+    symlinks_system+=("sudo ln -fs \"${DOTFILES_PATH}/etc/wsl.conf\" \"/etc/wsl.conf\"")
+  fi
+
+  printf -- "-------------------------------------------------------------------------------\n\n"
+
+  for link in "${symlinks[@]}"; do
+    echo "${link}"
+  done
+
+  for link in "${symlinks_system[@]}"; do
+    echo "${link}"
+  done
+
   cat <<EOF
--------------------------------------------------------------------------------
-
-ln -fs "${DOTFILES_PATH}/.zshenv" "${HOME}/.zshenv"
-ln -fs "${DOTFILES_PATH}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc"
-ln -fs "${DOTFILES_PATH}/.config/zsh/.zshrc.local" "${HOME}/.config/zsh/.zshrc.local"
-ln -fs "${DOTFILES_PATH}/.config/zsh/.zprofile" "${HOME}/.config/zsh/.zprofile"
-ln -fs "${DOTFILES_PATH}/.config/zsh/.zprofile.local" "${HOME}/.config/zsh/.zprofile.local"
-ln -fs "${DOTFILES_PATH}/.config/zsh/.aliases" "${HOME}/.config/zsh/.aliases"
-ln -fs "${DOTFILES_PATH}/.config/zsh/.aliases.local" "${HOME}/.config/zsh/.aliases.local"
-ln -fs "${DOTFILES_PATH}/.config/tmux/tmux.conf" "${HOME}/.config/tmux/tmux.conf"
-ln -fs "${DOTFILES_PATH}/.config/zsh/themes" "${HOME}/.config/zsh/themes"
-ln -fs "${DOTFILES_PATH}/.config/tmux/themes" "${HOME}/.config/tmux/themes"
-ln -fs "${DOTFILES_PATH}/.config/git/config" "${HOME}/.config/git/config"
-ln -fs "${DOTFILES_PATH}/.config/git/config.local" "${HOME}/.config/git/config.local"
-ln -fs "${DOTFILES_PATH}/.config/gitui" "${HOME}/.config/gitui"
-ln -fs "${DOTFILES_PATH}/.config/nvim" "${HOME}/.config/nvim"
-ln -fs "${DOTFILES_PATH}/.local/bin/"* "${HOME}/.local/bin/"
-
-# And if you happen to be using WSL:
-sudo ln -fs "${DOTFILES_PATH}/etc/wsl.conf" /etc/wsl.conf
 
 -------------------------------------------------------------------------------
 
-A potentially dangerous action is about to happen. The above directories and
+A potentially destructive action is about to happen. The above directories and
 files are going to get forcefully symlinked if you type y in the prompt below.
 
 What does that mean?
@@ -461,25 +475,13 @@ EOF
       [ -L "${HOME}/.config/gitui" ] && rm "${HOME}/.config/gitui"
       [ -L "${HOME}/.config/nvim" ] && rm "${HOME}/.config/nvim"
 
-      ln -fs "${DOTFILES_PATH}/.zshenv" "${HOME}/.zshenv" &&
-        ln -fs "${DOTFILES_PATH}/.config/zsh/.zshrc" "${HOME}/.config/zsh/.zshrc" &&
-        ln -fs "${DOTFILES_PATH}/.config/zsh/.zshrc.local" "${HOME}/.config/zsh/.zshrc.local" &&
-        ln -fs "${DOTFILES_PATH}/.config/zsh/.zprofile" "${HOME}/.config/zsh/.zprofile" &&
-        ln -fs "${DOTFILES_PATH}/.config/zsh/.zprofile.local" "${HOME}/.config/zsh/.zprofile.local" &&
-        ln -fs "${DOTFILES_PATH}/.config/zsh/.aliases" "${HOME}/.config/zsh/.aliases" &&
-        ln -fs "${DOTFILES_PATH}/.config/zsh/.aliases.local" "${HOME}/.config/zsh/.aliases.local" &&
-        ln -fs "${DOTFILES_PATH}/.config/tmux/tmux.conf" "${HOME}/.config/tmux/tmux.conf" &&
-        ln -fs "${DOTFILES_PATH}/.config/zsh/themes" "${HOME}/.config/zsh/themes" &&
-        ln -fs "${DOTFILES_PATH}/.config/tmux/themes" "${HOME}/.config/tmux/themes" &&
-        ln -fs "${DOTFILES_PATH}/.config/git/config" "${HOME}/.config/git/config" &&
-        ln -fs "${DOTFILES_PATH}/.config/git/config.local" "${HOME}/.config/git/config.local" &&
-        ln -fs "${DOTFILES_PATH}/.config/gitui" "${HOME}/.config/gitui" &&
-        ln -fs "${DOTFILES_PATH}/.config/nvim" "${HOME}/.config/nvim" &&
-        ln -fs "${DOTFILES_PATH}/.local/bin/"* "${HOME}/.local/bin/"
+      for link in "${symlinks[@]}"; do
+        eval "${link}"
+      done
 
-      if [ -n "${OS_IN_WSL}" ]; then
-        sudo ln -fs "${DOTFILES_PATH}/etc/wsl.conf" /etc/wsl.conf
-      fi
+      for link in "${symlinks_system[@]}"; do
+        eval "${link}"
+      done
 
       break
       ;;
