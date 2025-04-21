@@ -228,8 +228,8 @@ If you just ran the install script and haven't done so already please close
 your terminal and open a new one.
 
 There's a few ways to customize these dotfiles ranging from forking this repo
-to customizing [install-config](./install-config) which is git ignored. The
-second option lets you adjust which packages and programming languages get
+to customizing [install-config](./install-config.example) which is git ignored.
+The second option lets you adjust which packages and programming languages get
 installed.
 
 Before you start customizing other files, please take a look at the
@@ -278,11 +278,11 @@ services were delayed from starting by ~2 minutes.
 
 ### How to personalize these dotfiles?
 
-The [install-config](./install-config) lets you customize a few things but
-chances are you'll want to personalize more than what's there, such as various
-Neovim settings. Since this is a git repo you can always do a `git pull` to get
-the most up to date copy of these dotfiles, but then you may find yourself
-clobbering over your own personal changes.
+The [install-config](./install-config.example) lets you customize a few things
+but chances are you'll want to personalize more than what's there, such as
+various Neovim settings. Since this is a git repo you can always do a `git
+pull` to get the most up to date copy of these dotfiles, but then you may find
+yourself clobbering over your own personal changes.
 
 Since we're using git here, we have a few reasonable options.
 
