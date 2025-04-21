@@ -239,6 +239,11 @@ since 2022! All of this should "just work". If clipboard sharing isn't working,
 check your `.wslconfig` file in your Windows user's directory and make sure
 `guiApplications=false` isn't set.
 
+*If you see `^M` characters when pasting into Neovim, that's a Windows line
+ending. That's because WSLg's clipboard feature doesn't seem to handle this
+automatically. If you paste with `CTRL+SHIFT+v` instead of `p` it'll be ok. I
+guess the Microsoft Terminal does extra processing to fix it for you.*
+
 Pay very close attention to the `c/Users/Nick/.wslconfig` file because it has
 values in there that you will very likely want to change before using it.
 [This commit
