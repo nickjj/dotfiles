@@ -196,7 +196,7 @@ _install_packages_brew() {
   [[ "${CPU_ARCH}" == "x86_64" ]] && prefix="/usr/local"
 
   # Ensure brew's paths are available for this script
-  eval "$("${prefix}/bin/brew shellenv")"
+  eval "$(${prefix}/bin/brew shellenv)"
 
   # shellcheck disable=SC2086
   brew install ${BREW_PACKAGES}
@@ -544,8 +544,11 @@ configure_shell() {
     fi
 
     if ! grep -q "eval.*homebrew.*shellenv" "${zprofile_path}" 2>/dev/null; then
+      local prefix="/opt/homebrew"
+      [[ "${CPU_ARCH}" == "x86_64" ]] && prefix="/usr/local"
+
       # shellcheck disable=SC2016
-      printf '\neval "$(/opt/homebrew/bin/brew shellenv)"\n' >>"${zprofile_path}"
+      printf "\neval \"\$(%s/bin/brew shellenv)\"\n" "${prefix}" >>"${zprofile_path}"
     fi
   else
     # Are we in WSL 2?

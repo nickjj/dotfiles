@@ -143,17 +143,20 @@ the instructions below:
 ```sh
 # Curl is installed by default but bash needs to be upgraded, we can do that
 # by brew installing bash. Once this command completes you can run the install
-# script in the same terminal where you ran this command.
+# script in the same terminal where you ran this command. Before running the
+# install script `bash --version` should return a version > 3.X.
 
-# OPTION 1: Using Apple Silicon?
+# OPTION 1: Using Apple silicon?
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
- && brew install bash \
- && eval "$(/opt/homebrew/bin/brew shellenv)"
+  && eval "$(/opt/homebrew/bin/brew shellenv)" \
+  && brew install bash \
+  && bash
 
 # OPTION 2: Using an Intel CPU?
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
- && brew install bash \
- && eval "$(/usr/local/bin/brew shellenv)"
+  && eval "$(/usr/local/bin/brew shellenv)" \
+  && brew install bash \
+  && bash
 ```
 
 ### ⚡️ Install script
