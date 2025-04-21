@@ -13,8 +13,7 @@ This project is more than a few config files. **In 1 command and ~5 minutes it
 can take a new or existing system and install / configure a number of tools
 aimed at developers**. It will prompt or warn you if it's doing a destructive
 action like overwriting a config file. You can run the idempotent [install
-script](https://github.com/nickjj/dotfiles/blob/master/install) multiple times
-to stay up to date.
+script](./install) multiple times to stay up to date.
 
 There's too many things to list here but here's the highlights:
 
@@ -102,8 +101,8 @@ That includes installing system packages such as zsh, tmux, Neovim, etc. and
 configuring a number of tools in your home directory.
 
 It even handles cloning down this repo. You'll get a chance to pick the clone
-location in the script as well as view and / or change any system packages that
-get installed before your system is modified.
+location when running the script as well as view and / or change any system
+packages that get installed before your system is modified.
 
 ### 🌱 On a fresh system?
 
@@ -168,11 +167,10 @@ bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install
 ```
 
 *If you're not comfortable blindly running a script on the internet, that's no
-problem. You can view the [install
-script](https://github.com/nickjj/dotfiles/blob/master/install) to see exactly
-what it does. The bottom of the file is a good place to start. Sudo is only
-used to install system packages. Alternatively you can look around this repo
-and reference the config files directly without using any script.*
+problem. You can view the [install script](./install) to see exactly what it
+does. The bottom of the file is a good place to start. Sudo is only used to
+install system packages. Alternatively you can look around this repo and
+reference the config files directly without using any script.*
 
 *Please understand if you run this script on your existing system and hit yes
 to some of the prompts your config files will get overwritten. Always have good
@@ -185,10 +183,9 @@ bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install
 ```
 
 The above can be useful if you're using an unsupported distro of Linux in which
-case you'll need to install the [dependent system
-packages](https://github.com/nickjj/dotfiles/blob/master/install) on your own
-beforehand. Besides that, everything else is supported since it's only dealing
-with files in your home directory.
+case you'll need to install the [dependent system packages](./install) on your
+own beforehand. Besides that, everything else is supported since it's only
+dealing with files in your home directory.
 
 This set up targets zsh 5.0+, tmux 3.1+ and Neovim v0.10+. As long as you can
 meet those requirements you're good to go. The install script will take care
@@ -213,11 +210,29 @@ apt-get update && apt-get install -y curl \
 configured to use Tokyonight Moon then the colors may look off. That's because
 your local terminal's config will not get automatically updated.*
 
+**🚀 Keeping things up to date and tinkering**
+
+If you've run the install script at least once you can `cd "${DOTFILES_PATH}"`
+and run `./install`. That will pull in the latest changes from this repo and
+re-run things. I suggest glancing through [new
+commits](https://github.com/nickjj/dotfiles/commits/master/) before running
+that.
+
+You can also run `LOCAL=1 ./install` to re-run the install script without
+pulling updates from this repo. That can be handy for testing your changes
+locally or to prevent a new version from being pulled.
+
 ### 🛠 Make it your own
 
-If you haven't done so already please close your terminal and open a new one.
+If you just ran the install script and haven't done so already please close
+your terminal and open a new one.
 
-Before you start customizing certain config files, take a look at the
+There's a few ways to customize these dotfiles ranging from forking this repo
+to customizing [install-config](./install-config) which is git ignored. The
+second option lets you adjust which packages and programming languages get
+installed.
+
+Before you start customizing other files, please take a look at the
 [personalization question in the FAQ](#how-to-personalize-these-dotfiles).
 
 ### 🪟 Extra WSL 2 steps
@@ -263,7 +278,8 @@ services were delayed from starting by ~2 minutes.
 
 ### How to personalize these dotfiles?
 
-Chances are you'll want to personalize some of these files, such as various
+The [install-config](./install-config) lets you customize a few things but
+chances are you'll want to personalize more than what's there, such as various
 Neovim settings. Since this is a git repo you can always do a `git pull` to get
 the most up to date copy of these dotfiles, but then you may find yourself
 clobbering over your own personal changes.
@@ -337,8 +353,7 @@ Happy to assist in your PR to answer questions.
 ### How to add custom themes to the set-theme script?
 
 After installing these dotfiles you'll have a `~/.local/bin/set-theme` script.
-It's a [zero dependency Python 3
-script](https://github.com/nickjj/dotfiles/blob/master/.local/bin/set-theme).
+It's a [zero dependency Python 3 script](./.local/bin/set-theme).
 
 1. Open the above file
 2. Check out the `THEMES` dictionary near the top of the file

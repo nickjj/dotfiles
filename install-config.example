@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# You can find the default values in the install script near the top of the
+# file. Any value here which is empty will be ignored and the default value
+# will be used. The non-example version of this file is git ignored.
+#
+# The goal of this config is to help you customize the defaults for a few
+# common things without needing to fork the repo.
+#
+# I also use some of these to further customize my system with packages that
+# I didn't push up to my dotfiles.
+
+# Provide a different URL to clone from. This could be useful if you've forked
+# the project into your own repo.
+export DOTFILES_URL=
+
+# If you define these, they will get used instead of prompting you. Keep in
+# mind you won't be prompted once you've answered them once since the values
+# get persisted and read independent of these values. Still, this could be
+# handy to set for fresh systems to avoid ever needing to input them manually.
+export YOUR_NAME=
+export YOUR_EMAIL=
+
+# Override which packages get installed. If you define anything in the extras
+# variable they will get appended to the non-extra packages. This lets you use
+# the default packages but add any extra packages you want.
+export PACMAN_PACKAGES=
+export PACMAN_PACKAGES_EXTRAS=
+
+# Override which packages get installed. If you define anything in the extras
+# variable they will get appended to the non-extra packages. This lets you use
+# the default packages but add any extra packages you want.
+export APT_PACKAGES=
+export APT_PACKAGES_EXTRAS=
+
+# Override which packages get installed. If you define anything in the extras
+# variable they will get appended to the non-extra packages. This lets you use
+# the default packages but add any extra packages you want.
+export BREW_PACKAGES=
+export BREW_PACKAGES_EXTRAS=
+
+# Install Mise packages for specific platforms. For example, maybe you want
+# the latest and greatest versions on Debian for a few tools but Arch and
+# macOS already have them so you don't need Mise packages there.
+#
+# However, maybe on Arch if you want a specific version of a tool, you can
+# use Mise to install it instead of ignoring it with Pacman to avoid a partial
+# update of your system.
+export MISE_PACKAGES_ARCH=
+export MISE_PACKAGES_ARCH_EXTRAS=
+
+export MISE_PACKAGES_DEBIAN=
+export MISE_PACKAGES_DEBIAN_EXTRAS=
+
+export MISE_PACKAGES_MACOS=
+export MISE_PACKAGES_MACOS_EXTRAS=
+
+# Install programming languages.
+declare -A MISE_LANGUAGES=
+declare -A MISE_LANGUAGES_EXTRAS=
+
+# Here's an example to demonstrate the syntax. The key is the binary name and
+# the value is what you would pass into Mise to install it.
+# MISE_LANGUAGES_EXTRAS["ruby"]="ruby@3.4"
+
+export MISE_LANGUAGES
+export MISE_LANGUAGES_EXTRAS

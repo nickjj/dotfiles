@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Usage:
 #   ./install          # Clone my dotfiles
-#   DEBUG=1 ./install  # Copy the local dotfiles directory instead of cloning
+#   LOCAL=1 ./install  # Copy the local dotfiles directory instead of cloning
 #
 #   # Customize which dotfiles URL to clone from
 #   DOTFILES_URL="https://github.com/example/dotfiles" ./install
@@ -10,7 +10,20 @@ set -o errexit
 
 SKIP_SYSTEM_PACKAGES="${1:-}"
 
-ARCH_PACKAGES="
+# Use personalized configuration.
+FIRST_RUN=1
+if [ -f "${DOTFILES_PATH}/install-config" ]; then
+  . "${DOTFILES_PATH}/install-config"
+  FIRST_RUN=
+fi
+
+DOTFILES_URL="${DOTFILES_URL:-https://github.com/nickjj/dotfiles}"
+DOTFILES_PATH="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
+
+YOUR_NAME="${YOUR_NAME:-}"
+YOUR_EMAIL="${YOUR_EMAIL:-}"
+
+PACMAN_PACKAGES="${PACMAN_PACKAGES:-
   aspell
   base
   base-devel
@@ -45,9 +58,11 @@ ARCH_PACKAGES="
   wl-clipboard
   zip
   zsh
+}
 "
+PACMAN_PACKAGES_EXTRAS="${PACMAN_PACKAGES_EXTRAS:-}"
 
-APT_PACKAGES="
+APT_PACKAGES="${APT_PACKAGES:-
   aspell
   bc
   build-essential
@@ -70,19 +85,11 @@ APT_PACKAGES="
   xz-utils
   zip
   zsh
+}
 "
+APT_PACKAGES_EXTRAS="${APT_PACKAGES_EXTRAS:-}"
 
-MISE_PACKAGES_DEBIAN_DISTROS_ONLY="
-  fd
-  fzf
-  jq
-  neovim
-  ripgrep
-  shellcheck
-  shfmt
-"
-
-BREW_PACKAGES="
+BREW_PACKAGES="${BREW_PACKAGES:-
   aspell
   bash
   bc
@@ -110,21 +117,38 @@ BREW_PACKAGES="
   wget
   xz
   zsh
+}
 "
+BREW_PACKAGES_EXTRAS="${BREW_PACKAGES_EXTRAS:-}"
 
-NAME=
-EMAIL=
+MISE_PACKAGES_ARCH="${MISE_PACKAGES_ARCH:-}"
+MISE_PACKAGES_ARCH_EXTRAS="${MISE_PACKAGES_ARCH_EXTRAS:-}"
 
-INSTALL_NODE_VERSION="22.14"
-INSTALL_PYTHON_VERSION="3.13"
+MISE_PACKAGES_DEBIAN="${MISE_PACKAGES_DEBIAN:-
+  fd
+  fzf
+  jq
+  neovim
+  ripgrep
+  shellcheck
+  shfmt
+}
+"
+MISE_PACKAGES_DEBIAN_EXTRAS="${MISE_PACKAGES_DEBIAN_EXTRAS:-}"
+
+MISE_PACKAGES_MACOS="${MISE_PACKAGES_MACOS:-}"
+MISE_PACKAGES_MACOS_EXTRAS="${MISE_PACKAGES_MACOS_EXTRAS:-}"
+
+declare -A MISE_LANGUAGES
+MISE_LANGUAGES["node"]="node@22.14"
+MISE_LANGUAGES["python"]="python@3.13"
+
+declare -A MISE_LANGUAGES_EXTRAS
 
 CPU_ARCH="$(uname -m)"
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
 OS_DISTRO=
 OS_IN_WSL=
-
-DOTFILES_URL="${DOTFILES_URL:-https://github.com/nickjj/dotfiles}"
-DOTFILES_PATH="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
 
 # -----------------------------------------------------------------------------
 # Helper functions
@@ -160,12 +184,19 @@ EOF
 
 _install_packages_arch() {
   # shellcheck disable=SC2086
-  sudo pacman -Syu --noconfirm ${ARCH_PACKAGES}
+  sudo pacman -Syu --noconfirm ${PACMAN_PACKAGES} ${PACMAN_PACKAGES_EXTRAS}
+
+  # Install Mise packages.
+  echo
+  # shellcheck disable=SC2086
+  if [[ -n "${MISE_PACKAGES_ARCH}" || -n "${MISE_PACKAGES_ARCH_EXTRAS}" ]]; then
+    mise use --global ${MISE_PACKAGES_ARCH} ${MISE_PACKAGES_ARCH_EXTRAS}
+  fi
 }
 
-_install_packages_apt() {
+_install_packages_debian() {
   # shellcheck disable=SC2086
-  sudo apt-get update && sudo apt-get install -y ${APT_PACKAGES}
+  sudo apt-get update && sudo apt-get install -y ${APT_PACKAGES} ${APT_PACKAGES_EXTRAS}
 
   # Install Mise.
   sudo install -dm 755 /etc/apt/keyrings
@@ -180,7 +211,9 @@ _install_packages_apt() {
   # the latest and greatest versions for certain tools.
   echo
   # shellcheck disable=SC2086
-  mise use --global ${MISE_PACKAGES_DEBIAN_DISTROS_ONLY}
+  if [[ -n "${MISE_PACKAGES_DEBIAN}" || -n "${MISE_PACKAGES_DEBIAN_EXTRAS}" ]]; then
+    mise use --global ${MISE_PACKAGES_DEBIAN} ${MISE_PACKAGES_DEBIAN_EXTRAS}
+  fi
 
   # Install packages manually since they don't exist elsewhere.
 
@@ -191,7 +224,7 @@ _install_packages_apt() {
   rm "${_}"
 }
 
-_install_packages_brew() {
+_install_packages_macos() {
   local prefix="/opt/homebrew"
   [[ "${CPU_ARCH}" == "x86_64" ]] && prefix="/usr/local"
 
@@ -199,19 +232,55 @@ _install_packages_brew() {
   eval "$(${prefix}/bin/brew shellenv)"
 
   # shellcheck disable=SC2086
-  brew install ${BREW_PACKAGES}
+  brew install ${BREW_PACKAGES} ${BREW_PACKAGES_EXTRAS}
+
+  # Install Mise packages.
+  echo
+  # shellcheck disable=SC2086
+  if [[ -n "${MISE_PACKAGES_BREW}" || -n "${MISE_PACKAGES_BREW_EXTRAS}" ]]; then
+    mise use --global ${MISE_PACKAGES_BREW} ${MISE_PACKAGES_BREW_EXTRAS}
+  fi
+}
+
+_display_packages_output() {
+  local packages="${1:-}"
+  local packages_extras="${2:-}"
+  local mise="${3:-}"
+  local mise_extras="${4:-}"
+
+  if [ -n "${packages}" ]; then
+    echo ":: Packages (default)"
+    echo -n "${packages}"
+  fi
+
+  if [ -n "${packages_extras}" ]; then
+    echo ":: Packages (extras)"
+    echo "${packages_extras}"
+  fi
+
+  if [ -n "${mise}" ]; then
+    echo ":: Mise (default)"
+    echo -n "${mise}"
+  fi
+
+  if [ -n "${mise_extras}" ]; then
+    echo ":: Mise (extras)"
+    echo "${mise_extras}"
+  fi
 }
 
 _display_packages() {
   if [ "${OS_TYPE}" == "linux" ]; then
     if [ "${OS_DISTRO}" == "arch" ]; then
-      echo "${ARCH_PACKAGES}"
+      _display_packages_output "${PACMAN_PACKAGES}" "${PACMAN_PACKAGES_EXTRAS}" \
+        "${MISE_PACKAGES_ARCH}" "${MISE_PACKAGES_ARCH_EXTRAS}"
     elif [ "${OS_DISTRO}" == "debian" ]; then
-      echo "${APT_PACKAGES}"
-      echo "${MISE_PACKAGES_DEBIAN_DISTROS_ONLY}"
+      _display_packages_output "${APT_PACKAGES}" "${APT_PACKAGES_EXTRAS}" \
+        "${MISE_PACKAGES_DEBIAN}" "${MISE_PACKAGES_DEBIAN_EXTRAS}"
     fi
   else
-    echo "${BREW_PACKAGES}"
+    _display_packages_output "${BREW_PACKAGES}" "${BREW_PACKAGES_EXTRAS}" \
+      "${MISE_PACKAGES_MACOS}" "${MISE_PACKAGES_MACOS_EXTRAS}"
   fi
 }
 
@@ -244,8 +313,8 @@ detect_env() {
 
     # Adjust packages depending on which display server is in use.
     if [[ -z "${WAYLAND_DISPLAY}" ]]; then
-      APT_PACKAGES="${APT_PACKAGES//wl-clipboard/xclip}"
-      ARCH_PACKAGES="${ARCH_PACKAGES//wl-clipboard/xclip}"
+      PACMAN_PACKAGES="${PACMAN_PACKAGES//wl-clipboard/xclip}"
+      DEBIAN_PACKAGES="${DEBIAN_PACKAGES//wl-clipboard/xclip}"
     fi
 
     ;;
@@ -330,10 +399,35 @@ $(_display_packages)
 
 
 If you choose no, the above packages will not be installed and this script
-will exit. This gives you a chance to edit the list of packages if you want
-to adjust them.
+will exit. This gives you a chance to edit the list of packages.
 
 EOF
+
+  if [ -n "${FIRST_RUN}" ]; then
+    cat <<EOF
+Given this is the first time you've run this script, the 'install-config'
+file isn't available. That gets created in your new dotfiles directory that
+will get created after running this script to completion at least once.
+
+In the mean time, if you want to modify the list now you have a few options:
+
+1. Let this run as is and then modify the package list later
+2. Temporarily copy the example install-config from the repo[0] and create install-config in your current directory
+  - The intent will be to move this file to your new dotfiles repo afterwards
+  - You'll want to re-run this script after doing the above
+3. Re-run this script with any environment variables defined in install-config
+  - ie., XXX_PACKAGES_EXTRAS="bat eza" bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
+  - This bypasses needing to temporarily create and move install-config
+
+I'd suggest option 1 since you can always uninstall packages, but either of the
+other 2 options are viable depending on how much you want to customize.
+
+[0]: https://github.com/nickjj/dotfiles/blob/master/install-config.example
+
+EOF
+  else
+    printf "You can edit 'install-config' to modify the package list.\n\n"
+  fi
 
   while true; do
     read -rp "Do you want to install the above packages? (y/n) " yn
@@ -343,10 +437,10 @@ EOF
         if [ "${OS_DISTRO}" == "arch" ]; then
           _install_packages_arch
         elif [ "${OS_DISTRO}" == "debian" ]; then
-          _install_packages_apt
+          _install_packages_debian
         fi
       else
-        _install_packages_brew
+        _install_packages_macos
       fi
 
       break
@@ -355,7 +449,6 @@ EOF
     *) printf "Please answer y or n\n\n" ;;
     esac
   done
-
 }
 
 clone_or_update_dotfiles() {
@@ -376,7 +469,7 @@ clone_or_update_dotfiles() {
   DOTFILES_PATH="${dotfiles_path//\~/"${HOME}"}"
 
   # This is used to locally develop the install script.
-  if [ "${DEBUG}" == "1" ]; then
+  if [ "${LOCAL}" == "1" ]; then
     if [ "${PWD}" != "${DOTFILES_PATH}" ]; then
       cp -R "${PWD}/." "${DOTFILES_PATH}"
 
@@ -392,16 +485,17 @@ clone_or_update_dotfiles() {
     fi
 
     printf "They've been copied to '%s'\n" "${DOTFILES_PATH}"
-    return
+  else
+    if [ -e "${DOTFILES_PATH}" ]; then
+      # Let's get the latest updates.
+      git -C "${DOTFILES_PATH}" pull
+    else
+      mkdir -p "$(dirname "${DOTFILES_PATH}")"
+      git clone "${DOTFILES_URL}" "${DOTFILES_PATH}"
+    fi
   fi
 
-  if [ -e "${DOTFILES_PATH}" ]; then
-    # Let's get the latest updates.
-    git -C "${DOTFILES_PATH}" pull
-  else
-    mkdir -p "$(dirname "${DOTFILES_PATH}")"
-    git clone "${DOTFILES_URL}" "${DOTFILES_PATH}"
-  fi
+  cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
 }
 
 install_zsh_plugins() {
@@ -607,6 +701,10 @@ ask_for_name() {
   if [[ -n "${name}" ]]; then
     echo "Skipping, since '${name}' was retrieved from your git config"
   else
+    [ -n "${YOUR_NAME}" ] &&
+      echo "Skipping, since '${YOUR_NAME}' was retrieved from your install config" &&
+      return 0
+
     while true; do
       printf "What is your full name (ie. Dade Murphy)? "
       read -r name
@@ -619,7 +717,7 @@ ask_for_name() {
     done
   fi
 
-  NAME="${name}"
+  YOUR_NAME="${name}"
 }
 
 ask_for_email() {
@@ -634,6 +732,10 @@ ask_for_email() {
   if [[ -n "${email}" ]]; then
     echo "Skipping, since '${email}' was retrieved from your git config"
   else
+    [ -n "${YOUR_EMAIL}" ] &&
+      echo "Skipping, since '${YOUR_EMAIL}' was retrieved from your install config" &&
+      return 0
+
     while true; do
       printf "What is your email address (ie. zerocool@example.com)? "
       read -r email
@@ -646,7 +748,7 @@ ask_for_email() {
     done
   fi
 
-  EMAIL="${email}"
+  YOUR_EMAIL="${email}"
 }
 
 create_ssh_key() {
@@ -657,7 +759,7 @@ create_ssh_key() {
   if [[ -f "${key_path}" ]]; then
     echo "Skipping, since a key already exists at '${key_path}'"
   else
-    ssh-keygen -t ed25519 -C "${EMAIL}" -N "" -f "${key_path}"
+    ssh-keygen -t ed25519 -C "${YOUR_EMAIL}" -N "" -f "${key_path}"
   fi
 
   _info "SHOWING PUBLIC SSH KEY"
@@ -672,11 +774,11 @@ create_gpg_key() {
   local gpg_key=
 
   set +o errexit
-  gpg_key="$(gpg --export --armor "${EMAIL}" 2>/dev/null)"
+  gpg_key="$(gpg --export --armor "${YOUR_EMAIL}" 2>/dev/null)"
   set -o errexit
 
   if [[ "${gpg_key}" =~ "PGP PUBLIC KEY" ]]; then
-    echo "Skipping, since a key already exists for '${EMAIL}'"
+    echo "Skipping, since a key already exists for '${YOUR_EMAIL}'"
   else
     mkdir -p "${gpg_home}"
     chmod 700 "${gpg_home}"
@@ -705,13 +807,13 @@ create_gpg_key() {
      Key-Length: 3072
      Subkey-Type: 1
      Subkey-Length: 3072
-     Name-Real: ${NAME}
-     Name-Email: ${EMAIL}
+     Name-Real: ${YOUR_NAME}
+     Name-Email: ${YOUR_EMAIL}
      Passphrase: ${passphrase}
      Expire-Date: 1y
 EOF
 
-    gpg_key="$(gpg --export --armor "${EMAIL}" 2>/dev/null)"
+    gpg_key="$(gpg --export --armor "${YOUR_EMAIL}" 2>/dev/null)"
   fi
 
   _info "SHOWING PUBLIC GPG KEY"
@@ -727,8 +829,8 @@ configure_git() {
   if [ ! -f "${git_config_local_path}" ]; then
     cat <<EOF >"${git_config_local_path}"
 [user]
-  name = ${NAME}
-  email = ${EMAIL}
+  name = ${YOUR_NAME}
+  email = ${YOUR_EMAIL}
 
 # Uncomment the options below to auto-sign your git commits / tags using GPG.
 # Learn more about signing git commits here:
@@ -750,22 +852,34 @@ EOF
 install_programming_languages() {
   _info "INSTALL PROGRAMMING LANGUAGES"
 
-  printf "Installing Node %s...\n\n" "${INSTALL_NODE_VERSION}"
-  if command -v "${HOME}/.local/share/mise/shims/node" 1>/dev/null; then
-    echo "Skipping Node, it's already installed, run 'mise upgrade node --bump' to upgrade"
-  else
-    mise use --global "node@${INSTALL_NODE_VERSION}"
-  fi
-  if ! yarn --version >/dev/null 2>&1; then
-    npm install --unsafe-perm=true --allow-root --global yarn
-  fi
+  for lang in "${!MISE_LANGUAGES[@]}"; do
+    [ -z "${MISE_LANGUAGES[${lang}]}" ] && continue
 
-  printf "\nInstalling Python %s...\n\n" "${INSTALL_PYTHON_VERSION}"
-  if command -v "${HOME}/.local/share/mise/shims/python3" 1>/dev/null; then
-    echo "Skipping Python, it's already installed, run 'mise upgrade python --bump' to upgrade"
-  else
-    mise use --global "python@${INSTALL_PYTHON_VERSION}"
-  fi
+    printf "\nInstalling %s...\n\n" "${MISE_LANGUAGES[${lang}]}"
+    if command -v "${HOME}/.local/share/mise/shims/${lang}" 1>/dev/null; then
+      echo "Skipping, it's already installed, run 'mise upgrade ${lang} --bump' to upgrade"
+    else
+      mise use --global "${MISE_LANGUAGES[${lang}]}"
+    fi
+
+    # Also install Yarn for Node.
+    if [ "${lang}" = "node" ]; then
+      if ! yarn --version >/dev/null 2>&1; then
+        npm install --unsafe-perm=true --allow-root --global yarn
+      fi
+    fi
+  done
+
+  for lang in "${!MISE_LANGUAGES_EXTRAS[@]}"; do
+    [ -z "${MISE_LANGUAGES_EXTRAS[${lang}]}" ] && continue
+
+    printf "\nInstalling %s...\n\n" "${MISE_LANGUAGES_EXTRAS[${lang}]}"
+    if command -v "${HOME}/.local/share/mise/shims/${lang}" 1>/dev/null; then
+      echo "Skipping, it's already installed, run 'mise upgrade ${lang} --bump' to upgrade"
+    else
+      mise use --global "${MISE_LANGUAGES_EXTRAS[${lang}]}"
+    fi
+  done
 }
 
 install_tmux_plugins() {
@@ -789,7 +903,7 @@ install_nvim_plugins() {
 }
 
 healthcheck() {
-  _info "CHECK INFORMATION AND TOOL VERSIONS"
+  _info "CHECK INFORMATION AND VERSIONS"
 
   cat <<EOF
 :: Dotfiles path:
@@ -807,11 +921,6 @@ $(tmux -V)
 :: Neovim:
 
 $(nvim --version)
-
-:: Programming languages:
-
-Node $(node --version)
-$(python --version)
 
 :: Fastfetch:
 
