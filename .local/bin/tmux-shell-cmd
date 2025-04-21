@@ -57,5 +57,11 @@ tmux list-panes -a -F "#{session_name}:#{window_index}.#{pane_index} #{pane_pid}
     was_killed=1
   fi
 
-  [[ -z "${child_pid}" || -n "${was_killed}" ]] && tmux send-keys -t "${pane}" "${COMMAND}" "C-m"
+  # Since we're using Vim key binds we first need to send escape (C-[), sleep a
+  # tiny bit, then send "i" (insert mode) followed by the command. Without Vim
+  # binds all of that can go away and you can just send the command directly.
+  [[ -z "${child_pid}" || -n "${was_killed}" ]] &&
+    tmux send-keys -t "${pane}" "C-[" &&
+    sleep 0.1 &&
+    tmux send-keys -t "${pane}" "i${COMMAND}" "C-m"
 done
