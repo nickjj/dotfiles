@@ -13,6 +13,7 @@ SKIP_SYSTEM_PACKAGES="${1:-}"
 # Use personalized configuration.
 FIRST_RUN=1
 if [ -f "${DOTFILES_PATH}/install-config" ]; then
+  # shellcheck disable=SC1091
   . "${DOTFILES_PATH}/install-config"
   FIRST_RUN=
 fi
