@@ -957,6 +957,38 @@ EOF
   fi
 }
 
+case "${1:-}" in
+--diff)
+  # Show a diff of any local uncommitted or committed changes vs the remote.
+  # This will compare the currently checked out branch vs the origin's default.
+  #
+  # Since we have fzf, let's use it to make browsing diffs a nice experience!
+  remote="${2:-origin}"
+  git fetch "${remote//./}"
+  git diff "${remote}" --name-only | fzf --ansi --preview "git diff origin --color=always -- {-1}" || true
+
+  _info "CONDENSED GIT DIFF"
+  GIT_PAGER="" git diff "${remote}" --compact-summary
+
+  exit
+  ;;
+--changelog)
+  # Show details about new commits that only exist in the remote vs local.
+  # You can pass in origin... to do the above but also show your custom commits.
+  # You can pass in origin.. to do the above but only show your custom commits.
+  remote="${2:-..origin}"
+  git fetch "${remote//./}"
+  git log "${remote}" --pretty="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s" --date=short
+
+  exit
+  ;;
+--skip-system-packages) ;;
+*)
+  [ -n "${1:-}" ] && _error "'${1}' is not a supported flag"
+
+  ;;
+esac
+
 detect_env
 warn_root
 check_prereqs
