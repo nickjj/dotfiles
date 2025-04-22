@@ -47,11 +47,6 @@ return {
       { desc = "Current File" }
     )
 
-    MAP(
-      "x",
-      "<leader>sRw",
-      "<Cmd>GrugFarWithin<CR>",
-      { desc = "Within Range" }
-    )
+    MAP("x", "<leader>sRw", ":GrugFarWithin<CR>", { desc = "Within Range" })
   end,
 }
