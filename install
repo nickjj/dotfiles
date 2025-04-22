@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
-# Usage:
-#   ./install          # Clone my dotfiles
-#   LOCAL=1 ./install  # Copy the local dotfiles directory instead of cloning
-#
-#   # Customize which dotfiles URL to clone from
-#   DOTFILES_URL="https://github.com/example/dotfiles" ./install
+# Install these dotfiles, run: ./install --help for help and examples.
 
 set -o errexit
 
@@ -958,7 +953,7 @@ EOF
 }
 
 case "${1:-}" in
---diff)
+--diff | -d)
   # Show a diff of any local uncommitted or committed changes vs the remote.
   # This will compare the currently checked out branch vs the origin's default.
   #
@@ -972,7 +967,7 @@ case "${1:-}" in
 
   exit
   ;;
---changelog)
+--changelog | -c)
   # Show details about new commits that only exist in the remote vs local.
   # You can pass in origin... to do the above but also show your custom commits.
   # You can pass in origin.. to do the above but only show your custom commits.
@@ -982,7 +977,34 @@ case "${1:-}" in
 
   exit
   ;;
---skip-system-packages) ;;
+--skip-system-packages | -S) ;;
+--help | -h)
+  cat <<EOF
+Usage examples:
+
+# Pull in remote updates and update your dotfiles.
+./install
+
+# Update your dotfiles with whatever version of this script that exists locally.
+LOCAL=1 ./install
+
+# Show a diff of any local uncommited or committed changes vs the remote.
+./install --diff [remote_name] (it defaults to "origin" if not supplied)
+
+# Show new remote commits that do not exist locally.
+./install --changelog
+
+# Show your local commits that don't exist in the remote.
+./install --changelog origin..
+
+# Show your local commits that don't exist in the remote and new remote commits.
+./install --changelog origin...
+
+# Show this help menu.
+./install --help
+EOF
+  exit
+  ;;
 *)
   [ -n "${1:-}" ] && _error "'${1}' is not a supported flag"
 
