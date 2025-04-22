@@ -178,6 +178,10 @@ _local_only() {
         "${DOTFILES_PATH}/.config/zsh/.zprofile.local" \
         "${DOTFILES_PATH}/.config/zsh/.zshrc.local" \
         "${DOTFILES_PATH}/.config/git/config.local"
+
+      if grep -q "git@github.com:" "${DOTFILES_PATH}/.git/config"; then
+        sed -i "s|git@github.com:|https://github.com/|g" "${DOTFILES_PATH}/.git/config"
+      fi
     fi
   fi
 
