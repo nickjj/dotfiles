@@ -219,6 +219,10 @@ to compare what you have locally to what's [available
 remotely](https://github.com/nickjj/dotfiles/commits/master/). Neither command
 modifies your git tree.
 
+There's also `./install --update` which will only pull in the latest remote
+changes but exit out early before any other actions occur. This could be handy
+to pull in and review any changes before they run against your system.
+
 You can also run `LOCAL=1 ./install` to re-run the install script without
 pulling updates from this repo. That can be handy for testing your changes
 locally or to prevent new updates from being pulled.

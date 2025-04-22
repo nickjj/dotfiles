@@ -5,6 +5,8 @@ set -o errexit
 
 SKIP_SYSTEM_PACKAGES="${1:-}"
 
+ONLY_UPDATE=
+
 # Use personalized configuration.
 FIRST_RUN=1
 if [ -f "${DOTFILES_PATH}/install-config" ]; then
@@ -14,7 +16,7 @@ if [ -f "${DOTFILES_PATH}/install-config" ]; then
 fi
 
 DOTFILES_URL="${DOTFILES_URL:-https://github.com/nickjj/dotfiles}"
-DOTFILES_PATH="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
+DOTFILES_PATH="${DOTFILES_PATH:-}"
 
 YOUR_NAME="${YOUR_NAME:-}"
 YOUR_EMAIL="${YOUR_EMAIL:-}"
@@ -160,6 +162,26 @@ _error() {
 _info() {
   local message="${1:-}"
   printf "\n\n\e[36;1m%s:\e[0m\n\n" "${message}"
+}
+
+_local_only() {
+  [ -z "${LOCAL}" ] && return 1
+
+  if [ "${PWD}" != "${DOTFILES_PATH}" ]; then
+    cp -R "${PWD}/." "${DOTFILES_PATH}"
+
+    # Ensure the containerized environment starts fresh.
+    if [ -n "${IN_CONTAINER}" ]; then
+      rm \
+        "${DOTFILES_PATH}/.config/zsh/.zsh_history" \
+        "${DOTFILES_PATH}/.config/zsh/.aliases.local" \
+        "${DOTFILES_PATH}/.config/zsh/.zprofile.local" \
+        "${DOTFILES_PATH}/.config/zsh/.zshrc.local" \
+        "${DOTFILES_PATH}/.config/git/config.local"
+    fi
+  fi
+
+  printf "They've been locally copied to '%s'\n" "${DOTFILES_PATH}"
 }
 
 _no_system_packages() {
@@ -447,49 +469,55 @@ EOF
   done
 }
 
-clone_or_update_dotfiles() {
-  _info "CLONE OR UPDATE DOTFILES"
+update_dotfiles() {
+  _info "UPDATE DOTFILES"
 
-  local local_zprofile="${HOME}/.config/zsh/.zprofile.local"
-
-  if [ -f "${local_zprofile}" ]; then
-    # shellcheck disable=SC1090
-    . "${local_zprofile}"
+  if [ -z "${DOTFILES_PATH:-}" ]; then
+    echo "Skipping, since this is the first time you've run this script"
+    return 0
   fi
 
-  read -rep "Where do you want to clone these dotfiles to [${DOTFILES_PATH}]? " dotfiles_path
+  _local_only && return 0
+
+  git -C "${DOTFILES_PATH}" fetch origin
+
+  local new_commit_count=
+  new_commit_count="$(git -C "${DOTFILES_PATH}" rev-list ..origin --count)"
+
+  if [ "${new_commit_count}" = "0" ]; then
+    echo "Skipping, since your local dotfiles already have the latest updates"
+  else
+    # Let's merge the latest updates.
+    git -C "${DOTFILES_PATH}" merge origin
+
+    # Re-run this script because if an update happened, it's possible new
+    # packages are meant to be installed which means reading in their env vars.
+    exec "${0}" "${@}"
+  fi
+
+  cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
+}
+
+clone_dotfiles() {
+  _info "CLONE DOTFILES"
+
+  if [ -d "${DOTFILES_PATH:-}" ]; then
+    echo "Skipping, since DOTFILES_PATH already exists at '${DOTFILES_PATH}'"
+    return 0
+  fi
+
+  local default_dotfiles_path="${HOME}/dotfiles"
+
+  read -rep "Where do you want to clone these dotfiles to [${default_dotfiles_path}]? " dotfiles_path
   echo
 
-  [[ -z "${dotfiles_path}" ]] && dotfiles_path="${DOTFILES_PATH}"
+  [[ -z "${dotfiles_path}" ]] && dotfiles_path="${default_dotfiles_path}"
 
   DOTFILES_PATH="${dotfiles_path//\~/"${HOME}"}"
 
-  # This is used to locally develop the install script.
-  if [ "${LOCAL}" == "1" ]; then
-    if [ "${PWD}" != "${DOTFILES_PATH}" ]; then
-      cp -R "${PWD}/." "${DOTFILES_PATH}"
+  _local_only && return 0
 
-      # Ensure the containerized environment starts fresh.
-      if [[ -n "${IN_CONTAINER}" ]]; then
-        rm \
-          "${DOTFILES_PATH}/.config/zsh/.zsh_history" \
-          "${DOTFILES_PATH}/.config/zsh/.aliases.local" \
-          "${DOTFILES_PATH}/.config/zsh/.zprofile.local" \
-          "${DOTFILES_PATH}/.config/zsh/.zshrc.local" \
-          "${DOTFILES_PATH}/.config/git/config.local"
-      fi
-    fi
-
-    printf "They've been copied to '%s'\n" "${DOTFILES_PATH}"
-  else
-    if [ -e "${DOTFILES_PATH}" ]; then
-      # Let's get the latest updates.
-      git -C "${DOTFILES_PATH}" pull
-    else
-      mkdir -p "$(dirname "${DOTFILES_PATH}")"
-      git clone "${DOTFILES_URL}" "${DOTFILES_PATH}"
-    fi
-  fi
+  git clone "${DOTFILES_URL}" "${DOTFILES_PATH}"
 
   cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
 }
@@ -977,13 +1005,19 @@ case "${1:-}" in
 
   exit
   ;;
+--update | -u)
+  ONLY_UPDATE=1
+  ;;
 --skip-system-packages | -S) ;;
 --help | -h)
   cat <<EOF
 Usage examples:
 
-# Pull in remote updates and update your dotfiles.
+# Pull in remote updates and run the script to update your dotfiles.
 ./install
+
+# Only pull in remote updates and exit early.
+./install --update
 
 # Update your dotfiles with whatever version of this script that exists locally.
 LOCAL=1 ./install
@@ -1013,10 +1047,11 @@ esac
 
 detect_env
 warn_root
+update_dotfiles "${@}" && [ -n "${ONLY_UPDATE}" ] && exit
 check_prereqs
 create_initial_dirs
 install_packages
-clone_or_update_dotfiles
+clone_dotfiles
 install_zsh_plugins
 create_symlinks
 configure_system_configs
