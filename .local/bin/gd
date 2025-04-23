@@ -12,5 +12,5 @@ set -o nounset
 
 # shellcheck disable=SC2068
 git diff ${@:-} --name-only |
-  fzf --ansi --preview "git diff ${*:-} --color=always -- {-1} | delta --diff-so-fancy" ||
+  fzf --ansi --preview "git diff ${*:-} --color=always -- {-1} | delta" ||
   true

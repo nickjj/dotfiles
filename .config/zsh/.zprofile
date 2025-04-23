@@ -31,6 +31,10 @@ export LESS_TERMCAP_me=$'\e[0m'       # end mode
 export LESS_TERMCAP_ue=$'\e[0m'       # end underline
 export LESS_TERMCAP_se=$'\e[0m'       # end standout-mode
 
+# Configure delta (diffs),
+# https://dandavison.github.io/delta/environment-variables.html
+export DELTA_FEATURES="+diff-so-fancy"
+
 # Load local settings if they exist.
 # shellcheck disable=SC1091
 if [ -f "${XDG_CONFIG_HOME}/zsh/.zprofile.local" ]; then . "${XDG_CONFIG_HOME}/zsh/.zprofile.local"; fi

@@ -1005,7 +1005,7 @@ case "${1:-}" in
 
   git remote | grep -q "${target//./}" && git fetch "${target//./}"
 
-  git diff "${target}" --name-only | fzf --ansi --preview "git diff ${target} --color=always -- {-1} | delta --diff-so-fancy" || true
+  git diff "${target}" --name-only | fzf --ansi --preview "git diff ${target} --color=always -- {-1} | delta" || true
 
   _info "CONDENSED GIT DIFF"
   GIT_PAGER="" git diff "${target}" --compact-summary

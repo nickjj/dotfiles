@@ -1,12 +1,12 @@
 [core]
   editor = nvim
-  pager = delta --diff-so-fancy
+  pager = delta
 
 [delta]
   navigate = true
 
 [interactive]
-  diffFilter = delta --diff-so-fancy --color-only
+  diffFilter = delta --color-only
 
 [diff]
   tool = nvimdiff
