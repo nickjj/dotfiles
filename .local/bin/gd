@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Show and preview git diffs through fzf. Anything you can pass to git diff
-# you can pass to this script.
+# you can pass to this script. It also supports passing in --side to configure
+# delta to use side-by-side mode.
 # Examples:
 #   gd
 #   gd --staged
@@ -10,7 +11,18 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-# shellcheck disable=SC2068
-git diff ${@:-} --name-only |
-  fzf --ansi --preview "git diff ${*:-} --color=always -- {-1} | delta" ||
+git_args=()
+
+# Handle displaying diffs side by side on demand.
+for arg in "${@}"; do
+  if [ "${arg}" = "--side" ]; then
+    export DELTA_FEATURES="${DELTA_FEATURES} side-by-side"
+  else
+    git_args+=("${arg}")
+  fi
+done
+
+# shellcheck disable=SC2086
+git diff ${git_args:-} --name-only |
+  fzf --ansi --preview-window="right,75%" --preview "git diff ${git_args:-} --color=always -- {-1} | delta --width=\${FZF_PREVIEW_COLUMNS}" ||
   true

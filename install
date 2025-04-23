@@ -1002,10 +1002,17 @@ case "${1:-}" in
   #
   # Since we have fzf, let's use it to make browsing diffs a nice experience!
   target="${2:-origin}"
+  side_by_side="${3:-}"
+
+  # Since target is optional we need to handle only passing in --side.
+  if [ "${target}" = "--side" ]; then
+    target="origin"
+    side_by_side="--side"
+  fi
 
   git remote | grep -q "${target//./}" && git fetch "${target//./}"
 
-  git diff "${target}" --name-only | fzf --ansi --preview "git diff ${target} --color=always -- {-1} | delta" || true
+  gd "${target}" "${side_by_side}"
 
   _info "CONDENSED GIT DIFF"
   GIT_PAGER="" git diff "${target}" --compact-summary
@@ -1040,6 +1047,9 @@ LOCAL=1 ./install
 
 # Show a diff of any local uncommited or committed changes vs the remote.
 ./install --diff [target] (it defaults to "origin" if not supplied)
+
+# The same as above but show the diff in side-by-side (split) mode.
+./install --diff --side
 
 # Compare your currently checked out branch to your local master branch, this
 # could be helpful if you have a personalized branch and you pull updates into
