@@ -7,7 +7,9 @@ return {
       callback = function()
         MAP({ "i", "n", "x" }, "<A-h>", function()
           local state = unpack(
-            require("grug-far").toggle_flags({ "--hidden", "--glob !.git/" })
+            require("grug-far")
+              .get_instance(0)
+              :toggle_flags({ "--hidden", "--glob !.git/" })
           )
           vim.notify(
             "grug-far: toggled --hidden --glob !.git/ "
@@ -16,8 +18,9 @@ return {
         end, { desc = "Toggle Hidden Files", buffer = true })
 
         MAP({ "i", "n", "x" }, "<A-i>", function()
-          local state =
-            unpack(require("grug-far").toggle_flags({ "--no-ignore" }))
+          local state = unpack(
+            require("grug-far").get_instance(0):toggle_flags({ "--no-ignore" })
+          )
           vim.notify(
             "grug-far: toggled --no-ignore " .. (state and "ON" or "OFF")
           )
