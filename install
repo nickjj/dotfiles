@@ -31,6 +31,7 @@ PACMAN_PACKAGES="${PACMAN_PACKAGES:-
   fd
   fzf
   git
+  git-delta
   gnupg
   htop
   inotify-tools
@@ -97,6 +98,7 @@ BREW_PACKAGES="${BREW_PACKAGES:-
   fd
   fzf
   git
+  git-delta
   gnupg
   htop
   inotify-tools
@@ -242,6 +244,12 @@ _install_packages_debian() {
   # fastfetch, Debian 13 / Ubuntu 26.04 LTS will have it in apt by default.
   echo
   curl -fsSL https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.deb -o /tmp/fastfetch.deb
+  sudo dpkg -i "${_}"
+  rm "${_}"
+
+  # git-delta, Debian 13 will have it in apt by default, Ubuntu 24.04+ LTS has it.
+  echo
+  curl -fsSL https://github.com/dandavison/delta/releases/download/0.18.2/git-delta_0.18.2_amd64.deb -o /tmp/git-delta.deb
   sudo dpkg -i "${_}"
   rm "${_}"
 }
@@ -871,6 +879,10 @@ configure_git() {
 # although -m "" works if you want an empty message.
 #[tag]
 #  gpgSign = true
+
+[delta]
+  # If you prefer side by side diffs, uncomment this.
+  #side-by-side = true
 EOF
   fi
 
@@ -992,7 +1004,7 @@ case "${1:-}" in
   # Since we have fzf, let's use it to make browsing diffs a nice experience!
   remote="${2:-origin}"
   git fetch "${remote//./}"
-  git diff "${remote}" --name-only | fzf --ansi --preview "git diff origin --color=always -- {-1}" || true
+  git diff "${remote}" --name-only | fzf --ansi --preview "git diff origin --color=always -- {-1} | delta --diff-so-fancy" || true
 
   _info "CONDENSED GIT DIFF"
   GIT_PAGER="" git diff "${remote}" --compact-summary

@@ -1,8 +1,12 @@
 [core]
   editor = nvim
+  pager = delta --diff-so-fancy
 
-[color "diff"]
-  whitespace = red reverse
+[delta]
+  navigate = true
+
+[interactive]
+  diffFilter = delta --diff-so-fancy --color-only
 
 [diff]
   tool = nvimdiff
@@ -12,6 +16,7 @@
 
 [merge]
   tool = nvimdiff
+  conflictStyle = zdiff3
 
 [mergetool]
   keepBackup = false
