@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Show and preview git diffs through fzf. Anything you can pass to git diff
+# you can pass to this script.
+# Examples:
+#   gd
+#   gd --staged
+#   gd [any remote, branch or remote/branch syntax that git supports]
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# shellcheck disable=SC2068
+git diff ${@:-} --name-only |
+  fzf --ansi --preview "git diff ${*:-} --color=always -- {-1} | delta --diff-so-fancy" ||
+  true
