@@ -998,26 +998,26 @@ EOF
 
 case "${1:-}" in
 --diff | -d)
-  # Show a diff of any local uncommitted or committed changes vs the remote.
-  # This will compare the currently checked out branch vs the origin's default.
+  # Show a diff of any local uncommitted or committed changes vs the target.
   #
   # Since we have fzf, let's use it to make browsing diffs a nice experience!
-  remote="${2:-origin}"
-  git fetch "${remote//./}"
-  git diff "${remote}" --name-only | fzf --ansi --preview "git diff origin --color=always -- {-1} | delta --diff-so-fancy" || true
+  target="${2:-origin}"
+
+  git remote | grep -q "${target//./}" && git fetch "${target//./}"
+
+  git diff "${target}" --name-only | fzf --ansi --preview "git diff ${target} --color=always -- {-1} | delta --diff-so-fancy" || true
 
   _info "CONDENSED GIT DIFF"
-  GIT_PAGER="" git diff "${remote}" --compact-summary
+  GIT_PAGER="" git diff "${target}" --compact-summary
 
   exit
   ;;
 --changelog | -c)
-  # Show details about new commits that only exist in the remote vs local.
-  # You can pass in origin... to do the above but also show your custom commits.
-  # You can pass in origin.. to do the above but only show your custom commits.
-  remote="${2:-..origin}"
-  git fetch "${remote//./}"
-  git log "${remote}" --pretty="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s" --date=short
+  # Show details about new commits that only exist in the target vs local.
+  target="${2:-..origin}"
+
+  git remote | grep -q "${target//./}" && git fetch "${target//./}"
+  git log "${target}" --pretty="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s" --date=short
 
   exit
   ;;
@@ -1039,16 +1039,27 @@ Usage examples:
 LOCAL=1 ./install
 
 # Show a diff of any local uncommited or committed changes vs the remote.
-./install --diff [remote_name] (it defaults to "origin" if not supplied)
+./install --diff [target] (it defaults to "origin" if not supplied)
+
+# Compare your currently checked out branch to your local master branch, this
+# could be helpful if you have a personalized branch and you pull updates into
+# master and now you want to compare them locally.
+./install --diff master
 
 # Show new remote commits that do not exist locally.
-./install --changelog
+./install --changelog [target] (it defaults to "..origin" if not supplied)
 
 # Show your local commits that don't exist in the remote.
 ./install --changelog origin..
 
+# The same as above except compare it to your local master branch not remote.
+./install --changelog ..master
+
 # Show your local commits that don't exist in the remote and new remote commits.
 ./install --changelog origin...
+
+# The same as above except compare it to your local master branch not remote.
+./install --changelog ...master
 
 # Show this help menu.
 ./install --help
