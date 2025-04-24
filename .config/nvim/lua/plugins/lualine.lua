@@ -33,7 +33,7 @@ local function location()
   local line_start = vim.fn.line("v")
   local line_end = vim.fn.line(".")
 
-  if vim.fn.mode():find("[vV]") and line_end > line_start then
+  if vim.fn.mode():find("[vV]") and line_end ~= line_start then
     return string.format(
       "%d:%d:%d",
       line,
