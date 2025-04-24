@@ -23,13 +23,37 @@ end
 local function is_prose()
   return vim.bo.filetype == "markdown" or vim.bo.filetype == "text"
 end
+
+local function location()
+  -- This function existed in Lualine, I modified it to display the total
+  -- number of selected characters spanning across multiple lines.
+  local line = vim.fn.line(".")
+  local col = vim.fn.charcol(".")
+
+  local line_start = vim.fn.line("v")
+  local line_end = vim.fn.line(".")
+
+  if vim.fn.mode():find("[vV]") and line_end > line_start then
+    return string.format(
+      "%d:%d:%d",
+      line,
+      col,
+      vim.fn.wordcount().visual_chars
+    )
+  else
+    return string.format("%d:%d", line, col)
+  end
+end
+
 return {
   {
     "nvim-lualine/lualine.nvim",
     opts = {
       sections = {
-        -- Disable the clock.
-        lualine_z = {},
+        lualine_y = {
+          { "progress", separator = " ", padding = { left = 1, right = 0 } },
+          { location, padding = { left = 0, right = 1 } },
+        },
         -- Disable the default clock and replace it with word stats.
         lualine_z = {
           { wordcount, cond = is_prose },
