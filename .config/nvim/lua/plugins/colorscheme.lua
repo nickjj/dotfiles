@@ -1,33 +1,6 @@
 return {
   {
     "ellisonleao/gruvbox.nvim",
-    init = function()
-      vim.api.nvim_set_hl(0, "SnacksPicker", { link = "GruvboxBg0" })
-      vim.api.nvim_set_hl(0, "SnacksPickerBorder", { link = "GruvboxBlue" })
-      vim.api.nvim_set_hl(
-        0,
-        "SnacksPickerPathIgnored",
-        { link = "GruvboxBg3" }
-      )
-      vim.api.nvim_set_hl(0, "SnacksPicker", { link = "GruvboxBg0" })
-      vim.api.nvim_set_hl(0, "SnacksPickerBorder", { link = "GruvboxBlue" })
-      vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "GruvboxGray" })
-      vim.api.nvim_set_hl(
-        0,
-        "SnacksPickerPathHidden",
-        { link = "GruvboxGray" }
-      )
-      vim.api.nvim_set_hl(
-        0,
-        "SnacksPickerPathIgnored",
-        { link = "GruvboxBg3" }
-      )
-      vim.api.nvim_set_hl(
-        0,
-        "SnacksPickerGitStatusUntracked",
-        { link = "GruvboxGray" }
-      )
-    end,
     opts = {
       contrast = "medium",
       italic = {
@@ -36,6 +9,15 @@ return {
         comments = false,
         operators = false,
         folds = false,
+      },
+      overrides = {
+        SnacksPicker = { link = "GruvboxBg0" },
+        SnacksPickerDir = { link = "GruvboxGray" },
+        SnacksPickerBorder = { link = "GruvboxBlue" },
+        SnacksPickerPathHidden = { link = "GruvboxGray" },
+        SnacksPickerPathIgnored = { link = "GruvboxBg3" },
+        SnacksPickerGitStatusUntracked = { link = "GruvboxGray" },
+        NormalFloat = { link = "GruvboxBlue" },
       },
     },
   },
