@@ -1,0 +1,27 @@
+{
+  "Heredoc": {
+    "prefix": "heredoc",
+    "body": [
+      "cat <<EOF",
+      "${1}",
+      "EOF"
+    ]
+  },
+  "Heredoc (variable)": {
+    "prefix": "heredocv",
+    "body": [
+      "${1}=$(cat <<EOF",
+      "${2}",
+      "EOF",
+      ")"
+    ]
+  },
+  "Heredoc (redirect)": {
+    "prefix": "heredocr",
+    "body": [
+      "cat <<EOF > ${1}",
+      "${2}",
+      "EOF"
+    ]
+  }
+}
