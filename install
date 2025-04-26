@@ -706,10 +706,17 @@ EOF
         fi
       fi
     fi
-
-    # This should happen on all Linux distros.
-    [ "${SHELL: -3}" != "zsh" ] && chsh -s "/usr/bin/zsh"
   fi
+
+  # Switch to zsh in a way that supports our supported OS and distros.
+  local shell_path=
+  shell_path="$(which zsh)"
+
+  if ! grep -q "${shell_path}" /etc/shells; then
+    echo "${shell_path}" | sudo tee -a /etc/shells 1>/dev/null
+  fi
+
+  [ "${SHELL: -3}" != "zsh" ] && chsh -s "${shell_path}"
 
   # shellcheck disable=SC1091
   . "${HOME}/.config/zsh/.zprofile"
