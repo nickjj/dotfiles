@@ -1,0 +1,8 @@
+theme = tokyonight_moon
+
+font-family = Inconsolata Nerd Font
+font-size = 14
+font-feature = -calt, -liga, -dlig
+
+# Load a custom config for overrides, ? silently fails if the file is missing.
+config-file = ?config.local

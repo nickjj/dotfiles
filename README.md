@@ -156,6 +156,8 @@ the instructions below:
   && eval "$(/usr/local/bin/brew shellenv)" \
   && brew install bash \
   && bash
+
+# The colors will look bad with the default macOS Terminal app. I suggest using: https://ghostty.org/
 ```
 
 ### ⚡️ Install script
@@ -303,9 +305,12 @@ merge updates. It's really up to you.
 ### How to get theme support in your terminal?
 
 The `set-theme` script tries to be pretty flexible but it's not super tuned to
-support every terminal in every operating system. If it can't find a valid
-terminal config it will skip trying to set the theme and try to provide a
-helpful message.
+support every terminal in every operating system. It will attempt to configure
+a number of terminals based on looking for specific config paths.
+
+#### Ghostty
+
+Everything should work out of the box. I suggest using this on Linux or macOS.
 
 #### Windows Terminal
 
@@ -319,39 +324,12 @@ overwrote your Windows files.
 Once you have that set up, running `set-theme THEME_NAME` will work without
 further manual adjustments.
 
-#### iTerm2
-
-These dotfiles have color presets for all supported themes in
-`c/Users/Nick/iTerm2`. You'll want to import them into your iTerm2 profile.
-This is only necessary to do once. Here's the steps to take:
-
-1. Open *iTerm2*
-2. Goto *Settings*
-3. Goto *Profiles* (tab within settings)
-4. Goto *Colors* (tab within profiles)
-5. Click the *Color Presets..*. drop down box in the bottom right
-6. Select *Import...* and choose the theme you want to import
-7. Repeat these steps for each theme you're interested in
-
-I don't use a Mac full time (only on a work laptop) so I haven't automated much
-but iTerm2 appears a little tricky to fully automate with theme switching. When
-you run `set-theme THEME_NAME` to switch themes you will need to manually pick
-the theme in iTerm2. You can run through steps 1-5 above and pick it from the
-list instead of importing it. If you have a way to automate this reliably
-please open a PR!
-
-Also, if you noticed ALT+x keymaps within Neovim aren't working that's because
-you need to goto your profile (step 3 from above), then the *Keys* tab and
-enable "Esc+" for the ALT keys you plan to use (left and / or right). If it's
-set to "Normal" (the likely default) then they won't work out of the box.
-
 #### Everything else
 
 If you're using a popular terminal and want it officially supported please open
-a pull request. You'd modify `set-theme` for the `TERMINALS` dictionary as well
-as the `change_terminal_theme` function. The basic idea is it tries to find
-specific lines within the config file and does a regex find and replace to swap
-in the theme name.
+a pull request. You'd modify `set-theme` for the `TERMINALS` and `THEMES`
+dictionaries. The basic idea is it tries to find specific lines within the
+config file and does a regex find and replace to swap in the theme name.
 
 Happy to assist in your PR to answer questions.
 

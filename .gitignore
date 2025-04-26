@@ -23,6 +23,7 @@ tags
 .zprofile.local
 .zsh_history*
 .config/git/config.local
+.config/ghostty/config.local
 .local/bin/local/
 *.spl
 etc/pacman.d/02-ignore.conf.example

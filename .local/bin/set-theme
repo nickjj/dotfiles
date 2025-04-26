@@ -38,15 +38,26 @@ TERMINALS = {
                 "replace": '"theme": "%theme"',
             },
         ],
-    }
+    },
+    "ghostty": {
+        "path": f"{os.environ.get('XDG_CONFIG_HOME')}/ghostty/config2",
+        "matches": [
+            {
+                "find": "theme = .*",
+                "replace": "theme = %theme",
+            }
+        ],
+    },
 }
 
 THEMES = {
     "tokyonight-moon": {
-        "terminal": "Tokyonight Moon",
+        "windows-terminal": "Tokyonight Moon",
+        "ghostty": "tokyonight_moon",
     },
     "gruvbox-dark-medium": {
-        "terminal": "Gruvbox Dark Medium",
+        "windows-terminal": "Gruvbox Dark Medium",
+        "ghostty": "GruvboxDark",
         "nvim": {
             "colorscheme": "gruvbox",
             "variant": {
@@ -90,27 +101,21 @@ def active_theme():
 
 
 def change_terminal_theme(theme):
-    terminal = TERMINALS["windows-terminal"]
-    theme = THEMES[theme]["terminal"]
-    unknown = """SKIPPING [Terminal]: Terminal config path unknown / not found
+    for terminal, value in TERMINALS.items():
+        if not os.path.exists(value["path"]):
+            continue
 
-Please check the docs for this at:
+        with edit_inplace(value["path"]) as f:
+            for line in f:
+                for match in value["matches"]:
+                    terminal_theme = THEMES[theme][terminal]
 
-https://github.com/nickjj/dotfiles#how-to-get-theme-support-in-your-terminal"""
-
-    if not os.path.exists(terminal["path"]):
-        print(unknown)
-        return None
-
-    with edit_inplace(terminal["path"]) as f:
-        for line in f:
-            for match in terminal["matches"]:
-                line = re.sub(
-                    rf"{match['find']}",
-                    match["replace"].replace("%theme", theme),
-                    line,
-                )
-            sys.stdout.write(line)
+                    line = re.sub(
+                        rf"{match['find']}",
+                        match["replace"].replace("%theme", terminal_theme),
+                        line,
+                    )
+                sys.stdout.write(line)
 
 
 def change_tmux_theme(theme):
