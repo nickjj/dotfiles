@@ -147,11 +147,12 @@ MISE_PACKAGES_DEBIAN_EXTRAS="${MISE_PACKAGES_DEBIAN_EXTRAS:-}"
 MISE_PACKAGES_MACOS="${MISE_PACKAGES_MACOS:-}"
 MISE_PACKAGES_MACOS_EXTRAS="${MISE_PACKAGES_MACOS_EXTRAS:-}"
 
-declare -A MISE_LANGUAGES
-MISE_LANGUAGES["node"]="node@22.14"
-MISE_LANGUAGES["python"]="python@3.13"
-
-declare -A MISE_LANGUAGES_EXTRAS
+if [[ -z "${MISE_LANGUAGES[*]}" ]]; then
+  declare -gA MISE_LANGUAGES
+  MISE_LANGUAGES["node"]="node@22.14"
+  MISE_LANGUAGES["python"]="python@3.13"
+fi
+declare -A MISE_LANGUAGES_EXTRAS="${MISE_LANGUAGES_EXTRAS:-}"
 
 CPU_ARCH="$(uname -m)"
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
@@ -215,10 +216,15 @@ EOF
 }
 
 _install_packages_arch() {
-  # shellcheck disable=SC2086
-  sudo pacman -Syu --noconfirm ${PACMAN_PACKAGES} ${PACMAN_PACKAGES_EXTRAS}
+  PACMAN_PACKAGES="$(echo "${PACMAN_PACKAGES}" | xargs)"
+
+  if [[ -n "${PACMAN_PACKAGES}" || -n "${PACMAN_PACKAGES_EXTRAS}" ]]; then
+    # shellcheck disable=SC2086
+    sudo pacman -Syu --noconfirm ${PACMAN_PACKAGES} ${PACMAN_PACKAGES_EXTRAS}
+  fi
 
   # Install Mise packages.
+  MISE_PACKAGES_ARCH="$(echo "${MISE_PACKAGES_ARCH}" | xargs)"
   echo
   # shellcheck disable=SC2086
   if [[ -n "${MISE_PACKAGES_ARCH}" || -n "${MISE_PACKAGES_ARCH_EXTRAS}" ]]; then
@@ -227,8 +233,12 @@ _install_packages_arch() {
 }
 
 _install_packages_debian() {
-  # shellcheck disable=SC2086
-  sudo apt-get update && sudo apt-get install -y ${APT_PACKAGES} ${APT_PACKAGES_EXTRAS}
+  APT_PACKAGES="$(echo "${APT_PACKAGES}" | xargs)"
+
+  if [[ -n "${APT_PACKAGES}" || -n "${APT_PACKAGES_EXTRAS}" ]]; then
+    # shellcheck disable=SC2086
+    sudo apt-get update && sudo apt-get install -y ${APT_PACKAGES} ${APT_PACKAGES_EXTRAS}
+  fi
 
   # Install Mise.
   sudo install -dm 755 /etc/apt/keyrings
@@ -241,6 +251,7 @@ _install_packages_debian() {
   # Apt's packages typically have older versions since Debian and Ubuntu are
   # stable distros. In most cases the version included is fine but we do want
   # the latest and greatest versions for certain tools.
+  MISE_PACKAGES_DEBIAN="$(echo "${MISE_PACKAGES_DEBIAN}" | xargs)"
   echo
   # shellcheck disable=SC2086
   if [[ -n "${MISE_PACKAGES_DEBIAN}" || -n "${MISE_PACKAGES_DEBIAN_EXTRAS}" ]]; then
@@ -269,19 +280,25 @@ _install_packages_macos() {
   # Ensure brew's paths are available for this script
   eval "$(${prefix}/bin/brew shellenv)"
 
-  # shellcheck disable=SC2086
-  brew install ${BREW_PACKAGES} ${BREW_PACKAGES_EXTRAS}
+  BREW_PACKAGES="$(echo "${BREW_PACKAGES}" | xargs)"
+  BREW_CASK_PACKAGES="$(echo "${BREW_CASK_PACKAGES}" | xargs)"
 
-  # shellcheck disable=SC2086
+  if [[ -n "${BREW_PACKAGES}" || -n "${BREW_PACKAGES_EXTRAS}" ]]; then
+    # shellcheck disable=SC2086
+    brew install ${BREW_PACKAGES} ${BREW_PACKAGES_EXTRAS}
+  fi
+
   if [[ -n "${BREW_CASK_PACKAGES}" || -n "${BREW_CASK_PACKAGES_EXTRAS}" ]]; then
+    # shellcheck disable=SC2086
     brew install --cask ${BREW_CASK_PACKAGES} ${BREW_CASK_PACKAGES_EXTRAS}
   fi
 
   # Install Mise packages.
+  MISE_PACKAGES_MACOS="$(echo "${MISE_PACKAGES_MACOS}" | xargs)"
   echo
   # shellcheck disable=SC2086
-  if [[ -n "${MISE_PACKAGES_BREW}" || -n "${MISE_PACKAGES_BREW_EXTRAS}" ]]; then
-    mise use --global ${MISE_PACKAGES_BREW} ${MISE_PACKAGES_BREW_EXTRAS}
+  if [[ -n "${MISE_PACKAGES_MACOS}" || -n "${MISE_PACKAGES_MACOS_EXTRAS}" ]]; then
+    mise use --global ${MISE_PACKAGES_MACOS} ${MISE_PACKAGES_MACOS_EXTRAS}
   fi
 }
 
@@ -935,7 +952,7 @@ install_programming_languages() {
   _info "INSTALL PROGRAMMING LANGUAGES"
 
   for lang in "${!MISE_LANGUAGES[@]}"; do
-    [ -z "${MISE_LANGUAGES[${lang}]}" ] && continue
+    [[ "${lang}" = "0" || -z "${MISE_LANGUAGES[${lang}]}" ]] && continue
 
     printf "\nInstalling %s...\n\n" "${MISE_LANGUAGES[${lang}]}"
     if command -v "${HOME}/.local/share/mise/shims/${lang}" 1>/dev/null; then

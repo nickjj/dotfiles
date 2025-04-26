@@ -26,18 +26,27 @@ export YOUR_EMAIL=
 # Override which packages get installed. If you define anything in the extras
 # variable they will get appended to the non-extra packages. This lets you use
 # the default packages but add any extra packages you want.
+#
+# If you don't want to install any default packages then you can use a single
+# quoted space as the value, for example: export PACMAN_PACKAGES=" "
 export PACMAN_PACKAGES=
 export PACMAN_PACKAGES_EXTRAS=
 
 # Override which packages get installed. If you define anything in the extras
 # variable they will get appended to the non-extra packages. This lets you use
 # the default packages but add any extra packages you want.
+#
+# If you don't want to install any default packages then you can use a single
+# quoted space as the value, for example: export APT_PACKAGES=" "
 export APT_PACKAGES=
 export APT_PACKAGES_EXTRAS=
 
 # Override which packages get installed. If you define anything in the extras
 # variable they will get appended to the non-extra packages. This lets you use
 # the default packages but add any extra packages you want.
+#
+# If you don't want to install any default packages then you can use a single
+# quoted space as the value, for example: export BREW_CASK_PACKAGES=" "
 export BREW_PACKAGES=
 export BREW_PACKAGES_EXTRAS=
 export BREW_CASK_PACKAGES=
@@ -49,7 +58,10 @@ export BREW_CASK_PACKAGES_EXTRAS=
 #
 # However, maybe on Arch if you want a specific version of a tool, you can
 # use Mise to install it instead of ignoring it with Pacman to avoid a partial
-# update of your system.
+# update of your system. It may also not exist in the official Arch repo too.
+#
+# If you don't want to install any default packages then you can use a single
+# quoted space as the value, for example: export MISE_PACKAGES_DEBIAN=" "
 export MISE_PACKAGES_ARCH=
 export MISE_PACKAGES_ARCH_EXTRAS=
 
@@ -60,6 +72,9 @@ export MISE_PACKAGES_MACOS=
 export MISE_PACKAGES_MACOS_EXTRAS=
 
 # Install programming languages.
+#
+# If you don't want to install any default languages then you can use a single
+# quoted space as the value, for example: export MISE_LANGUAGES=" "
 declare -A MISE_LANGUAGES=
 declare -A MISE_LANGUAGES_EXTRAS=
 
