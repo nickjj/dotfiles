@@ -119,6 +119,16 @@ BREW_PACKAGES="${BREW_PACKAGES:-
 "
 BREW_PACKAGES_EXTRAS="${BREW_PACKAGES_EXTRAS:-}"
 
+BREW_CASK_PACKAGES="${BREW_CASK_PACKAGES:-
+  docker
+  firefox
+  ghostty
+  google-chrome
+  maccy
+}
+"
+BREW_CASK_PACKAGES_EXTRAS="${BREW_CASK_PACKAGES_EXTRAS:-}"
+
 MISE_PACKAGES_ARCH="${MISE_PACKAGES_ARCH:-}"
 MISE_PACKAGES_ARCH_EXTRAS="${MISE_PACKAGES_ARCH_EXTRAS:-}"
 
@@ -262,6 +272,11 @@ _install_packages_macos() {
   # shellcheck disable=SC2086
   brew install ${BREW_PACKAGES} ${BREW_PACKAGES_EXTRAS}
 
+  # shellcheck disable=SC2086
+  if [[ -n "${BREW_CASK_PACKAGES}" || -n "${BREW_CASK_PACKAGES_EXTRAS}" ]]; then
+    brew install --cask ${BREW_CASK_PACKAGES} ${BREW_CASK_PACKAGES_EXTRAS}
+  fi
+
   # Install Mise packages.
   echo
   # shellcheck disable=SC2086
@@ -307,6 +322,9 @@ _display_packages() {
         "${MISE_PACKAGES_DEBIAN}" "${MISE_PACKAGES_DEBIAN_EXTRAS}"
     fi
   else
+    [ -n "${BREW_CASK_PACKAGES}" ] && BREW_PACKAGES+="${BREW_CASK_PACKAGES}"
+    [ -n "${BREW_CASK_PACKAGES_EXTRAS}" ] && BREW_PACKAGES_EXTRAS+="${BREW_CASK_PACKAGES_EXTRAS}"
+
     _display_packages_output "${BREW_PACKAGES}" "${BREW_PACKAGES_EXTRAS}" \
       "${MISE_PACKAGES_MACOS}" "${MISE_PACKAGES_MACOS_EXTRAS}"
   fi

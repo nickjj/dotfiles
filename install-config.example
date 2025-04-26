@@ -40,6 +40,8 @@ export APT_PACKAGES_EXTRAS=
 # the default packages but add any extra packages you want.
 export BREW_PACKAGES=
 export BREW_PACKAGES_EXTRAS=
+export BREW_CASK_PACKAGES=
+export BREW_CASK_PACKAGES_EXTRAS=
 
 # Install Mise packages for specific platforms. For example, maybe you want
 # the latest and greatest versions on Debian for a few tools but Arch and
