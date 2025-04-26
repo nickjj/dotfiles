@@ -13,6 +13,12 @@
           "ruby"
         ],
         "path": "./ruby.json"
+      },
+      {
+        "language": [
+          "sh"
+        ],
+        "path": "./sh.json"
       }
     ]
   }
