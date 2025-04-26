@@ -4,5 +4,8 @@ font-family = Inconsolata Nerd Font
 font-size = 14
 font-feature = -calt, -liga, -dlig
 
+cursor-style-blink = false
+cursor-text = #000000
+
 # Load a custom config for overrides, ? silently fails if the file is missing.
 config-file = ?config.local
