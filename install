@@ -101,7 +101,6 @@ BREW_PACKAGES="${BREW_PACKAGES:-
   git-delta
   gnupg
   htop
-  inotify-tools
   jq
   mise
   nvim
@@ -113,7 +112,6 @@ BREW_PACKAGES="${BREW_PACKAGES:-
   shellcheck
   shfmt
   tmux
-  unzip
   wget
   xz
   zsh
