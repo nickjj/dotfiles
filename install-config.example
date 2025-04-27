@@ -13,8 +13,10 @@ set -o errexit
 # I didn't push up to my dotfiles.
 
 # Provide a different URL to clone from. This could be useful if you've forked
-# the project into your own repo.
-export DOTFILES_URL=
+# the project into your own repo. Speaking of forks, the upstream URL can also
+# be set separately to let you easily pull in changes into your fork.
+export DOTFILES_CLONE_URL=
+export DOTFILES_UPSTREAM_URL=
 
 # If you define these, they will get used instead of prompting you. Keep in
 # mind you won't be prompted once you've answered them once since the values

@@ -15,7 +15,8 @@ if [ -f "${DOTFILES_PATH}/install-config" ]; then
   FIRST_RUN=
 fi
 
-DOTFILES_URL="${DOTFILES_URL:-https://github.com/nickjj/dotfiles}"
+DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/nickjj/dotfiles}"
+DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-https://github.com/nickjj/dotfiles}"
 DOTFILES_PATH="${DOTFILES_PATH:-}"
 
 YOUR_NAME="${YOUR_NAME:-}"
@@ -567,7 +568,9 @@ clone_dotfiles() {
 
   _local_only && return 0
 
-  git clone "${DOTFILES_URL}" "${DOTFILES_PATH}"
+  git clone "${DOTFILES_CLONE_URL}" "${DOTFILES_PATH}"
+  git -C "${DOTFILES_PATH}" remote | grep -qw upstream ||
+    git -C "${DOTFILES_PATH}" remote add upstream "${DOTFILES_UPSTREAM_URL}.git"
 
   cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
 }

@@ -300,7 +300,8 @@ a `git pull origin master` and then `git rebase master` to integrate any
 updates into your branch.
 
 Another option is to fork this repo and use that, then periodically pull and
-merge updates. It's really up to you.
+merge updates. It's really up to you. By default these dotfiles will add an
+`upstream` git remote that points to this repo.
 
 ### How to get theme support in your terminal?
 
