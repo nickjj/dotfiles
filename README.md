@@ -61,10 +61,9 @@ I prefer using themes that have good contrast ratios and are clear to see in
 video recordings. These dotfiles currently support easily switching between
 both themes but you can use any theme you'd like.
 
-It's worth pointing out if you want to see icons you'll need a "nerd font".
-There's hundreds of them on <https://www.nerdfonts.com/font-downloads> with
-previews. I personally use "[Inconsolata Nerd
-Font](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Inconsolata.zip)".
+If you want to see icons you'll need a "nerd font". There's hundreds of them on
+<https://www.nerdfonts.com/font-downloads> with previews. I personally use
+Inconsolata NF which these dotfiles install for you.
 
 ### Setting a theme
 

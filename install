@@ -30,6 +30,7 @@ PACMAN_PACKAGES="${PACMAN_PACKAGES:-
   curl
   fastfetch
   fd
+  fontconfig
   fzf
   git
   git-delta
@@ -68,6 +69,7 @@ APT_PACKAGES="${APT_PACKAGES:-
   bc
   build-essential
   curl
+  fontconfig
   git
   gnupg
   htop
@@ -453,7 +455,7 @@ create_initial_dirs() {
     "${HOME}/.config/zsh" \
     "${HOME}/.cache/zsh" \
     "${HOME}/.local/bin" \
-    "${HOME}/.local/share"
+    "${HOME}/.local/share/fonts"
 }
 
 install_packages() {
@@ -576,6 +578,71 @@ clone_dotfiles() {
     git -C "${DOTFILES_PATH}" remote add upstream "${DOTFILES_UPSTREAM_URL}.git"
 
   cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
+}
+
+install_fonts() {
+  _info "INSTALL FONTS"
+
+  local font_url="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Inconsolata.zip"
+  local font_tmp="/tmp/inconsolata"
+  local font_zip="/tmp/inconsolata.zip"
+  local font_filename="InconsolataNerdFontMono-Regular.ttf"
+  local windows_font_path="/mnt/c/Windows/Fonts"
+  local macos_font_path="${HOME}/Library/Fonts"
+  local linux_font_path="${XDG_DATA_HOME:-"${HOME}/.local/share"}/fonts"
+  local font_path=
+  local font_is_installed=
+
+  if [ "${OS_TYPE}" = "linux" ]; then
+    font_path="${linux_font_path}"
+
+    if [ -n "${OS_IN_WSL}" ]; then
+      if [ ! -f "${windows_font_path}" ]; then
+        windows_font_path="${windows_font_path//\/mnt/}"
+      fi
+
+      font_path="${windows_font_path}"
+    fi
+  else
+    font_path="${macos_font_path}"
+  fi
+
+  [ -f "${font_path}/${font_filename}" ] && font_is_installed=1
+
+  if [ -n "${font_is_installed}" ]; then
+    echo "Skipping, since fonts are already installed at '${font_path}'"
+  else
+    rm -rf "${font_zip}" "${font_tmp}"
+    curl -sSL "${font_url}" -o "${font_zip}"
+    unzip "${font_zip}" -d "${font_tmp}"
+
+    if [ -n "${OS_IN_WSL}" ]; then
+      cat <<EOF
+
+Since we're in WSL 2 and we need to install Windows fonts, please do it manually.
+
+Most of it has been automated for you, from within WSL 2 perform these steps:
+
+1. cd ${font_tmp}
+2. explorer.exe .
+3. Right click the fonts and INSTALL FOR ALL USERS
+4. rm -rf "${font_zip}" "${font_tmp}"
+
+It's important step 3 is for all users not your personal user. It's also
+important step 4 is executed so this script doesn't always download the font's
+zip file and extract it to step 1.
+EOF
+
+      return 0
+    fi
+
+    cp "${font_tmp}"/InconsolataNerdFont*.ttf "${font_path}"
+
+    # Update font cache on native Linux.
+    [[ "${OS_TYPE}" = "linux" ]] && fc-cache -fv
+
+    rm -rf "${font_zip}" "${font_tmp}"
+  fi
 }
 
 install_zsh_plugins() {
@@ -1046,6 +1113,17 @@ You can safely close this terminal.
 
 The next time you open your terminal everything will be ready to go!
 EOF
+
+  if [[ -f "/tmp/inconsolata.zip" && -n "${OS_IN_WSL}" ]]; then
+    cat <<EOF
+
+P.S.,
+
+Since you're on WSL 2, please scroll up to the "INSTALL FONTS" section and
+follow the few steps there to complete the installation. You only need to do
+this once to install a few system fonts.
+EOF
+  fi
 }
 
 case "${1:-}" in
@@ -1141,6 +1219,7 @@ check_prereqs
 create_initial_dirs
 install_packages
 clone_dotfiles
+install_fonts
 install_zsh_plugins
 create_symlinks
 configure_system_configs
