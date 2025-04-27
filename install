@@ -33,6 +33,7 @@ PACMAN_PACKAGES="${PACMAN_PACKAGES:-
   fzf
   git
   git-delta
+  go-yq
   gnupg
   htop
   inotify-tools
@@ -115,6 +116,7 @@ BREW_PACKAGES="${BREW_PACKAGES:-
   tmux
   wget
   xz
+  yq
   zsh
 }
 "
@@ -141,6 +143,7 @@ MISE_PACKAGES_DEBIAN="${MISE_PACKAGES_DEBIAN:-
   ripgrep
   shellcheck
   shfmt
+  yq
 }
 "
 MISE_PACKAGES_DEBIAN_EXTRAS="${MISE_PACKAGES_DEBIAN_EXTRAS:-}"
