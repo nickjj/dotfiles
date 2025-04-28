@@ -1,9 +1,9 @@
 return {
   {
-    "bezhermoso/tree-sitter-ghostty",
-  },
-  {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "bezhermoso/tree-sitter-ghostty",
+    },
     opts = function(_, opts)
       -- Add custom treesitters not present by default in LazyVim.
       vim.list_extend(opts.ensure_installed, {
