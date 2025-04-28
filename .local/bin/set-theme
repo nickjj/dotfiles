@@ -40,7 +40,7 @@ TERMINALS = {
         ],
     },
     "ghostty": {
-        "path": f"{os.environ.get('XDG_CONFIG_HOME')}/ghostty/config2",
+        "path": f"{os.environ.get('XDG_CONFIG_HOME')}/ghostty/config",
         "matches": [
             {
                 "find": "theme = .*",
