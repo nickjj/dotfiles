@@ -90,7 +90,7 @@ or run the `SZ` ([source
 zsh](https://nickjanetakis.com/blog/running-commands-in-all-tmux-sessions-windows-and-panes))
 alias.
 
-*If you get a message about your terminal being unknown please review [this FAQ
+*Not all terminals are supported, if yours didn't change then check [this FAQ
 item](#how-to-get-theme-support-in-your-terminal).*
 
 ## ✨ Quickly Get Set Up
