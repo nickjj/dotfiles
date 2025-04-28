@@ -156,7 +156,7 @@ the instructions below:
   && brew install bash \
   && bash
 
-# The colors will look bad with the default macOS Terminal app. I suggest using: https://ghostty.org/
+# The colors will look bad with the default macOS Terminal app. These dotfiles install: https://ghostty.org/
 ```
 
 ### ⚡️ Install script
@@ -310,7 +310,8 @@ a number of terminals based on looking for specific config paths.
 
 #### Ghostty
 
-Everything should work out of the box. I suggest using this on Linux or macOS.
+Everything should work out of the box. This gets installed by default on Linux
+and macOS.
 
 #### Windows Terminal
 
