@@ -19,5 +19,5 @@ if [ -f "${file}" ]; then
   jq ${@:-} <"${file}"
 else
   # shellcheck disable=SC2068
-  if command -v pbpaste >/dev/null 2>&1; then pbpaste; else xclip -out -selection clipboard; fi | jq ${@:-}
+  clippaste | jq ${@:-}
 fi

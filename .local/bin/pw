@@ -4,5 +4,4 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-pwgen -sync "${1:-48}" -1 |
-  if command -v pbcopy >/dev/null 2>&1; then pbcopy; else xclip -sel clip; fi
+pwgen -sync "${1:-48}" -1 | clipcopy
