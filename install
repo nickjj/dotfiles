@@ -165,6 +165,11 @@ OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
 OS_DISTRO=
 OS_IN_WSL=
 
+C_RED="\e[0;31;1m"
+C_GREEN="\e[0;32;1m"
+C_CYAN="\e[0;36;1m"
+C_RESET="\e[0m"
+
 # -----------------------------------------------------------------------------
 # Helper functions
 # -----------------------------------------------------------------------------
@@ -172,13 +177,13 @@ OS_IN_WSL=
 _error() {
   local message="${1:-}"
 
-  printf "\e[31;1mERROR:\e[0m %s\n\n" "${message}" >&2
+  printf "%bERROR:%b %s\n\n" "${C_RED}" "${message}" "${C_RESET}" >&2
   exit 1
 }
 
 _info() {
   local message="${1:-}"
-  printf "\n\n\e[36;1m%s:\e[0m\n\n" "${message}"
+  printf "\n\n%b%s:%b\n\n" "${C_CYAN}" "${message}" "${C_RESET}"
 }
 
 _local_only() {
@@ -1163,47 +1168,49 @@ case "${1:-}" in
   ;;
 --skip-system-packages | -S) ;;
 --help | -h)
-  cat <<EOF
+  echo -e "$(
+    cat <<EOF
 Usage examples:
 
 # Pull in remote updates and run the script to update your dotfiles.
-./install
+${C_GREEN}./install${C_RESET}
 
 # Only pull in remote updates and exit early.
-./install --update
+${C_GREEN}./install --update${C_RESET}
 
 # Update your dotfiles with whatever version of this script that exists locally.
-LOCAL=1 ./install
+${C_GREEN}LOCAL=1 ./install${C_RESET}
 
 # Show a diff of any local uncommited or committed changes vs the remote.
-./install --diff [target] (it defaults to "origin" if not supplied)
+${C_GREEN}./install --diff [target]${C_RESET} (it defaults to "origin" if not supplied)
 
 # The same as above but show the diff in side-by-side (split) mode.
-./install --diff --side
+${C_GREEN}./install --diff --side${C_RESET}
 
 # Compare your currently checked out branch to your local master branch, this
 # could be helpful if you have a personalized branch and you pull updates into
 # master and now you want to compare them locally.
-./install --diff master
+${C_GREEN}./install --diff master${C_RESET}
 
 # Show new remote commits that do not exist locally.
-./install --changelog [target] (it defaults to "..origin" if not supplied)
+${C_GREEN}./install --changelog [target]${C_RESET} (it defaults to "..origin" if not supplied)
 
 # Show your local commits that don't exist in the remote.
-./install --changelog origin..
+${C_GREEN}./install --changelog origin..${C_RESET}
 
 # The same as above except compare it to your local master branch not remote.
-./install --changelog ..master
+${C_GREEN}./install --changelog ..master${C_RESET}
 
 # Show your local commits that don't exist in the remote and new remote commits.
-./install --changelog origin...
+${C_GREEN}./install --changelog origin...${C_RESET}
 
 # The same as above except compare it to your local master branch not remote.
-./install --changelog ...master
+${C_GREEN}./install --changelog ...master${C_RESET}
 
 # Show this help menu.
-./install --help
+${C_GREEN}./install --help${C_RESET}
 EOF
+  )"
   exit
   ;;
 *)
