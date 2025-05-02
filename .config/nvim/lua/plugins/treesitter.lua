@@ -24,6 +24,11 @@ return {
         "terraform",
         "toml",
       })
+
+      -- Identation was often misgaligned, especially with list items. This
+      -- lets Neovim handle indentation directly. This is a bug with Treesitter
+      -- and should be fixed in 1.0.
+      opts.indent.disable = { "yaml" }
     end,
   },
 }
