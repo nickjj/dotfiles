@@ -176,7 +176,7 @@ C_RESET="\e[0m"
 _error() {
   local message="${1:-}"
 
-  printf "%bERROR:%b %s\n\n" "${C_RED}" "${message}" "${C_RESET}" >&2
+  printf "%bERROR: %s%b\n\n" "${C_RED}" "${message}" "${C_RESET}" >&2
   exit 1
 }
 
