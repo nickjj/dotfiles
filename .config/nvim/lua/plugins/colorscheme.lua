@@ -11,12 +11,7 @@ return {
         folds = false,
       },
       overrides = {
-        SnacksPicker = { link = "GruvboxBg0" },
-        SnacksPickerDir = { link = "GruvboxGray" },
         SnacksPickerBorder = { link = "GruvboxBlue" },
-        SnacksPickerPathHidden = { link = "GruvboxGray" },
-        SnacksPickerPathIgnored = { link = "GruvboxBg3" },
-        SnacksPickerGitStatusUntracked = { link = "GruvboxGray" },
         NormalFloat = { link = "GruvboxBlue" },
       },
     },
