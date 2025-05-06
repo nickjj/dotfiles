@@ -942,7 +942,7 @@ create_ssh_key() {
 create_gpg_key() {
   _info "CREATING GPG KEY"
 
-  local gpg_home="${GNUPGHOME:-"${HOME}/.gnupg"}"
+  local gpg_home="${GNUPGHOME:-"${XDG_CONFIG_HOME:-"${HOME}/.config"}/gnupg"}"
   local gpg_key=
 
   set +o errexit
