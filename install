@@ -108,7 +108,6 @@ BREW_PACKAGES="${BREW_PACKAGES:-
   jq
   mise
   nvim
-  openssh
   pass
   pwgen
   ripgrep
