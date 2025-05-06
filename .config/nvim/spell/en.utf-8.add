@@ -9,6 +9,7 @@ AGPL
 AHK
 Airtable
 Akka
+Alacritty
 AMD64
 AMI
 AMIs
@@ -663,6 +664,7 @@ webhooks
 Webpack
 Webpacker
 WebSockets
+WezTerm
 WhatsApp
 whitelisting
 whitespace
