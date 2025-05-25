@@ -56,6 +56,8 @@ alias pf="fzf ${FZF_CTRL_T_OPTS}"
 
 alias gcl="git diff --name-only --diff-filter=U"
 
+alias ge="rg '[\p{Emoji}--\p{Ascii}]'"
+
 alias myip="curl -s -4 https://ifconfig.me | tee >(clipcopy)"
 
 alias start-rec="start-recording && HISTSIZE=0"
