@@ -386,7 +386,7 @@ detect_env() {
     # Adjust packages depending on which display server is in use.
     if [[ -z "${WAYLAND_DISPLAY}" ]]; then
       PACMAN_PACKAGES="${PACMAN_PACKAGES//wl-clipboard/xclip}"
-      DEBIAN_PACKAGES="${DEBIAN_PACKAGES//wl-clipboard/xclip}"
+      APT_PACKAGES="${APT_PACKAGES//wl-clipboard/xclip}"
     fi
 
     ;;
