@@ -39,6 +39,7 @@ PACMAN_PACKAGES="${PACMAN_PACKAGES:-
   htop
   inotify-tools
   jq
+  keepassxc
   less
   man-db
   man-pages
@@ -47,7 +48,6 @@ PACMAN_PACKAGES="${PACMAN_PACKAGES:-
   openbsd-netcat
   openssh
   pacman-contrib
-  pass
   pwgen
   ripgrep
   rsync
@@ -75,9 +75,9 @@ APT_PACKAGES="${APT_PACKAGES:-
   htop
   inotify-tools
   iproute2
+  keepassxc
   netcat-openbsd
   openssh-server
-  pass
   pwgen
   rsync
   tmux
@@ -108,7 +108,6 @@ BREW_PACKAGES="${BREW_PACKAGES:-
   jq
   mise
   nvim
-  pass
   pwgen
   ripgrep
   rsync
@@ -127,6 +126,7 @@ BREW_CASK_PACKAGES="${BREW_CASK_PACKAGES:-
   firefox
   ghostty
   google-chrome
+  keepassxc
   maccy
 }
 "
