@@ -30,6 +30,7 @@ PACMAN_PACKAGES="${PACMAN_PACKAGES:-
   curl
   fastfetch
   fd
+  ffmpeg
   fontconfig
   fzf
   git
@@ -69,6 +70,7 @@ APT_PACKAGES="${APT_PACKAGES:-
   bc
   build-essential
   curl
+  ffmpeg
   fontconfig
   git
   gnupg
@@ -100,6 +102,7 @@ BREW_PACKAGES="${BREW_PACKAGES:-
   diffutils
   fastfetch
   fd
+  ffmpeg
   fzf
   git
   git-delta
