@@ -23,6 +23,7 @@ return {
         "heex",
         "helm",
         "htmldjango",
+        "hyprlang",
         "kdl",
         "liquid",
         "nginx",
