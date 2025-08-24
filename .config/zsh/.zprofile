@@ -31,9 +31,8 @@ export LESS_TERMCAP_me=$'\e[0m'       # end mode
 export LESS_TERMCAP_ue=$'\e[0m'       # end underline
 export LESS_TERMCAP_se=$'\e[0m'       # end standout-mode
 
-# Configure GPG and pass locations.
+# Configure GPG.
 export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
-export PASSWORD_STORE_DIR="${XDG_CONFIG_HOME}/password-store"
 
 # Configure delta (diffs) defaults.
 # https://dandavison.github.io/delta/environment-variables.html
