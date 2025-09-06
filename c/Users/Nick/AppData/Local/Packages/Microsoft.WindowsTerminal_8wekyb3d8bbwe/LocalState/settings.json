@@ -34,7 +34,7 @@
   "profiles": {
     "defaults": {
       "adjustIndistinguishableColors": "indexed",
-      "colorScheme": "Tokyonight Moon",
+      "colorScheme": "tokyonight-moon",
       "cursorShape": "filledBox",
       "experimental.retroTerminalEffect": false,
       "font": {
@@ -88,7 +88,7 @@
       "cyan": "#689D6A",
       "foreground": "#EBDBB2",
       "green": "#98971A",
-      "name": "Gruvbox Dark Medium",
+      "name": "gruvbox-dark-medium",
       "purple": "#B16286",
       "red": "#CC241D",
       "selectionBackground": "#FFFFFF",
@@ -111,7 +111,7 @@
       "cyan": "#86E1FC",
       "foreground": "#C8D3F5",
       "green": "#C3E88D",
-      "name": "Tokyonight Moon",
+      "name": "tokyonight-moon",
       "purple": "#C099FF",
       "red": "#FF757F",
       "selectionBackground": "#2D3F76",
@@ -119,10 +119,10 @@
       "yellow": "#FFC777"
     }
   ],
-  "theme": "Tokyonight Moon",
+  "theme": "tokyonight-moon",
   "themes": [
     {
-      "name": "Gruvbox Dark Medium",
+      "name": "gruvbox-dark-medium",
       "tab": {
         "background": "#282828FF",
         "iconStyle": "default",
@@ -142,7 +142,7 @@
       }
     },
     {
-      "name": "Tokyonight Moon",
+      "name": "tokyonight-moon",
       "tab": {
         "background": "#2A2E45FF",
         "iconStyle": "default",
