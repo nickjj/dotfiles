@@ -53,11 +53,11 @@ TERMINALS = {
 THEMES = {
     "tokyonight-moon": {
         "windows-terminal": "tokyonight-moon",
-        "ghostty": "tokyonight_moon",
+        "ghostty": "Tokyonight Moon",
     },
     "gruvbox-dark-medium": {
         "windows-terminal": "gruvbox-dark-medium",
-        "ghostty": "GruvboxDark",
+        "ghostty": "Gruvbox Dark",
         "nvim": {
             "colorscheme": "gruvbox",
             "variant": {
