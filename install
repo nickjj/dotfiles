@@ -460,11 +460,12 @@ EOF
 }
 
 create_initial_dirs() {
-  mkdir -p "${HOME}/.config/tmux/plugins" \
-    "${HOME}/.config/git" \
-    "${HOME}/.config/ghostty" \
-    "${HOME}/.config/zsh" \
+  mkdir -p \
     "${HOME}/.cache/zsh" \
+    "${HOME}/.config/ghostty" \
+    "${HOME}/.config/git" \
+    "${HOME}/.config/tmux/plugins" \
+    "${HOME}/.config/zsh" \
     "${HOME}/.local/bin" \
     "${HOME}/.local/share/fonts"
 }
@@ -666,23 +667,23 @@ create_symlinks() {
   _info "CREATE SYMLINKS"
 
   local symlinks=(
-    "ln -fs \"${DOTFILES_PATH}/.zshenv\" \"${HOME}/.zshenv\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zshrc\" \"${HOME}/.config/zsh/.zshrc\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zshrc.local\" \"${HOME}/.config/zsh/.zshrc.local\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zprofile\" \"${HOME}/.config/zsh/.zprofile\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zprofile.local\" \"${HOME}/.config/zsh/.zprofile.local\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.aliases\" \"${HOME}/.config/zsh/.aliases\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.aliases.local\" \"${HOME}/.config/zsh/.aliases.local\""
-    "ln -fs \"${DOTFILES_PATH}/.config/tmux/tmux.conf\" \"${HOME}/.config/tmux/tmux.conf\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/themes\" \"${HOME}/.config/zsh/themes\""
-    "ln -fs \"${DOTFILES_PATH}/.config/tmux/themes\" \"${HOME}/.config/tmux/themes\""
-    "ln -fs \"${DOTFILES_PATH}/.config/git/config\" \"${HOME}/.config/git/config\""
-    "ln -fs \"${DOTFILES_PATH}/.config/git/config.local\" \"${HOME}/.config/git/config.local\""
-    "ln -fs \"${DOTFILES_PATH}/.config/gitui\" \"${HOME}/.config/gitui\""
-    "ln -fs \"${DOTFILES_PATH}/.config/ghostty/config\" \"${HOME}/.config/ghostty/config\""
     "ln -fs \"${DOTFILES_PATH}/.config/ghostty/config.local\" \"${HOME}/.config/ghostty/config.local\""
+    "ln -fs \"${DOTFILES_PATH}/.config/ghostty/config\" \"${HOME}/.config/ghostty/config\""
+    "ln -fs \"${DOTFILES_PATH}/.config/git/config.local\" \"${HOME}/.config/git/config.local\""
+    "ln -fs \"${DOTFILES_PATH}/.config/git/config\" \"${HOME}/.config/git/config\""
+    "ln -fs \"${DOTFILES_PATH}/.config/gitui\" \"${HOME}/.config/gitui\""
     "ln -fs \"${DOTFILES_PATH}/.config/nvim\" \"${HOME}/.config/nvim\""
+    "ln -fs \"${DOTFILES_PATH}/.config/tmux/themes\" \"${HOME}/.config/tmux/themes\""
+    "ln -fs \"${DOTFILES_PATH}/.config/tmux/tmux.conf\" \"${HOME}/.config/tmux/tmux.conf\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.aliases.local\" \"${HOME}/.config/zsh/.aliases.local\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.aliases\" \"${HOME}/.config/zsh/.aliases\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zprofile.local\" \"${HOME}/.config/zsh/.zprofile.local\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zprofile\" \"${HOME}/.config/zsh/.zprofile\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zshrc.local\" \"${HOME}/.config/zsh/.zshrc.local\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zshrc\" \"${HOME}/.config/zsh/.zshrc\""
+    "ln -fs \"${DOTFILES_PATH}/.config/zsh/themes\" \"${HOME}/.config/zsh/themes\""
     "ln -fs \"${DOTFILES_PATH}/.local/bin/\"* \"${HOME}/.local/bin/\""
+    "ln -fs \"${DOTFILES_PATH}/.zshenv\" \"${HOME}/.zshenv\""
   )
 
   local symlinks_system=()
@@ -735,10 +736,10 @@ EOF
       # Avoid using ln -T flag since it doesn't exist on macOS. We're being
       # extra careful here to only delete symlinks if they exist. Technically
       # rm -f would work but that could delete real files potentially.
-      [ -L "${HOME}/.config/zsh/themes" ] && rm "${HOME}/.config/zsh/themes"
-      [ -L "${HOME}/.config/tmux/themes" ] && rm "${HOME}/.config/tmux/themes"
       [ -L "${HOME}/.config/gitui" ] && rm "${HOME}/.config/gitui"
       [ -L "${HOME}/.config/nvim" ] && rm "${HOME}/.config/nvim"
+      [ -L "${HOME}/.config/tmux/themes" ] && rm "${HOME}/.config/tmux/themes"
+      [ -L "${HOME}/.config/zsh/themes" ] && rm "${HOME}/.config/zsh/themes"
 
       for link in "${symlinks[@]}"; do
         eval "${link}"
