@@ -3,10 +3,6 @@
 
 set -o errexit
 
-SKIP_SYSTEM_PACKAGES="${1:-}"
-
-ONLY_UPDATE=
-
 # Use personalized configuration.
 FIRST_RUN=1
 if [ -f "${DOTFILES_PATH}/install-config" ]; then
@@ -15,152 +11,161 @@ if [ -f "${DOTFILES_PATH}/install-config" ]; then
   FIRST_RUN=
 fi
 
-DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/nickjj/dotfiles}"
-DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-https://github.com/nickjj/dotfiles}"
-DOTFILES_PATH="${DOTFILES_PATH:-}"
+# Only run these when calling the script, not sourcing it.
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-YOUR_NAME="${YOUR_NAME:-}"
-YOUR_EMAIL="${YOUR_EMAIL:-}"
+  SKIP_SYSTEM_PACKAGES="${1:-}"
 
-PACMAN_PACKAGES="${PACMAN_PACKAGES:-
-  aspell
-  base
-  base-devel
-  bc
-  curl
-  fastfetch
-  fd
-  ffmpeg
-  fontconfig
-  fzf
-  git
-  git-delta
-  go-yq
-  gnupg
-  htop
-  inotify-tools
-  jq
-  keepassxc
-  less
-  man-db
-  man-pages
-  mise
-  neovim
-  openbsd-netcat
-  openssh
-  pacman-contrib
-  pwgen
-  ripgrep
-  rsync
-  shellcheck
-  shfmt
-  tmux
-  unzip
-  wget
-  whois
-  wl-clipboard
-  zip
-  zsh
-}
-"
-PACMAN_PACKAGES_EXTRAS="${PACMAN_PACKAGES_EXTRAS:-}"
+  ONLY_UPDATE=
 
-APT_PACKAGES="${APT_PACKAGES:-
-  aspell
-  bc
-  build-essential
-  curl
-  ffmpeg
-  fontconfig
-  git
-  gnupg
-  htop
-  inotify-tools
-  iproute2
-  keepassxc
-  netcat-openbsd
-  openssh-server
-  pwgen
-  rsync
-  tmux
-  unzip
-  wget
-  whois
-  wl-clipboard
-  xz-utils
-  zip
-  zsh
-}
-"
-APT_PACKAGES_EXTRAS="${APT_PACKAGES_EXTRAS:-}"
+  DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/nickjj/dotfiles}"
+  DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-https://github.com/nickjj/dotfiles}"
+  DOTFILES_PATH="${DOTFILES_PATH:-}"
 
-BREW_PACKAGES="${BREW_PACKAGES:-
-  aspell
-  bash
-  bc
-  curl
-  diffutils
-  fastfetch
-  fd
-  ffmpeg
-  fzf
-  git
-  git-delta
-  gnupg
-  htop
-  jq
-  mise
-  nvim
-  pwgen
-  ripgrep
-  rsync
-  shellcheck
-  shfmt
-  tmux
-  wget
-  xz
-  yq
-  zsh
-}
-"
-BREW_PACKAGES_EXTRAS="${BREW_PACKAGES_EXTRAS:-}"
+  YOUR_NAME="${YOUR_NAME:-}"
+  YOUR_EMAIL="${YOUR_EMAIL:-}"
 
-BREW_CASK_PACKAGES="${BREW_CASK_PACKAGES:-
-  firefox
-  ghostty
-  google-chrome
-  keepassxc
-  maccy
-}
-"
-BREW_CASK_PACKAGES_EXTRAS="${BREW_CASK_PACKAGES_EXTRAS:-}"
+  PACMAN_PACKAGES="${PACMAN_PACKAGES:-
+    aspell
+    base
+    base-devel
+    bc
+    curl
+    fastfetch
+    fd
+    ffmpeg
+    fontconfig
+    fzf
+    git
+    git-delta
+    gnupg
+    go-yq
+    htop
+    inotify-tools
+    jq
+    keepassxc
+    less
+    man-db
+    man-pages
+    mise
+    neovim
+    openbsd-netcat
+    openssh
+    pacman-contrib
+    pwgen
+    ripgrep
+    rsync
+    shellcheck
+    shfmt
+    tmux
+    unzip
+    wget
+    whois
+    wl-clipboard
+    zip
+    zsh
+  }
+  "
+  PACMAN_PACKAGES_EXTRAS="${PACMAN_PACKAGES_EXTRAS:-}"
 
-MISE_PACKAGES_ARCH="${MISE_PACKAGES_ARCH:-}"
-MISE_PACKAGES_ARCH_EXTRAS="${MISE_PACKAGES_ARCH_EXTRAS:-}"
+  APT_PACKAGES="${APT_PACKAGES:-
+    aspell
+    bc
+    build-essential
+    curl
+    ffmpeg
+    fontconfig
+    git
+    gnupg
+    htop
+    inotify-tools
+    iproute2
+    keepassxc
+    netcat-openbsd
+    openssh-server
+    pwgen
+    rsync
+    tmux
+    unzip
+    wget
+    whois
+    wl-clipboard
+    xz-utils
+    zip
+    zsh
+  }
+  "
+  APT_PACKAGES_EXTRAS="${APT_PACKAGES_EXTRAS:-}"
 
-MISE_PACKAGES_DEBIAN="${MISE_PACKAGES_DEBIAN:-
-  fd
-  fzf
-  jq
-  neovim
-  ripgrep
-  shellcheck
-  shfmt
-  yq
-}
-"
-MISE_PACKAGES_DEBIAN_EXTRAS="${MISE_PACKAGES_DEBIAN_EXTRAS:-}"
+  BREW_PACKAGES="${BREW_PACKAGES:-
+    aspell
+    bash
+    bc
+    curl
+    diffutils
+    fastfetch
+    fd
+    ffmpeg
+    fzf
+    git
+    git-delta
+    gnupg
+    htop
+    jq
+    mise
+    nvim
+    pwgen
+    ripgrep
+    rsync
+    shellcheck
+    shfmt
+    tmux
+    wget
+    xz
+    yq
+    zsh
+  }
+  "
+  BREW_PACKAGES_EXTRAS="${BREW_PACKAGES_EXTRAS:-}"
 
-MISE_PACKAGES_MACOS="${MISE_PACKAGES_MACOS:-}"
-MISE_PACKAGES_MACOS_EXTRAS="${MISE_PACKAGES_MACOS_EXTRAS:-}"
+  BREW_CASK_PACKAGES="${BREW_CASK_PACKAGES:-
+    firefox
+    ghostty
+    google-chrome
+    keepassxc
+    maccy
+  }
+  "
+  BREW_CASK_PACKAGES_EXTRAS="${BREW_CASK_PACKAGES_EXTRAS:-}"
 
-if [[ -z "${MISE_LANGUAGES[*]}" ]]; then
-  declare -gA MISE_LANGUAGES
-  MISE_LANGUAGES["node"]="node@22.14"
-  MISE_LANGUAGES["python"]="python@3.13"
+  MISE_PACKAGES_ARCH="${MISE_PACKAGES_ARCH:-}"
+  MISE_PACKAGES_ARCH_EXTRAS="${MISE_PACKAGES_ARCH_EXTRAS:-}"
+
+  MISE_PACKAGES_DEBIAN="${MISE_PACKAGES_DEBIAN:-
+    fd
+    fzf
+    jq
+    neovim
+    ripgrep
+    shellcheck
+    shfmt
+    yq
+  }
+  "
+  MISE_PACKAGES_DEBIAN_EXTRAS="${MISE_PACKAGES_DEBIAN_EXTRAS:-}"
+
+  MISE_PACKAGES_MACOS="${MISE_PACKAGES_MACOS:-}"
+  MISE_PACKAGES_MACOS_EXTRAS="${MISE_PACKAGES_MACOS_EXTRAS:-}"
+
+  if [[ -z "${MISE_LANGUAGES[*]}" ]]; then
+    declare -gA MISE_LANGUAGES
+    MISE_LANGUAGES["node"]="node@22.14"
+    MISE_LANGUAGES["python"]="python@3.13"
+  fi
+  declare -A MISE_LANGUAGES_EXTRAS="${MISE_LANGUAGES_EXTRAS:-}"
 fi
-declare -A MISE_LANGUAGES_EXTRAS="${MISE_LANGUAGES_EXTRAS:-}"
 
+# We always want to determine these values no matter how this script is called.
 CPU_ARCH="$(uname -m)"
 OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
 OS_DISTRO=
@@ -1132,114 +1137,122 @@ EOF
   fi
 }
 
-case "${1:-}" in
---diff | -d)
-  # Show a diff of any local uncommitted or committed changes vs the target.
-  #
-  # Since we have fzf, let's use it to make browsing diffs a nice experience!
-  target="${2:-origin}"
-  side_by_side="${3:-}"
+parse_args() {
+  case "${1:-}" in
+  --diff | -d)
+    # Show a diff of any local uncommitted or committed changes vs the target.
+    #
+    # Since we have fzf, let's use it to make browsing diffs a nice experience!
+    target="${2:-origin}"
+    side_by_side="${3:-}"
 
-  # Since target is optional we need to handle only passing in --side.
-  if [ "${target}" = "--side" ]; then
-    target="origin"
-    side_by_side="--side"
-  fi
+    # Since target is optional we need to handle only passing in --side.
+    if [ "${target}" = "--side" ]; then
+      target="origin"
+      side_by_side="--side"
+    fi
 
-  git remote | grep -q "${target//./}" && git fetch "${target//./}"
+    git remote | grep -q "${target//./}" && git fetch "${target//./}"
 
-  gd "${target}" "${side_by_side}"
+    gd "${target}" "${side_by_side}"
 
-  _info "CONDENSED GIT DIFF"
-  GIT_PAGER="" git diff "${target}" --compact-summary
+    _info "CONDENSED GIT DIFF"
+    GIT_PAGER="" git diff "${target}" --compact-summary
 
-  exit
-  ;;
---changelog | -c)
-  # Show details about new commits that only exist in the target vs local.
-  target="${2:-..origin}"
+    exit
+    ;;
+  --changelog | -c)
+    # Show details about new commits that only exist in the target vs local.
+    target="${2:-..origin}"
 
-  git remote | grep -q "${target//./}" && git fetch "${target//./}"
-  git log "${target}" --pretty="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s" --date=short
+    git remote | grep -q "${target//./}" && git fetch "${target//./}"
+    git log "${target}" --pretty="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s" --date=short
 
-  exit
-  ;;
---update | -u)
-  ONLY_UPDATE=1
-  ;;
---skip-system-packages | -S) ;;
---help | -h)
-  echo -e "$(
-    cat <<EOF
-Usage examples:
+    exit
+    ;;
+  --update | -u)
+    ONLY_UPDATE=1
+    ;;
+  --skip-system-packages | -S) ;;
+  --help | -h)
+    echo -e "$(
+      cat <<EOF
+  Usage examples:
 
-# Pull in remote updates and run the script to update your dotfiles.
-${C_GREEN}./install${C_RESET}
+  # Pull in remote updates and run the script to update your dotfiles.
+  ${C_GREEN}./install${C_RESET}
 
-# Only pull in remote updates and exit early.
-${C_GREEN}./install --update${C_RESET}
+  # Only pull in remote updates and exit early.
+  ${C_GREEN}./install --update${C_RESET}
 
-# Update your dotfiles with whatever version of this script that exists locally.
-${C_GREEN}LOCAL=1 ./install${C_RESET}
+  # Update your dotfiles with whatever version of this script that exists locally.
+  ${C_GREEN}LOCAL=1 ./install${C_RESET}
 
-# Show a diff of any local uncommited or committed changes vs the remote.
-${C_GREEN}./install --diff [target]${C_RESET} (it defaults to "origin" if not supplied)
+  # Show a diff of any local uncommited or committed changes vs the remote.
+  ${C_GREEN}./install --diff [target]${C_RESET} (it defaults to "origin" if not supplied)
 
-# The same as above but show the diff in side-by-side (split) mode.
-${C_GREEN}./install --diff --side${C_RESET}
+  # The same as above but show the diff in side-by-side (split) mode.
+  ${C_GREEN}./install --diff --side${C_RESET}
 
-# Compare your currently checked out branch to your local master branch, this
-# could be helpful if you have a personalized branch and you pull updates into
-# master and now you want to compare them locally.
-${C_GREEN}./install --diff master${C_RESET}
+  # Compare your currently checked out branch to your local master branch, this
+  # could be helpful if you have a personalized branch and you pull updates into
+  # master and now you want to compare them locally.
+  ${C_GREEN}./install --diff master${C_RESET}
 
-# Show new remote commits that do not exist locally.
-${C_GREEN}./install --changelog [target]${C_RESET} (it defaults to "..origin" if not supplied)
+  # Show new remote commits that do not exist locally.
+  ${C_GREEN}./install --changelog [target]${C_RESET} (it defaults to "..origin" if not supplied)
 
-# Show your local commits that don't exist in the remote.
-${C_GREEN}./install --changelog origin..${C_RESET}
+  # Show your local commits that don't exist in the remote.
+  ${C_GREEN}./install --changelog origin..${C_RESET}
 
-# The same as above except compare it to your local master branch not remote.
-${C_GREEN}./install --changelog ..master${C_RESET}
+  # The same as above except compare it to your local master branch not remote.
+  ${C_GREEN}./install --changelog ..master${C_RESET}
 
-# Show your local commits that don't exist in the remote and new remote commits.
-${C_GREEN}./install --changelog origin...${C_RESET}
+  # Show your local commits that don't exist in the remote and new remote commits.
+  ${C_GREEN}./install --changelog origin...${C_RESET}
 
-# The same as above except compare it to your local master branch not remote.
-${C_GREEN}./install --changelog ...master${C_RESET}
+  # The same as above except compare it to your local master branch not remote.
+  ${C_GREEN}./install --changelog ...master${C_RESET}
 
-# Show this help menu.
-${C_GREEN}./install --help${C_RESET}
+  # Show this help menu.
+  ${C_GREEN}./install --help${C_RESET}
 EOF
-  )"
-  exit
-  ;;
-*)
-  [ -n "${1:-}" ] && _error "'${1}' is not a supported flag"
+    )"
+    exit
+    ;;
+  *)
+    [ -n "${1:-}" ] && _error "'${1}' is not a supported flag"
 
-  ;;
-esac
+    ;;
+  esac
 
-detect_env
-warn_root
-update_dotfiles "${@}" && [ -n "${ONLY_UPDATE}" ] && exit
-check_prereqs
-create_initial_dirs
-install_packages
-clone_dotfiles
-install_fonts
-install_zsh_plugins
-create_symlinks
-configure_system_configs
-configure_home_configs
-configure_shell
-ask_for_name
-ask_for_email
-create_ssh_key
-create_gpg_key
-configure_git
-install_programming_languages
-install_tmux_plugins
-install_nvim_plugins
-healthcheck
-completed_message
+  return 0
+}
+
+# Only run these when calling the script, not sourcing it.
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  parse_args "${@}"
+  detect_env
+  warn_root
+  update_dotfiles "${@}" && [ -n "${ONLY_UPDATE}" ] && exit
+  check_prereqs
+  create_initial_dirs
+  install_packages
+  clone_dotfiles
+  install_fonts
+  install_zsh_plugins
+  create_symlinks
+  configure_system_configs
+  configure_home_configs
+  configure_shell
+  ask_for_name
+  ask_for_email
+  create_ssh_key
+  create_gpg_key
+  configure_git
+  install_programming_languages
+  install_tmux_plugins
+  install_nvim_plugins
+  healthcheck
+  completed_message
+fi
