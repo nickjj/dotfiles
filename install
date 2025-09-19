@@ -666,51 +666,50 @@ install_zsh_plugins() {
 create_symlinks() {
   _info "CREATE SYMLINKS"
 
-  local symlinks=(
-    "ln -fs \"${DOTFILES_PATH}/.config/ghostty/config.local\" \"${HOME}/.config/ghostty/config.local\""
-    "ln -fs \"${DOTFILES_PATH}/.config/ghostty/config\" \"${HOME}/.config/ghostty/config\""
-    "ln -fs \"${DOTFILES_PATH}/.config/git/config.local\" \"${HOME}/.config/git/config.local\""
-    "ln -fs \"${DOTFILES_PATH}/.config/git/config\" \"${HOME}/.config/git/config\""
-    "ln -fs \"${DOTFILES_PATH}/.config/gitui\" \"${HOME}/.config/gitui\""
-    "ln -fs \"${DOTFILES_PATH}/.config/nvim\" \"${HOME}/.config/nvim\""
-    "ln -fs \"${DOTFILES_PATH}/.config/tmux/themes\" \"${HOME}/.config/tmux/themes\""
-    "ln -fs \"${DOTFILES_PATH}/.config/tmux/tmux.conf\" \"${HOME}/.config/tmux/tmux.conf\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.aliases.local\" \"${HOME}/.config/zsh/.aliases.local\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.aliases\" \"${HOME}/.config/zsh/.aliases\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zprofile.local\" \"${HOME}/.config/zsh/.zprofile.local\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zprofile\" \"${HOME}/.config/zsh/.zprofile\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zshrc.local\" \"${HOME}/.config/zsh/.zshrc.local\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/.zshrc\" \"${HOME}/.config/zsh/.zshrc\""
-    "ln -fs \"${DOTFILES_PATH}/.config/zsh/themes\" \"${HOME}/.config/zsh/themes\""
-    "ln -fs \"${DOTFILES_PATH}/.local/bin/\"* \"${HOME}/.local/bin/\""
-    "ln -fs \"${DOTFILES_PATH}/.zshenv\" \"${HOME}/.zshenv\""
-  )
+  local symlinks=()
+  local symlinks_wsl=()
+  local symlinks_arch=()
 
-  local symlinks_system=()
+  [ -n "${SYMLINKS[*]}" ] && symlinks+=("${SYMLINKS[@]}")
+  [ -n "${SYMLINKS_EXTRAS[*]}" ] && symlinks+=("${SYMLINKS_EXTRAS[@]}")
 
-  if [ -n "${OS_IN_WSL}" ]; then
-    symlinks_system+=("sudo ln -fs \"${DOTFILES_PATH}/etc/wsl.conf\" \"/etc/wsl.conf\"")
+  [ -n "${SYMLINKS_WSL[*]}" ] && symlinks_wsl+=("${SYMLINKS_WSL[@]}")
+  [ -n "${SYMLINKS_WSL_EXTRAS[*]}" ] && symlinks_wsl+=("${SYMLINKS_WSL_EXTRAS[@]}")
+
+  [ -n "${SYMLINKS_ARCH[*]}" ] && symlinks_arch+=("${SYMLINKS_ARCH[@]}")
+  [ -n "${SYMLINKS_ARCH_EXTRAS[*]}" ] && symlinks_arch+=("${SYMLINKS_ARCH_EXTRAS[@]}")
+
+  printf -- "-------------------------------------------------------------------------------\n"
+
+  if [ -n "${symlinks[*]}" ]; then
+    printf "\nSymlinks:\n"
+    for link in "${symlinks[@]}"; do
+      echo "  ${link}"
+    done
   fi
 
-  if [ "${OS_DISTRO}" = "arch" ]; then
-    symlinks_system+=("sudo ln -fs \"${DOTFILES_PATH}/etc/pacman.d/01-options.conf\" \"/etc/pacman.d/01-options.conf\"")
+  if [[ -n "${OS_IN_WSL}" && -n "${symlinks_wsl[*]}" ]]; then
+    printf "\nSymlinks (WSL):\n"
+    for link in "${symlinks_wsl[@]}"; do
+      echo "  ${link}"
+    done
+  fi
 
+  if [[ "${OS_DISTRO}" = "arch" && -n "${symlinks_arch[*]}" ]]; then
+    # It's a bit more complicated to extract this into a variable since it has
+    # a condition with a fallback. For now let's keep it hard coded until a
+    # better pattern arrises to handle this in a dynamic way.
     if [ -f "etc/pacman.d/02-ignore.conf" ]; then
-      symlinks_system+=("sudo ln -fs \"${DOTFILES_PATH}/etc/pacman.d/02-ignore.conf\" \"/etc/pacman.d/02-ignore.conf\"")
+      symlinks_arch+=("sudo ln -fns \"${DOTFILES_PATH}/etc/pacman.d/02-ignore.conf\" \"/etc/pacman.d/02-ignore.conf\"")
     else
       sudo rm -f "/etc/pacman.d/02-ignore.conf"
     fi
+
+    printf "\nSymlinks (Arch):\n"
+    for link in "${symlinks_arch[@]}"; do
+      echo "  ${link}"
+    done
   fi
-
-  printf -- "-------------------------------------------------------------------------------\n\n"
-
-  for link in "${symlinks[@]}"; do
-    echo "${link}"
-  done
-
-  for link in "${symlinks_system[@]}"; do
-    echo "${link}"
-  done
 
   cat <<EOF
 
@@ -724,8 +723,8 @@ What does that mean?
 Any config files you have on the right hand side of the paths are going to get
 overwritten with the files that come with these dotfiles (left side).
 
-Without these symlinks, these dotfiles will not work. If you plan to type y
-and have existing files now would be a good time to back them up.
+Without these symlinks, these dotfiles will not work as is. If you plan to
+type y and have existing files now would be a good time to back them up.
 
 EOF
 
@@ -741,13 +740,23 @@ EOF
       [ -L "${HOME}/.config/tmux/themes" ] && rm "${HOME}/.config/tmux/themes"
       [ -L "${HOME}/.config/zsh/themes" ] && rm "${HOME}/.config/zsh/themes"
 
-      for link in "${symlinks[@]}"; do
-        eval "${link}"
-      done
+      if [ -n "${symlinks[*]}" ]; then
+        for link in "${symlinks[@]}"; do
+          eval "${link}"
+        done
+      fi
 
-      for link in "${symlinks_system[@]}"; do
-        eval "${link}"
-      done
+      if [[ -n "${OS_IN_WSL}" && -n "${symlinks_wsl[*]}" ]]; then
+        for link in "${symlinks_wsl[@]}"; do
+          eval "${link}"
+        done
+      fi
+
+      if [ "${OS_DISTRO}" = "arch" ]; then
+        for link in "${symlinks_arch[@]}"; do
+          eval "${link}"
+        done
+      fi
 
       break
       ;;

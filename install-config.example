@@ -86,3 +86,39 @@ declare -A MISE_LANGUAGES_EXTRAS=
 
 export MISE_LANGUAGES
 export MISE_LANGUAGES_EXTRAS
+
+# Symlinks that will get created in all operating systems. This lets you add
+# your own custom tools and set up whatever configuration you may need. Chances
+# are you'll want to customize the SYMLINKS_EXTRAS variable to add new things.
+export SYMLINKS=(
+  "ln -fns \"${DOTFILES_PATH}/.config/ghostty/config.local\" \"${HOME}/.config/ghostty/config.local\""
+  "ln -fns \"${DOTFILES_PATH}/.config/ghostty/config\" \"${HOME}/.config/ghostty/config\""
+  "ln -fns \"${DOTFILES_PATH}/.config/git/config.local\" \"${HOME}/.config/git/config.local\""
+  "ln -fns \"${DOTFILES_PATH}/.config/git/config\" \"${HOME}/.config/git/config\""
+  "ln -fns \"${DOTFILES_PATH}/.config/gitui\" \"${HOME}/.config/gitui\""
+  "ln -fns \"${DOTFILES_PATH}/.config/nvim\" \"${HOME}/.config/nvim\""
+  "ln -fns \"${DOTFILES_PATH}/.config/tmux/themes\" \"${HOME}/.config/tmux/themes\""
+  "ln -fns \"${DOTFILES_PATH}/.config/tmux/tmux.conf\" \"${HOME}/.config/tmux/tmux.conf\""
+  "ln -fns \"${DOTFILES_PATH}/.config/zsh/.aliases.local\" \"${HOME}/.config/zsh/.aliases.local\""
+  "ln -fns \"${DOTFILES_PATH}/.config/zsh/.aliases\" \"${HOME}/.config/zsh/.aliases\""
+  "ln -fns \"${DOTFILES_PATH}/.config/zsh/.zprofile.local\" \"${HOME}/.config/zsh/.zprofile.local\""
+  "ln -fns \"${DOTFILES_PATH}/.config/zsh/.zprofile\" \"${HOME}/.config/zsh/.zprofile\""
+  "ln -fns \"${DOTFILES_PATH}/.config/zsh/.zshrc.local\" \"${HOME}/.config/zsh/.zshrc.local\""
+  "ln -fns \"${DOTFILES_PATH}/.config/zsh/.zshrc\" \"${HOME}/.config/zsh/.zshrc\""
+  "ln -fns \"${DOTFILES_PATH}/.config/zsh/themes\" \"${HOME}/.config/zsh/themes\""
+  "ln -fns \"${DOTFILES_PATH}/.local/bin/\"* \"${HOME}/.local/bin/\""
+  "ln -fns \"${DOTFILES_PATH}/.zshenv\" \"${HOME}/.zshenv\""
+)
+export SYMLINKS_EXTRAS=
+
+# Symlinks that will get created only in WSL.
+export SYMLINKS_WSL=(
+  "sudo ln -fns \"${DOTFILES_PATH}/etc/wsl.conf\" \"/etc/wsl.conf\""
+)
+export SYMLINKS_WSL_EXTRAS=
+
+# Symlinks that will get created only on Arch Linux.
+export SYMLINKS_ARCH=(
+  "sudo ln -fns \"${DOTFILES_PATH}/etc/pacman.d/01-options.conf\" \"/etc/pacman.d/01-options.conf\""
+)
+export SYMLINKS_ARCH_EXTRAS=
