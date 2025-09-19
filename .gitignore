@@ -18,13 +18,13 @@ tags
 # Persistent undo
 [._]*.un~/
 
+*.spl
 .aliases.local
-.zshrc.local
+.config/ghostty/config.local
+.config/git/config.local
+.local/bin/local/
 .zprofile.local
 .zsh_history*
-.config/git/config.local
-.config/ghostty/config.local
-.local/bin/local/
-*.spl
+.zshrc.local
 etc/pacman.d/02-ignore.conf.example
 install-config
