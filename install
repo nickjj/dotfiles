@@ -30,6 +30,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     base
     base-devel
     bc
+    btop
     curl
     fastfetch
     fd
@@ -40,7 +41,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     git-delta
     gnupg
     go-yq
-    htop
     inotify-tools
     jq
     keepassxc
@@ -71,13 +71,13 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   APT_PACKAGES="${APT_PACKAGES:-
     aspell
     bc
+    btop
     build-essential
     curl
     ffmpeg
     fontconfig
     git
     gnupg
-    htop
     inotify-tools
     iproute2
     keepassxc
@@ -101,6 +101,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     aspell
     bash
     bc
+    btop
     curl
     diffutils
     fastfetch
@@ -110,7 +111,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     git
     git-delta
     gnupg
-    htop
     jq
     mise
     nvim
