@@ -164,7 +164,7 @@ the instructions below:
 **You can download and run the install script with this 1 liner:**
 
 ```sh
-bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
+BOOTSTRAP=1 bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
 ```
 
 *If you're not comfortable blindly running a script on the internet, that's no
@@ -180,7 +180,7 @@ backups!*
 **You can also run the script without installing system packages:**
 
 ```sh
-bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
+BOOTSTRAP=1 bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
 ```
 
 The above can be useful if you're using an unsupported distro of Linux in which
@@ -195,7 +195,7 @@ of installing these for you unless you've skipped system packages.
 🐳 **Try it in Docker without modifying your system:**
 
 ```sh
-# Start a Debian container, we're passing in an env var to be explicit we're in Docker.
+# Start a Debian container, we're passing IN_CONTAINER to be explicit we're in Docker.
 docker container run --rm -it -e "IN_CONTAINER=1" -v "${PWD}:/app" -w /app debian:stable-slim bash
 
 # Copy / paste all 3 lines into the container's prompt and run it.
