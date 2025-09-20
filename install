@@ -730,7 +730,7 @@ EOF
 install_zsh_plugins() {
   _info "INSTALL ZSH PLUGINS"
 
-  "${DOTFILES_PATH}/.local/bin/update-zsh-plugins"
+  "${DOTFILES_PATH}/.local/bin/dot-update-zsh-plugins"
 }
 
 create_symlinks() {
