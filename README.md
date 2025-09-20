@@ -226,7 +226,9 @@ to pull in and review any changes before they run against your system.
 
 You can also run `LOCAL=1 ./install` to re-run the install script without
 pulling updates from this repo. That can be handy for testing your changes
-locally or to prevent new updates from being pulled.
+locally or applying `install-config` changes.
+
+Running `./install --help` shows a number of ways to call this script.
 
 ### 🛠 Make it your own
 
