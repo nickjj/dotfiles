@@ -240,6 +240,23 @@ _install_packages_arch() {
     sudo pacman -Syu --noconfirm ${PACMAN_PACKAGES} ${PACMAN_PACKAGES_EXTRAS}
   fi
 
+  # Install Paru (AUR) if needed.
+  if ! command -v paru >/dev/null 2>&1; then
+    local paru_download_path="/tmp/paru-install"
+    rm -rf "${paru_download_path}"
+    git clone https://aur.archlinux.org/paru.git "${paru_download_path}"
+    cd "${paru_download_path}" && makepkg --syncdeps --install --noconfirm && cd -
+    rm -rf "${paru_download_path}"
+  fi
+
+  # Install Paru packages.
+  AUR_PACKAGES="$(echo "${AUR_PACKAGES}" | xargs)"
+
+  if [[ -n "${AUR_PACKAGES}" || -n "${AUR_PACKAGES_EXTRAS}" ]]; then
+    # shellcheck disable=SC2086
+    paru -Syu --noconfirm ${AUR_PACKAGES} ${AUR_PACKAGES_EXTRAS}
+  fi
+
   # Install Mise packages.
   MISE_PACKAGES_ARCH="$(echo "${MISE_PACKAGES_ARCH}" | xargs)"
   echo
@@ -322,27 +339,39 @@ _install_packages_macos() {
 _display_packages_output() {
   local packages="${1:-}"
   local packages_extras="${2:-}"
-  local mise="${3:-}"
-  local mise_extras="${4:-}"
+  local packages_aur="${3:-}"
+  local packages_aur_extras="${4:-}"
+  local mise="${5:-}"
+  local mise_extras="${6:-}"
 
   if [ -n "${packages}" ]; then
-    echo ":: Packages (default)"
-    echo -n "${packages}"
+    printf "\n:: Packages (default)\n"
+    printf "%s" "${packages}"
   fi
 
   if [ -n "${packages_extras}" ]; then
-    echo ":: Packages (extras)"
-    echo "${packages_extras}"
+    printf "\n:: Packages (extras)\n"
+    printf "%s" "${packages_extras}"
+  fi
+
+  if [ -n "${packages_aur}" ]; then
+    printf "\n:: Packages AUR (default)\n"
+    printf "%s" "${packages_aur}"
+  fi
+
+  if [ -n "${packages_aur_extras}" ]; then
+    printf "\n:: Packages AUR (extras)\n"
+    printf "%s" "${packages_aur_extras}"
   fi
 
   if [ -n "${mise}" ]; then
-    echo ":: Mise (default)"
-    echo -n "${mise}"
+    printf "\n:: Mise (default)\n"
+    printf "%s" "${mise}"
   fi
 
   if [ -n "${mise_extras}" ]; then
-    echo ":: Mise (extras)"
-    echo "${mise_extras}"
+    printf "\n:: Mise (extras)\n"
+    printf "%s" "${mise_extras}"
   fi
 }
 
@@ -350,9 +379,11 @@ _display_packages() {
   if [ "${OS_TYPE}" == "linux" ]; then
     if [ "${OS_DISTRO}" == "arch" ]; then
       _display_packages_output "${PACMAN_PACKAGES}" "${PACMAN_PACKAGES_EXTRAS}" \
+        "${AUR_PACKAGES}" "${AUR_PACKAGES_EXTRAS}" \
         "${MISE_PACKAGES_ARCH}" "${MISE_PACKAGES_ARCH_EXTRAS}"
     elif [ "${OS_DISTRO}" == "debian" ]; then
       _display_packages_output "${APT_PACKAGES}" "${APT_PACKAGES_EXTRAS}" \
+        "" "" \
         "${MISE_PACKAGES_DEBIAN}" "${MISE_PACKAGES_DEBIAN_EXTRAS}"
     fi
   else
@@ -360,6 +391,7 @@ _display_packages() {
     [ -n "${BREW_CASK_PACKAGES_EXTRAS}" ] && BREW_PACKAGES_EXTRAS+="${BREW_CASK_PACKAGES_EXTRAS}"
 
     _display_packages_output "${BREW_PACKAGES}" "${BREW_PACKAGES_EXTRAS}" \
+      "" "" \
       "${MISE_PACKAGES_MACOS}" "${MISE_PACKAGES_MACOS_EXTRAS}"
   fi
 }
