@@ -1,0 +1,1 @@
+/home/nick/src/open-source/dotfiles/themes/tokyonight-moon/nvim.lua

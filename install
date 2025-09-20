@@ -200,12 +200,15 @@ _local_only() {
 
     # Ensure the containerized environment starts fresh.
     if [ -n "${IN_CONTAINER}" ]; then
+      # shellcheck disable=SC1091
+      . "${DOTFILES_PATH}/install-config"
+
       rm \
-        "${DOTFILES_PATH}/.config/zsh/.zsh_history" \
+        "${DOTFILES_PATH}/.config/git/config.local" \
         "${DOTFILES_PATH}/.config/zsh/.aliases.local" \
         "${DOTFILES_PATH}/.config/zsh/.zprofile.local" \
-        "${DOTFILES_PATH}/.config/zsh/.zshrc.local" \
-        "${DOTFILES_PATH}/.config/git/config.local"
+        "${DOTFILES_PATH}/.config/zsh/.zsh_history" \
+        "${DOTFILES_PATH}/.config/zsh/.zshrc.local"
 
       if grep -q "git@github.com:" "${DOTFILES_PATH}/.git/config"; then
         sed -i "s|git@github.com:|https://github.com/|g" "${DOTFILES_PATH}/.git/config"
@@ -462,8 +465,11 @@ EOF
 create_initial_dirs() {
   mkdir -p \
     "${HOME}/.cache/zsh" \
+    "${HOME}/.config/btop/themes" \
+    "${HOME}/.config/fzf" \
     "${HOME}/.config/ghostty" \
     "${HOME}/.config/git" \
+    "${HOME}/.config/gitui" \
     "${HOME}/.config/tmux/plugins" \
     "${HOME}/.config/zsh" \
     "${HOME}/.local/bin" \
@@ -559,7 +565,7 @@ update_dotfiles() {
     git -C "${DOTFILES_PATH}" merge origin
 
     # Re-run this script because if an update happened, it's possible new
-    # packages are meant to be installed which means reading in their env vars.
+    # configuration was introduced which means reading in their env vars.
     exec "${0}" "${@}"
   fi
 
@@ -689,9 +695,14 @@ create_symlinks() {
   fi
 
   if [[ -n "${OS_IN_WSL}" && -n "${symlinks_wsl[*]}" ]]; then
+    local windows_user=
+
+    # shellcheck disable=SC2016
+    windows_user="$(powershell.exe '$env:UserName' | tr -d '\r\n')"
+
     printf "\nSymlinks (WSL):\n"
     for link in "${symlinks_wsl[@]}"; do
-      echo "  ${link}"
+      echo "  ${link//%WindowsUser/${windows_user}}"
     done
   fi
 
@@ -735,10 +746,7 @@ EOF
       # Avoid using ln -T flag since it doesn't exist on macOS. We're being
       # extra careful here to only delete symlinks if they exist. Technically
       # rm -f would work but that could delete real files potentially.
-      [ -L "${HOME}/.config/gitui" ] && rm "${HOME}/.config/gitui"
       [ -L "${HOME}/.config/nvim" ] && rm "${HOME}/.config/nvim"
-      [ -L "${HOME}/.config/tmux/themes" ] && rm "${HOME}/.config/tmux/themes"
-      [ -L "${HOME}/.config/zsh/themes" ] && rm "${HOME}/.config/zsh/themes"
 
       if [ -n "${symlinks[*]}" ]; then
         for link in "${symlinks[@]}"; do
@@ -748,7 +756,7 @@ EOF
 
       if [[ -n "${OS_IN_WSL}" && -n "${symlinks_wsl[*]}" ]]; then
         for link in "${symlinks_wsl[@]}"; do
-          eval "${link}"
+          eval "${link//%WindowsUser/${windows_user}}"
         done
       fi
 
@@ -1095,6 +1103,82 @@ install_nvim_plugins() {
   echo "They've been installed"
 }
 
+set_theme() {
+  # Default to this theme as a fallback.
+  local theme="tokyonight-moon"
+
+  local active_theme=
+  local theme_changed=
+
+  _info "SETTING THEME"
+
+  # Extract the theme name from the symlink path, ie. tokyonight-moon.
+  # There are scenarios (first run, etc.) where this will be empty in which
+  # case it being undefined is ok.
+  if [ -f "${HOME}/.config/fzf/theme.sh" ]; then
+    active_theme="$(readlink "${HOME}/.config/fzf/theme.sh")"
+    active_theme="$(dirname "${active_theme}")"
+    active_theme="$(basename "${active_theme##*/}")"
+  fi
+
+  if [[ -n "${1}" ]]; then
+    # This is when the dot-theme-set script gets run. Even if a random theme
+    # is picked by supplying no argument, $1 is always set from that script.
+    theme="${1}"
+  else
+    # We only want to do this if an active_theme was found, else we'll use the
+    # fallback theme that was set at the top of the function.
+    if [ -n "${active_theme}" ]; then
+      # This is when a user runs this install script multiple times, we don't
+      # want to adjust their theme.
+      theme="${active_theme}"
+    fi
+  fi
+
+  if [ ! -d "${DOTFILES_PATH}/themes/${theme}" ]; then
+    echo "Theme '${theme}' not found, aborting!" >&2
+    return 1
+  fi
+
+  # Did the theme change?
+  [[ -n "${active_theme}" && "${active_theme}" != "${theme}" ]] && theme_changed=1
+
+  # Only detect the env if we have to.
+  [ -z "${OS_DISTRO:-}" ] && detect_env
+
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/btop.theme" "${HOME}/.config/btop/themes/theme.theme"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/fzf.sh" "${HOME}/.config/fzf/theme.sh"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/ghostty" "${HOME}/.config/ghostty/theme"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/gitui.ron" "${HOME}/.config/gitui/theme.ron"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/nvim.lua" "${HOME}/.config/nvim/lua/plugins/theme.lua"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/tmux.conf" "${HOME}/.config/tmux/theme.conf"
+
+  echo "'${theme}' is your active theme"
+
+  # We can abort now since if we're not changing anything there's no reloading.
+  [ -z "${theme_changed}" ] && return
+
+  if [ -n "${OS_IN_WSL}" ]; then
+    local windows_user=
+
+    # shellcheck disable=SC2016
+    windows_user="$(powershell.exe '$env:UserName' | tr -d '\r\n')"
+
+    WT_PATH="/c/Users/${windows_user}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
+    SED_EXPR='s/\("\(colorScheme\|theme\)": *"\)[^"]*"/\1'"${theme}"'"/'
+
+    # Let's make sure the path exists before replacing anything in case someone
+    # removed the config entry from SYMLINKS_WSL.
+    [ -e "${WT_PATH}" ] && sed -i "${SED_EXPR}" "${WT_PATH}"
+  else
+    killall -SIGUSR2 ghostty 2>/dev/null || true
+  fi
+
+  # Reload as many apps as we can.
+  killall -SIGUSR2 btop 2>/dev/null || true
+  tmux source-file "${HOME}/.config/tmux/tmux.conf" 2>/dev/null || true
+}
+
 healthcheck() {
   _info "CHECK INFORMATION AND VERSIONS"
 
@@ -1263,6 +1347,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   install_programming_languages
   install_tmux_plugins
   install_nvim_plugins
+  set_theme "${@}"
   healthcheck
   completed_message
 fi

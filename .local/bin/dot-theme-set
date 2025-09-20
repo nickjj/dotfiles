@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Set a theme by name, if omit then a random theme will be chosen.
+#
+# Usage:
+#   dot-theme-set --list
+#   dot-theme-set NAME
+#   dot-theme-set
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# shellcheck disable=SC1091
+. "${DOTFILES_PATH}/install"
+
+THEME="${1:-}"
+
+if [ -z "${THEME}" ]; then
+  # Pick a random theme and avoid using shuf since it doesn't exist on macOS
+  # in a way where it works out of the box.
+  THEME="$(
+    find "${DOTFILES_PATH}/themes" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; |
+      sort --random-sort |
+      head --lines 1
+  )"
+fi
+
+if [ "${THEME}" = "--list" ]; then
+  find "${DOTFILES_PATH}/themes" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; |
+    sort
+else
+  set_theme "${THEME}"
+fi

@@ -10,6 +10,7 @@ export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} \
   --color=hl+:#65bcff \
   --color=hl:#65bcff \
   --color=info:#545c7e \
+  --color=label:#545c7e \
   --color=marker:#ff007c \
   --color=pointer:#ff007c \
   --color=prompt:#65bcff \
