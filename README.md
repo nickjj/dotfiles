@@ -225,16 +225,16 @@ Here's a few handy commands, you can run `./install --help` to see all of them:
   - Allows you to review any changes locally before they are run
 - `LOCAL=1 ./install`
   - Run the install script without pulling in the latest remote commit
-  - Keep your system up to date or apply local changes
+  - Keeps your system up to date or apply local changes
 - `./install --diff-config`
   - Compare your local `install-config` to the local `install-config.example`
   - Helps keep your git ignored `install-config` in sync with new options
 - `./install --diff`
   - Compare what you have locally vs the latest remote commit
-  - Preview what will change without modifying your git tree
+  - Preview what will change if you update without modifying your git tree
 - `./install --changelog`
   - Show new remote commits that do not exist locally
-  - Present quick list of what's available
+  - Present a quick list of what's available
 
 ### 🛠 Make it your own
 
