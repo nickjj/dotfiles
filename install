@@ -1297,6 +1297,17 @@ EOF
 
 parse_args() {
   case "${1:-}" in
+  --diff-config | -g)
+    # Show a diff of your config file vs the example config file.
+    side_by_side="${2:-}"
+
+    [ "${side_by_side}" = "--side" ] && side_by_side="--side-by-side"
+
+    # shellcheck disable=SC2086
+    delta install-config.example install-config ${side_by_side}
+
+    exit
+    ;;
   --diff | -d)
     # Show a diff of any local uncommitted or committed changes vs the target.
     #
@@ -1345,6 +1356,12 @@ parse_args() {
 
   # Update your dotfiles with whatever version of this script that exists locally.
   ${C_GREEN}LOCAL=1 ./install${C_RESET}
+
+  # Show a diff of your install-config vs the local install-config.example.
+  ${C_GREEN}./install --diff-config${C_RESET}
+
+  # The same as above but show the diff in side-by-side (split) mode.
+  ${C_GREEN}./install --diff-config --side${C_RESET}
 
   # Show a diff of any local uncommited or committed changes vs the remote.
   ${C_GREEN}./install --diff [target]${C_RESET} (it defaults to "origin" if not supplied)
