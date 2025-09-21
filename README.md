@@ -213,6 +213,9 @@ your local terminal's config will not get automatically updated.*
 
 **🚀 Keeping things up to date and tinkering**
 
+Once you've installed these dotfiles you can run `cd "${DOTFILES_PATH}"` to
+manage them.
+
 Here's a few handy commands, you can run `./install --help` to see all of them:
 
 - `./install`
