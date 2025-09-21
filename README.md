@@ -213,22 +213,25 @@ your local terminal's config will not get automatically updated.*
 
 **🚀 Keeping things up to date and tinkering**
 
-If you've run the install script at least once you can `cd "${DOTFILES_PATH}"`
-and run `./install`. That will pull in the latest remote changes and re-run
-things. I suggest first running `./install --diff` or `./install --changelog`
-to compare what you have locally to what's [available
-remotely](https://github.com/nickjj/dotfiles/commits/master/). Neither command
-modifies your git tree.
+Here's a few handy commands, you can run `./install --help` to see all of them:
 
-There's also `./install --update` which will only pull in the latest remote
-changes but exit out early before any other actions occur. This could be handy
-to pull in and review any changes before they run against your system.
-
-You can also run `LOCAL=1 ./install` to re-run the install script without
-pulling updates from this repo. That can be handy for testing your changes
-locally or applying `install-config` changes.
-
-Running `./install --help` shows a number of ways to call this script.
+- `./install`
+  - Pull in the latest remote commit and run the install script
+- `./install --update`
+  - Only pull in the latest remote commit but don't run the install script
+  - Allows you to review any changes locally before they are run
+- `LOCAL=1 ./install`
+  - Run the install script without pulling in the latest remote commit
+  - Keep your system up to date or apply local changes
+- `./install --diff-config`
+  - Compare your local `install-config` to the local `install-config.example`
+  - Helps keep your git ignored `install-config` in sync with new options
+- `./install --diff`
+  - Compare what you have locally vs the latest remote commit
+  - Preview what will change without modifying your git tree
+- `./install --changelog`
+  - Show new remote commits that do not exist locally
+  - Present quick list of what's available
 
 ### 🛠 Make it your own
 
