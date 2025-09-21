@@ -409,17 +409,17 @@ bootstrap() {
   if [ -n "${LOCAL}" ]; then
     [ -n "${IN_CONTAINER}" ] && DOTFILES_PATH="/app"
 
-    cp "${DOTFILES_PATH}/install" "${BOOTSTRAP_DIR}/install.sh"
+    cp "${DOTFILES_PATH}/install" "${BOOTSTRAP_DIR}/install"
     cp "${DOTFILES_PATH}/install-config.example" "${BOOTSTRAP_DIR}/install-config.example"
   else
-    curl -sSL "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/master/install.sh" \
-      -o "${BOOTSTRAP_DIR}/install.sh"
+    curl -sSL "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/master/install" \
+      -o "${BOOTSTRAP_DIR}/install"
     curl -sSL "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/master/install-config.example" \
       -o "${BOOTSTRAP_DIR}/install-config.example"
   fi
 
   mv "${BOOTSTRAP_DIR}/install-config.example" "${BOOTSTRAP_DIR}/install-config"
-  chmod +x "${BOOTSTRAP_DIR}/install.sh"
+  chmod +x "${BOOTSTRAP_DIR}/install"
 
   cat <<EOF
 :: Welcome to ${DOTFILES_REPO_SLUG}!
@@ -442,7 +442,7 @@ the same config file copied over which you can edit at any time.
 
 :: Install these dotfiles
 
-${BOOTSTRAP_DIR}/install.sh
+${BOOTSTRAP_DIR}/install
 
 The above will re-run this script but instead of setting up temp files it will
 walk you through picking where to install these dotfiles and install /
