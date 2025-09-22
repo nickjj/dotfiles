@@ -8,29 +8,21 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   BOOTSTRAP_PATH="/tmp/nickjj-dotfiles"
   DOTFILES_PATH="${DOTFILES_PATH:-}"
 
-  if [[ -n "${BOOTSTRAP}" && -z "${DOTFILES_PATH}" ]]; then
+  if [[ -n "${BOOTSTRAP}" || -z "${DOTFILES_PATH}" ]]; then
+    # This condition happens during 1 one of the following cases:
+    #   - BOOTSTRAP=1 is set
+    #   - Running the install script for the first time from the temp dir
+    #   - Testing things in a container
+
     # shellcheck disable=SC1091
-    . "${BOOTSTRAP_PATH}/install-config"
-  elif [ -n "${DOTFILES_PATH}" ]; then
+    . ./install-config
+  else
+    # This is the happy path where these dotfiles are installed and you're
+    # re-running the install script. We're using an absolute path to support
+    # running the install script from any path.
+
     # shellcheck disable=SC1091
     . "${DOTFILES_PATH}/install-config"
-  else
-    cat <<EOF >&2
-DOTFILES_PATH or BOOTSTRAP_PATH not set, aborting!
-
-If you've already installed these dotfiles, normally DOTFILES_PATH would be
-exported in your local zprofile config.
-
-You can check by running:
-cat ~/.config/zsh/.zprofile.local
-
-Confirm it's unset in your shell by running:
-env | grep DOTFILES_PATH
-
-If you feel this is a bug please report it at:
-https://github.com/nickjj/dotfiles
-EOF
-    exit 1
   fi
 
   SKIP_SYSTEM_PACKAGES="${1:-}"
@@ -220,7 +212,7 @@ _local_only() {
     # Ensure the containerized environment starts fresh.
     if [ -n "${IN_CONTAINER}" ]; then
       # shellcheck disable=SC1091
-      . "./install-config"
+      . ./install-config
 
       rm \
         "${DOTFILES_PATH}/.config/git/config.local" \
@@ -431,8 +423,13 @@ bootstrap() {
   if [ -n "${LOCAL}" ]; then
     [ -n "${IN_CONTAINER}" ] && DOTFILES_PATH="/app"
 
-    cp "${DOTFILES_PATH}/install" "${BOOTSTRAP_PATH}/install"
-    cp "${DOTFILES_PATH}/install-config.example" "${BOOTSTRAP_PATH}/install-config.example"
+    if [ -n "${DOTFILES_PATH}" ]; then
+      cp "${DOTFILES_PATH}/install" "${BOOTSTRAP_PATH}/install"
+      cp "${DOTFILES_PATH}/install-config.example" "${BOOTSTRAP_PATH}/install-config.example"
+    else
+      echo "LOCAL=1 cannot be used if DOTFILES_PATH is unset, aborting!" >&2
+      exit 1
+    fi
   else
     curl -sSL "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/master/install" \
       -o "${BOOTSTRAP_PATH}/install"
