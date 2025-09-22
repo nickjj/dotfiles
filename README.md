@@ -227,7 +227,7 @@ Here's a few handy commands, you can run `./install --help` to see all of them:
   - Compare your local `install-config` to the local `install-config.example`
   - Helps keep your git ignored `install-config` in sync with new options
 - `./install --diff`
-  - Compare what you have locally vs the latest remote commit
+  - Compare what you have locally vs the latest remote commits
   - See what will change if you `--update` without modifying your git tree
 - `./install --changelog`
   - Show new remote commits that do not exist locally
