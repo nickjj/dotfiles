@@ -15,7 +15,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     #   - Testing things in a container
 
     # shellcheck disable=SC1091
-    . ./install-config
+    [ -f ./install-config ] && . ./install-config
   else
     # This is the happy path where these dotfiles are installed and you're
     # re-running the install script. We're using an absolute path to support
