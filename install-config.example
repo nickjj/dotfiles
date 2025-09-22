@@ -12,9 +12,11 @@ set -o errexit
 # I also use some of these to further customize my system with packages that
 # I didn't push up to my dotfiles.
 
-# Provide a different URL to clone from. This could be useful if you've forked
-# the project into your own repo. Speaking of forks, the upstream URL can also
-# be set separately to let you easily pull in changes into your fork.
+# Provide a different repo to use. If you're using GitHub you only need to
+# update the DOTFILES_REPO_SLUG, ie. yourname/dotfiles instead of nickjj/dotfiles.
+#
+# This could be useful if you've forked the project into your own repo.
+export DOTFILES_REPO_SLUG=
 export DOTFILES_CLONE_URL=
 export DOTFILES_UPSTREAM_URL=
 
