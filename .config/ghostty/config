@@ -5,7 +5,7 @@ font-feature = -calt, -liga, -dlig
 cursor-style-blink = false
 cursor-text = #000000
 
-# Load theme,
+# Load theme.
 config-file = ?theme
 
 # Load a custom config for overrides, ? silently fails if the file is missing.
