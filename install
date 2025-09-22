@@ -781,7 +781,7 @@ create_symlinks() {
     local windows_user=
 
     # shellcheck disable=SC2016
-    windows_user="$(powershell.exe '$env:UserName' | tr -d '\r\n')"
+    windows_user="$(powershell.exe '$env:UserName' 2>/dev/null | tr -d '\r\n')"
 
     printf "\nSymlinks (WSL):\n"
     for link in "${symlinks_wsl[@]}"; do
