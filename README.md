@@ -219,22 +219,23 @@ manage them.
 Here's a few handy commands, you can run `./install --help` to see all of them:
 
 - `./install`
-  - Pull in the latest remote commit and run the install script
-- `./install --update`
-  - Only pull in the latest remote commit but don't run the install script
-  - Allows you to review any changes locally before they are run
-- `LOCAL=1 ./install`
-  - Run the install script without pulling in the latest remote commit
+  - Run the install script based on the local copy of your dotfiles
   - Keeps your system up to date or apply local changes
+- `./install --update`
+  - Pulls in the latest remote commits and runs the install script
 - `./install --diff-config`
   - Compare your local `install-config` to the local `install-config.example`
   - Helps keep your git ignored `install-config` in sync with new options
 - `./install --diff`
   - Compare what you have locally vs the latest remote commit
-  - Preview what will change if you update without modifying your git tree
+  - See what will change if you `--update` without modifying your git tree
 - `./install --changelog`
   - Show new remote commits that do not exist locally
   - Present a quick list of what's available
+
+*There's also a `LOCAL=1` environment variable you can set when bootstrapping
+or running the other install commands. This is handy for doing local tests
+in containers without needing to commit, push and pull changes.*
 
 ### 🛠 Make it your own
 

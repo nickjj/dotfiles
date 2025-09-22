@@ -27,7 +27,13 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
   SKIP_SYSTEM_PACKAGES="${1:-}"
 
-  ONLY_UPDATE=
+  # Instead of cloning from a remote repo, files will get copied locally. This
+  # is useful for testing in a container without committing anything.
+  LOCAL="${LOCAL:-}"
+
+  # This will get optionally populated later, it controls whether or not new
+  # commits should get pulled in before running the install script.
+  PULL_UPDATES=
 
   DOTFILES_REPO_SLUG="${DOTFILES_REPO_SLUG:-nickjj/dotfiles}"
   DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/${DOTFILES_REPO_SLUG}}"
@@ -203,9 +209,10 @@ _info() {
   printf "\n\n%b%s:%b\n\n" "${C_CYAN}" "${message}" "${C_RESET}"
 }
 
-_local_only() {
+_local_clone() {
   [ -z "${LOCAL}" ] && return 1
 
+  # Extra protection to avoid clobbering real real dotfiles.
   if [ "${PWD}" != "${DOTFILES_PATH}" ]; then
     cp -R "${PWD}/." "${DOTFILES_PATH}"
 
@@ -632,7 +639,10 @@ update_dotfiles() {
     return 0
   fi
 
-  _local_only && return 0
+  if [ -z "${PULL_UPDATES}" ]; then
+    echo "Skipping, rerun with --update if you want to pull in remote changes"
+    return 0
+  fi
 
   git -C "${DOTFILES_PATH}" fetch origin
 
@@ -645,12 +655,13 @@ update_dotfiles() {
     # Let's merge the latest updates.
     git -C "${DOTFILES_PATH}" merge origin
 
+    # Insurance to always make sure an install-config exists.
+    cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
+
     # Re-run this script because if an update happened, it's possible new
     # configuration was introduced which means reading in their env vars.
     exec "${0}" "${@}"
   fi
-
-  cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
 }
 
 clone_dotfiles() {
@@ -670,7 +681,7 @@ clone_dotfiles() {
 
   DOTFILES_PATH="${dotfiles_path//\~/"${HOME}"}"
 
-  _local_only && return 0
+  _local_clone && return 0
 
   git clone "${DOTFILES_CLONE_URL}" "${DOTFILES_PATH}"
   git -C "${DOTFILES_PATH}" remote | grep -qw upstream ||
@@ -1359,7 +1370,7 @@ parse_args() {
     exit
     ;;
   --update | -u)
-    ONLY_UPDATE=1
+    PULL_UPDATES=1
     ;;
   --skip-system-packages | -S) ;;
   --help | -h)
@@ -1367,14 +1378,11 @@ parse_args() {
       cat <<EOF
   Usage examples:
 
-  # Pull in remote updates and run the script to update your dotfiles.
+  # Run the install script based on the local copy of your dotfiles
   ${C_GREEN}./install${C_RESET}
 
-  # Only pull in remote updates and exit early.
+  # Pulls in the latest remote commits and runs the install script.
   ${C_GREEN}./install --update${C_RESET}
-
-  # Update your dotfiles with whatever version of this script that exists locally.
-  ${C_GREEN}LOCAL=1 ./install${C_RESET}
 
   # Show a diff of your install-config vs the local install-config.example.
   ${C_GREEN}./install --diff-config${C_RESET}
@@ -1430,10 +1438,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   parse_args "${@}"
   detect_env
   warn_root
-
   update_dotfiles "${@}"
-  [ -n "${ONLY_UPDATE}" ] && exit
-
   check_prereqs
   create_initial_dirs
   install_packages
