@@ -1430,7 +1430,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   parse_args "${@}"
   detect_env
   warn_root
-  update_dotfiles "${@}" && [ -n "${ONLY_UPDATE}" ] && exit
+
+  update_dotfiles "${@}"
+  [ -n "${ONLY_UPDATE}" ] && exit
+
   check_prereqs
   create_initial_dirs
   install_packages
