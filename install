@@ -8,7 +8,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   BOOTSTRAP_PATH="/tmp/nickjj-dotfiles"
   DOTFILES_PATH="${DOTFILES_PATH:-}"
 
-  if [ -n "${BOOTSTRAP}" ]; then
+  if [[ -n "${BOOTSTRAP}" && -z "${DOTFILES_PATH}" ]]; then
     # shellcheck disable=SC1091
     . "${BOOTSTRAP_PATH}/install-config"
   elif [ -n "${DOTFILES_PATH}" ]; then
