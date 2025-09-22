@@ -9,10 +9,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   DOTFILES_PATH="${DOTFILES_PATH:-}"
 
   if [ -n "${BOOTSTRAP}" ]; then
-    # shellcheck disable=SC1090
+    # shellcheck disable=SC1091
     . "${BOOTSTRAP_PATH}/install-config"
   elif [ -n "${DOTFILES_PATH}" ]; then
-    # shellcheck disable=SC1090
+    # shellcheck disable=SC1091
     . "${DOTFILES_PATH}/install-config"
   else
     cat <<EOF >&2
