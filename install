@@ -1360,7 +1360,7 @@ parse_args() {
     # Show details about new commits that only exist in the target vs local.
     target="${2:-..origin}"
 
-    git remote | grep -q "${target//./}" && git fetch "${target//./}"
+    git remote | grep -q "${target//./}" && git fetch "${target//./}" 1>dev/null
     git log "${target}" --pretty="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s" --date=short
 
     exit
