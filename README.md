@@ -258,7 +258,7 @@ Before you start customizing other files, please take a look at the
 
 In addition to the Linux side of things, there's a few config files that I have
 in various directories of this dotfiles repo. These have long Windows paths and
-are in the `c/` directory.
+are in the `mnt/c/` directory.
 
 It would be expected that you copy those over to your system while replacing
 "Nick" with your Windows user name if you want to use those things. The
@@ -277,16 +277,15 @@ ending. That's because WSLg's clipboard feature doesn't seem to handle this
 automatically. If you paste with `CTRL+SHIFT+v` instead of `p` it'll be ok. I
 guess the Microsoft Terminal does extra processing to fix it for you.*
 
-Pay very close attention to the `c/Users/Nick/.wslconfig` file because it has
-values in there that you will very likely want to change before using it.
+Pay very close attention to the `mnt/c/Users/Nick/.wslconfig` file because it
+has values in there that you will very likely want to change before using it.
 [This commit
 message](https://github.com/nickjj/dotfiles/commit/d0f1fc2622204b809cf7fcbb1a82d45b451064c4)
 goes into the details.
 
 Also, you should reboot or from PowerShell run `wsl --shutdown` and then
 re-open your WSL instance to activate your `/etc/wsl.conf` file (the install
-script created this). That will be necessary if you want to access your mounted
-drives at `/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
+script created this).
 
 You may have noticed I don't enable systemd within WSL 2. That is on purpose.
 I've found it delays opening WSL 2 by ~10-15 seconds and also any systemd

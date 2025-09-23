@@ -715,10 +715,6 @@ install_fonts() {
     font_path="${linux_font_path}"
 
     if [ -n "${OS_IN_WSL}" ]; then
-      if [ ! -f "${windows_font_path}" ]; then
-        windows_font_path="${windows_font_path//\/mnt/}"
-      fi
-
       font_path="${windows_font_path}"
     fi
   else
@@ -1264,7 +1260,7 @@ set_theme() {
     # shellcheck disable=SC2016
     windows_user="$(powershell.exe '$env:UserName' | tr -d '\r\n')"
 
-    WT_PATH="/c/Users/${windows_user}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
+    WT_PATH="/mnt/c/Users/${windows_user}/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
     SED_EXPR='s/\("\(colorScheme\|theme\)": *"\)[^"]*"/\1'"${theme}"'"/'
 
     # Let's make sure the path exists before replacing anything in case someone
