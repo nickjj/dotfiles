@@ -507,12 +507,6 @@ detect_env() {
       OS_IN_WSL=1
     fi
 
-    # Adjust packages depending on which display server is in use.
-    if [[ -z "${WAYLAND_DISPLAY}" ]]; then
-      PACMAN_PACKAGES="${PACMAN_PACKAGES//wl-clipboard/xclip}"
-      APT_PACKAGES="${APT_PACKAGES//wl-clipboard/xclip}"
-    fi
-
     ;;
   darwin) ;;
   *)
