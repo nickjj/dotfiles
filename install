@@ -1364,7 +1364,7 @@ parse_args() {
 
     exit
     ;;
-  --changelog | -c)
+  --new-commits | -n)
     # Show details about new commits that only exist in the target vs local.
     target="${2:-..origin}"
 
@@ -1412,19 +1412,19 @@ parse_args() {
   ${C_GREEN}./install --diff master${C_RESET}
 
   # Show new remote commits that do not exist locally.
-  ${C_GREEN}./install --changelog [target]${C_RESET} (it defaults to "..origin" if not supplied)
+  ${C_GREEN}./install --new-commits [target]${C_RESET} (it defaults to "..origin" if not supplied)
 
   # Show your local commits that don't exist in the remote.
-  ${C_GREEN}./install --changelog origin..${C_RESET}
+  ${C_GREEN}./install --new-commits origin..${C_RESET}
 
   # The same as above except compare it to your local master branch not remote.
-  ${C_GREEN}./install --changelog ..master${C_RESET}
+  ${C_GREEN}./install --new-commits ..master${C_RESET}
 
   # Show your local commits that don't exist in the remote and new remote commits.
-  ${C_GREEN}./install --changelog origin...${C_RESET}
+  ${C_GREEN}./install --new-commits origin...${C_RESET}
 
   # The same as above except compare it to your local master branch not remote.
-  ${C_GREEN}./install --changelog ...master${C_RESET}
+  ${C_GREEN}./install --new-commits ...master${C_RESET}
 
   # Show this help menu.
   ${C_GREEN}./install --help${C_RESET}

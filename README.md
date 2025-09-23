@@ -233,7 +233,7 @@ Here's a few handy commands, you can run `./install --help` to see all of them:
 - `./install --diff`
   - Compare what you have locally vs the latest remote commits
   - See what will change if you `--update` without modifying your git tree
-- `./install --changelog`
+- `./install --new-commits`
   - Show new remote commits that do not exist locally
   - Present a quick list of what's available
 
