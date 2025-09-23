@@ -3,25 +3,25 @@
 
 set -o errexit
 
+BOOTSTRAP_PATH="/tmp/nickjj-dotfiles"
+DOTFILES_PATH="${DOTFILES_PATH:-}"
+
+if [ -f "${DOTFILES_PATH}/install-config" ]; then
+  # shellcheck disable=SC1091
+  . "${DOTFILES_PATH}/install-config"
+elif [ -f "${BOOTSTRAP_PATH}/install-config" ]; then
+  # shellcheck disable=SC1091
+  . "${BOOTSTRAP_PATH}/install-config"
+else
+  # This happens on a first run that's not bootstrapped which is typically
+  # the case when running tests in a container.
+
+  # shellcheck disable=SC1091
+  [ -f ./install-config ] && . ./install-config
+fi
+
 # Only run these when calling the script, not sourcing it.
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-  BOOTSTRAP_PATH="/tmp/nickjj-dotfiles"
-  DOTFILES_PATH="${DOTFILES_PATH:-}"
-
-  if [ -f "${DOTFILES_PATH}/install-config" ]; then
-    # shellcheck disable=SC1091
-    . "${DOTFILES_PATH}/install-config"
-  elif [ -f "${BOOTSTRAP_PATH}/install-config" ]; then
-    # shellcheck disable=SC1091
-    . "${BOOTSTRAP_PATH}/install-config"
-  else
-    # This happens on a first run that's not bootstrapped which is typically
-    # the case when running tests in a container.
-
-    # shellcheck disable=SC1091
-    [ -f ./install-config ] && . ./install-config
-  fi
-
   SKIP_SYSTEM_PACKAGES="${1:-}"
 
   # Instead of cloning from a remote repo, files will get copied locally. This
