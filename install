@@ -40,7 +40,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
   # This will get optionally populated later, it combines pulling in the latest
   # updates and running the install script.
-  UPDATE=
+  PULL_UPDATE=
 
   DOTFILES_REPO_SLUG="${DOTFILES_REPO_SLUG:-nickjj/dotfiles}"
   DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/${DOTFILES_REPO_SLUG}}"
