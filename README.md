@@ -221,8 +221,12 @@ Here's a few handy commands, you can run `./install --help` to see all of them:
 - `./install`
   - Run the install script based on the local copy of your dotfiles
   - Keeps your system up to date or apply local changes
+- `./install --pull`
+  - Pulls in the latest remote commits but doesn't run the install script
+  - Lets you review any changes locally before the install script runs
 - `./install --update`
   - Pulls in the latest remote commits and runs the install script
+  - Shortcut to pull and run the install script together
 - `./install --diff-config`
   - Compare your local `install-config` to the local `install-config.example`
   - Helps keep your git ignored `install-config` in sync with new options

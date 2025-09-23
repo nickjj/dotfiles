@@ -31,9 +31,13 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   # is useful for testing in a container without committing anything.
   LOCAL="${LOCAL:-}"
 
-  # This will get optionally populated later, it controls whether or not new
-  # commits should get pulled in before running the install script.
-  PULL_UPDATES=
+  # This will get optionally populated later, it essentially does a git pull
+  # to pull in the latest changes locally.
+  PULL=
+
+  # This will get optionally populated later, it combines pulling in the latest
+  # updates and running the install script.
+  UPDATE=
 
   DOTFILES_REPO_SLUG="${DOTFILES_REPO_SLUG:-nickjj/dotfiles}"
   DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/${DOTFILES_REPO_SLUG}}"
@@ -639,8 +643,8 @@ update_dotfiles() {
     return 0
   fi
 
-  if [ -z "${PULL_UPDATES}" ]; then
-    echo "Skipping, rerun with --update if you want to pull in remote changes"
+  if [[ -z "${PULL}" && -z "${PULL_UPDATE}" ]]; then
+    echo "Skipping, rerun with --pull or --update to get the latest changes"
     return 0
   fi
 
@@ -1369,8 +1373,11 @@ parse_args() {
 
     exit
     ;;
+  --pull | -p)
+    PULL=1
+    ;;
   --update | -u)
-    PULL_UPDATES=1
+    PULL_UPDATE=1
     ;;
   --skip-system-packages | -S) ;;
   --help | -h)
@@ -1380,6 +1387,9 @@ parse_args() {
 
   # Run the install script based on the local copy of your dotfiles
   ${C_GREEN}./install${C_RESET}
+
+  # Pulls in the latest remote commits.
+  ${C_GREEN}./install --pull${C_RESET}
 
   # Pulls in the latest remote commits and runs the install script.
   ${C_GREEN}./install --update${C_RESET}
@@ -1439,6 +1449,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   detect_env
   warn_root
   update_dotfiles "${@}"
+
+  [ -n "${PULL}" ] && exit
+
   check_prereqs
   create_initial_dirs
   install_packages
