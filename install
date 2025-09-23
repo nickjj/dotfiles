@@ -648,6 +648,11 @@ update_dotfiles() {
     return 0
   fi
 
+  if [ -n "${LOCAL}" ]; then
+    echo "Skipping, since LOCAL=1 is set we'll avoid remote updates"
+    return 0
+  fi
+
   git -C "${DOTFILES_PATH}" fetch origin
 
   local new_commit_count=
