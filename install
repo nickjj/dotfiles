@@ -8,21 +8,24 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   BOOTSTRAP_PATH="/tmp/nickjj-dotfiles"
   DOTFILES_PATH="${DOTFILES_PATH:-}"
 
-  if [[ -n "${BOOTSTRAP}" || -z "${DOTFILES_PATH}" ]]; then
-    # This condition happens during 1 one of the following cases:
-    #   - BOOTSTRAP=1 is set
-    #   - Running the install script for the first time from the temp dir
-    #   - Testing things in a container
+  if [ -n "${BOOTSTRAP}" ]; then
+    # This is a first run when bootstrapping.
 
     # shellcheck disable=SC1091
-    [ -f ./install-config ] && . ./install-config
-  else
+    [ -f "${BOOTSTRAP_PATH}/install-config" ] && . "${BOOTSTRAP_PATH}/install-config"
+  elif [ -n "${DOTFILES_PATH}" ]; then
     # This is the happy path where these dotfiles are installed and you're
     # re-running the install script. We're using an absolute path to support
     # running the install script from any path.
 
     # shellcheck disable=SC1091
     . "${DOTFILES_PATH}/install-config"
+  else
+    # This happens on a first run that's not bootstrapped which is typically
+    # the case when running tests in a container.
+
+    # shellcheck disable=SC1091
+    [ -f ./install-config ] && . ./install-config
   fi
 
   SKIP_SYSTEM_PACKAGES="${1:-}"
