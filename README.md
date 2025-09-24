@@ -235,7 +235,10 @@ Here's a few handy commands, you can run `./install --help` to see all of them:
   - See what will change if you `--update` without modifying your git tree
 - `./install --new-commits`
   - Show new remote commits that do not exist locally
-  - Present a quick list of what's available
+  - Present a quick list of what's available to pull locally
+- `./install --changelog`
+  - Show all remote commits
+  - Present a quick list of all commits to see what has changed
 
 *There's also a `LOCAL=1` environment variable you can set when bootstrapping
 or running the other install commands. This is handy for doing local tests

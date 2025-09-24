@@ -1365,6 +1365,15 @@ parse_args() {
 
     exit
     ;;
+  --changelog | -c)
+    # Show all remote commits.
+    target="${2:-origin}"
+
+    git remote | grep -q "${target}" && git fetch --quiet "${target}"
+    git log "${target}" --pretty="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s" --date=short
+
+    exit
+    ;;
   --pull | -p)
     PULL=1
     ;;
@@ -1417,6 +1426,9 @@ parse_args() {
 
   # The same as above except compare it to your local master branch not remote.
   ${C_GREEN}./install --new-commits ...master${C_RESET}
+
+  # Show a list of commits on a remote.
+  ${C_GREEN}./install --changelog [target] (it defaults to "origin" if not supplied)${C_RESET}
 
   # Show this help menu.
   ${C_GREEN}./install --help${C_RESET}
