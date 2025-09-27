@@ -14,7 +14,7 @@ rm -f ~/.local/state/nvim/swap/%*
 change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
 
 if [ "${1:-}" = "--obs" ]; then
-  cd "/c/Program Files/obs-studio/bin/64bit" || exit
+  cd "/mnt/c/Program Files/obs-studio/bin/64bit" || exit
   wslview obs64.exe
   cd - >/dev/null 2>&1 || exit
 fi

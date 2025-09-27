@@ -41,7 +41,7 @@ alias 755d="find . -type d -exec chmod 755 {} \;"
 alias 644f="find . -type f -exec chmod 644 {} \;"
 
 if ! command -v brew >/dev/null 2>&1; then
-  alias open="/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe"
+  alias open="/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe"
   alias wopen="cmd.exe /C start 2> /dev/null"
 fi
 
