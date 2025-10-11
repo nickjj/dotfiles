@@ -41,21 +41,6 @@ return {
         keymap = {
           ["<CR>"] = { "accept_and_enter", "fallback" },
         },
-
-        -- This is only needed until LazyVim ships its next version since it
-        -- currently sets sources = {} in v14.14.0.
-        sources = function()
-          local type = vim.fn.getcmdtype()
-          -- Search forward and backward.
-          if type == "/" or type == "?" then
-            return { "buffer" }
-          end
-          -- Commands.
-          if type == ":" or type == "@" then
-            return { "cmdline" }
-          end
-          return {}
-        end,
       },
       sources = {
         providers = {

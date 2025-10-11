@@ -188,7 +188,7 @@ case you'll need to install the [dependent system packages](./install) on your
 own beforehand. Besides that, everything else is supported since it's only
 dealing with files in your home directory.
 
-This set up targets zsh 5.0+, tmux 3.1+ and Neovim v0.10+. As long as you can
+This set up targets zsh 5.0+, tmux 3.1+ and Neovim v0.11+. As long as you can
 meet those requirements you're good to go. The install script will take care
 of installing these for you unless you've skipped system packages.
 
