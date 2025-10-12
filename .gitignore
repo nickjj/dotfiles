@@ -20,6 +20,7 @@ tags
 
 *.spl
 .aliases.local
+.config/nvim/lua/plugins/theme.lua
 .config/ghostty/config.local
 .config/git/config.local
 .local/bin/local/
