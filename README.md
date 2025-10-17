@@ -221,6 +221,9 @@ Here's a few handy commands, you can run `./install --help` to see all of them:
 - `./install`
   - Run the install script based on the local copy of your dotfiles
   - Keeps your system up to date or apply local changes
+- `./install --skip-system-packages`
+  - Run the install script like above but skip installing or updating packages
+  - Helps regenerate symlinks, configs and everything else without modifying packages
 - `./install --pull`
   - Pulls in the latest remote commits but doesn't run the install script
   - Lets you review any changes locally before the install script runs

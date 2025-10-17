@@ -1391,6 +1391,9 @@ parse_args() {
   # Run the install script based on the local copy of your dotfiles
   ${C_GREEN}./install${C_RESET}
 
+  # The same as above but skip installing packages (useful for updating symlinks)
+  ${C_GREEN}./install --skip-system-packages${C_RESET}
+
   # Pulls in the latest remote commits.
   ${C_GREEN}./install --pull${C_RESET}
 
