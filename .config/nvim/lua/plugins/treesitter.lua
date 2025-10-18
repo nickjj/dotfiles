@@ -18,6 +18,7 @@ return {
         "helm",
         "htmldjango",
         "hyprlang",
+        "ini",
         "kdl",
         "liquid",
         "nginx",
