@@ -1213,18 +1213,15 @@ set_theme() {
     active_theme="$(basename "${active_theme##*/}")"
   fi
 
-  if [[ -n "${1}" ]]; then
+  # This is when a user runs the install script.
+  if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    # We don't want to mess with their current theme, but we make sure to
+    # check if there's an active theme, if not then it must be the first run.
+    [ -n "${active_theme}" ] && theme="${active_theme}"
+  else
     # This is when the dot-theme-set script gets run. Even if a random theme
     # is picked by supplying no argument, $1 is always set from that script.
     theme="${1}"
-  else
-    # We only want to do this if an active_theme was found, else we'll use the
-    # fallback theme that was set at the top of the function.
-    if [ -n "${active_theme}" ]; then
-      # This is when a user runs this install script multiple times, we don't
-      # want to adjust their theme.
-      theme="${active_theme}"
-    fi
   fi
 
   if [ ! -d "${DOTFILES_PATH}/themes/${theme}" ]; then
