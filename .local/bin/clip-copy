@@ -2,9 +2,9 @@
 # A cross OS / display server clipboard copier.
 #
 # Examples:
-#   echo "Hello world" | clipcopy
-#   clipcopy <<< "Hello world"
-#   clipcopy < myfile
+#   echo "Hello world" | clip-copy
+#   clip-copy <<< "Hello world"
+#   clip-copy < myfile
 
 set -o errexit
 set -o pipefail

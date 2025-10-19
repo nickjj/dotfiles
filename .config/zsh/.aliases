@@ -58,7 +58,7 @@ alias gcl="git diff --name-only --diff-filter=U"
 
 alias ge="rg '[\p{Emoji}--\p{Ascii}]'"
 
-alias myip="curl -s -4 https://ifconfig.me | tee >(clipcopy)"
+alias myip="curl -s -4 https://ifconfig.me | tee >(clip-copy)"
 
 alias start-rec="start-recording && HISTSIZE=0"
 alias stop-rec='stop-recording && HISTSIZE=${SAVEHIST} && fc -R'

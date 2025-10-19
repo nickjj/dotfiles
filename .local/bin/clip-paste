@@ -2,9 +2,9 @@
 # A cross OS / display server clipboard paster.
 #
 # Examples:
-#   clippaste
-#   clippaste | sort
-#   clippaste > myfile
+#   clip-paste
+#   clip-paste | sort
+#   clip-paste > myfile
 
 set -o errexit
 set -o pipefail

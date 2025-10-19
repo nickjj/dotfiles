@@ -19,5 +19,5 @@ if [ -f "${file}" ]; then
   jq ${@:-} <"${file}"
 else
   # shellcheck disable=SC2068
-  clippaste | jq ${@:-}
+  clip-paste | jq ${@:-}
 fi
