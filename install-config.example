@@ -114,10 +114,11 @@ export SYMLINKS=(
   "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.aliases\" \"\${HOME}/.config/zsh/.aliases\""
   "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zprofile.local\" \"\${HOME}/.config/zsh/.zprofile.local\""
   "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zprofile\" \"\${HOME}/.config/zsh/.zprofile\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshenv\" \"\${HOME}/.zshenv\""
   "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshrc.local\" \"\${HOME}/.config/zsh/.zshrc.local\""
   "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshrc\" \"\${HOME}/.config/zsh/.zshrc\""
   "ln -fns \"\${DOTFILES_PATH}/.local/bin/\"* \"\${HOME}/.local/bin/\""
-  "ln -fns \"\${DOTFILES_PATH}/.zshenv\" \"\${HOME}/.zshenv\""
+
 )
 export SYMLINKS_EXTRAS=
 
