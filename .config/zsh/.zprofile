@@ -34,6 +34,10 @@ export LESS_TERMCAP_se=$'\e[0m'       # end standout-mode
 # Configure GPG.
 export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
 
+# Configure pass, Docker Desktop on Linux uses this tool and while I have used
+# it for years in the past, I've moved to using KeePassXC.
+export PASSWORD_STORE_DIR="${XDG_CONFIG_HOME}/password-store"
+
 # Configure delta (diffs) defaults.
 # https://dandavison.github.io/delta/environment-variables.html
 export DELTA_FEATURES="diff-so-fancy"
