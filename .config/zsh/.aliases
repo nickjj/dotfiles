@@ -4,44 +4,38 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
 
+alias diff="diff --color -u"
+
 alias sz='. ${ZDOTDIR}/.zprofile && . ${ZDOTDIR}/.zshrc'
 alias SZ='tmux-shell-cmd --kill "sz"'
 alias dt='cd ${DOTFILES_PATH} && nvim .'
 alias lz='cd ${HOME}/.local/share/nvim/lazy/LazyVim && nvim .'
 alias lp='cd ${HOME}/.local/share/nvim/lazy && nvim .'
 
-alias drun='docker container run --rm -it -v "${PWD}":/app -w /app'
-
-alias jek="RUBYOPT='-W0' bundle exec jekyll serve --config _config.yml,_config.dev.yml --drafts --livereload"
-
-alias ymp3="youtube-dl --extract-audio --audio-format mp3"
-
-alias diff="diff --color -u"
+alias start-rec="start-recording && HISTSIZE=0"
+alias stop-rec='stop-recording && HISTSIZE=${SAVEHIST} && fc -R'
 
 alias 755d="find . -type d -exec chmod 755 {} \;"
-
 alias 644f="find . -type f -exec chmod 644 {} \;"
 
 alias vss='sort -u ${HOME}/.config/nvim/spell/en.utf-8.add -o ${HOME}/.config/nvim/spell/en.utf-8.add'
-
 alias vdt='rm ${HOME}/.local/state/nvim/swap/%*'
-
-alias gi="git init && git symbolic-ref HEAD refs/heads/main"
 
 # shellcheck disable=SC2139
 alias pf="fzf ${FZF_CTRL_T_OPTS}"
 
+alias gi="git init && git symbolic-ref HEAD refs/heads/main"
 alias gcl="git diff --name-only --diff-filter=U"
-
 alias ge="rg '[\p{Emoji}--\p{Ascii}]'"
+
+alias drun='docker container run --rm -it -v "${PWD}":/app -w /app'
 
 alias myip="curl -s -4 https://ifconfig.me | tee >(clip-copy)"
 
-alias start-rec="start-recording && HISTSIZE=0"
-alias stop-rec='stop-recording && HISTSIZE=${SAVEHIST} && fc -R'
-
 alias k="kubectl"
 alias tf="terraform"
+alias ymp3="youtube-dl --extract-audio --audio-format mp3"
+alias jek="RUBYOPT='-W0' bundle exec jekyll serve --config _config.yml,_config.dev.yml --drafts --livereload"
 
 # A way to define and run tasks in a project. It's like make except it's pure
 # Bash so there's no make limitations like not being able to forward arguments.
