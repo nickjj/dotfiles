@@ -909,6 +909,7 @@ configure_shell() {
   done
 
   local zprofile_path="${DOTFILES_PATH}/.config/zsh/.zprofile.local"
+  local aliases_path="${DOTFILES_PATH}/.config/zsh/.aliases.local"
 
   if ! grep -q "^export DOTFILES_PATH=.*$" "${zprofile_path}" 2>/dev/null; then
     printf '\nexport DOTFILES_PATH="%s"\n' "${DOTFILES_PATH}" >>"${zprofile_path}"
@@ -925,6 +926,16 @@ configure_shell() {
 
       # shellcheck disable=SC2016
       printf "\neval \"\$(%s/bin/brew shellenv)\"\n" "${prefix}" >>"${zprofile_path}"
+    fi
+
+    if ! grep -q '^alias ls="ls -G"' "${aliases_path}" 2>/dev/null; then
+      cat <<EOF >>"${aliases_path}"
+
+alias ls="ls -G"
+alias grep="grep -G"
+alias fgrep="fgrep -G"
+alias egrep="egrep -G"
+EOF
     fi
   else
     # Are we in WSL 2?
@@ -953,6 +964,34 @@ EOF
           fi
         fi
       fi
+
+      if ! grep -q '^alias drop_cache=' "${aliases_path}" 2>/dev/null; then
+        cat <<EOF >>"${aliases_path}"
+
+# This is specific to WSL 2. If the WSL 2 VM goes rogue and decides not to free
+# up memory, this command will free your memory after about 20-30 seconds.
+#   Details: https://github.com/microsoft/WSL/issues/4166#issuecomment-628493643
+alias drop_cache="sudo sh -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\""
+EOF
+      fi
+
+      if ! grep -q '^alias open="/mnt/c/Program' "${aliases_path}" 2>/dev/null; then
+        cat <<EOF >>"${aliases_path}"
+
+alias open="/mnt/c/Program\ Files/Mozilla\ Firefox/firefox.exe"
+alias wopen="cmd.exe /C start 2> /dev/null"
+EOF
+      fi
+    fi
+
+    if ! grep -q 'alias ls="ls --color=auto"' "${aliases_path}" 2>/dev/null; then
+      cat <<EOF >>"${aliases_path}"
+
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias egrep="egrep --color=auto"
+EOF
     fi
   fi
 
