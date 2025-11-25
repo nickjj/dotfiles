@@ -84,11 +84,10 @@ After installing these dotfiles you can switch themes with:
 dot-theme-set THEME_NAME
 ```
 
-When switching themes most apps will update automatically, but if you have
-Neovim already open you'll need to manually close and open it or run the `SZ`
-([source
+When switching themes most apps will update automatically, but if you have a
+bunch of shells already open you can run the `SZ` ([source
 zsh](https://nickjanetakis.com/blog/running-commands-in-all-tmux-sessions-windows-and-panes))
-alias.
+alias to source new theme related configs.
 
 *Not all terminals are supported, if yours didn't change then check [theming
 custom apps](#how-to-theme-custom-apps).*
