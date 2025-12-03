@@ -179,8 +179,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
   if [[ -z "${MISE_LANGUAGES[*]}" ]]; then
     declare -gA MISE_LANGUAGES
-    MISE_LANGUAGES["node"]="node@22.14"
-    MISE_LANGUAGES["python"]="python@3.13"
+    MISE_LANGUAGES["node"]="node@24.11"
+    MISE_LANGUAGES["python"]="python@3.14"
   fi
   declare -A MISE_LANGUAGES_EXTRAS="${MISE_LANGUAGES_EXTRAS:-}"
 fi
