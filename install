@@ -47,6 +47,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     aspell
     base
     base-devel
+    bat
     bc
     dnsutils
     btop
@@ -89,6 +90,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
   APT_PACKAGES="${APT_PACKAGES:-
     aspell
+    bat
     bc
     dnsutils
     btop
@@ -120,6 +122,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   BREW_PACKAGES="${BREW_PACKAGES:-
     aspell
     bash
+    bat
     bc
     btop
     curl
@@ -574,6 +577,7 @@ EOF
 create_initial_dirs() {
   mkdir -p \
     "${HOME}/.cache/zsh" \
+    "${HOME}/.config/bat" \
     "${HOME}/.config/btop/themes" \
     "${HOME}/.config/fzf" \
     "${HOME}/.config/ghostty" \
@@ -889,6 +893,17 @@ configure_home_configs() {
 
   if [ ! -f "${ghostty_config}" ]; then
     printf "# Add your custom overrides here, such as fonts, etc..\n" >"${ghostty_config}"
+  fi
+
+  echo "Everything that required updating was updated"
+}
+
+configure_home_binaries() {
+  _info "CONFIGURE HOME BINARIES"
+
+  # The bat tool has a different binary name on Debian based systems.
+  if [[ "${OS_TYPE}" == "linux" && "${OS_DISTRO}" == "debian" ]]; then
+    ln -fns /usr/bin/batcat "${HOME}/.local/bin/bat"
   fi
 
   echo "Everything that required updating was updated"
@@ -1506,6 +1521,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   create_symlinks
   configure_system_configs
   configure_home_configs
+  configure_home_binaries
   configure_shell
   ask_for_name
   ask_for_email
