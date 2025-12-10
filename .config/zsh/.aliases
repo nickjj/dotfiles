@@ -4,6 +4,8 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
 
+alias eza="EZA_ICON_SPACING=2 eza --long --all --octal-permissions --group --group-directories-first --time-style long-iso --header --icons auto"
+
 alias diff="diff --color -u"
 
 alias sz='. ${ZDOTDIR}/.zprofile && . ${ZDOTDIR}/.zshrc'

@@ -52,6 +52,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     dnsutils
     btop
     curl
+    eza
     fastfetch
     fd
     ffmpeg
@@ -127,6 +128,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     btop
     curl
     diffutils
+    eza
     fastfetch
     fd
     ffmpeg
@@ -165,6 +167,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   MISE_PACKAGES_ARCH_EXTRAS="${MISE_PACKAGES_ARCH_EXTRAS:-}"
 
   MISE_PACKAGES_DEBIAN="${MISE_PACKAGES_DEBIAN:-
+    eza
     fd
     fzf
     jq
