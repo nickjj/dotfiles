@@ -924,6 +924,8 @@ configure_xdg_paths() {
   cat <<EOF >"${xdg_local_path}"
 # shellcheck shell=bash
 
+# These are set from the dotfiles' install-config script, update the values
+# in that file not here since they will get overwritten.
 export XDG_CACHE_HOME="${XDG_CACHE_HOME}"
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME}"
 export XDG_DATA_HOME="${XDG_DATA_HOME}"
