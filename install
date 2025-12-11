@@ -579,17 +579,21 @@ EOF
 
 create_initial_dirs() {
   mkdir -p \
-    "${HOME}/.cache/zsh" \
-    "${HOME}/.config/bat" \
-    "${HOME}/.config/btop/themes" \
-    "${HOME}/.config/fzf" \
-    "${HOME}/.config/ghostty" \
-    "${HOME}/.config/git" \
-    "${HOME}/.config/gitui" \
-    "${HOME}/.config/tmux/plugins" \
-    "${HOME}/.config/zsh" \
+    "${XDG_CACHE_HOME}" \
+    "${XDG_CONFIG_HOME}" \
+    "${XDG_DATA_HOME}" \
+    "${XDG_STATE_HOME}" \
+    "${XDG_CACHE_HOME}/zsh" \
+    "${XDG_CONFIG_HOME}/bat" \
+    "${XDG_CONFIG_HOME}/btop/themes" \
+    "${XDG_CONFIG_HOME}/fzf" \
+    "${XDG_CONFIG_HOME}/ghostty" \
+    "${XDG_CONFIG_HOME}/git" \
+    "${XDG_CONFIG_HOME}/gitui" \
+    "${XDG_CONFIG_HOME}/tmux/plugins" \
+    "${XDG_CONFIG_HOME}/zsh" \
     "${HOME}/.local/bin" \
-    "${HOME}/.local/share/fonts"
+    "${XDG_DATA_HOME}/.local/share/fonts"
 }
 
 install_packages() {
@@ -710,7 +714,7 @@ install_fonts() {
   local font_filename="InconsolataNerdFontMono-Regular.ttf"
   local windows_font_path="/mnt/c/Windows/Fonts"
   local macos_font_path="${HOME}/Library/Fonts"
-  local linux_font_path="${XDG_DATA_HOME:-"${HOME}/.local/share"}/fonts"
+  local linux_font_path="${XDG_DATA_HOME}/fonts"
   local font_path=
   local font_is_installed=
 
@@ -845,7 +849,7 @@ EOF
       # Avoid using ln -T flag since it doesn't exist on macOS. We're being
       # extra careful here to only delete symlinks if they exist. Technically
       # rm -f would work but that could delete real files potentially.
-      [ -L "${HOME}/.config/nvim" ] && rm "${HOME}/.config/nvim"
+      [ -L "${XDG_CONFIG_HOME}/nvim" ] && rm "${XDG_CONFIG_HOME}/nvim"
 
       if [ -n "${symlinks[*]}" ]; then
         for link in "${symlinks[@]}"; do
@@ -892,7 +896,7 @@ configure_system_configs() {
 configure_home_configs() {
   _info "CONFIGURE HOME CONFIGS"
 
-  local ghostty_config="${HOME}/.config/ghostty/config.local"
+  local ghostty_config="${XDG_CONFIG_HOME}/ghostty/config.local"
 
   if [ ! -f "${ghostty_config}" ]; then
     printf "# Add your custom overrides here, such as fonts, etc..\n" >"${ghostty_config}"
@@ -912,6 +916,23 @@ configure_home_binaries() {
   echo "Everything that required updating was updated"
 }
 
+configure_xdg_paths() {
+  _info "CONFIGURE XDG PATHS"
+
+  local xdg_local_path="${DOTFILES_PATH}/.config/zsh/.xdg.local"
+
+  cat <<EOF >"${xdg_local_path}"
+# shellcheck shell=bash
+
+export XDG_CACHE_HOME="${XDG_CACHE_HOME}"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME}"
+export XDG_DATA_HOME="${XDG_DATA_HOME}"
+export XDG_STATE_HOME="${XDG_STATE_HOME}"
+EOF
+
+  echo "It has been configured in '${xdg_local_path}'"
+}
+
 configure_shell() {
   _info "CONFIGURE SHELL (ZSH)"
 
@@ -919,7 +940,7 @@ configure_shell() {
   local original_dotfiles_path="${DOTFILES_PATH}"
 
   for file in "${local_files[@]}"; do
-    local file_path="${HOME}/.config/zsh/${file}"
+    local file_path="${XDG_CONFIG_HOME}/zsh/${file}"
 
     if [ ! -f "${file_path}" ]; then
       printf "# shellcheck shell=bash\n\n# Any settings defined here are gitignored.\n" >"${file_path}"
@@ -1024,7 +1045,7 @@ EOF
   [ "${SHELL: -3}" != "zsh" ] && chsh -s "${shell_path}"
 
   # shellcheck disable=SC1091
-  . "${HOME}/.config/zsh/.zprofile"
+  . "${XDG_CONFIG_HOME}/zsh/.zprofile"
 
   # Given the above line sets this env var if it's defined, this ensures we
   # always use the value that was set when running this script. This is mainly
@@ -1032,7 +1053,7 @@ EOF
   # volume mounted and this value will be different in Docker.
   DOTFILES_PATH="${original_dotfiles_path}"
 
-  echo "It has been configured in '${HOME}/.config/zsh/'"
+  echo "It has been configured in '${DOTFILES_PATH}/zsh/'"
 }
 
 ask_for_name() {
@@ -1116,7 +1137,7 @@ create_ssh_key() {
 create_gpg_key() {
   _info "CREATING GPG KEY"
 
-  local gpg_home="${GNUPGHOME:-"${XDG_CONFIG_HOME:-"${HOME}/.config"}/gnupg"}"
+  local gpg_home="${GNUPGHOME}"
   local gpg_key=
 
   set +o errexit
@@ -1235,7 +1256,7 @@ install_programming_languages() {
 install_tmux_plugins() {
   _info "INSTALL TMUX PLUGINS"
 
-  local plugin_path="${HOME}/.config/tmux/plugins"
+  local plugin_path="${XDG_CONFIG_HOME}/tmux/plugins"
   local tpm_path="${plugin_path}/tpm"
 
   rm -rf "${tpm_path}"
@@ -1264,8 +1285,8 @@ set_theme() {
   # Extract the theme name from the symlink path, ie. tokyonight-moon.
   # There are scenarios (first run, etc.) where this will be empty in which
   # case it being undefined is ok.
-  if [ -f "${HOME}/.config/fzf/theme.sh" ]; then
-    active_theme="$(readlink "${HOME}/.config/fzf/theme.sh")"
+  if [ -f "${XDG_CONFIG_HOME}/fzf/theme.sh" ]; then
+    active_theme="$(readlink "${XDG_CONFIG_HOME}/fzf/theme.sh")"
     active_theme="$(dirname "${active_theme}")"
     active_theme="$(basename "${active_theme##*/}")"
   fi
@@ -1292,12 +1313,12 @@ set_theme() {
   # Only detect the env if we have to.
   [ -z "${OS_DISTRO:-}" ] && detect_env
 
-  ln -fns "${DOTFILES_PATH}/themes/${theme}/btop.theme" "${HOME}/.config/btop/themes/theme.theme"
-  ln -fns "${DOTFILES_PATH}/themes/${theme}/fzf.sh" "${HOME}/.config/fzf/theme.sh"
-  ln -fns "${DOTFILES_PATH}/themes/${theme}/ghostty" "${HOME}/.config/ghostty/theme"
-  ln -fns "${DOTFILES_PATH}/themes/${theme}/gitui.ron" "${HOME}/.config/gitui/theme.ron"
-  ln -fns "${DOTFILES_PATH}/themes/${theme}/nvim.lua" "${HOME}/.config/nvim/lua/plugins/theme.lua"
-  ln -fns "${DOTFILES_PATH}/themes/${theme}/tmux.conf" "${HOME}/.config/tmux/theme.conf"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/btop.theme" "${XDG_CONFIG_HOME}/btop/themes/theme.theme"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/fzf.sh" "${XDG_CONFIG_HOME}/fzf/theme.sh"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/ghostty" "${XDG_CONFIG_HOME}/ghostty/theme"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/gitui.ron" "${XDG_CONFIG_HOME}/theme.ron"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/nvim.lua" "${XDG_CONFIG_HOME}/nvim/lua/plugins/theme.lua"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/tmux.conf" "${XDG_CONFIG_HOME}/tmux/theme.conf"
 
   echo "'${theme}' is your active theme"
 
@@ -1322,7 +1343,7 @@ set_theme() {
 
   # Reload as many apps as we can.
   killall -SIGUSR2 btop 2>/dev/null || true
-  tmux source-file "${HOME}/.config/tmux/tmux.conf" 2>/dev/null || true
+  tmux source-file "${XDG_CONFIG_HOME}/tmux/tmux.conf" 2>/dev/null || true
 }
 
 healthcheck() {
@@ -1525,6 +1546,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   configure_system_configs
   configure_home_configs
   configure_home_binaries
+  configure_xdg_paths
   configure_shell
   ask_for_name
   ask_for_email
