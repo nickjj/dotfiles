@@ -593,7 +593,7 @@ create_initial_dirs() {
     "${XDG_CONFIG_HOME}/tmux/plugins" \
     "${XDG_CONFIG_HOME}/zsh" \
     "${HOME}/.local/bin" \
-    "${XDG_DATA_HOME}/.local/share/fonts"
+    "${XDG_DATA_HOME}/fonts"
 }
 
 install_packages() {
