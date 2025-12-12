@@ -40,6 +40,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/${DOTFILES_REPO_SLUG}}"
   DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-https://github.com/nickjj/dotfiles}"
 
+  DOTFILES_REMOTE_BRANCH="${DOTFILES_REMOTE_BRANCH:-master}"
+
+  # This will get optionally populated later.
+  DOTFILES_LOCAL_BRANCH="${DOTFILES_LOCAL_BRANCH:-}"
+
   YOUR_NAME="${YOUR_NAME:-}"
   YOUR_EMAIL="${YOUR_EMAIL:-}"
 
@@ -694,16 +699,23 @@ update_dotfiles() {
     return 0
   fi
 
-  git -C "${DOTFILES_PATH}" fetch origin
+  git -C "${DOTFILES_PATH}" fetch --quiet origin "${DOTFILES_REMOTE_BRANCH}"
+
+  # This feels like a good default because it lets you check a branch out
+  # locally and always merge into that without needing to change anything.
+  if [ -z "${DOTFILES_LOCAL_BRANCH}" ]; then
+    DOTFILES_LOCAL_BRANCH="$(git -C "${DOTFILES_PATH}" branch --show-current)"
+  fi
 
   local new_commit_count=
-  new_commit_count="$(git -C "${DOTFILES_PATH}" rev-list ..origin --count)"
+  new_commit_count="$(git -C "${DOTFILES_PATH}" rev-list "${DOTFILES_LOCAL_BRANCH}..origin/${DOTFILES_REMOTE_BRANCH}" --count)"
 
   if [ "${new_commit_count}" = "0" ]; then
     echo "Skipping, since your local dotfiles already have the latest updates"
   else
-    # Let's merge the latest updates.
-    git -C "${DOTFILES_PATH}" merge origin
+    # Let's merge the latest updates into the local branch.
+    git -C "${DOTFILES_PATH}" checkout --quiet "${DOTFILES_LOCAL_BRANCH}"
+    git -C "${DOTFILES_PATH}" merge "origin/${DOTFILES_REMOTE_BRANCH}"
 
     # Insurance to always make sure an install-config exists.
     cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
@@ -733,7 +745,7 @@ clone_dotfiles() {
 
   _local_clone && return 0
 
-  git clone "${DOTFILES_CLONE_URL}" "${DOTFILES_PATH}"
+  git clone --branch "${DOTFILES_REMOTE_BRANCH}" "${DOTFILES_CLONE_URL}" "${DOTFILES_PATH}"
   git -C "${DOTFILES_PATH}" remote | grep -qw upstream ||
     git -C "${DOTFILES_PATH}" remote add upstream "${DOTFILES_UPSTREAM_URL}.git"
 
@@ -1454,12 +1466,12 @@ parse_args() {
     # Show a diff of any local uncommitted or committed changes vs the target.
     #
     # Since we have fzf, let's use it to make browsing diffs a nice experience!
-    target="${2:-origin}"
+    target="${2:-"origin/${DOTFILES_REMOTE_BRANCH}"}"
     side_by_side="${3:-}"
 
     # Since target is optional we need to handle only passing in --side.
     if [ "${target}" = "--side" ]; then
-      target="origin"
+      target="origin/${DOTFILES_REMOTE_BRANCH}"
       side_by_side="--side"
     fi
 
@@ -1474,7 +1486,7 @@ parse_args() {
     ;;
   --new-commits | -n)
     # Show details about new commits that only exist in the target vs local.
-    target="${2:-..origin}"
+    target="${2:-"..origin/${DOTFILES_REMOTE_BRANCH}"}"
 
     git remote | grep -q "${target//./}" && git fetch --quiet "${target//./}"
     git log "${target}" --pretty="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s" --date=short
@@ -1483,7 +1495,7 @@ parse_args() {
     ;;
   --changelog | -c)
     # Show all remote commits.
-    target="${2:-origin}"
+    target="${2:-"origin/${DOTFILES_REMOTE_BRANCH}"}"
 
     git remote | grep -q "${target}" && git fetch --quiet "${target}"
     git log "${target}" --pretty="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s" --date=short

@@ -20,6 +20,12 @@ export DOTFILES_REPO_SLUG=
 export DOTFILES_CLONE_URL=
 export DOTFILES_UPSTREAM_URL=
 
+# Provide a different branch, both remote and local. This lets you test and
+# update things against a PR (mainly useful for testing). The local branch
+# defaults to your currently checked out branch if left empty here.
+export DOTFILES_REMOTE_BRANCH=
+export DOTFILES_LOCAL_BRANCH=
+
 # If you define these, they will get used instead of prompting you. Keep in
 # mind you won't be prompted once you've answered them once since the values
 # get persisted and read independent of these values. Still, this could be
