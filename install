@@ -257,11 +257,11 @@ System package installation isn't supported with your distro (${OS_DISTRO})
 
 Please install any comparable packages on your own, you can view the list at:
 
-    https://github.com/nickjj/dotfiles/blob/master/install
+    https://github.com/nickjj/dotfiles/blob/${DOTFILES_REMOTE_BRANCH}/install
 
 Then re-run this script and explicitly skip installing system packages:
 
-    bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
+    bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/${DOTFILES_REMOTE_BRANCH}/install) --skip-system-packages
 EOF
 
   exit 1
@@ -452,9 +452,9 @@ bootstrap() {
       exit 1
     fi
   else
-    curl -sSL "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/master/install" \
+    curl -sSL "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/${DOTFILES_REMOTE_BRANCH}/install" \
       -o "${BOOTSTRAP_PATH}/install"
-    curl -sSL "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/master/install-config.example" \
+    curl -sSL "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/${DOTFILES_REMOTE_BRANCH}/install-config.example" \
       -o "${BOOTSTRAP_PATH}/install-config.example"
   fi
 
@@ -1538,10 +1538,10 @@ parse_args() {
   # The same as above but show the diff in side-by-side (split) mode.
   ${C_GREEN}./install --diff --side${C_RESET}
 
-  # Compare your currently checked out branch to your local master branch, this
+  # Compare your currently checked out branch to your local ${DOTFILES_REMOTE_BRANCH} branch, this
   # could be helpful if you have a personalized branch and you pull updates into
-  # master and now you want to compare them locally.
-  ${C_GREEN}./install --diff master${C_RESET}
+  # ${DOTFILES_REMOTE_BRANCH} and now you want to compare them locally.
+  ${C_GREEN}./install --diff ${DOTFILES_REMOTE_BRANCH}${C_RESET}
 
   # Show new remote commits that do not exist locally.
   ${C_GREEN}./install --new-commits [target]${C_RESET} (it defaults to "..origin" if not supplied)
@@ -1549,14 +1549,14 @@ parse_args() {
   # Show your local commits that don't exist in the remote.
   ${C_GREEN}./install --new-commits origin..${C_RESET}
 
-  # The same as above except compare it to your local master branch not remote.
-  ${C_GREEN}./install --new-commits ..master${C_RESET}
+  # The same as above except compare it to your local ${DOTFILES_REMOTE_BRANCH} branch not remote.
+  ${C_GREEN}./install --new-commits ..${DOTFILES_REMOTE_BRANCH}${C_RESET}
 
   # Show your local commits that don't exist in the remote and new remote commits.
   ${C_GREEN}./install --new-commits origin...${C_RESET}
 
-  # The same as above except compare it to your local master branch not remote.
-  ${C_GREEN}./install --new-commits ...master${C_RESET}
+  # The same as above except compare it to your local ${DOTFILES_REMOTE_BRANCH} branch not remote.
+  ${C_GREEN}./install --new-commits ...${DOTFILES_REMOTE_BRANCH}${C_RESET}
 
   # Show a list of commits on a remote.
   ${C_GREEN}./install --changelog [target] (it defaults to "origin" if not supplied)${C_RESET}
