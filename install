@@ -1446,7 +1446,7 @@ parse_args() {
     [ "${side_by_side}" = "--side" ] && side_by_side="--side-by-side"
 
     # shellcheck disable=SC2086
-    delta install-config.example install-config ${side_by_side}
+    git diff --no-index install-config.example install-config ${side_by_side}
 
     exit
     ;;
