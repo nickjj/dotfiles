@@ -16,15 +16,15 @@ set -o errexit
 # update the DOTFILES_REPO_SLUG, ie. yourname/dotfiles instead of nickjj/dotfiles.
 #
 # This could be useful if you've forked the project into your own repo.
-export DOTFILES_REPO_SLUG=
-export DOTFILES_CLONE_URL=
-export DOTFILES_UPSTREAM_URL=
+export DOTFILES_REPO_SLUG="${DOTFILES_REPO_SLUG:-}"
+export DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-}"
+export DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-}"
 
 # Provide a different branch, both remote and local. This lets you test and
 # update things against a PR (mainly useful for testing). The local branch
 # defaults to your currently checked out branch if left empty here.
-export DOTFILES_REMOTE_BRANCH=
-export DOTFILES_LOCAL_BRANCH=
+export DOTFILES_REMOTE_BRANCH="${DOTFILES_REMOTE_BRANCH:-}"
+export DOTFILES_LOCAL_BRANCH="${DOTFILES_LOCAL_BRANCH:-}"
 
 # If you define these, they will get used instead of prompting you. Keep in
 # mind you won't be prompted once you've answered them once since the values
