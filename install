@@ -639,6 +639,43 @@ EOF
   done
 }
 
+check_install_config() {
+  _info "CHECK INSTALL CONFIG FOR UPDATES"
+
+  example_file="install-config.example"
+  real_file="install-config"
+
+  if [ "${example_file}" -nt "${real_file}" ]; then
+    delta --paging=never install-config install-config.example || true
+
+    cat <<EOF
+
+---
+
+The above is a diff between your ${real_file} and the ${example_file}.
+Anything you see in green is in the updated ${example_file}.
+
+It's completely normal for you to see your custom changes here but the
+${example_file} file has a newer mtime (modified time) than your config
+which indicates it might have new updates for you to merge into your ${real_file}.
+
+This merge cannot be automated in a reasonable way so you'll want to eyeball it
+and copy over new lines, remove unused lines or update existing defaults.
+
+If you want to proceed anyways you can run: touch ${real_file}
+
+The above will update your config's mtime, but be warned this could allow the
+install script to run in unintended ways with missing configuration values.
+
+EOF
+
+    _error "There are potentially new updates to merge into your '${real_file}'"
+
+  else
+    echo "Skipping, since '${real_file}' is up to date"
+  fi
+}
+
 update_dotfiles() {
   _info "UPDATE DOTFILES"
 
@@ -1535,6 +1572,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   detect_env
   warn_root
   update_dotfiles "${@}"
+  check_install_config
 
   [ -n "${PULL}" ] && exit
 
