@@ -19,11 +19,9 @@ export DOTFILES_REPO_SLUG="${DOTFILES_REPO_SLUG:-nickjj/dotfiles}"
 export DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/${DOTFILES_REPO_SLUG}}"
 export DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-https://github.com/nickjj/dotfiles}"
 
-# Provide a different branch, both remote and local. This lets you test and
-# update things against a PR (mainly useful for testing). The local branch
-# defaults to your currently checked out branch if left empty.
-export DOTFILES_REMOTE_BRANCH="${DOTFILES_REMOTE_BRANCH:-master}"
-export DOTFILES_LOCAL_BRANCH="${DOTFILES_LOCAL_BRANCH:-}"
+# Provide a different remote branch. This branch will be merged into your
+# current locally checked out branch when pulling in updates.
+export DOTFILES_BRANCH="${DOTFILES_BRANCH:-master}"
 
 # If you define these, they will get used instead of prompting you. Keep in
 # mind you won't be prompted once you've answered them once since the values
