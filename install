@@ -1364,7 +1364,7 @@ set_theme() {
   ln -fns "${DOTFILES_PATH}/themes/${theme}/btop.theme" "${XDG_CONFIG_HOME}/btop/themes/theme.theme"
   ln -fns "${DOTFILES_PATH}/themes/${theme}/fzf.sh" "${XDG_CONFIG_HOME}/fzf/theme.sh"
   ln -fns "${DOTFILES_PATH}/themes/${theme}/ghostty" "${XDG_CONFIG_HOME}/ghostty/theme"
-  ln -fns "${DOTFILES_PATH}/themes/${theme}/gitui.ron" "${XDG_CONFIG_HOME}/theme.ron"
+  ln -fns "${DOTFILES_PATH}/themes/${theme}/gitui.ron" "${XDG_CONFIG_HOME}/gitui/theme.ron"
   ln -fns "${DOTFILES_PATH}/themes/${theme}/nvim.lua" "${XDG_CONFIG_HOME}/nvim/lua/plugins/theme.lua"
   ln -fns "${DOTFILES_PATH}/themes/${theme}/tmux.conf" "${XDG_CONFIG_HOME}/tmux/theme.conf"
 
