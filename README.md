@@ -122,7 +122,7 @@ supported platforms:
 
 ```sh
 # You can run this as root.
-pacman -Syu --noconfirm curl
+pacman -Syu --noconfirm --needed curl
 ```
 
 #### Debian / Ubuntu

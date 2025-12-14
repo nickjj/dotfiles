@@ -25,10 +25,10 @@ Usage examples:
   pkg CMD [-a|--aur]
 
   pkg install          # Install / search new packages
-  ^ pacman -Syu
+  ^ pacman -Syu --needed
 
   pkg install --aur    # Install / search new AUR packages
-  ^ paru -Syu
+  ^ paru -Syu --needed
 
   pkg list             # List locally installed packages
   ^ pacman -Qei
@@ -116,7 +116,7 @@ install() {
 
   if [ -n "${packages}" ]; then
     # shellcheck disable=SC2086
-    sudo pacman -Syu ${packages}
+    sudo pacman -Syu --needed ${packages}
   fi
 }
 
@@ -154,7 +154,7 @@ install_aur() {
 
   if [ -n "${packages}" ]; then
     # shellcheck disable=SC2086
-    paru -Syu ${packages}
+    paru -Syu --needed ${packages}
   fi
 }
 list() {

@@ -269,7 +269,7 @@ _install_packages_arch() {
 
   if [[ -n "${PACMAN_PACKAGES}" || -n "${PACMAN_PACKAGES_EXTRAS}" ]]; then
     # shellcheck disable=SC2086
-    sudo pacman -Syu --noconfirm ${PACMAN_PACKAGES} ${PACMAN_PACKAGES_EXTRAS}
+    sudo pacman -Syu --noconfirm --needed ${PACMAN_PACKAGES} ${PACMAN_PACKAGES_EXTRAS}
   fi
 
   # Install Paru (AUR) if needed.
@@ -286,7 +286,7 @@ _install_packages_arch() {
 
   if [[ -n "${AUR_PACKAGES}" || -n "${AUR_PACKAGES_EXTRAS}" ]]; then
     # shellcheck disable=SC2086
-    paru -Syu --noconfirm ${AUR_PACKAGES} ${AUR_PACKAGES_EXTRAS}
+    paru -Syu --noconfirm --needed ${AUR_PACKAGES} ${AUR_PACKAGES_EXTRAS}
   fi
 
   # Install Mise packages.
@@ -570,7 +570,7 @@ EOF
 
   case "${OS_DISTRO}" in
   arch)
-    su -c "pacman -Syu --noconfirm ${missing_packages[*]}"
+    su -c "pacman -Syu --noconfirm --needed ${missing_packages[*]}"
     ;;
   debian)
     su -c "apt-get update && apt-get install -y ${missing_packages[*]}"
