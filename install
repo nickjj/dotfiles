@@ -1558,6 +1558,9 @@ parse_args() {
   # Show a list of commits on a remote.
   ${C_GREEN}./install --changelog [target] (it defaults to "origin" if not supplied)${C_RESET}
 
+  # Show all of your local files that are git ignored such as configs, history and scripts.
+  ${C_GREEN}./install --local-files${C_RESET}
+
   # Show this help menu.
   ${C_GREEN}./install --help${C_RESET}
 EOF
