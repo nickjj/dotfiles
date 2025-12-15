@@ -588,10 +588,7 @@ EOF
 
 create_initial_dirs() {
   mkdir -p \
-    "${XDG_CACHE_HOME}" \
-    "${XDG_CONFIG_HOME}" \
-    "${XDG_DATA_HOME}" \
-    "${XDG_STATE_HOME}" \
+    "${HOME}/.local/bin" \
     "${XDG_CACHE_HOME}/zsh" \
     "${XDG_CONFIG_HOME}/bat" \
     "${XDG_CONFIG_HOME}/btop/themes" \
@@ -601,8 +598,8 @@ create_initial_dirs() {
     "${XDG_CONFIG_HOME}/gitui" \
     "${XDG_CONFIG_HOME}/tmux/plugins" \
     "${XDG_CONFIG_HOME}/zsh" \
-    "${HOME}/.local/bin" \
-    "${XDG_DATA_HOME}/fonts"
+    "${XDG_DATA_HOME}/fonts" \
+    "${XDG_STATE_HOME}"
 }
 
 install_packages() {
