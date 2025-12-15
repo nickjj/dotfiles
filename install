@@ -271,21 +271,29 @@ _install_packages_arch() {
     sudo pacman -Syu --noconfirm --needed ${PACMAN_PACKAGES} ${PACMAN_PACKAGES_EXTRAS}
   fi
 
-  # Install Paru (AUR) if needed.
-  if ! command -v paru >/dev/null 2>&1; then
-    local paru_download_path="/tmp/paru-install"
-    rm -rf "${paru_download_path}"
-    git clone https://aur.archlinux.org/paru.git "${paru_download_path}"
-    cd "${paru_download_path}" && makepkg --syncdeps --install --noconfirm && cd -
-    rm -rf "${paru_download_path}"
+  # Install Yay (AUR) if needed.
+  local yay_local_version=
+  yay_local_version="$(yay --version 2>/dev/null | cut -d " " -f 2)"
+
+  local yay_latest_version=
+  yay_latest_version="$(git ls-remote --tags https://github.com/Jguer/yay.git |
+    grep -Eo "v?[0-9]+(\.[0-9]+){1,2}$" |
+    sort --version-sort | tail -n 1)"
+
+  if [ "${yay_local_version}" != "${yay_latest_version}" ]; then
+    local yay_download_path="/tmp/yay-install"
+    rm -rf "${yay_download_path}"
+    git clone https://aur.archlinux.org/yay-bin.git "${yay_download_path}"
+    cd "${yay_download_path}" && makepkg --syncdeps --install --noconfirm && cd -
+    rm -rf "${yay_download_path}"
   fi
 
-  # Install Paru packages.
+  # Install AUR packages.
   AUR_PACKAGES="$(echo "${AUR_PACKAGES}" | xargs)"
 
   if [[ -n "${AUR_PACKAGES}" || -n "${AUR_PACKAGES_EXTRAS}" ]]; then
     # shellcheck disable=SC2086
-    paru -Syu --noconfirm --needed ${AUR_PACKAGES} ${AUR_PACKAGES_EXTRAS}
+    yay -S --noconfirm --needed ${AUR_PACKAGES} ${AUR_PACKAGES_EXTRAS}
   fi
 
   # Install Mise packages.
