@@ -22,8 +22,6 @@ fi
 
 # Only run these when calling the script, not sourcing it.
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-  SKIP_SYSTEM_PACKAGES="${1:-}"
-
   # Instead of cloning from a remote repo, files will get copied locally. This
   # is useful for testing in a container without committing anything.
   LOCAL="${LOCAL:-}"
@@ -35,6 +33,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   # This will get optionally populated later, it combines pulling in the latest
   # updates and running the install script.
   PULL_UPDATE=
+
+  # This will get optionally populated later.
+  SKIP_SYSTEM_PACKAGES=
 
   DOTFILES_REPO_SLUG="${DOTFILES_REPO_SLUG:-}"
   DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-}"
@@ -1536,7 +1537,9 @@ parse_args() {
   --update | -u)
     PULL_UPDATE=1
     ;;
-  --skip-system-packages | -S) ;;
+  --skip-system-packages | -S)
+    SKIP_SYSTEM_PACKAGES=1
+    ;;
   --help | -h)
     echo -e "$(
       cat <<EOF
