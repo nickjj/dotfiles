@@ -28,7 +28,7 @@ Usage examples:
   ^ pacman -Syu --needed
 
   pkg install --aur    # Install / search new AUR packages
-  ^ yay -S --needed
+  ^ yay -S --answerclean N --needed
 
   pkg list             # List locally installed packages
   ^ pacman -Qei
