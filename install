@@ -1531,6 +1531,16 @@ parse_args() {
 
     exit
     ;;
+  --local-files | -l)
+    # Show local (git ignored) configs, history and scripts.
+    {
+      fd --type file --unrestricted --extension "local" .
+      fd --type file --unrestricted . ".local/bin/local"
+      echo ".config/zsh/.zsh_history"
+    } | sort --unique | fzf --multi --bind "ctrl-a:toggle-all"
+
+    exit
+    ;;
   --pull | -p)
     PULL=1
     ;;
