@@ -10,7 +10,7 @@ to_terminal_font_size="20"
 cp "${HISTFILE}" "${HISTFILE}.bak"
 rm "${HISTFILE}"
 
-rm -f ~/.local/state/nvim/swap/%*
+rm -f "${XDG_STATE_HOME}/nvim/swap/%"*
 change-terminal-font "${from_terminal_font_size}" "${to_terminal_font_size}"
 
 if [ "${1:-}" = "--obs" ]; then
@@ -21,7 +21,7 @@ fi
 
 cat <<EOF
 -> Shell history has been backed up to ${HISTFILE}
--> Temporary Neovim files have been deleted from ~/.local/state/nvim/swap
+-> Temporary Neovim files have been deleted from ${XDG_STATE_HOME}/nvim/swap
 -> Terminal font has been increased to ${to_terminal_font_size}
 
 Plan to switch between tmux sessions?

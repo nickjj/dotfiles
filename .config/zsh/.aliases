@@ -11,8 +11,8 @@ alias diff="diff --color -u"
 alias sz='. ${ZDOTDIR}/.zprofile && . ${ZDOTDIR}/.zshrc'
 alias SZ='tmux-shell-cmd --kill "sz"'
 alias dt='cd ${DOTFILES_PATH} && nvim .'
-alias lz='cd ${HOME}/.local/share/nvim/lazy/LazyVim && nvim .'
-alias lp='cd ${HOME}/.local/share/nvim/lazy && nvim .'
+alias lz='cd ${XDG_DATA_HOME}/nvim/lazy/LazyVim && nvim .'
+alias lp='cd ${XDG_DATA_HOME}/nvim/lazy && nvim .'
 
 alias start-rec="start-recording && HISTSIZE=0"
 alias stop-rec='stop-recording && HISTSIZE=${SAVEHIST} && fc -R'
@@ -20,8 +20,8 @@ alias stop-rec='stop-recording && HISTSIZE=${SAVEHIST} && fc -R'
 alias 755d="find . -type d -exec chmod 755 {} \;"
 alias 644f="find . -type f -exec chmod 644 {} \;"
 
-alias vss='sort -u ${HOME}/.config/nvim/spell/en.utf-8.add -o ${HOME}/.config/nvim/spell/en.utf-8.add'
-alias vdt='rm ${HOME}/.local/state/nvim/swap/%*'
+alias vss='sort -u ${XDG_CONFIG_HOME}/nvim/spell/en.utf-8.add -o ${XDG_CONFIG_HOME}/nvim/spell/en.utf-8.add'
+alias vdt='rm ${XDG_STATE_HOME}/nvim/swap/%*'
 
 # shellcheck disable=SC2139
 alias pf="fzf ${FZF_CTRL_T_OPTS}"

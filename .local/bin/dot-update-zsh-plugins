@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 # Install or update zsh plugins.
 
-export XDG_DATA_HOME="${XDG_DATA_HOME:-"${HOME}/.local/share"}"
-
 function clone_or_pull {
   local repo_path="${1}"
   local project=
