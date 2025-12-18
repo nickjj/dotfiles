@@ -82,6 +82,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     shfmt
     tmux
     unzip
+    wev
     wget
     whois
     wl-clipboard
@@ -112,6 +113,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     rsync
     tmux
     unzip
+    wev
     wget
     whois
     wl-clipboard
@@ -160,6 +162,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     ghostty
     google-chrome
     keepassxc
+    key-codes
     maccy
   }
   "
