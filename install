@@ -1540,6 +1540,8 @@ parse_args() {
       fd --type file --unrestricted --extension "local" .
       fd --type file --unrestricted . ".local/bin/local"
       echo ".config/zsh/.zsh_history"
+      echo ".config/zsh/.zsh_history"
+      echo "install-config"
     } | sort --unique | fzf --multi --bind "ctrl-a:toggle-all"
 
     exit
