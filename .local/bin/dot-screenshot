@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Take a screenshot in a number of different ways.
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+MODE="${1:-region}"
+
+case "${MODE}" in
+region)
+  grim -g "$(slurp)" -
+  ;;
+window)
+  niri msg action screenshot-window
+  sleep 0.2
+  wl-paste --type image/png
+  ;;
+monitor-focused)
+  niri msg action screenshot-screen --show-pointer=false
+  sleep 0.2
+  wl-paste --type image/png
+  ;;
+monitor-all)
+  grim -
+  ;;
+*)
+  echo "'${MODE}' is not a supported, aborting!" >&2
+  exit 1
+  ;;
+esac | satty --filename - --output-filename "${XDG_PICTURES_DIR}/screenshot-%+.png"

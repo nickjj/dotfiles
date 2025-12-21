@@ -2,15 +2,9 @@
 
 set -o errexit
 
-# You can find the default values in the install script near the top of the
-# file. Any value here which is empty will be ignored and the default value
-# will be used. The non-example version of this file is git ignored.
-#
-# The goal of this config is to help you customize the defaults for a few
-# common things without needing to fork the repo.
-#
-# I also use some of these to further customize my system with packages that
-# I didn't push up to my dotfiles.
+# -----------------------------------------------------------------------------
+# Repo configuration
+# -----------------------------------------------------------------------------
 
 # Provide a different repo to use. This could be useful if you've forked the
 # project into your account. If you're using GitHub you only need to
@@ -23,15 +17,31 @@ export DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-https://github.com/nickjj
 # current locally checked out branch when pulling in updates.
 export DOTFILES_BRANCH="${DOTFILES_BRANCH:-master}"
 
+# -----------------------------------------------------------------------------
+# Personalization
+# -----------------------------------------------------------------------------
+
 # If you define these, they will get used instead of prompting you. Keep in
 # mind you won't be prompted once you've answered them once since the values
 # get persisted and read independent of these values. Still, this could be
-# handy to set for fresh systems to avoid ever needing to input them manually.
+# handy to set for fresh systems to avoid needing to input them manually.
 export YOUR_NAME=
 export YOUR_EMAIL=
 
-# XDG paths. If you ever want to change them then change them here, they will
-# get written to the correct files from this script, there's a few spots!
+# -----------------------------------------------------------------------------
+# Graphical User Interface (GUI)
+# -----------------------------------------------------------------------------
+
+# When set to 1, graphical apps and niri (window manager) will be installed if
+# you have Arch. By default it's disabled. Even if enabled, it's skipped in WSL.
+export GUI_LINUX=
+
+# -----------------------------------------------------------------------------
+# XDG directories
+# -----------------------------------------------------------------------------
+
+# If you ever want to change them then change them here, they will get written
+# to the correct files from this script, there's a few spots!
 #
 # I use the defaults and I suggest you do the same, here's the source:
 #   https://specifications.freedesktop.org/basedir/latest/
@@ -40,111 +50,144 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
 
-# Override which packages get installed. If you define anything in the extras
-# variable they will get appended to the non-extra packages. This lets you use
-# the default packages but add any extra packages you want.
+# Most of these have customized defaults, here's the source with defaults:
+#   https://wiki.archlinux.org/title/XDG_user_directories
 #
-# If you don't want to install any default packages then you can use a single
-# quoted space as the value, for example: export PACMAN_PACKAGES=" "
-export PACMAN_PACKAGES=
-export PACMAN_PACKAGES_EXTRAS=
-
-# Override which packages get installed. If you define anything in the extras
-# variable they will get appended to the non-extra packages. This lets you use
-# the default packages but add any extra packages you want.
+# My thought process is if a program writes something to pictures, videos or
+# most other directories listed below it's probably a temporary location
+# because I would organize where the file will live permanently afterwards.
 #
-# If you don't want to install any default packages then you can use a single
-# quoted space as the value, for example: export AUR_PACKAGES=" "
-export AUR_PACKAGES=
-export AUR_PACKAGES_EXTRAS=
-
-# Override which packages get installed. If you define anything in the extras
-# variable they will get appended to the non-extra packages. This lets you use
-# the default packages but add any extra packages you want.
+# However, for things like music I want music players to use the real directory.
 #
-# If you don't want to install any default packages then you can use a single
-# quoted space as the value, for example: export APT_PACKAGES=" "
-export APT_PACKAGES=
-export APT_PACKAGES_EXTRAS=
+# Of course you are free to customize these however you see fit! These only
+# get created and set if you have GUI_LINUX enabled on Arch.
+export XDG_DESKTOP_DIR="${HOME}/tmp/desktop"
+export XDG_DOCUMENTS_DIR="${HOME}/docs"
+export XDG_DOWNLOAD_DIR="${HOME}/downloads"
+export XDG_MUSIC_DIR="${HOME}/media/music"
+export XDG_PICTURES_DIR="${HOME}/tmp/pictures"
+export XDG_PUBLICSHARE_DIR="${HOME}/public"
+export XDG_TEMPLATES_DIR="${HOME}/docs/templates"
+export XDG_VIDEOS_DIR="${HOME}/tmp/videos"
 
-# Override which packages get installed. If you define anything in the extras
-# variable they will get appended to the non-extra packages. This lets you use
-# the default packages but add any extra packages you want.
+# -----------------------------------------------------------------------------
+# System packages
+# -----------------------------------------------------------------------------
+
+# These rules apply to all package variables:
+# - Left as is OR commented out            -> default packages get used
+# - Remove () and set an empty value OR "" -> nothing gets used
+# - Add your own array items               -> only your packages get used
 #
-# If you don't want to install any default packages then you can use a single
-# quoted space as the value, for example: export BREW_CASK_PACKAGES=" "
-export BREW_PACKAGES=
-export BREW_PACKAGES_EXTRAS=
-export BREW_CASK_PACKAGES=
-export BREW_CASK_PACKAGES_EXTRAS=
+# You can use "extras" to keep the default packages but add your own to avoid
+# needing to duplicate the entire package list. Thiink of this as merging.
 
-# Install Mise packages for specific platforms. For example, maybe you want
-# the latest and greatest versions on Debian for a few tools but Arch and
-# macOS already have them so you don't need Mise packages there.
-#
-# However, maybe on Arch if you want a specific version of a tool, you can
-# use Mise to install it instead of ignoring it with Pacman to avoid a partial
-# update of your system. It may also not exist in the official Arch repo too.
-#
-# If you don't want to install any default packages then you can use a single
-# quoted space as the value, for example: export MISE_PACKAGES_DEBIAN=" "
-export MISE_PACKAGES_ARCH=
-export MISE_PACKAGES_ARCH_EXTRAS=
+# Applies to Arch Linux.
+export PACKAGES_PACMAN=()
+export PACKAGES_PACMAN_EXTRAS=()
 
-export MISE_PACKAGES_DEBIAN=
-export MISE_PACKAGES_DEBIAN_EXTRAS=
+# Packackes defined here only get installed when GUI_LINUX=1 is set.
+export PACKAGES_PACMAN_GUI=()
+export PACKAGES_PACMAN_GUI_EXTRAS=()
 
-export MISE_PACKAGES_MACOS=
-export MISE_PACKAGES_MACOS_EXTRAS=
+export PACKAGES_AUR=()
+export PACKAGES_AUR_EXTRAS=()
+
+# Packackes defined here only get installed when GUI_LINUX=1 is set.
+export PACKAGES_AUR_GUI=()
+export PACKAGES_AUR_GUI_EXTRAS=()
+
+# Applies to Debian and Ubuntu.
+export PACKAGES_APT=()
+export PACKAGES_APT_EXTRAS=()
+
+# Applies to macOS.
+export PACKAGES_BREW=()
+export PACKAGES_BREW_EXTRAS=()
+export PACKAGES_BREW_CASK=()
+export PACKAGES_BREW_CASK_EXTRAS=()
+
+# -----------------------------------------------------------------------------
+# Mise packages
+# -----------------------------------------------------------------------------
+
+# The same rules apply as system packages for how to define these.
+
+export MISE_ARCH=()
+export MISE_ARCH_EXTRAS=()
+
+export MISE_DEBIAN=()
+export MISE_DEBIAN_EXTRAS=()
+
+export MISE_MACOS=()
+export MISE_MACOS_EXTRAS=()
 
 # Install programming languages.
-#
-# If you don't want to install any default languages then you can use a single
-# quoted space as the value, for example: export MISE_LANGUAGES=" "
-declare -A MISE_LANGUAGES=
-declare -A MISE_LANGUAGES_EXTRAS=
+declare -A MISE_LANGUAGES=()
+declare -A MISE_LANGUAGES_EXTRAS=()
 
 # Here's an example to demonstrate the syntax. The key is the binary name and
 # the value is what you would pass into Mise to install it.
-# MISE_LANGUAGES_EXTRAS["ruby"]="ruby@3.4"
+#MISE_LANGUAGES_EXTRAS["ruby"]="ruby@3.4"
 
 export MISE_LANGUAGES
 export MISE_LANGUAGES_EXTRAS
 
-# Symlinks that will get created in all operating systems. This lets you add
-# your own custom tools and set up whatever configuration you may need. Chances
-# are you'll want to customize the SYMLINKS_EXTRAS variable to add new things.
-export SYMLINKS=(
-  "ln -fns \"\${DOTFILES_PATH}/.config/bat/config\" \"\${XDG_CONFIG_HOME}/bat/config\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/btop/btop.conf\" \"\${XDG_CONFIG_HOME}/btop/btop.conf\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/fzf/config.sh\" \"\${XDG_CONFIG_HOME}/fzf/config.sh\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/ghostty/config.local\" \"\${XDG_CONFIG_HOME}/ghostty/config.local\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/ghostty/config\" \"\${XDG_CONFIG_HOME}/ghostty/config\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/git/config.local\" \"\${XDG_CONFIG_HOME}/git/config.local\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/git/config\" \"\${XDG_CONFIG_HOME}/git/config\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/nvim\" \"\${XDG_CONFIG_HOME}/nvim\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/tmux/tmux.conf\" \"\${XDG_CONFIG_HOME}/tmux/tmux.conf\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.aliases.local\" \"\${XDG_CONFIG_HOME}/zsh/.aliases.local\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.aliases\" \"\${XDG_CONFIG_HOME}/zsh/.aliases\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.xdg.local\" \"\${XDG_CONFIG_HOME}/zsh/.xdg.local\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zprofile.local\" \"\${XDG_CONFIG_HOME}/zsh/.zprofile.local\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zprofile\" \"\${XDG_CONFIG_HOME}/zsh/.zprofile\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshenv\" \"\${HOME}/.zshenv\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshrc.local\" \"\${XDG_CONFIG_HOME}/zsh/.zshrc.local\""
-  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshrc\" \"\${XDG_CONFIG_HOME}/zsh/.zshrc\""
-  "ln -fns \"\${DOTFILES_PATH}/.local/bin/\"* \"\${HOME}/.local/bin/\""
-)
-export SYMLINKS_EXTRAS=
+# -----------------------------------------------------------------------------
+# Config files
+# -----------------------------------------------------------------------------
 
-# Symlinks that will get created only in WSL.
-export SYMLINKS_WSL=(
-  "cp \"\${DOTFILES_PATH}/mnt/c/Users/Nick/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json\" \"/mnt/c/Users/%WindowsUser/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json\" || true"
-  "sudo ln -fns \"\${DOTFILES_PATH}/etc/wsl.conf\" \"/etc/wsl.conf\""
-)
-export SYMLINKS_WSL_EXTRAS=
+# The same rules apply as system packages for how to define these.
 
-# Symlinks that will get created only on Arch Linux.
-export SYMLINKS_ARCH=(
-  "sudo ln -fns \"\${DOTFILES_PATH}/etc/pacman.d/01-options.conf\" \"/etc/pacman.d/01-options.conf\""
-)
-export SYMLINKS_ARCH_EXTRAS=
+# Typically these would be symlinks but they could be created with cp / rsync
+# or whatever commands you want.
+#
+# Symlinks allow you to keep your configs in this dotfiles repo but have them
+# exist in ~/.config/xxx so programs pick them up. You can also create .local
+# versions of these files in your dotfiles and symlink them, this allows you
+# to fully overwrite a config without forking this repo.
+
+# Configs defined here will get created in all OS / environments.
+export CONFIG_INSTALL=()
+export CONFIG_INSTALL_EXTRAS=()
+
+# Configs defined here only get created when GUI_LINUX=1 is set.
+export CONFIG_INSTALL_GUI_LINUX=()
+export CONFIG_INSTALL_GUI_LINUX_EXTRAS=()
+
+# Configs defined here only get created when on Arch Linux.
+export CONFIG_INSTALL_ARCH=()
+export CONFIG_INSTALL_ARCH_EXTRAS=()
+
+# Configs defined here only get created when in WSL.
+export CONFIG_INSTALL_WSL=()
+export CONFIG_INSTALL_WSL_EXTRAS=()
+
+# -----------------------------------------------------------------------------
+# Sudoers
+# -----------------------------------------------------------------------------
+
+# The same rules apply as mise languages for how to define these.
+
+# Creates sudoers entries into /etc/sudoers.d/.
+declare -A SUDOERS_ENTRIES=()
+declare -A SUDOERS_ENTRIES_EXTRAS=()
+
+# Here's an example to demonstrate the syntax. The key is the file name and
+# the value is the line written to the file.
+#SUDOERS_ENTRIES_EXTRAS["dot-whois"]="${USER} ALL=(ALL) NOPASSWD: /usr/bin/whoami"
+
+export SUDOERS_ENTRIES
+export SUDOERS_ENTRIES_EXTRAS
+
+# -----------------------------------------------------------------------------
+# Enabled systemd services
+# -----------------------------------------------------------------------------
+
+# The same rules apply as system packages for how to define these.
+
+# Services in this list will start on boot if they exist, omit the .service
+# extension, for example SYSTEMD_ENABLED_SERVICES_EXTRAS=("docker") is
+# enabled by default.
+export SYSTEMD_ENABLED_SERVICES=()
+export SYSTEMD_ENABLED_SERVICES_EXTRAS=()

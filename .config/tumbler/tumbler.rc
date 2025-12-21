@@ -1,0 +1,7 @@
+# Tumbler will automatically clear these out, I have a lot of YouTube videos
+# that I didn't want thumbnails to be regenerated for, let's keep them forever.
+#
+# They are stored in $XDG_CACHE_HOME/thumbnails if you want to delete them.
+[General]
+MaxCacheSize=0
+MaxCacheAge=0

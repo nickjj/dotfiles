@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# Without this, the app itself would produce large black borders around the
+# image instead of resizing the app to fit the size of the image.
+#
+# This is only used if you call it from the command line directly. Thunar is
+# already configured to add this environment variable to the app through the
+# custom desktop application.
+QT_QPA_PLATFORM="xcb" /usr/bin/xnviewmp "$@"

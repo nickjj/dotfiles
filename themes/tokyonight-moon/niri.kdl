@@ -1,0 +1,18 @@
+overview {
+    backdrop-color "#14151fff"
+}
+
+recent-windows {
+    highlight {
+        active-color "#14151fff"
+    }
+}
+
+layout {
+    focus-ring {
+        active-gradient from="#33ccffee" to="#00ff99ee" angle=45
+        inactive-color "#595959aa"
+    }
+
+    background-color "#14151fff"
+}

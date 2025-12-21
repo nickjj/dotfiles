@@ -260,6 +260,7 @@ Hotwire
 html
 htop
 HTTPS
+Hyprland
 i2
 i3
 IaC
@@ -297,6 +298,7 @@ Jumpstart
 Jupyter
 JupyterLab
 K8s
+kaizen
 Kanban
 keymaps
 keyring
@@ -376,6 +378,7 @@ Netlify
 nginx
 NGiNX
 ngrok
+niri
 nitty
 Noctua
 Nokogiri
@@ -602,12 +605,15 @@ TODO
 Tokyonight
 TOML
 tooltip
+trackpad
 Traefik
 transactional
 transcoding
 Trix
 TTY
+TUIs
 Turbolinks
+tweakable
 TXT
 TypeScript
 Udemy
@@ -660,6 +666,7 @@ VST
 VSTs
 Vue
 VueJS
+Waybar
 webcomic
 webhook
 webhooks
@@ -680,6 +687,7 @@ writeable
 wrk
 WSL
 WSLg
+WSLg's
 wsltty
 WTF'd
 www

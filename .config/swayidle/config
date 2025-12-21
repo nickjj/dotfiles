@@ -1,0 +1,25 @@
+# Lock the screen after X seconds of inactivity.
+#
+# This is commented out because I often want my system going into power savings
+# mode without a lock screen and when I want it locked I lock it manually but
+# you can uncomment this to have it auto-locked.
+#timeout 300 'swaylock --daemonize'
+
+# Turn off screens, if your external monitor happens to turn on after it
+# tries to turn off then disable auto input source in its OSD. For example
+# with my monitor it was under "Auto Detect" which I turned off.
+timeout 1200 'niri msg action power-off-monitors'
+
+# Suspend system, putting it into power savings mode. The working state of
+# the system is put into memory and other components use less power. Nothing
+# gets written to disk so swap isn't used (hibernete writes to disk).
+#
+# This is currently commented out because suspending often results in my
+# machine having a black screen that cannot be recovered until rebooting.
+# timeout 1800 'systemctl suspend'
+
+# Lock the screen before suspending the system, this prevents someone from
+# waking the system and maybe accessing your session without a password.
+#
+# It is commented by default for the same reasons mentioned earlier.
+#before-sleep 'swaylock --daemonize'

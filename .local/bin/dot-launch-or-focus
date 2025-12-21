@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Launch or focus an already running app by shortname or reverse DNS identifier.
+# Usage:
+#   dot-launch-or-focus ghostty [ARGS]
+#   dot-launch-or-focus com.mitchellh.ghostty [ARGS]
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+APP="${1}"
+
+# Gets an app's last opened instance id, it's "null" if nothing is open.
+APP_ID=$(
+  niri msg --json windows |
+    jq --arg app "${APP}" '
+    [
+      .[]
+      | select(
+          .app_id
+          | ascii_downcase
+          | endswith($app | ascii_downcase)
+        )
+    ]
+    [-1]
+    | .id
+  '
+)
+
+if [ "${APP_ID}" == "null" ]; then
+  # We shift here so that $@ has all of the arguments but not the app name.
+  shift
+
+  # APP supports the shortname (ghostty) and reverse DNS id (com.mitchellh.ghostty)
+  # so let's extract the last segment using . to split on.
+  SPAWN_APP="${APP##*.}"
+
+  niri msg action spawn -- "${SPAWN_APP}" "$@"
+else
+  niri msg action focus-window --id "${APP_ID}"
+fi

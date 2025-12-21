@@ -1,9 +1,13 @@
 font-family = Inconsolata Nerd Font
-font-size = 14
+font-size = 10
 font-feature = -calt, -liga, -dlig
 
 cursor-style-blink = false
 cursor-text = #000000
+
+window-padding-x = 4
+window-padding-y = 2
+window-padding-balance = true
 
 # Load theme.
 config-file = ?theme

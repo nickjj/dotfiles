@@ -15,21 +15,54 @@ aimed at developers**. It will prompt or warn you if it's doing a destructive
 action like overwriting a config file. You can run the idempotent [install
 script](./install) multiple times to stay up to date.
 
-There's too many things to list here but here's the highlights:
+### Philosophy
 
-- Set you up for success with command line tools and workflows
+I deeply understand one person's bloat is another person's treasure. All
+packages, configs and symlinks are configurable before you modify your system.
+A mini-goal of this project is to avoid needing to fork this project while
+still giving you a reasonable amount of control, and if you want to fork it
+that's fine too.
+
+Your machine is yours. If you want to dual boot, do it up. If you want multiple
+users, sure thing. If you don't want to encrypt your drive, no problem.
+Everyone is welcome here and you have full control.
+
+## 🎁 What's in the Box?
+
+### Command Line
+
+*Supports Arch Linux, Debian, Ubuntu and macOS. It also supports WSL 2 for any
+supported Linux distro.*
+
+- Highlights:
   - Tweak out your shell (zsh)
   - Set up tmux
   - Fully configure Neovim
   - Create SSH / GPG keys if they don't already exist
-  - Install modern CLI tools
-  - Install programming languages
+  - Install modern CLI tools and programming languages
 
-**It supports Arch Linux, Debian, Ubuntu and macOS. It also supports WSL 2 for
-any supported Linux distro.**
+### (Optional) Scrolling / Tiling Desktop Environment
 
-*If you don't plan to run the install script that's ok, everything is MIT
-licensed. The code is here to look at.*
+*Supports Arch Linux.*
+
+- Highlights:
+  - [niri](https://github.com/YaLTeR/niri), Waybar, Walker and friends
+  - Hotkey focused but tons of mouse / trackpad support
+  - Prefer TUI (Terminal User Interface) apps over GUI apps when possible
+  - Development / media creation focused apps are ready to go
+
+### Why niri and not XYZ?
+
+It's resource efficient, lightning fast, super stable, infinitely tweakable,
+intuitively handles scrolling / tiling / floating windows, integrates awesomely
+with multiple monitors, actively developed, well thought out, has great
+documentation and the author is very helpful.
+
+niri feels like a perfect match and I wanted to make a special call out because
+it's *that* good. I'm the "I was there 3,000 years ago" meme from Windows 2000,
+XP, 7, 10 and also macOS on company issued laptops. Nothing I have ever used in
+~25 years has approached how I feel using this set up. It's not even close (yes
+I tried Hyprland too).
 
 ## 🧾 Documentation
 
@@ -39,7 +72,8 @@ licensed. The code is here to look at.*
   - [How to personalize these dotfiles?](#how-to-personalize-these-dotfiles)
   - [How to theme custom apps?](#how-to-get-theme-custom-apps)
   - [How to add custom themes?](#how-to-add-custom-themes)
-  - [How to fix Neovim taking a long time to open when inside of WSL?](#how-to-fix-neovim-taking-a-long-time-to-open-when-inside-of-wsl)
+  - [How to install Arch Linux?](#how-to-install-arch-linux)
+  - [How do I get started with the desktop environment?](#how-do-i-get-started-with-the-desktop-environment)
   - [Where is the original Vim config?](#where-is-the-original-vim-config)
 - [About the Author](#-about-the-author)
 
@@ -51,11 +85,11 @@ include screenshots in 1 spot.
 
 ### Tokyonight Moon
 
-![Tokyonight Moon](https://nickjanetakis.com/assets/screenshots/dotfiles-tokyonight-moon-7320a3fb8a76462e64d13bc125a2f284.jpg)
+![Tokyonight Moon](./github/screenshots/tokyonight-moon.jpg)
 
 ### Gruvbox Dark (Medium)
 
-![Gruvbox Dark Medium](https://nickjanetakis.com/assets/screenshots/dotfiles-gruvbox-dark-medium-cfde05b1e4ccfa0ca9ebf0c089d99a28.jpg)
+![Gruvbox Dark Medium](./github/screenshots/gruvbox-dark-medium.jpg)
 
 I prefer using themes that have good contrast ratios and are clear to see in
 video recordings. These dotfiles currently support easily switching between
@@ -70,10 +104,11 @@ Inconsolata NF which these dotfiles install for you.
 These dotfiles include a `dot-theme-set` script that you can run from your
 terminal to set your theme to any of the themes listed above.
 
-You can look in the [themes/](./themes/) directory to see which apps are themed.
+You can look in the [themes/](./themes/) directory to see which apps are themed
+and [add additional apps](#how-to-theme-custom-apps) too.
 
 If you don't like the included themes that's no problem. You can [add custom
-themes](#how-to-add-custom-themes).
+themes](#how-to-add-custom-themes) and remove the defaults.
 
 After installing these dotfiles you can switch themes with:
 
@@ -84,13 +119,26 @@ After installing these dotfiles you can switch themes with:
 dot-theme-set THEME_NAME
 ```
 
-When switching themes most apps will update automatically, but if you have a
-bunch of shells already open you can run the `SZ` ([source
+When switching themes most terminal apps will update automatically, but if you
+have a bunch of shells already open you can run the `SZ` ([source
 zsh](https://nickjanetakis.com/blog/running-commands-in-all-tmux-sessions-windows-and-panes))
 alias to source new theme related configs.
 
 *Not all terminals are supported, if yours didn't change then check [theming
 custom apps](#how-to-theme-custom-apps).*
+
+### Wallpapers
+
+*Only available when the desktop environment is set up.*
+
+You can cycle between wallpapers that are compatible with the active theme.
+This is controlled through the `_theme.json` file in each theme's directory,
+it's under the `wallpaper.synergy` object.
+
+```sh
+# Set the next wallpaper.
+dot-theme-set-bg
+```
 
 ## ✨ Quickly Get Set Up
 
@@ -101,6 +149,12 @@ configuring a number of tools in your home directory.
 It even handles cloning down this repo. You'll get a chance to pick the clone
 location when running the script as well as view and / or change any system
 packages that get installed before your system is modified.
+
+If you're setting up a brand new system and plan to use the desktop environment
+you'll want to set up a bootable USB stick with the official [Arch Linux
+ISO](https://fastly.mirror.pkgbuild.com/iso/latest/) and then run the official
+[archinstall](https://wiki.archlinux.org/title/Archinstall) script. There is a
+FAQ item [covering all of that](#how-to-install-arch-linux).
 
 ### 🌱 On a fresh system?
 
@@ -117,13 +171,6 @@ them**:
 
 Here's 1 liners you can copy / paste once to meet the above requirements on all
 supported platforms:
-
-#### Arch Linux
-
-```sh
-# You can run this as root.
-pacman -Syu --noconfirm --needed curl
-```
 
 #### Debian / Ubuntu
 
@@ -163,33 +210,18 @@ the instructions below:
 **You can download and run the install script with this 1 liner:**
 
 ```sh
-BOOTSTRAP=1 bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
+BOOTSTRAP=1 bash <(curl -fsSL https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
 ```
+
+The above command only downloads a few files into a temporary directory and
+then provides a little bit of help text on how to proceed with the
+installation. Think of it as a pre-installer.
 
 *If you're not comfortable blindly running a script on the internet, that's no
 problem. You can view the [install script](./install) to see exactly what it
-does. The bottom of the file is a good place to start. Sudo is only used to
-install system packages. Alternatively you can look around this repo and
-reference the config files directly without using any script.*
-
-*Please understand if you run this script on your existing system and hit yes
-to some of the prompts your config files will get overwritten. Always have good
-backups!*
-
-**You can also run the script without installing system packages:**
-
-```sh
-BOOTSTRAP=1 bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
-```
-
-The above can be useful if you're using an unsupported distro of Linux in which
-case you'll need to install the [dependent system packages](./install) on your
-own beforehand. Besides that, everything else is supported since it's only
-dealing with files in your home directory.
-
-This set up targets zsh 5.0+, tmux 3.1+ and Neovim v0.11+. As long as you can
-meet those requirements you're good to go. The install script will take care
-of installing these for you unless you've skipped system packages.
+does. The bottom of the file is a good place to start. Alternatively you can
+look around this repo and reference the config files directly without using any
+script.*
 
 🐳 **Try it in Docker without modifying your system:**
 
@@ -220,28 +252,28 @@ Here's a few handy commands, you can run `./install --help` to see all of them:
 - `./install`
   - Run the install script based on the local copy of your dotfiles
   - Keeps your system up to date or apply local changes
-- `./install --skip-system-packages`
+- `./install --skip-system-packages | -S`
   - Run the install script like above but skip installing or updating packages
   - Helps regenerate symlinks, configs and everything else without modifying packages
-- `./install --pull`
+- `./install --pull | -p`
   - Pulls in the latest remote commits but doesn't run the install script
   - Lets you review any changes locally before the install script runs
-- `./install --update`
+- `./install --update | -u`
   - Pulls in the latest remote commits and runs the install script
   - Shortcut to pull and run the install script together
-- `./install --diff-config`
+- `./install --diff-config | -g`
   - Compare your local `install-config` to the local `install-config.example`
   - Helps keep your git ignored `install-config` in sync with new options
-- `./install --diff`
+- `./install --diff | -d`
   - Compare what you have locally vs the latest remote commits
   - See what will change if you `--update` without modifying your git tree
-- `./install --new-commits`
+- `./install --new-commits | -n`
   - Show new remote commits that do not exist locally
   - Present a quick list of what's available to pull locally
-- `./install --changelog`
+- `./install --changelog | -c`
   - Show all remote commits
   - Present a quick list of all commits to see what has changed
-- `./install --local-files`
+- `./install --local-files | -l`
   - Show all local git ignored files such as configs, history and scripts
   - Useful to see everything not committed and for optionally backing up those files
     - Example: `./install --local-files | xargs zip dotfiles-personal.zip`
@@ -253,12 +285,14 @@ in containers without needing to commit, push and pull changes.*
 ### 🛠 Make it your own
 
 If you just ran the install script and haven't done so already please close
-your terminal and open a new one.
+your terminal and open a new one. If you've set up GUI mode with Arch Linux
+you'll want to reboot too.
 
 There's a few ways to customize these dotfiles ranging from forking this repo
 to customizing [install-config](./install-config.example) which is git ignored.
 The second option lets you adjust which packages and programming languages get
-installed as well as configure a number of other things.
+installed as well as configure a number of other things without forking this
+project.
 
 Before you start customizing other files, please take a look at the
 [personalization question in the FAQ](#how-to-personalize-these-dotfiles).
@@ -306,21 +340,32 @@ services were delayed from starting by ~2 minutes.
 
 The [install-config](./install-config.example) lets you customize a few things
 but chances are you'll want to personalize more than what's there, such as
-various Neovim settings. Since this is a git repo you can always do a `git
-pull` to get the most up to date copy of these dotfiles, but then you may find
-yourself clobbering over your own personal changes.
+various Neovim settings. Since this is a git repo you can always do a
+`./install --pull` or `git pull` to get the most up to date copy of these
+dotfiles, but then you may find yourself clobbering over your own personal
+changes.
 
-Since we're using git here, we have a few reasonable options.
+We have a few reasonable options without custom branches or forking:
 
-For example, from within this dotfiles git repo you can run `git checkout -b
-personalized` and now you are free to make whatever changes that you want on
-your custom branch.  When it comes time to pull down future updates you can run
-a `git pull origin master` and then `git rebase master` to integrate any
-updates into your branch.
+- For minor changes like adjusting which packages get installed, the install config file lets you do that
+- For minor config changes some tools let you include config files, so any git ignored `.local` files you see is a way to customize them without needing to adjust the main config
+- For major config changes can configure the `CONFIG_INSTALL` commands
+to symlink other files and directories that are git ignored, this lets you keep
+your "real" files in the dotfiles repo with a different name
+
+If the above isn't enough, or maybe you want things more streamlined you can
+`git checkout -b personalized` and now you're free to make whatever changes you
+want on your custom  branch. When it comes time to pull down future updates you
+can run a `git pull origin master` and then `git rebase master` to integrate
+any updates.
 
 Another option is to fork this repo and use that, then periodically pull and
 merge updates. It's really up to you. By default these dotfiles will add an
-`upstream` git remote that points to this repo.
+`upstream` git remote that points to this repo for easy comparison.
+
+I personally use these dotfiles on 3 different devices with different operating
+systems and haven't forked or created separate branches on any of them. I just
+tweaked the install config.
 
 ### How to theme custom apps?
 
@@ -344,6 +389,146 @@ picked in step 3.
 
 If you added a theme with good contrast ratios please open a pull request to
 get it added to this project.
+
+### How to install Arch Linux?
+
+Nothing here is really specific to these dotfiles as it's general knowledge
+on setting up Arch but I wanted to include these steps to help get you going.
+
+#### Set up a bootable USB drive
+
+- Obtain a USB drive (a few gigs is fine)
+- Download the [official Arch ISO](https://fastly.mirror.pkgbuild.com/iso/latest/)
+  - You'll likely get the `archlinux-YYYY-MM-DD-x86_64.iso` file, it's about ~1.5 GB
+- Create a bootable USB drive using the above ISO
+  - The tool you use depends on your OS, but likely choose UEFI / GPT options if asked
+- Insert the USB drive and reboot
+- Configure your BIOS to boot into the USB drive first
+
+#### After booting from the USB drive
+
+- Following any instructions it says before running `archinstall`
+  - For example if you use Wi-Fi you'll want to run `iwctl` to [set up your network](https://wiki.archlinux.org/title/Iwd#iwctl):
+    - `iwctl`
+      - `device list` shows devices such as `wlan0` which we'll use below
+      - `station wlan0 scan` searches for networks (no output is normal)
+      - `station wlan0 get-networks` lists your Wi-Fi networks
+      - `station wlan0 connect <NETWORK_NAME>` prompts you for your password
+      - `exit` brings you back to your shell
+      - You should be connected to the internet at this point
+        - Verify with `ping example.com` and hit CTRL+c to stop
+
+#### Run `archinstall` from your shell
+
+The script guides you pretty well. Here's a few important callouts in the order
+they appear in the menu. The callouts are mostly my opinions, you can of course
+choose other options and have things work. The goal of this guide isn't to
+dictate what you do, it's to help you avoid analysis paralysis and see what's
+configurable before you do it.
+
+*Nothing you choose will happen immediately, you'll get to review everything at
+the end before anything happens. Generally speaking you'll be using enter to
+select options, escape to go back, the arrow keys to change selections and
+space to toggle checkboxes.*
+
+- **Archinstall language**:
+  - Pick what makes sense for your location
+- **Mirrors**:
+  - Pick a region close to where your live
+- **Locales**:
+  - Pick what makes sense to you
+- **Disk configuration**:
+  - If you go with the default "best effort" it will wipe your full drive:
+    - This is reasonable if you're *not* dual booting, if you dual boot you'll want to manually set this up
+    - Make sure the correct drive you want wiped is selected!
+    - For the file system type, I went with `ext4` given how mature it is but `btrfs` is also mostly ok, if you're not sure or don't know what's different just choose `ext4`
+    - Now it asks if you want a separate partition for your home directory, I chose no because I always end up wanting to adjust the size later and prefer skipping LVM but it's up to you of course
+    - Review the info, you should see `/boot` and `/` (root) partitions at the very least
+- **Disk encryption**:
+    - It's up to you, I would, choose to encrypt the partition and set a good password, then double confirm you can remember this password, it's very important
+- **Swap**:
+  - It's up to you, I kept it enabled with zram which was the default
+- **Bootloader**:
+  - I rolled with `systemd-boot` which is the default
+- **Unified kernel images**:
+  - I left this turned off but I suggest reading up on this more if you're interested
+- **Hostname**:
+  - Picking a cool name will probably be the [longest time](https://xkcd.com/910/) you spend in the installer
+  - You can always change it afterwards, don't sweat it!
+- **Root password**:
+  - Definitely set a password and don't forget it
+- **User account**:
+  - Create your main user and pick a password you won't forget
+  - Allow this user to be a superuser (sudo) as well
+  - You'll be logging in as this user, you can create more users later if needed
+- **Profile**:
+  - You can skip this (leave it unselected)
+  - These dotfiles handle setting up your desktop environment (including GPU drivers)
+- **Audio**:
+  - You can skip this (choose no audio server)
+  - These dotfiles will set up `pipewire` and its related packages
+- **Kernels**:
+  - The normal kernel is likely fine which is the default but feel free to choose otherwise
+- **Network configuration**:
+  - Go with "Copy ISO network configuration" unless you have other opinions
+  - This just means it will use whatever you used in this bootable USB environment
+- **Additional packages**:
+  - I suggest installing `neovim` to maybe edit the dotfiles `install-config` before you run it
+    - This isn't extra bloat since these dotfiles install `neovim` by default
+- **Optional repositories**:
+  - You can skip this unless you have reasons otherwise
+- **Timezone**:
+  - Pick what makes sense for your location
+- **Automatic time sync (NTP)**:
+  - Yep, turn this on, it will use `systemd-timesyncd` for this
+
+At this point you can write this configuration to the USB drive for next time
+(not necessary), install or abort. Choose install which will then show you a
+load out of what's going to happen.
+
+Before hitting enter to continue, you can use page up / down to see what's
+going to happen. Triple check your drive being formatted is the correct one
+and everything else looks good!
+
+- Sit back and relax while everything gets installed for ~5-10 minutes
+- Choose "no" when it prompts you to chroot into the installation
+- Remove the USB drive from your computer
+- Run `reboot`
+- Configure your BIOS to boot from the drive you just installed Arch on
+
+#### Booting up
+
+Depending on what boot loader you used, you can pick Arch Linux to boot into.
+
+If everything worked properly, you'll get booted into a `tty1` black login
+screen. You can log in with the user and password you created. If you enabled
+drive encryption you'll get prompted for your decrypt password before logging
+in.
+
+At this point you have Arch installed and you can run the install script
+earlier in this readme to bootstrap your box!
+
+### How do I get started with the desktop environment?
+
+After logging in you'll be greeted with an empty desktop and a top bar.
+
+- A few key binds:
+  - `Mod + Alt + T  ::  Terminal`
+  - `Mod + Alt + B  ::  Browser`
+  - `Mod + Alt + /  ::  Show Important Hotkeys`
+- Connect to Wi-Fi *if needed* by clicking the Wi-Fi icon in the top right
+  - Alternatively you can run `impala` from a terminal
+  - If your system has no Wi-Fi adapter this tool won't be installed
+- Connect Bluetooth devices *if needed* by clicking the Bluetooth icon in the top right
+  - Alternatively you can run `bluetui` from a terminal
+  - If your system has no Bluetooth adapter this tool won't be installed
+- Verify your sound works by visiting YouTube or some site with audio
+  - There's a sound icon in the top right to pick your input and output devices
+  - Alternatively you can run `wiremix` from a terminal
+  - Both `mpd` and [rmpc](https://github.com/mierak/rmpc) are installed for playing music, configure your music directory!
+- Open a terminal and run `dt` to switch to the dotfiles repo and open it in Neovim
+  - Explore `.config/niri/config.kdl` for a complete list of key binds
+- Have fun with *your* new system!
 
 ### Where is the original Vim config?
 
