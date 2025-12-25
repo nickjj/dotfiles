@@ -392,8 +392,8 @@ get it added to this project.
 
 ### How to install Arch Linux?
 
-Nothing here is really specific to these dotfiles as it's general knowledge
-on setting up Arch but I wanted to include these steps to help get you going.
+Nothing here is too specific to these dotfiles, it's general knowledge on
+setting up Arch but I wanted to include these steps to help get you going.
 
 #### Set up a bootable USB drive
 
