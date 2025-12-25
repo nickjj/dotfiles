@@ -14,9 +14,9 @@
   "modules-right": [
     "mpd",
     "group/tray-expander",
+    "pulseaudio",
     "bluetooth",
     "network",
-    "pulseaudio",
     "cpu",
     "battery"
   ],
@@ -90,6 +90,20 @@
     "format": " ",
     "tooltip": false
   },
+  "pulseaudio": {
+    "format": "{icon}",
+    "on-click": "dot-launch-or-focus-tui wiremix",
+    "tooltip-format": "Playback volume: {volume}%",
+    "scroll-step": 5,
+    "format-muted": "󰝟",
+    "format-icons": {
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    }
+  },
   "tray": {
     "icon-size": 12,
     "spacing": 12
@@ -118,20 +132,6 @@
     "tooltip-format-disconnected": "Disconnected",
     "interval": 10,
     "on-click": "dot-launch-or-focus-tui impala"
-  },
-  "pulseaudio": {
-    "format": "{icon}",
-    "on-click": "dot-launch-or-focus-tui wiremix",
-    "tooltip-format": "Playback volume: {volume}%",
-    "scroll-step": 5,
-    "format-muted": "󰝟",
-    "format-icons": {
-      "default": [
-        "",
-        "",
-        ""
-      ]
-    }
   },
   "cpu": {
     "interval": 5,
