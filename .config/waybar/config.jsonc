@@ -47,6 +47,14 @@
     "format-alt": "{:%a %b %d %y :: %H:%M %Z}",
     "tooltip": true,
     "tooltip-format": "<tt>{calendar}</tt>",
+    "timezones": [
+      "",
+      "UTC"
+    ],
+    "actions": {
+      "on-scroll-up": "tz_up",
+      "on-scroll-down": "tz_down"
+    },
     "calendar": {
       "mode": "year",
       "mode-mon-col": 3,
