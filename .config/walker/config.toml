@@ -1,0 +1,11 @@
+theme = "base"
+additional_theme_location = "./themes/base"
+
+[keybinds]
+quick_activate = []
+
+[providers]
+default = ["desktopapplications", "menus"]
+
+[providers.clipboard]
+time_format = "%b %d %y :: %I:%M %p"

@@ -1,0 +1,21 @@
+default-timeout=5000
+
+font=monospace 11
+
+anchor=top-right
+width=400
+height=100
+padding=8
+border-size=1
+border-radius=3
+outer-margin=20
+max-icon-size=32
+
+include=~/.config/mako/theme
+include=~/.config/mako/config.local
+
+[mode=do-not-disturb]
+invisible=true
+
+[mode=do-not-disturb app-name=notify-send]
+invisible=false

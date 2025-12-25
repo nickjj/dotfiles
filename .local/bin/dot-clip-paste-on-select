@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Used by the clipboard manager to auto-paste on select instead of copy, this
+# lets you hit enter on the item instead of having to paste it after selecting.
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+focused_app="$(niri msg --json focused-window | jq --raw-output ".app_id")"
+
+# Separate multiple apps with | since this is used in a regex OR.
+ctrl_shift_v_apps="ghostty"
+ctrl_shift_modifier=""
+
+wl-copy
+
+# Certain apps like terminals typically use CTRL+SHIFT+v.
+if [[ "${focused_app}" =~ \.(${ctrl_shift_v_apps}) ]]; then
+  # We need to sleep because without this then the shift modifier has no effect.
+  sleep 0.1
+  ctrl_shift_modifier=",shift"
+fi
+
+wlrctl keyboard type "v" modifiers "ctrl${ctrl_shift_modifier}"

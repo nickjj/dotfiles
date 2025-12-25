@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# Set the next available wallpaper, defaulting to a color if none are available.
+# Optionally supports keeping the current wallpaper (useful after rebooting).
+#
+# Usage:
+#   dot-theme-set-bg
+#   dot-theme-set-bg --keep-current
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+KEEP_CURRENT="${1:-}"
+
+WALLPAPER_DIR="${XDG_CONFIG_HOME}/wallpaper"
+WALLPAPER_PATH="${WALLPAPER_DIR}/wallpaper.jpg"
+
+THEME_DATA_PATH="${WALLPAPER_DIR}/theme.json"
+
+# We only want to set this if there's an existing symlink.
+if readlink "${WALLPAPER_PATH}" 1>/dev/null; then
+  CURRENT_WALLPAPER_PATH="$(readlink "${WALLPAPER_PATH}")"
+  CURRENT_WALLPAPER="$(basename "${CURRENT_WALLPAPER_PATH}")"
+fi
+
+# Avoid setting the next wallpaper if we're keeping the current one. We don't
+# exit early so we can still fallback to a color if something went wrong.
+if [ -n "${KEEP_CURRENT}" ]; then
+  NEXT_WALLPAPER="${CURRENT_WALLPAPER}"
+else
+  # Parse out the next wallpaper.
+  #
+  # if ($arr | length) == 0 then null
+  #   - Avoid divide by zero errors if the array is empty.
+  #
+  # ($arr | index($current)) as $idx
+  #   - Check to see if the current wallpaper is in the list.
+  #
+  # if $idx == null then $arr[0]
+  #   - Default to the first item if the current wallpaper isn't found.
+  #
+  # else $arr[($idx + 1) % ($arr | length)]
+  #   - Get the next item in the list and wrap to the start if at the last item.
+  NEXT_WALLPAPER="$(jq --raw-output --arg current "${CURRENT_WALLPAPER:-}" '
+    .wallpaper.synergy as $arr
+    | if ($arr | length) == 0 then null
+      else
+        ($arr | index($current)) as $idx
+        | if $idx == null then $arr[0]
+          else $arr[($idx + 1) % ($arr | length)]
+          end
+      end
+      ' "${THEME_DATA_PATH}")"
+fi
+
+fallback() {
+  local color=
+  color="$(jq --raw-output ".wallpaper.color" "${THEME_DATA_PATH}")"
+
+  if [ "${color}" = "null" ]; then
+    echo "${THEME_DATA_PATH} is missing wallpaper.color value, aborting!" >&2
+    exit 1
+  fi
+
+  [ -L "${WALLPAPER_PATH}" ] && rm "${WALLPAPER_PATH}"
+  swaybg --color "${color}" >/dev/null 2>&1 &
+
+  exit
+}
+
+killall swaybg 2>/dev/null || true
+
+[ "${NEXT_WALLPAPER}" = "null" ] && fallback
+
+ln -fns "${DOTFILES_PATH}/wallpapers/${NEXT_WALLPAPER}" "${WALLPAPER_PATH}"
+swaybg --image "${WALLPAPER_PATH}" --mode fill >/dev/null 2>&1 &
+
+# When booting up, we don't want to display this message.
+[ -z "${KEEP_CURRENT}" ] && notify-send "Wallpaper set to ${NEXT_WALLPAPER}"

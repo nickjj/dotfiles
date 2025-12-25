@@ -45,155 +45,447 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   YOUR_NAME="${YOUR_NAME:-}"
   YOUR_EMAIL="${YOUR_EMAIL:-}"
 
-  PACMAN_PACKAGES="${PACMAN_PACKAGES:-
-    aspell
-    base
-    base-devel
-    bat
-    bc
-    dnsutils
-    btop
-    curl
-    eza
-    fastfetch
-    fd
-    ffmpeg
-    fontconfig
-    fzf
-    git
-    git-delta
-    gnupg
-    go-yq
-    inotify-tools
-    jq
-    keepassxc
-    less
-    man-db
-    man-pages
-    mise
-    neovim
-    openbsd-netcat
-    openssh
-    pacman-contrib
-    pwgen
-    ripgrep
-    rsync
-    shellcheck
-    shfmt
-    tmux
-    unzip
-    wev
-    wget
-    whois
-    wl-clipboard
-    zip
-    zsh
-  }
-  "
-  PACMAN_PACKAGES_EXTRAS="${PACMAN_PACKAGES_EXTRAS:-}"
+  # Is the variable defined as an array or string? -z doesn't reliably work
+  # on arrays since it only looks at the first element.
+  if [[ "${PACKAGES_PACMAN+x}" ]]; then
+    # If the variable is defined with an empty value, the intent is to
+    # override the defaults with nothing.
+    [ -z "${PACKAGES_PACMAN}" ] && PACKAGES_PACMAN=()
+  else
+    # The exported variable is commented out, fallback to defaults.
+    PACKAGES_PACMAN=(
+      "aspell"
+      "base"
+      "base-devel"
+      "bat"
+      "bc"
+      "btop"
+      "curl"
+      "dnsutils"
+      "eza"
+      "fastfetch"
+      "fd"
+      "ffmpeg"
+      "fontconfig"
+      "fzf"
+      "git"
+      "git-delta"
+      "gnupg"
+      "go-yq"
+      "imagemagick"
+      "inotify-tools"
+      "jq"
+      "keepassxc"
+      "less"
+      "man-db"
+      "man-pages"
+      "mise"
+      "neovim"
+      "openbsd-netcat"
+      "openssh"
+      "pacman-contrib"
+      "pwgen"
+      "ripgrep"
+      "rsync"
+      "shellcheck"
+      "shfmt"
+      "smartmontools"
+      "tmux"
+      "unzip"
+      "usbutils"
+      "wev"
+      "wget"
+      "whois"
+      "wl-clipboard"
+      "zip"
+      "zsh"
+    )
+  fi
 
-  APT_PACKAGES="${APT_PACKAGES:-
-    aspell
-    bat
-    bc
-    dnsutils
-    btop
-    build-essential
-    curl
-    ffmpeg
-    fontconfig
-    git
-    gnupg
-    inotify-tools
-    iproute2
-    keepassxc
-    netcat-openbsd
-    openssh-server
-    pwgen
-    rsync
-    tmux
-    unzip
-    wev
-    wget
-    whois
-    wl-clipboard
-    xz-utils
-    zip
-    zsh
-  }
-  "
-  APT_PACKAGES_EXTRAS="${APT_PACKAGES_EXTRAS:-}"
+  if [[ "${PACKAGES_PACMAN_EXTRAS+x}" ]]; then
+    [ -z "${PACKAGES_PACMAN_EXTRAS}" ] && PACKAGES_PACMAN_EXTRAS=()
+  else
+    PACKAGES_PACMAN_EXTRAS=()
+  fi
 
-  BREW_PACKAGES="${BREW_PACKAGES:-
-    aspell
-    bash
-    bat
-    bc
-    btop
-    curl
-    diffutils
-    eza
-    fastfetch
-    fd
-    ffmpeg
-    fzf
-    git
-    git-delta
-    gnupg
-    jq
-    mise
-    nvim
-    pwgen
-    ripgrep
-    rsync
-    shellcheck
-    shfmt
-    tmux
-    wget
-    xz
-    yq
-    zsh
-  }
-  "
-  BREW_PACKAGES_EXTRAS="${BREW_PACKAGES_EXTRAS:-}"
+  if [[ "${PACKAGES_PACMAN_GUI+x}" ]]; then
+    [ -z "${PACKAGES_PACMAN_GUI}" ] && PACKAGES_PACMAN_GUI=()
+  else
+    PACKAGES_PACMAN_GUI=(
+      "brightnessctl"
+      "docker"
+      "docker-compose"
+      "ffmpegthumbnailer"
+      "firefox"
+      "ghostty"
+      "gimp"
+      "grim"
+      "hyprpicker"
+      "kdenlive"
+      "keepassxc"
+      "libqalculate"
+      "libreoffice"
+      "mako"
+      "mpd"
+      "mpd-mpris"
+      "mpv"
+      "niri"
+      "noto-fonts-emoji"
+      "obs-studio"
+      "pipewire"
+      "pipewire-alsa"
+      "pipewire-jack"
+      "pipewire-pulse"
+      "rmpc"
+      "satty"
+      "slurp"
+      "swaybg"
+      "swayidle"
+      "swaylock"
+      "thunar"
+      "thunar-archive-plugin"
+      "timidity++"
+      "ttf-freefont"
+      "tumbler"
+      "uwsm"
+      "waybar"
+      "wiremix"
+      "wireplumber"
+      "xarchiver"
+      "xdg-desktop-portal-gnome"
+      "xdg-desktop-portal-gtk"
+      "xwayland-satellite"
+    )
+  fi
 
-  BREW_CASK_PACKAGES="${BREW_CASK_PACKAGES:-
-    firefox
-    ghostty
-    google-chrome
-    keepassxc
-    key-codes
-    maccy
-  }
-  "
-  BREW_CASK_PACKAGES_EXTRAS="${BREW_CASK_PACKAGES_EXTRAS:-}"
+  if [[ "${PACKAGES_PACMAN_GUI_EXTRAS+x}" ]]; then
+    [ -z "${PACKAGES_PACMAN_GUI_EXTRAS}" ] && PACKAGES_PACMAN_GUI_EXTRAS=()
+  else
+    PACKAGES_PACMAN_GUI_EXTRAS=()
+  fi
 
-  MISE_PACKAGES_ARCH="${MISE_PACKAGES_ARCH:-}"
-  MISE_PACKAGES_ARCH_EXTRAS="${MISE_PACKAGES_ARCH_EXTRAS:-}"
+  if [[ "${PACKAGES_AUR+x}" ]]; then
+    [ -z "${PACKAGES_AUR}" ] && PACKAGES_AUR=()
+  else
+    PACKAGES_AUR=()
+  fi
 
-  MISE_PACKAGES_DEBIAN="${MISE_PACKAGES_DEBIAN:-
-    eza
-    fd
-    fzf
-    jq
-    neovim
-    ripgrep
-    shellcheck
-    shfmt
-    yq
-  }
-  "
-  MISE_PACKAGES_DEBIAN_EXTRAS="${MISE_PACKAGES_DEBIAN_EXTRAS:-}"
+  if [[ "${PACKAGES_AUR_EXTRAS+x}" ]]; then
+    [ -z "${PACKAGES_AUR_EXTRAS}" ] && PACKAGES_AUR_EXTRAS=()
+  else
+    PACKAGES_AUR_EXTRAS=()
+  fi
 
-  MISE_PACKAGES_MACOS="${MISE_PACKAGES_MACOS:-}"
-  MISE_PACKAGES_MACOS_EXTRAS="${MISE_PACKAGES_MACOS_EXTRAS:-}"
+  if [[ "${PACKAGES_AUR_GUI+x}" ]]; then
+    [ -z "${PACKAGES_AUR_GUI}" ] && PACKAGES_AUR_GUI=()
+  else
+    PACKAGES_AUR_GUI=(
+      "elephant-bin"
+      "elephant-calc-bin"
+      "elephant-clipboard-bin"
+      "elephant-desktopapplications-bin"
+      "elephant-files-bin"
+      "elephant-menus-bin"
+      "elephant-providerlist-bin"
+      "elephant-runner-bin"
+      "elephant-symbols-bin"
+      "elephant-unicode-bin"
+      "elephant-websearch-bin"
+      "elephant-windows-bin"
+      "walker-bin"
+      "wlrctl"
+      "xnviewmp"
+    )
+  fi
 
-  if [[ -z "${MISE_LANGUAGES[*]}" ]]; then
-    declare -gA MISE_LANGUAGES
+  if [[ "${PACKAGES_AUR_GUI_EXTRAS+x}" ]]; then
+    [ -z "${PACKAGES_AUR_GUI_EXTRAS}" ] && PACKAGES_AUR_GUI_EXTRAS=()
+  else
+    PACKAGES_AUR_GUI_EXTRAS=()
+  fi
+
+  if [[ "${PACKAGES_APT+x}" ]]; then
+    [ -z "${PACKAGES_APT}" ] && PACKAGES_APT=()
+  else
+    PACKAGES_APT=(
+      "aspell"
+      "bat"
+      "bc"
+      "dnsutils"
+      "btop"
+      "build-essential"
+      "curl"
+      "ffmpeg"
+      "fontconfig"
+      "git"
+      "gnupg"
+      "imagemagick"
+      "inotify-tools"
+      "iproute2"
+      "keepassxc"
+      "netcat-openbsd"
+      "openssh-server"
+      "pwgen"
+      "rsync"
+      "smartmontools"
+      "tmux"
+      "unzip"
+      "usbutils"
+      "wev"
+      "wget"
+      "whois"
+      "wl-clipboard"
+      "xz-utils"
+      "zip"
+      "zsh"
+    )
+  fi
+
+  if [[ "${PACKAGES_APT_EXTRAS+x}" ]]; then
+    [ -z "${PACKAGES_APT_EXTRAS}" ] && PACKAGES_APT_EXTRAS=()
+  else
+    PACKAGES_APT_EXTRAS=()
+  fi
+
+  if [[ "${PACKAGES_BREW+x}" ]]; then
+    [ -z "${PACKAGES_BREW}" ] && PACKAGES_BREW=()
+  else
+    PACKAGES_BREW=(
+      "aspell"
+      "bash"
+      "bat"
+      "bc"
+      "btop"
+      "curl"
+      "diffutils"
+      "eza"
+      "fastfetch"
+      "fd"
+      "ffmpeg"
+      "fzf"
+      "git"
+      "git-delta"
+      "gnupg"
+      "imagemagick"
+      "jq"
+      "mise"
+      "nvim"
+      "pwgen"
+      "ripgrep"
+      "rsync"
+      "shellcheck"
+      "shfmt"
+      "smartmontools"
+      "tmux"
+      "usbutils"
+      "wget"
+      "xz"
+      "yq"
+      "zsh"
+    )
+  fi
+
+  if [[ "${PACKAGES_BREW_EXTRAS+x}" ]]; then
+    [ -z "${PACKAGES_BREW_EXTRAS}" ] && PACKAGES_BREW_EXTRAS=()
+  else
+    PACKAGES_BREW_EXTRAS=()
+  fi
+
+  if [[ "${PACKAGES_BREW_CASK+x}" ]]; then
+    [ -z "${PACKAGES_BREW_CASK}" ] && PACKAGES_BREW_CASK=()
+  else
+    PACKAGES_BREW_CASK=(
+      "firefox"
+      "ghostty"
+      "gimp"
+      "google-chrome"
+      "keepassxc"
+      "key-codes"
+      "maccy"
+    )
+  fi
+
+  if [[ "${PACKAGES_BREW_CASK_EXTRAS+x}" ]]; then
+    [ -z "${PACKAGES_BREW_CASK_EXTRAS}" ] && PACKAGES_BREW_CASK_EXTRAS=()
+  else
+    PACKAGES_BREW_CASK_EXTRAS=()
+  fi
+
+  if [[ "${MISE_ARCH+x}" ]]; then
+    [ -z "${MISE_ARCH}" ] && MISE_ARCH=()
+  else
+    MISE_ARCH=()
+  fi
+
+  if [[ "${MISE_ARCH_EXTRAS+x}" ]]; then
+    [ -z "${MISE_ARCH_EXTRAS}" ] && MISE_ARCH_EXTRAS=()
+  else
+    MISE_ARCH_EXTRAS=()
+  fi
+
+  if [[ "${MISE_DEBIAN+x}" ]]; then
+    [ -z "${MISE_DEBIAN}" ] && MISE_DEBIAN=()
+  else
+    MISE_DEBIAN=(
+      "eza"
+      "fd"
+      "fzf"
+      "jq"
+      "neovim"
+      "ripgrep"
+      "shellcheck"
+      "shfmt"
+      "yq"
+    )
+  fi
+
+  if [[ "${MISE_DEBIAN_EXTRAS+x}" ]]; then
+    [ -z "${MISE_DEBIAN_EXTRAS}" ] && MISE_DEBIAN_EXTRAS=()
+  else
+    MISE_DEBIAN_EXTRAS=()
+  fi
+
+  if [[ "${MISE_MACOS+x}" ]]; then
+    [ -z "${MISE_MACOS}" ] && MISE_MACOS=()
+  else
+    MISE_MACOS=()
+  fi
+
+  if [[ "${MISE_MACOS_EXTRAS+x}" ]]; then
+    [ -z "${MISE_MACOS_EXTRAS}" ] && MISE_MACOS_EXTRAS=()
+  else
+    MISE_MACOS_EXTRAS=()
+  fi
+
+  if [[ ! "${MISE_LANGUAGES+x}" ]]; then
+    declare -A MISE_LANGUAGES
     MISE_LANGUAGES["node"]="node@24.11"
     MISE_LANGUAGES["python"]="python@3.14"
   fi
-  declare -A MISE_LANGUAGES_EXTRAS="${MISE_LANGUAGES_EXTRAS:-}"
+
+  if [[ ! "${MISE_LANGUAGES_EXTRAS+x}" ]]; then
+    declare -A MISE_LANGUAGES_EXTRAS
+  fi
+
+  if [[ "${CONFIG_INSTALL+x}" ]]; then
+    [ -z "${CONFIG_INSTALL}" ] && CONFIG_INSTALL=()
+  else
+    CONFIG_INSTALL=(
+      "ln -fns \"\${DOTFILES_PATH}/.config/bat/config\" \"\${XDG_CONFIG_HOME}/bat/config\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/btop/btop.conf\" \"\${XDG_CONFIG_HOME}/btop/btop.conf\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/fzf/config.sh\" \"\${XDG_CONFIG_HOME}/fzf/config.sh\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/ghostty/config.local\" \"\${XDG_CONFIG_HOME}/ghostty/config.local\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/ghostty/config\" \"\${XDG_CONFIG_HOME}/ghostty/config\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/git/config.local\" \"\${XDG_CONFIG_HOME}/git/config.local\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/git/config\" \"\${XDG_CONFIG_HOME}/git/config\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/nvim\" \"\${XDG_CONFIG_HOME}/nvim\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/tmux/tmux.conf\" \"\${XDG_CONFIG_HOME}/tmux/tmux.conf\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.aliases.local\" \"\${XDG_CONFIG_HOME}/zsh/.aliases.local\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.aliases\" \"\${XDG_CONFIG_HOME}/zsh/.aliases\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.xdg.local\" \"\${XDG_CONFIG_HOME}/zsh/.xdg.local\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zprofile.local\" \"\${XDG_CONFIG_HOME}/zsh/.zprofile.local\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zprofile\" \"\${XDG_CONFIG_HOME}/zsh/.zprofile\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshenv\" \"\${HOME}/.zshenv\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshrc.local\" \"\${XDG_CONFIG_HOME}/zsh/.zshrc.local\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshrc\" \"\${XDG_CONFIG_HOME}/zsh/.zshrc\""
+      "ln -fns \"\${DOTFILES_PATH}/.local/bin/\"* \"\${HOME}/.local/bin/\""
+    )
+  fi
+
+  if [[ "${CONFIG_INSTALL_EXTRAS+x}" ]]; then
+    [ -z "${CONFIG_INSTALL_EXTRAS}" ] && CONFIG_INSTALL_EXTRAS=()
+  else
+    CONFIG_INSTALL_EXTRAS=()
+  fi
+
+  if [[ "${CONFIG_INSTALL_GUI_LINUX+x}" ]]; then
+    [ -z "${CONFIG_INSTALL_GUI_LINUX}" ] && CONFIG_INSTALL_GUI_LINUX=()
+  else
+    CONFIG_INSTALL_GUI_LINUX=(
+      "ln -fns \"\${DOTFILES_PATH}/.config/elephant\" \"\${XDG_CONFIG_HOME}/elephant\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/fontconfig/fonts.conf\" \"\${XDG_CONFIG_HOME}/fontconfig/fonts.conf\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/mako/config.local\" \"\${XDG_CONFIG_HOME}/mako/config.local\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/mako/config\" \"\${XDG_CONFIG_HOME}/mako/config\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/mpd/mpd.conf\" \"\${XDG_CONFIG_HOME}/mpd/mpd.conf\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/niri/config.kdl.local\" \"\${XDG_CONFIG_HOME}/niri/config.kdl.local\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/niri/config.kdl\" \"\${XDG_CONFIG_HOME}/niri/config.kdl\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/rmpc/config.ron\" \"\${XDG_CONFIG_HOME}/rmpc/config.ron\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/satty/config.toml\" \"\${XDG_CONFIG_HOME}/satty/config.toml\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/swayidle/config\" \"\${XDG_CONFIG_HOME}/swayidle/config\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/swaylock/config\" \"\${XDG_CONFIG_HOME}/swaylock/config\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/tumbler/tumbler.rc\" \"\${XDG_CONFIG_HOME}/tumbler/tumbler.rc\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/uwsm/env\" \"\${XDG_CONFIG_HOME}/uwsm/env\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/walker/config.toml\" \"\${XDG_CONFIG_HOME}/walker/config.toml\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/walker/themes/base/style.css\" \"\${XDG_CONFIG_HOME}/walker/themes/base/style.css\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/waybar/config.jsonc\" \"\${XDG_CONFIG_HOME}/waybar/config.jsonc\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/waybar/style.css\" \"\${XDG_CONFIG_HOME}/waybar/style.css\""
+      "ln -fns \"\${DOTFILES_PATH}/.local/share/applications/\"* \"\${XDG_DATA_HOME}/applications/\""
+    )
+  fi
+
+  if [[ "${CONFIG_INSTALL_GUI_LINUX_EXTRAS+x}" ]]; then
+    [ -z "${CONFIG_INSTALL_GUI_LINUX_EXTRAS}" ] && CONFIG_INSTALL_GUI_LINUX_EXTRAS=()
+  else
+    CONFIG_INSTALL_GUI_LINUX_EXTRAS=(
+      "ln -fns \"/data/storage/docs\" \"${HOME}/docs\""
+      "ln -fns \"/data/storage/downloads\" \"${HOME}/downloads\""
+      "ln -fns \"/data/storage/media\" \"${HOME}/media\""
+      "ln -fns \"/data/storage/tmp\" \"${HOME}/tmp\""
+    )
+  fi
+
+  if [[ "${CONFIG_INSTALL_ARCH+x}" ]]; then
+    [ -z "${CONFIG_INSTALL_ARCH}" ] && CONFIG_INSTALL_ARCH=()
+  else
+    CONFIG_INSTALL_ARCH=(
+      "sudo ln -fns \"\${DOTFILES_PATH}/etc/pacman.d/01-options.conf\" \"/etc/pacman.d/01-options.conf\""
+      "sudo ln -fns \"/run/systemd/resolve/stub-resolv.conf\" \"/etc/resolv.conf\""
+    )
+  fi
+
+  if [[ "${CONFIG_INSTALL_ARCH_EXTRAS+x}" ]]; then
+    [ -z "${CONFIG_INSTALL_ARCH_EXTRAS}" ] && CONFIG_INSTALL_ARCH_EXTRAS=()
+  else
+    CONFIG_INSTALL_ARCH_EXTRAS=()
+  fi
+
+  if [[ "${CONFIG_INSTALL_WSL+x}" ]]; then
+    [ -z "${CONFIG_INSTALL_WSL}" ] && CONFIG_INSTALL_WSL=()
+  else
+    CONFIG_INSTALL_WSL=(
+      "cp \"\${DOTFILES_PATH}/mnt/c/Users/Nick/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json\" \"/mnt/c/Users/%WindowsUser/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json\" || true"
+      "sudo ln -fns \"\${DOTFILES_PATH}/etc/wsl.conf\" \"/etc/wsl.conf\""
+    )
+  fi
+
+  if [[ "${CONFIG_INSTALL_WSL_EXTRAS+x}" ]]; then
+    [ -z "${CONFIG_INSTALL_WSL_EXTRAS}" ] && CONFIG_INSTALL_WSL_EXTRAS=()
+  else
+    CONFIG_INSTALL_WSL_EXTRAS=()
+  fi
+
+  if [[ ! "${SUDOERS_ENTRIES+x}" ]]; then
+    declare -A SUDOERS_ENTRIES
+    SUDOERS_ENTRIES["dot-timedatectl"]="${USER} ALL=(ALL) NOPASSWD: /usr/bin/timedatectl"
+  fi
+
+  if [[ ! "${SUDOERS_ENTRIES_EXTRAS+x}" ]]; then
+    declare -A SUDOERS_ENTRIES_EXTRAS
+  fi
+
+  if [[ "${SYSTEMD_ENABLED_SERVICES+x}" ]]; then
+    [ -z "${SYSTEMD_ENABLED_SERVICES}" ] && SYSTEMD_ENABLED_SERVICES=()
+  else
+    SYSTEMD_ENABLED_SERVICES=(
+      "docker"
+    )
+  fi
+
+  if [[ "${SYSTEMD_ENABLED_SERVICES_EXTRAS+x}" ]]; then
+    [ -z "${SYSTEMD_ENABLED_SERVICES_EXTRAS}" ] && SYSTEMD_ENABLED_SERVICES_EXTRAS=()
+  else
+    SYSTEMD_ENABLED_SERVICES_EXTRAS=()
+  fi
 fi
 
 # We always want to determine these values no matter how this script is called.
@@ -206,6 +498,13 @@ C_RED="\e[0;31;1m"
 C_GREEN="\e[0;32;1m"
 C_CYAN="\e[0;36;1m"
 C_RESET="\e[0m"
+
+# Do we want GUI support? GUI_ENABLED will get set based on multiple conditions.
+GUI_LINUX="${GUI_LINUX:-}"
+GUI_ENABLED=
+
+# Are we in a container?
+IN_CONTAINER="${IN_CONTAINER:-}"
 
 # -----------------------------------------------------------------------------
 # Helper functions
@@ -224,19 +523,19 @@ _info() {
 }
 
 _local_clone() {
-  [ -z "${LOCAL}" ] && return 1
+  [ "${LOCAL}" != "1" ] && return 1
 
   # Extra protection to avoid clobbering real real dotfiles.
   if [ "${PWD}" != "${DOTFILES_PATH}" ]; then
     cp -R "${PWD}/." "${DOTFILES_PATH}"
 
     # Ensure the containerized environment starts fresh.
-    if [ -n "${IN_CONTAINER}" ]; then
-      # shellcheck disable=SC1091
-      . ./install-config
-
+    if [ "${IN_CONTAINER}" == "1" ]; then
       rm \
+        "${DOTFILES_PATH}/.config/ghostty/config.local" \
         "${DOTFILES_PATH}/.config/git/config.local" \
+        "${DOTFILES_PATH}/.config/mako/config.local" \
+        "${DOTFILES_PATH}/.config/niri/config.kdl.local" \
         "${DOTFILES_PATH}/.config/zsh/.aliases.local" \
         "${DOTFILES_PATH}/.config/zsh/.zprofile.local" \
         "${DOTFILES_PATH}/.config/zsh/.zsh_history" \
@@ -267,13 +566,48 @@ EOF
   exit 1
 }
 
-_install_packages_arch() {
-  PACMAN_PACKAGES="$(echo "${PACMAN_PACKAGES}" | xargs)"
+_package_install() {
+  local manager="${1}"
 
-  if [[ -n "${PACMAN_PACKAGES}" || -n "${PACMAN_PACKAGES_EXTRAS}" ]]; then
-    # shellcheck disable=SC2086
-    sudo pacman -Syu --noconfirm --needed ${PACMAN_PACKAGES} ${PACMAN_PACKAGES_EXTRAS}
+  shift
+
+  local packages=("${@}")
+
+  ((${#packages[@]} == 0)) && return
+
+  case "${manager}" in
+  pacman)
+    sudo pacman -Syu --noconfirm --needed "${packages[@]}"
+    ;;
+  yay)
+    yay -S --noconfirm --needed "${packages[@]}"
+    ;;
+  apt)
+    sudo apt-get update && sudo apt-get install -y --no-install-recommends "${packages[@]}"
+    ;;
+  brew)
+    brew install "${packages[@]}"
+    ;;
+  brew-cask)
+    brew install --cask "${packages[@]}"
+    ;;
+  mise)
+    mise use --global "${packages[@]}"
+    ;;
+  esac
+}
+
+_install_packages_arch() {
+  # Ensure GUI packages get skipped unless GUI is enabled.
+  if [ "${GUI_ENABLED}" != "1" ]; then
+    PACKAGES_PACMAN_GUI=()
+    PACKAGES_PACMAN_GUI_EXTRAS=()
+    PACKAGES_AUR_GUI=()
+    PACKAGES_AUR_GUI_EXTRAS=()
   fi
+
+  # Install Arch packages.
+  _package_install pacman "${PACKAGES_PACMAN[@]}" "${PACKAGES_PACMAN_EXTRAS[@]}" "${PACKAGES_PACMAN_GUI[@]}" "${PACKAGES_PACMAN_GUI_EXTRAS[@]}"
 
   # Install Yay (AUR) if needed.
   local yay_local_version=
@@ -293,29 +627,15 @@ _install_packages_arch() {
   fi
 
   # Install AUR packages.
-  AUR_PACKAGES="$(echo "${AUR_PACKAGES}" | xargs)"
-
-  if [[ -n "${AUR_PACKAGES}" || -n "${AUR_PACKAGES_EXTRAS}" ]]; then
-    # shellcheck disable=SC2086
-    yay -S --noconfirm --needed ${AUR_PACKAGES} ${AUR_PACKAGES_EXTRAS}
-  fi
+  _package_install yay "${PACKAGES_AUR[@]}" "${PACKAGES_AUR_EXTRAS[@]}" "${PACKAGES_AUR_GUI[@]}" "${PACKAGES_AUR_GUI_EXTRAS[@]}"
 
   # Install Mise packages.
-  MISE_PACKAGES_ARCH="$(echo "${MISE_PACKAGES_ARCH}" | xargs)"
-  echo
-  # shellcheck disable=SC2086
-  if [[ -n "${MISE_PACKAGES_ARCH}" || -n "${MISE_PACKAGES_ARCH_EXTRAS}" ]]; then
-    mise use --global ${MISE_PACKAGES_ARCH} ${MISE_PACKAGES_ARCH_EXTRAS}
-  fi
+  _package_install mise "${MISE_ARCH[@]}" "${MISE_ARCH_EXTRAS[@]}"
 }
 
 _install_packages_debian() {
-  APT_PACKAGES="$(echo "${APT_PACKAGES}" | xargs)"
-
-  if [[ -n "${APT_PACKAGES}" || -n "${APT_PACKAGES_EXTRAS}" ]]; then
-    # shellcheck disable=SC2086
-    sudo apt-get update && sudo apt-get install -y ${APT_PACKAGES} ${APT_PACKAGES_EXTRAS}
-  fi
+  # Install APT packages.
+  _package_install apt "${PACKAGES_APT[@]}" "${PACKAGES_APT_EXTRAS[@]}"
 
   # Install Mise.
   sudo install -dm 755 /etc/apt/keyrings
@@ -324,16 +644,7 @@ _install_packages_debian() {
   sudo apt-get update && sudo apt-get install -y mise
 
   # Install Mise packages.
-  #
-  # Apt's packages typically have older versions since Debian and Ubuntu are
-  # stable distros. In most cases the version included is fine but we do want
-  # the latest and greatest versions for certain tools.
-  MISE_PACKAGES_DEBIAN="$(echo "${MISE_PACKAGES_DEBIAN}" | xargs)"
-  echo
-  # shellcheck disable=SC2086
-  if [[ -n "${MISE_PACKAGES_DEBIAN}" || -n "${MISE_PACKAGES_DEBIAN_EXTRAS}" ]]; then
-    mise use --global ${MISE_PACKAGES_DEBIAN} ${MISE_PACKAGES_DEBIAN_EXTRAS}
-  fi
+  _package_install mise "${MISE_DEBIAN[@]}" "${MISE_DEBIAN_EXTRAS[@]}"
 
   # Install packages manually since they don't exist elsewhere.
 
@@ -357,86 +668,116 @@ _install_packages_macos() {
   # Ensure brew's paths are available for this script
   eval "$(${prefix}/bin/brew shellenv)"
 
-  BREW_PACKAGES="$(echo "${BREW_PACKAGES}" | xargs)"
-  BREW_CASK_PACKAGES="$(echo "${BREW_CASK_PACKAGES}" | xargs)"
-
-  if [[ -n "${BREW_PACKAGES}" || -n "${BREW_PACKAGES_EXTRAS}" ]]; then
-    # shellcheck disable=SC2086
-    brew install ${BREW_PACKAGES} ${BREW_PACKAGES_EXTRAS}
-  fi
-
-  if [[ -n "${BREW_CASK_PACKAGES}" || -n "${BREW_CASK_PACKAGES_EXTRAS}" ]]; then
-    # shellcheck disable=SC2086
-    brew install --cask ${BREW_CASK_PACKAGES} ${BREW_CASK_PACKAGES_EXTRAS}
-  fi
+  # Install Brew packages.
+  _package_install brew "${PACKAGES_BREW[@]}" "${PACKAGES_BREW_EXTRAS[@]}"
+  _package_install brew-cask "${PACKAGES_BREW_CASK[@]}" "${PACKAGES_BREW_CASK_EXTRAS[@]}"
 
   # Install Mise packages.
-  MISE_PACKAGES_MACOS="$(echo "${MISE_PACKAGES_MACOS}" | xargs)"
-  echo
-  # shellcheck disable=SC2086
-  if [[ -n "${MISE_PACKAGES_MACOS}" || -n "${MISE_PACKAGES_MACOS_EXTRAS}" ]]; then
-    mise use --global ${MISE_PACKAGES_MACOS} ${MISE_PACKAGES_MACOS_EXTRAS}
-  fi
+  _package_install mise "${MISE_MACOS[@]}" "${MISE_MACOS_EXTRAS[@]}"
 }
 
-_display_packages_output() {
-  local packages="${1:-}"
-  local packages_extras="${2:-}"
-  local packages_aur="${3:-}"
-  local packages_aur_extras="${4:-}"
-  local mise="${5:-}"
-  local mise_extras="${6:-}"
+_package_display() {
+  local heading="${1}"
 
-  if [ -n "${packages}" ]; then
-    printf "\n:: Packages (default)\n"
-    printf "%s" "${packages}"
+  shift
+
+  local packages=("${@}")
+
+  printf "\n:: %s\n" "${heading}"
+
+  # Let's show something so it doesn't look like it was blindly skipped.
+  if ((${#packages[@]} == 0)); then
+    echo "   Skipping, since there's no packages defined"
+    return
   fi
 
-  if [ -n "${packages_extras}" ]; then
-    printf "\n:: Packages (extras)\n"
-    printf "%s" "${packages_extras}"
-  fi
-
-  if [ -n "${packages_aur}" ]; then
-    printf "\n:: Packages AUR (default)\n"
-    printf "%s" "${packages_aur}"
-  fi
-
-  if [ -n "${packages_aur_extras}" ]; then
-    printf "\n:: Packages AUR (extras)\n"
-    printf "%s" "${packages_aur_extras}"
-  fi
-
-  if [ -n "${mise}" ]; then
-    printf "\n:: Mise (default)\n"
-    printf "%s" "${mise}"
-  fi
-
-  if [ -n "${mise_extras}" ]; then
-    printf "\n:: Mise (extras)\n"
-    printf "%s" "${mise_extras}"
-  fi
+  for item in "${packages[@]}"; do
+    echo "   - ${item}"
+  done
 }
 
 _display_packages() {
   if [ "${OS_TYPE}" == "linux" ]; then
     if [ "${OS_DISTRO}" == "arch" ]; then
-      _display_packages_output "${PACMAN_PACKAGES}" "${PACMAN_PACKAGES_EXTRAS}" \
-        "${AUR_PACKAGES}" "${AUR_PACKAGES_EXTRAS}" \
-        "${MISE_PACKAGES_ARCH}" "${MISE_PACKAGES_ARCH_EXTRAS}"
+      _package_display "Pacman (default)" "${PACKAGES_PACMAN[@]}"
+      _package_display "Pacman (extras)" "${PACKAGES_PACMAN_EXTRAS[@]}"
+      [ "${GUI_ENABLED}" == "1" ] && _package_display "Pacman GUI (default)" "${PACKAGES_PACMAN_GUI[@]}"
+      [ "${GUI_ENABLED}" == "1" ] && _package_display "Pacman GUI (extras)" "${PACKAGES_PACMAN_GUI_EXTRAS[@]}"
+      _package_display "AUR (default)" "${PACKAGES_AUR[@]}"
+      _package_display "AUR (extras)" "${PACKAGES_AUR_EXTRAS[@]}"
+      [ "${GUI_ENABLED}" == "1" ] && _package_display "AUR GUI (default)" "${PACKAGES_AUR_GUI[@]}"
+      [ "${GUI_ENABLED}" == "1" ] && _package_display "AUR GUI (extras)" "${PACKAGES_AUR_GUI_EXTRAS[@]}"
+      _package_display "Mise (default)" "${MISE_ARCH[@]}"
+      _package_display "Mise (extras)" "${MISE_ARCH_EXTRAS[@]}"
+
     elif [ "${OS_DISTRO}" == "debian" ]; then
-      _display_packages_output "${APT_PACKAGES}" "${APT_PACKAGES_EXTRAS}" \
-        "" "" \
-        "${MISE_PACKAGES_DEBIAN}" "${MISE_PACKAGES_DEBIAN_EXTRAS}"
+      _package_display "APT (default)" "${PACKAGES_APT[@]}"
+      _package_display "APT (extras)" "${PACKAGES_APT_EXTRAS[@]}"
+      _package_display "Mise (default)" "${MISE_DEBIAN[@]}"
+      _package_display "Mise (extras)" "${MISE_DEBIAN_EXTRAS[@]}"
     fi
   else
-    [ -n "${BREW_CASK_PACKAGES}" ] && BREW_PACKAGES+="${BREW_CASK_PACKAGES}"
-    [ -n "${BREW_CASK_PACKAGES_EXTRAS}" ] && BREW_PACKAGES_EXTRAS+="${BREW_CASK_PACKAGES_EXTRAS}"
-
-    _display_packages_output "${BREW_PACKAGES}" "${BREW_PACKAGES_EXTRAS}" \
-      "" "" \
-      "${MISE_PACKAGES_MACOS}" "${MISE_PACKAGES_MACOS_EXTRAS}"
+    _package_display "Brew (default)" "${PACKAGES_BREW[@]}"
+    _package_display "Brew (extras)" "${PACKAGES_BREW_EXTRAS[@]}"
+    _package_display "Brew Cask (default)" "${PACKAGES_BREW_CASK[@]}"
+    _package_display "Brew Cask (extras)" "${PACKAGES_BREW_CASK_EXTRAS[@]}"
+    _package_display "Mise (default)" "${MISE_MACOS[@]}"
+    _package_display "Mise (extras)" "${MISE_MACOS_EXTRAS[@]}"
   fi
+}
+
+_config_install() {
+  local str_find="${1:-}"
+  local str_replace="${2:-}"
+  local commands=("${@}")
+
+  # This is a huge hack to detect if the first 2 args being passed in are
+  # strings to do a template-like replacement. It can be refactored if the
+  # use case ever changes.
+  #
+  # Basically this detects if %WindowsUser is passed in to chop out the first
+  # 2 arguments for the string replacement so they are not commands.
+  if [[ "${str_find}" == "%"* ]]; then
+    shift 3
+  else
+    str_find=""
+    str_replace=""
+    shift
+  fi
+
+  ((${#commands[@]} == 0)) && return
+
+  for item in "${commands[@]}"; do
+    eval "${item//${str_find}/${str_replace}}"
+  done
+}
+
+_config_install_display() {
+  local heading="${1}"
+  local str_find="${2:-}"
+  local str_replace="${3:-}"
+
+  if [[ "${str_find}" == "%"* ]]; then
+    shift 3
+  else
+    str_find=""
+    str_replace=""
+    shift
+  fi
+
+  local commands=("${@}")
+
+  printf "\n:: %s\n" "${heading}"
+
+  # Let's show something so it doesn't look like it was blindly skipped.
+  if ((${#commands[@]} == 0)); then
+    echo "   Skipping, since there's no config commands defined"
+    return
+  fi
+
+  for item in "${commands[@]}"; do
+    echo "   - ${item//${str_find}/${str_replace}}"
+  done
 }
 
 # -----------------------------------------------------------------------------
@@ -449,8 +790,8 @@ bootstrap() {
   rm -rf "${BOOTSTRAP_PATH}"
   mkdir -p "${BOOTSTRAP_PATH}"
 
-  if [ -n "${LOCAL}" ]; then
-    [ -n "${IN_CONTAINER}" ] && DOTFILES_PATH="/app"
+  if [ "${LOCAL}" == "1" ]; then
+    [ "${IN_CONTAINER}" == "1" ] && DOTFILES_PATH="/app"
 
     if [ -n "${DOTFILES_PATH}" ]; then
       cp "${DOTFILES_PATH}/install" "${BOOTSTRAP_PATH}/install"
@@ -469,6 +810,10 @@ bootstrap() {
   mv "${BOOTSTRAP_PATH}/install-config.example" "${BOOTSTRAP_PATH}/install-config"
   chmod +x "${BOOTSTRAP_PATH}/install"
 
+  # This only exists now, so let's source it.
+  # shellcheck disable=SC1091
+  . ./install-config
+
   cat <<EOF
 :: Welcome to ${DOTFILES_REPO_SLUG}!
 
@@ -483,10 +828,10 @@ We'll be deleting the above at the end so don't worry about the path.
 
 cat ${BOOTSTRAP_PATH}/install-config
 
-If you're ok with the list of packages and symlinks being created then you're
-good to go to install these dotfiles. Feel free to edit the install-config file
-beforehand if you want to make adjustments. The installed dotfiles will have
-the same config file copied over which you can edit at any time.
+If you're ok with everything (packages, symlinks, etc.) then you're good to go
+to install these dotfiles. Feel free to edit the install-config file beforehand
+if you want to make adjustments. The installed dotfiles will have the same
+config file copied over which you can edit at any time.
 
 :: Install these dotfiles
 
@@ -520,7 +865,7 @@ detect_env() {
 
     # Only fully support these Linux distros.
     if [[ -z "${OS_DISTRO}" || ! "arch ubuntu debian raspbian" =~ ${OS_DISTRO} ]]; then
-      [ -z "${SKIP_SYSTEM_PACKAGES}" ] && _no_system_packages
+      [ "${SKIP_SYSTEM_PACKAGES}" != "1" ] && _no_system_packages
     fi
 
     # Are we in WSL?
@@ -528,6 +873,10 @@ detect_env() {
       OS_IN_WSL=1
     fi
 
+    # Can we install and configure a window manager and GUI tools?
+    if [[ "${GUI_LINUX}" == "1" && "${OS_DISTRO}" = "arch" && "${OS_IN_WSL}" != "1" && "${IN_CONTAINER}" != "1" ]]; then
+      GUI_ENABLED=1
+    fi
     ;;
   darwin) ;;
   *)
@@ -537,9 +886,163 @@ detect_env() {
   esac
 }
 
+detect_and_prepare_gpu() {
+  _info "DETECT AND PREPARE GPU"
+
+  if [[ "${GUI_ENABLED}" != "1" || "${SKIP_SYSTEM_PACKAGES}" == "1" ]]; then
+    echo "Skipping, since this only runs when GUI_LINUX=1 is set with packages"
+    return
+  fi
+
+  local kernel=
+  kernel="$(uname -r)"
+
+  local kernel_package=
+  case "${kernel}" in
+  *arch*)
+    kernel_package="linux-headers"
+    ;;
+  *lts*)
+    kernel_package="linux-lts-headers"
+    ;;
+  *zen*)
+    kernel_package="linux-zen-headers"
+    ;;
+  *hardened*)
+    kernel_package="linux-hardened-headers"
+    ;;
+  *)
+    cat <<EOF
+
+'${kernel}' Linux kernel was detected but this script doesn't automatically
+support it because it can't determine which linux-*-headers package to install.
+
+If you think it should work, please open an issue with the above output.
+
+EOF
+    _error "Unknown Linux Kernel found, aborting!"
+    ;;
+  esac
+
+  local lspci_output=
+  lspci_output="$(lspci)"
+
+  local gpu_line=
+  gpu_line="$(grep --ignore-case -E "VGA|3D controller" <<<"${lspci_output}" | head -n 1 || true)"
+
+  [ -z "${gpu_line}" ] && _error "No GPU detected, aborting!"
+
+  echo "${gpu_line}"
+
+  case "${gpu_line}" in
+  *NVIDIA*)
+    PACKAGES_PACMAN+=("${kernel_package}")
+
+    # Avoid recreating the file every time, if a user changes it manually then
+    # let's not clobber their changes.
+    if [ ! -f /etc/modprobe.d/nvidia.conf ]; then
+      echo "options nvidia-drm modeset=1" | sudo tee /etc/modprobe.d/nvidia.conf >/dev/null
+    fi
+
+    # Choose driver based on generation.
+    case "${gpu_line}" in
+    *RTX\ [2-9][0-9]* | *GTX\ 16*)
+      PACKAGES_PACMAN+=("nvidia-open-dkms" "nvidia-utils")
+      ;;
+    *GTX\ [7-9]* | *GTX\ 10*)
+      PACKAGES_AUR+=("nvidia-580xx-dkms" "nvidia-580xx-utils")
+      ;;
+    *)
+      cat <<EOF
+
+See if your GPU is listed here: https://wiki.archlinux.org/title/NVIDIA
+
+If you think it should work, please open an issue with the above device output.
+
+EOF
+      _error "Unsupported NVIDIA GPU found, aborting!"
+      ;;
+    esac
+    ;;
+  *AMD*)
+    # AMD drivers are handled automatically by the Linux kernel.
+    ;;
+  *Intel*)
+    # Choose driver based on generation.
+    case "${gpu_line}" in
+    *HD\ Graphics* | *Iris* | *Xe*)
+      PACKAGES_PACMAN+=("intel-media-driver")
+      ;;
+    *GMA*)
+      PACKAGES_PACMAN+=("libva-intel-driver")
+      ;;
+    *)
+      cat <<EOF
+
+See if your GPU is listed here: https://wiki.archlinux.org/title/Intel_graphics
+
+If you think it should work, please open an issue with the above device output.
+
+EOF
+
+      _error "Unsupported Intel GPU found, aborting!"
+      ;;
+    esac
+    ;;
+  *)
+    cat <<EOF
+$(grep --ignore-case "VGA" <<<"${lspci_output}")
+
+Most variants of NVIDIA, AMD and Intel GPUs should all be supported.
+
+If you think it should work, please open an issue with the above device output.
+
+EOF
+
+    _error "Unsupported GPU found, aborting!"
+    ;;
+  esac
+}
+
+detect_and_prepare_network() {
+  _info "DETECT AND PREPARE NETWORK"
+
+  if [[ "${GUI_ENABLED}" != "1" || "${SKIP_SYSTEM_PACKAGES}" == "1" ]]; then
+    echo "Skipping, since this only runs when GUI_LINUX=1 is set with packages"
+    return
+  fi
+
+  if compgen -G "/sys/class/net/*/wireless" 1>/dev/null; then
+    PACKAGES_PACMAN+=("impala" "iwd")
+    SYSTEMD_ENABLED_SERVICES+=("iwd")
+
+    echo "Wi-Fi adapter found, iwd + impala packages will be installed"
+  else
+    echo "Ethernet adapter found, no preparation is necessary"
+  fi
+}
+
+detect_and_prepare_bluetooth() {
+  _info "DETECT AND PREPARE BLUETOOTH"
+
+  if [[ "${GUI_ENABLED}" != "1" || "${SKIP_SYSTEM_PACKAGES}" == "1" ]]; then
+    echo "Skipping, since this only runs when GUI_LINUX=1 is set with packages"
+    return
+  fi
+
+  if [ -d "/sys/class/bluetooth" ]; then
+    PACKAGES_PACMAN+=("bluetui" "bluez")
+    SYSTEMD_ENABLED_SERVICES+=("bluetooth")
+
+    echo "Compatible adapter found, bluez + bluetui packages will be installed"
+  else
+    echo "Skipping, since no Bluetooth adapter was found"
+  fi
+}
+
 warn_root() {
   # Root will have an effective uid of 0, but it's ok if we're in a container.
-  [[ "${EUID}" != 0 || -n "${IN_CONTAINER}" ]] && return 0
+  [[ "${EUID}" != 0 || "${IN_CONTAINER}" == "1" ]] && return 0
 
   cat <<EOF
 Here are details about this user:
@@ -569,6 +1072,9 @@ check_prereqs() {
   if ! command -v "sudo" 1>/dev/null; then missing_packages+=("sudo"); fi
 
   if [[ -z "${missing_packages[*]}" ]]; then
+    # Request a user's password early so it's not buried mid-script.
+    sudo -v
+
     echo "Everything is good to go"
     return 0
   fi
@@ -604,6 +1110,34 @@ create_initial_dirs() {
     "${XDG_CONFIG_HOME}/zsh" \
     "${XDG_DATA_HOME}/fonts" \
     "${XDG_STATE_HOME}"
+
+  if [ "${GUI_ENABLED}" == "1" ]; then
+    mkdir -p \
+      "${XDG_CACHE_HOME}/mpd" \
+      "${XDG_CONFIG_HOME}/fontconfig" \
+      "${XDG_CONFIG_HOME}/hypr" \
+      "${XDG_CONFIG_HOME}/mako" \
+      "${XDG_CONFIG_HOME}/mpd" \
+      "${XDG_CONFIG_HOME}/niri" \
+      "${XDG_CONFIG_HOME}/rmpc" \
+      "${XDG_CONFIG_HOME}/satty" \
+      "${XDG_CONFIG_HOME}/swayidle" \
+      "${XDG_CONFIG_HOME}/swaylock" \
+      "${XDG_CONFIG_HOME}/tumbler" \
+      "${XDG_CONFIG_HOME}/uwsm" \
+      "${XDG_CONFIG_HOME}/walker/themes/base" \
+      "${XDG_CONFIG_HOME}/wallpaper" \
+      "${XDG_CONFIG_HOME}/waybar" \
+      "${XDG_DATA_HOME}/applications" \
+      "${XDG_DESKTOP_DIR}" \
+      "${XDG_DOCUMENTS_DIR}" \
+      "${XDG_DOWNLOAD_DIR}" \
+      "${XDG_MUSIC_DIR}/playlists" \
+      "${XDG_PICTURES_DIR}" \
+      "${XDG_PUBLICSHARE_DIR}" \
+      "${XDG_TEMPLATES_DIR}" \
+      "${XDG_VIDEOS_DIR}"
+  fi
 }
 
 install_packages() {
@@ -615,17 +1149,15 @@ install_packages() {
   fi
 
   cat <<EOF
-If you choose y, all of the system packages below will be installed:
-
+If you choose y, all of the packages below will be installed:
 $(_display_packages)
-
 
 If you choose no, the above packages will not be installed and this script
 will exit. This gives you a chance to edit the list of packages.
 
-EOF
+You can edit 'install-config' to modify the package list(s).
 
-  printf "You can edit 'install-config' to modify the package list.\n\n"
+EOF
 
   while true; do
     read -rp "Do you want to install the above packages? (y/n) " yn
@@ -694,12 +1226,12 @@ update_dotfiles() {
     return 0
   fi
 
-  if [[ -z "${PULL}" && -z "${PULL_UPDATE}" ]]; then
+  if [[ "${PULL}" != "1" && "${PULL_UPDATE}" != "1" ]]; then
     echo "Skipping, rerun with --pull or --update to get the latest changes"
     return 0
   fi
 
-  if [ -n "${LOCAL}" ]; then
+  if [ "${LOCAL}" == "1" ]; then
     echo "Skipping, since LOCAL=1 is set we'll avoid remote updates"
     return 0
   fi
@@ -802,7 +1334,7 @@ install_fonts() {
   if [ "${OS_TYPE}" = "linux" ]; then
     font_path="${linux_font_path}"
 
-    if [ -n "${OS_IN_WSL}" ]; then
+    if [ "${OS_IN_WSL}" == "1" ]; then
       font_path="${windows_font_path}"
     fi
   else
@@ -818,7 +1350,7 @@ install_fonts() {
     curl -sSL "${font_url}" -o "${font_zip}"
     unzip "${font_zip}" -d "${font_tmp}"
 
-    if [ -n "${OS_IN_WSL}" ]; then
+    if [ "${OS_IN_WSL}" == "1" ]; then
       cat <<EOF
 
 Since we're in WSL 2 and we need to install Windows fonts, please do it manually.
@@ -853,57 +1385,52 @@ install_zsh_plugins() {
   "${DOTFILES_PATH}/.local/bin/dot-update-zsh-plugins"
 }
 
-create_symlinks() {
-  _info "CREATE SYMLINKS"
+create_configs() {
+  _info "CREATE CONFIGS"
 
-  local symlinks=()
-  local symlinks_wsl=()
-  local symlinks_arch=()
+  local config_install=()
+  local config_install_gui_linux=()
+  local config_install_wsl=()
+  local config_install_arch=()
 
-  [ -n "${SYMLINKS[*]}" ] && symlinks+=("${SYMLINKS[@]}")
-  [ -n "${SYMLINKS_EXTRAS[*]}" ] && symlinks+=("${SYMLINKS_EXTRAS[@]}")
+  ((${#CONFIG_INSTALL[@]} > 0)) && config_install+=("${CONFIG_INSTALL[@]}")
+  ((${#CONFIG_INSTALL_EXTRAS[@]} > 0)) && config_install+=("${CONFIG_INSTALL_EXTRAS[@]}")
 
-  [ -n "${SYMLINKS_WSL[*]}" ] && symlinks_wsl+=("${SYMLINKS_WSL[@]}")
-  [ -n "${SYMLINKS_WSL_EXTRAS[*]}" ] && symlinks_wsl+=("${SYMLINKS_WSL_EXTRAS[@]}")
+  ((${#CONFIG_INSTALL_GUI_LINUX[@]} > 0)) && config_install_gui_linux+=("${CONFIG_INSTALL_GUI_LINUX[@]}")
+  ((${#CONFIG_INSTALL_GUI_LINUX_EXTRAS[@]} > 0)) && config_install_gui_linux+=("${CONFIG_INSTALL_GUI_LINUX_EXTRAS[@]}")
 
-  [ -n "${SYMLINKS_ARCH[*]}" ] && symlinks_arch+=("${SYMLINKS_ARCH[@]}")
-  [ -n "${SYMLINKS_ARCH_EXTRAS[*]}" ] && symlinks_arch+=("${SYMLINKS_ARCH_EXTRAS[@]}")
+  ((${#CONFIG_INSTALL_WSL[@]} > 0)) && config_install_wsl+=("${CONFIG_INSTALL_WSL[@]}")
+  ((${#CONFIG_INSTALL_WSL_EXTRAS[@]} > 0)) && config_install_wsl+=("${CONFIG_INSTALL_WSL_EXTRAS[@]}")
 
-  printf -- "-------------------------------------------------------------------------------\n"
+  ((${#CONFIG_INSTALL_ARCH[@]} > 0)) && config_install_arch+=("${CONFIG_INSTALL_ARCH[@]}")
+  ((${#CONFIG_INSTALL_ARCH_EXTRAS[@]} > 0)) && config_install_arch+=("${CONFIG_INSTALL_ARCH_EXTRAS[@]}")
 
-  if [ -n "${symlinks[*]}" ]; then
-    printf "\nSymlinks:\n"
-    for link in "${symlinks[@]}"; do
-      echo "  ${link}"
-    done
+  _config_install_display "Configs" "${config_install[@]}"
+
+  if [ "${GUI_ENABLED}" == "1" ]; then
+    _config_install_display "Configs (GUI)" "${config_install_gui_linux[@]}"
   fi
 
-  if [[ -n "${OS_IN_WSL}" && -n "${symlinks_wsl[*]}" ]]; then
+  if [ "${OS_IN_WSL}" == "1" ]; then
     local windows_user=
 
     # shellcheck disable=SC2016
     windows_user="$(powershell.exe '$env:UserName' 2>/dev/null | tr -d '\r\n')"
 
-    printf "\nSymlinks (WSL):\n"
-    for link in "${symlinks_wsl[@]}"; do
-      echo "  ${link//%WindowsUser/${windows_user}}"
-    done
+    _config_install_display "Configs (WSL)" "%WindowsUser" "${windows_user}" "${config_install_wsl[@]}"
   fi
 
-  if [[ "${OS_DISTRO}" = "arch" && -n "${symlinks_arch[*]}" ]]; then
+  if [ "${OS_DISTRO}" == "arch" ]; then
     # It's a bit more complicated to extract this into a variable since it has
     # a condition with a fallback. For now let's keep it hard coded until a
     # better pattern arrises to handle this in a dynamic way.
     if [ -f "etc/pacman.d/02-ignore.conf" ]; then
-      symlinks_arch+=("sudo ln -fns \"${DOTFILES_PATH}/etc/pacman.d/02-ignore.conf\" \"/etc/pacman.d/02-ignore.conf\"")
+      config_install_arch+=("sudo ln -fns \"${DOTFILES_PATH}/etc/pacman.d/02-ignore.conf\" \"/etc/pacman.d/02-ignore.conf\"")
     else
       sudo rm -f "/etc/pacman.d/02-ignore.conf"
     fi
 
-    printf "\nSymlinks (Arch):\n"
-    for link in "${symlinks_arch[@]}"; do
-      echo "  ${link}"
-    done
+    _config_install_display "Configs (Arch)" "${config_install_arch[@]}"
   fi
 
   cat <<EOF
@@ -911,14 +1438,14 @@ create_symlinks() {
 -------------------------------------------------------------------------------
 
 A potentially destructive action is about to happen. The above directories and
-files are going to get forcefully symlinked if you type y in the prompt below.
+files are going to get forcefully overwritten if you type y in the prompt below.
 
 What does that mean?
 
 Any config files you have on the right hand side of the paths are going to get
 overwritten with the files that come with these dotfiles (left side).
 
-Without these symlinks, these dotfiles will not work as is. If you plan to
+Without this action, these dotfiles will not work as is. If you plan to
 type y and have existing files now would be a good time to back them up.
 
 EOF
@@ -932,23 +1459,11 @@ EOF
       # rm -f would work but that could delete real files potentially.
       [ -L "${XDG_CONFIG_HOME}/nvim" ] && rm "${XDG_CONFIG_HOME}/nvim"
 
-      if [ -n "${symlinks[*]}" ]; then
-        for link in "${symlinks[@]}"; do
-          eval "${link}"
-        done
-      fi
+      _config_install "${config_install[@]}"
 
-      if [[ -n "${OS_IN_WSL}" && -n "${symlinks_wsl[*]}" ]]; then
-        for link in "${symlinks_wsl[@]}"; do
-          eval "${link//%WindowsUser/${windows_user}}"
-        done
-      fi
-
-      if [ "${OS_DISTRO}" = "arch" ]; then
-        for link in "${symlinks_arch[@]}"; do
-          eval "${link}"
-        done
-      fi
+      [ "${GUI_ENABLED}" == "1" ] && _config_install "${config_install_gui_linux[@]}"
+      [ "${OS_IN_WSL}" == "1" ] && _config_install "%WindowsUser" "${windows_user}" "${config_install_wsl[@]}"
+      [ "${OS_DISTRO}" == "arch" ] && _config_install "${config_install_arch[@]}"
 
       break
       ;;
@@ -961,6 +1476,70 @@ EOF
   done
 }
 
+configure_sudoers_entries() {
+  _info "CONFIGURE SUODERS ENTRIES"
+
+  if [ -z "${USER}" ]; then
+    echo "Skipping, since \$USER is not set"
+    return
+  fi
+
+  declare -A sudoers_entries
+
+  # Merge both arrays.
+  for key in "${!SUDOERS_ENTRIES[@]}"; do
+    sudoers_entries["${key}"]="${SUDOERS_ENTRIES[${key}]}"
+  done
+  for key in "${!SUDOERS_ENTRIES_EXTRAS[@]}"; do
+    sudoers_entries["${key}"]="${SUDOERS_ENTRIES_EXTRAS[${key}]}"
+  done
+
+  if ((${#sudoers_entries[@]} == 0)); then
+    echo "Skipping, since there's no entries set"
+    return
+  fi
+
+  for key in "${!sudoers_entries[@]}"; do
+    [[ "${key}" = "0" || -z "${sudoers_entries[${key}]}" ]] && continue
+    echo "${sudoers_entries[${key}]}" | sudo tee "/etc/sudoers.d/${key}"
+  done
+
+  sudo chmod -R 440 /etc/sudoers.d
+  echo
+
+  echo "They have been configured in '/etc/sudoers.d/'"
+}
+
+configure_systemd_services() {
+  _info "CONFIGURE SYSTEMD SERVICES"
+
+  if [ "${GUI_ENABLED}" != "1" ]; then
+    echo "Skipping, since this only runs on Linux when GUI_LINUX=1 is set"
+    return
+  fi
+
+  local services=(
+    "${SYSTEMD_ENABLED_SERVICES[@]}"
+    "${SYSTEMD_ENABLED_SERVICES_EXTRAS[@]}"
+  )
+
+  if ((${#services[@]} == 0)); then
+    echo "Skipping, since there's no services defined"
+    return
+  fi
+
+  for service in "${services[@]}"; do
+    if systemctl cat "${service}.service" 1>/dev/null; then
+      sudo systemctl enable "${service}.service"
+      echo "${service}"
+    fi
+
+    echo
+  done
+
+  echo "They have been configured to start on boot"
+}
+
 configure_system_configs() {
   _info "CONFIGURE SYSTEM CONFIGS"
 
@@ -971,7 +1550,14 @@ configure_system_configs() {
     fi
   fi
 
-  echo "Everything that required updating was updated"
+  # If Docker is being installed, ensure the user is in the docker group.
+  if [[ "${PACMAN_PACKAGES_GUI}" == *docker* && "${GUI_ENABLED}" == "1" ]]; then
+    if ! groups "${USER}" | grep --quiet "\bdocker\b"; then
+      sudo usermod -aG docker "${USER}"
+    fi
+  fi
+
+  echo "Everything that required configuring was updated"
 }
 
 configure_home_configs() {
@@ -980,10 +1566,39 @@ configure_home_configs() {
   local ghostty_config="${XDG_CONFIG_HOME}/ghostty/config.local"
 
   if [ ! -f "${ghostty_config}" ]; then
-    printf "# Add your custom overrides here, such as fonts, etc..\n" >"${ghostty_config}"
+    printf "# Add your custom overrides and new additions here.\n" >"${ghostty_config}"
   fi
 
-  echo "Everything that required updating was updated"
+  if [ "${GUI_ENABLED}" == "1" ]; then
+    local mako_config="${XDG_CONFIG_HOME}/mako/config.local"
+    if [ ! -f "${mako_config}" ]; then
+      printf "# Add your custom overrides and new additions here.\n" >"${mako_config}"
+    fi
+
+    local wm_config="${XDG_CONFIG_HOME}/niri/config.kdl.local"
+    if [ ! -f "${wm_config}" ]; then
+      cat <<EOF >"${wm_config}"
+// Add your custom overrides and new additions here.
+
+// ----------------------------------------------------------------------------
+// Outputs (monitors, etc.)
+// Find details about them by running: niri msg outputs
+// ----------------------------------------------------------------------------
+
+// Set external display as the left monitor and have it get used by default.
+// output "DP-2" {
+//     position x=0 y=0
+//     focus-at-startup
+// }
+
+// output "eDP-1" {
+//     position x=2560 y=0
+// }
+EOF
+    fi
+  fi
+
+  echo "Everything that required configuring was updated"
 }
 
 configure_home_binaries() {
@@ -994,11 +1609,11 @@ configure_home_binaries() {
     ln -fns /usr/bin/batcat "${HOME}/.local/bin/bat"
   fi
 
-  echo "Everything that required updating was updated"
+  echo "Everything that required configuring was updated"
 }
 
-configure_xdg_paths() {
-  _info "CONFIGURE XDG PATHS"
+configure_xdg_directories() {
+  _info "CONFIGURE XDG DIRECTORIES"
 
   local xdg_local_path="${DOTFILES_PATH}/.config/zsh/.xdg.local"
 
@@ -1007,13 +1622,49 @@ configure_xdg_paths() {
 
 # These are set from the dotfiles' install-config script, update the values
 # in that file not here since they will get overwritten.
+
+# XDG base directories.
 export XDG_CACHE_HOME="${XDG_CACHE_HOME}"
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME}"
 export XDG_DATA_HOME="${XDG_DATA_HOME}"
 export XDG_STATE_HOME="${XDG_STATE_HOME}"
 EOF
 
-  echo "It has been configured in '${xdg_local_path}'"
+  if [ "${GUI_ENABLED}" == "1" ]; then
+    cat <<EOF >>"${xdg_local_path}"
+
+# XDG user directories.
+export XDG_DESKTOP_DIR="${XDG_DESKTOP_DIR}"
+export XDG_DOCUMENTS_DIR="${XDG_DOCUMENTS_DIR}"
+export XDG_DOWNLOAD_DIR="${XDG_DOWNLOAD_DIR}"
+export XDG_MUSIC_DIR="${XDG_MUSIC_DIR}"
+export XDG_PICTURES_DIR="${XDG_PICTURES_DIR}"
+export XDG_PUBLICSHARE_DIR="${XDG_PUBLICSHARE_DIR}"
+export XDG_TEMPLATES_DIR="${XDG_TEMPLATES_DIR}"
+export XDG_VIDEOS_DIR="${XDG_VIDEOS_DIR}"
+EOF
+
+    cat <<EOF >"${XDG_CONFIG_HOME}/user-dirs.dirs"
+# These are set from the dotfiles' install-config script, update the values
+# in that file not here since they will get overwritten.
+
+export XDG_DESKTOP_DIR="${XDG_DESKTOP_DIR}"
+export XDG_DOCUMENTS_DIR="${XDG_DOCUMENTS_DIR}"
+export XDG_DOWNLOAD_DIR="${XDG_DOWNLOAD_DIR}"
+export XDG_MUSIC_DIR="${XDG_MUSIC_DIR}"
+export XDG_PICTURES_DIR="${XDG_PICTURES_DIR}"
+export XDG_PUBLICSHARE_DIR="${XDG_PUBLICSHARE_DIR}"
+export XDG_TEMPLATES_DIR="${XDG_TEMPLATES_DIR}"
+export XDG_VIDEOS_DIR="${XDG_VIDEOS_DIR}"
+EOF
+
+    cat <<EOF >"${XDG_CONFIG_HOME}/user-dirs.conf"
+# Prevent custom XDG paths in user-dirs.dir from being overwritten on boot.
+enabled=False
+EOF
+  fi
+
+  echo "They have been configured in '${xdg_local_path}'"
 }
 
 configure_shell() {
@@ -1026,7 +1677,7 @@ configure_shell() {
     local file_path="${XDG_CONFIG_HOME}/zsh/${file}"
 
     if [ ! -f "${file_path}" ]; then
-      printf "# shellcheck shell=bash\n\n# Any settings defined here are gitignored.\n" >"${file_path}"
+      printf "# shellcheck shell=bash\n# Add your custom overrides and new additions here.\n" >"${file_path}"
     fi
   done
 
@@ -1060,8 +1711,23 @@ alias egrep="egrep -G"
 EOF
     fi
   else
+    if ! grep -q 'alias ls="ls --color=auto"' "${aliases_path}" 2>/dev/null; then
+      cat <<EOF >>"${aliases_path}"
+
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias egrep="egrep --color=auto"
+EOF
+    fi
+
+    # Is a Linux GUI supported?
+    if [ "${GUI_ENABLED}" == "1" ]; then
+      if ! grep -q "^if uwsm check may-start.*$" "${zprofile_path}" 2>/dev/null; then
+        printf "\n# Start niri after logging in.\nif uwsm check may-start; then exec uwsm start -F -- niri-session -l; fi\n" >>"${zprofile_path}"
+      fi
     # Are we in WSL 2?
-    if [ -n "${OS_IN_WSL}" ]; then
+    elif [ "${OS_IN_WSL}" == "1" ]; then
       # This only applies if you have Docker installed without Docker Desktop
       # and you're not using systemd.
       if command -v docker >/dev/null 2>&1; then
@@ -1075,8 +1741,8 @@ EOF
 # Docker Compose directly within your WSL distro instead of Docker Desktop, such as:
 #   - https://nickjanetakis.com/blog/install-docker-in-wsl-2-without-docker-desktop
 if service docker status 2>&1 | grep -q "is not running"; then
-  wsl.exe --distribution "${WSL_DISTRO_NAME}" --user root \
-    --exec /usr/sbin/service docker start >/dev/null 2>&1
+wsl.exe --distribution "${WSL_DISTRO_NAME}" --user root \
+  --exec /usr/sbin/service docker start >/dev/null 2>&1
 fi
 EOF
               )
@@ -1104,16 +1770,6 @@ alias open="/mnt/c/Program\ Files/Mozilla\ Firefox/firefox.exe"
 alias wopen="cmd.exe /C start 2> /dev/null"
 EOF
       fi
-    fi
-
-    if ! grep -q 'alias ls="ls --color=auto"' "${aliases_path}" 2>/dev/null; then
-      cat <<EOF >>"${aliases_path}"
-
-alias ls="ls --color=auto"
-alias grep="grep --color=auto"
-alias fgrep="fgrep --color=auto"
-alias egrep="egrep --color=auto"
-EOF
     fi
   fi
 
@@ -1262,13 +1918,12 @@ create_gpg_key() {
      Passphrase: ${passphrase}
      Expire-Date: 1y
 EOF
-
-    gpg_key="$(gpg --export --armor "${YOUR_EMAIL}" 2>/dev/null)"
   fi
 
   _info "SHOWING PUBLIC GPG KEY"
 
-  echo "${gpg_key}" | gpg --show-keys
+  # Delete the last line in a way that works on Linux and macOS.
+  gpg --list-keys "${YOUR_EMAIL}" | sed '$d'
 }
 
 configure_git() {
@@ -1306,32 +1961,36 @@ EOF
 install_programming_languages() {
   _info "INSTALL PROGRAMMING LANGUAGES"
 
-  for lang in "${!MISE_LANGUAGES[@]}"; do
-    [[ "${lang}" = "0" || -z "${MISE_LANGUAGES[${lang}]}" ]] && continue
+  declare -A mise_languages
 
-    printf "\nInstalling %s...\n\n" "${MISE_LANGUAGES[${lang}]}"
-    if command -v "${HOME}/.local/share/mise/shims/${lang}" 1>/dev/null; then
-      echo "Skipping, it's already installed, run 'mise upgrade ${lang} --bump' to upgrade"
+  # Merge both arrays.
+  for key in "${!MISE_LANGUAGES[@]}"; do
+    mise_languages["${key}"]="${MISE_LANGUAGES[${key}]}"
+  done
+  for key in "${!MISE_LANGUAGES_EXTRAS[@]}"; do
+    mise_languages["${key}"]="${MISE_LANGUAGES_EXTRAS[${key}]}"
+  done
+
+  if ((${#mise_languages[@]} == 0)); then
+    echo "Skipping, since there's no languages set"
+    return
+  fi
+
+  for key in "${!mise_languages[@]}"; do
+    [[ "${key}" = "0" || -z "${mise_languages[${key}]}" ]] && continue
+
+    printf "\nInstalling %s...\n\n" "${mise_languages[${key}]}"
+    if command -v "${XDG_DATA_HOME}/mise/shims/${key}" 1>/dev/null; then
+      echo "Skipping, it's already installed, run 'mise upgrade ${key} --bump' to upgrade"
     else
-      mise use --global "${MISE_LANGUAGES[${lang}]}"
+      mise use --global "${mise_languages[${key}]}"
     fi
 
     # Also install Yarn for Node.
-    if [ "${lang}" = "node" ]; then
+    if [ "${key}" = "node" ]; then
       if ! yarn --version >/dev/null 2>&1; then
         npm install --unsafe-perm=true --allow-root --global yarn
       fi
-    fi
-  done
-
-  for lang in "${!MISE_LANGUAGES_EXTRAS[@]}"; do
-    [ -z "${MISE_LANGUAGES_EXTRAS[${lang}]}" ] && continue
-
-    printf "\nInstalling %s...\n\n" "${MISE_LANGUAGES_EXTRAS[${lang}]}"
-    if command -v "${HOME}/.local/share/mise/shims/${lang}" 1>/dev/null; then
-      echo "Skipping, it's already installed, run 'mise upgrade ${lang} --bump' to upgrade"
-    else
-      mise use --global "${MISE_LANGUAGES_EXTRAS[${lang}]}"
     fi
   done
 }
@@ -1362,6 +2021,7 @@ set_theme() {
 
   local active_theme=
   local theme_changed=
+  local switch_wallpaper=1
 
   _info "SETTING THEME"
 
@@ -1378,7 +2038,11 @@ set_theme() {
   if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # We don't want to mess with their current theme, but we make sure to
     # check if there's an active theme, if not then it must be the first run.
-    [ -n "${active_theme}" ] && theme="${active_theme}"
+    if [ -n "${active_theme}" ]; then
+      theme="${active_theme}"
+      switch_wallpaper=
+    fi
+
   else
     # This is when the dot-theme-set script gets run. Even if a random theme
     # is picked by supplying no argument, $1 is always set from that script.
@@ -1403,12 +2067,23 @@ set_theme() {
   ln -fns "${DOTFILES_PATH}/themes/${theme}/nvim.lua" "${XDG_CONFIG_HOME}/nvim/lua/plugins/theme.lua"
   ln -fns "${DOTFILES_PATH}/themes/${theme}/tmux.conf" "${XDG_CONFIG_HOME}/tmux/theme.conf"
 
+  if [ "${GUI_ENABLED}" == "1" ]; then
+    ln -fns "${DOTFILES_PATH}/themes/${theme}/_theme.json" "${XDG_CONFIG_HOME}/wallpaper/theme.json"
+    ln -fns "${DOTFILES_PATH}/themes/${theme}/mako" "${XDG_CONFIG_HOME}/mako/theme"
+    ln -fns "${DOTFILES_PATH}/themes/${theme}/niri.kdl" "${XDG_CONFIG_HOME}/niri/theme.kdl"
+    ln -fns "${DOTFILES_PATH}/themes/${theme}/swaylock" "${XDG_CONFIG_HOME}/swaylock/config"
+    ln -fns "${DOTFILES_PATH}/themes/${theme}/walker.css" "${XDG_CONFIG_HOME}/walker/themes/base/theme.css"
+    ln -fns "${DOTFILES_PATH}/themes/${theme}/waybar.css" "${XDG_CONFIG_HOME}/waybar/theme.css"
+
+    [ -n "${switch_wallpaper}" ] && "${DOTFILES_PATH}/.local/bin/dot-theme-set-bg"
+  fi
+
   echo "'${theme}' is your active theme"
 
   # We can abort now since if we're not changing anything there's no reloading.
   [ -z "${theme_changed}" ] && return
 
-  if [ -n "${OS_IN_WSL}" ]; then
+  if [ "${OS_IN_WSL}" == "1" ]; then
     local windows_user=
 
     # shellcheck disable=SC2016
@@ -1418,15 +2093,20 @@ set_theme() {
     SED_EXPR='s/\("\(colorScheme\|theme\)": *"\)[^"]*"/\1'"${theme}"'"/'
 
     # Let's make sure the path exists before replacing anything in case someone
-    # removed the config entry from SYMLINKS_WSL.
+    # removed the config entry from CONFIG_INSTALL_WSL.
     [ -e "${WT_PATH}" ] && sed -i "${SED_EXPR}" "${WT_PATH}"
   else
-    killall -SIGUSR2 ghostty 2>/dev/null || true
+    dot-reload-app ghostty
   fi
 
   # Reload as many apps as we can.
-  killall -SIGUSR2 btop 2>/dev/null || true
-  tmux source-file "${XDG_CONFIG_HOME}/tmux/tmux.conf" 2>/dev/null || true
+  dot-reload-app btop
+  dot-reload-app tmux
+
+  if [ "${GUI_ENABLED}" == "1" ]; then
+    dot-reload-app waybar
+    dot-reload-app mako
+  fi
 }
 
 healthcheck() {
@@ -1469,7 +2149,7 @@ You can safely close this terminal.
 The next time you open your terminal everything will be ready to go!
 EOF
 
-  if [[ -f "/tmp/inconsolata.zip" && -n "${OS_IN_WSL}" ]]; then
+  if [[ "${OS_IN_WSL}" == "1" && -f "/tmp/inconsolata.zip" ]]; then
     cat <<EOF
 
 P.S.,
@@ -1477,6 +2157,17 @@ P.S.,
 Since you're on WSL 2, please scroll up to the "INSTALL FONTS" section and
 follow the few steps there to complete the installation. You only need to do
 this once to install a few system fonts.
+EOF
+  # If there's no Wayland display then it's very likely the first run where
+  # nothing graphically has started.
+  elif [[ -z "${WAYLAND_DISPLAY:-}" && "${GUI_ENABLED}" == "1" ]]; then
+    cat <<EOF
+
+P.S.,
+
+Since you've set GUI_LINUX=1 and this is the first time you've run everything,
+you'll want to reboot. After logging in with your user and password then niri
+will start by default due to the .zprofile.local file in your dotfiles path.
 EOF
   fi
 }
@@ -1538,11 +2229,10 @@ parse_args() {
     # Show local (git ignored) configs, history and scripts.
     {
       fd --type file --unrestricted --extension "local" .
-      fd --type file --unrestricted . ".local/bin/local"
-      echo ".config/zsh/.zsh_history"
+      fd --type file --unrestricted ".local/bin/local"
       echo ".config/zsh/.zsh_history"
       echo "install-config"
-    } | sort --unique | fzf --multi --bind "ctrl-a:toggle-all"
+    } | sort --unique | fzf --multi --preview='bat --color=always {}' --bind "ctrl-a:toggle-all"
 
     exit
     ;;
@@ -1629,15 +2319,18 @@ EOF
 
 # Only run these when calling the script, not sourcing it.
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-  [[ -n "${BOOTSTRAP}" && -z "${IN_CONTAINER}" ]] && bootstrap && exit
+  [[ "${BOOTSTRAP}" == "1" && "${IN_CONTAINER}" != "1" ]] && bootstrap && exit
 
   parse_args "${@}"
   detect_env
+  detect_and_prepare_gpu
+  detect_and_prepare_network
+  detect_and_prepare_bluetooth
   warn_root
   update_dotfiles "${@}"
   check_install_config
 
-  [ -n "${PULL}" ] && exit
+  [ "${PULL}" == "1" ] && exit
 
   check_prereqs
   create_initial_dirs
@@ -1645,11 +2338,13 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   clone_dotfiles
   install_fonts
   install_zsh_plugins
-  create_symlinks
+  create_configs
+  configure_sudoers_entries
+  configure_systemd_services
   configure_system_configs
   configure_home_configs
   configure_home_binaries
-  configure_xdg_paths
+  configure_xdg_directories
   configure_shell
   ask_for_name
   ask_for_email

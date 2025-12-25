@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# System menu.
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+chosen=$(echo -e "  Lock\n󰽥  Suspend\n󰍃  Logout\n󰜉  Reboot\n󰐥  Shutdown" |
+  walker --dmenu --placeholder "System...")
+
+case "${chosen}" in
+*Lock)
+  swaylock
+  ;;
+*Suspend)
+  systemctl suspend
+  ;;
+*Logout)
+  uwsm stop
+  ;;
+*Reboot)
+  systemctl reboot
+  ;;
+*Shutdown)
+  systemctl poweroff
+  ;;
+esac

@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+# Convert images to various formats and sizes. All functions support passing
+# in optional custom args to so you can do adhoc conversions.
+#
+# Usage examples:
+#   convert img2jpg hello.jpg
+#   convert img2jpg hello.jpg -quality 5     # Override the default quality
+#   convert img2jpg hello.jpg -resize 640x   # Resize to 640 width w/ aspect ratio
+#   convert img2jpg hello.jpg -resize 640x!  # Resize to 640 width w/o aspect ratio
+#   convert img2jpg hello.jpg -resize x480   # Resize to 480 height w/ aspect ratio
+#   convert img2jpg hello.jpg -resize x480!  # Resize to 480 height w/o aspect ratio
+#   convert img2jpg hello.jpg -resize 10%    # Resize to 10% w/ aspect ratio
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+OUTPUT_SUFFIX="-converted"
+
+SMALL_MAX_WIDTH="1024"
+
+IMG_OPTS_JPG=(
+  -quality 85
+  -strip
+)
+
+IMG_OPTS_PNG=(
+  -define png:compression-level=8
+  -define png:compression-filter=5
+  -define png:compression-strategy=1
+  -define png:exclude-chunk=all
+)
+
+img2jpg() {
+  # Convert to jpg of reasonable quality.
+  local image="${1:-}"
+
+  shift
+
+  magick "${image}" "${IMG_OPTS_JPG[@]}" "$@" "${image%.*}${OUTPUT_SUFFIX}.jpg"
+}
+
+img2jpg-small() {
+  # Convert to jpg of reasonable quality and resize to SMALL_MAX_WIDTH.
+  local image="${1:-}"
+
+  shift
+
+  magick "${image}" -resize "${SMALL_MAX_WIDTH}x" "${IMG_OPTS_JPG[@]}" \
+    "$@" "${image%.*}${OUTPUT_SUFFIX}.jpg"
+}
+
+img2png() {
+  # Convert to png of reasonable quality.
+  local image="${1:-}"
+
+  shift
+
+  magick "${image}" "${IMG_OPTS_PNG[@]}" "$@" "${image%.*}${OUTPUT_SUFFIX}.png"
+}
+
+img2png-small() {
+  # Convert to png of reasonable quality and resize to SMALL_MAX_WIDTH.
+  local image="${1:-}"
+
+  shift
+
+  magick "${image}" -resize "${SMALL_MAX_WIDTH}x" "${IMG_OPTS_PNG[@]}" \
+    "$@" "${image%.*}${OUTPUT_SUFFIX}.png"
+}
+
+help() {
+  printf "%s <command> [args]\n\nCommands:\n" "${0}"
+
+  compgen -A function | grep -v "^_" | cat -n
+
+  printf "\nExtended help:\n  Each command has comments for general usage\n"
+}
+
+TIMEFORMAT=$'\nCommand completed in %3lR'
+time "${@:-help}"

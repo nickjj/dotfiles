@@ -1,0 +1,71 @@
+@import "./theme.css";
+
+* {
+  background-color: @background;
+  color: @foreground;
+
+  font-family: monospace;
+  font-size: 14px;
+
+  border: none;
+  border-radius: 0;
+
+  min-height: 0;
+}
+
+.modules-left {
+  margin-left: 0;
+}
+
+.modules-right {
+  margin-right: 0;
+}
+
+#workspaces button {
+  all: initial;
+  padding: 0 6px;
+  margin: 0 1.5px;
+  min-width: 8px;
+}
+
+#workspaces button.empty {
+  opacity: 0.5;
+}
+
+#tray,
+#cpu,
+#battery,
+#network,
+#bluetooth,
+#pulseaudio,
+#clock,
+#custom-menu,
+#custom-expand-icon {
+  min-width: 8px;
+  margin: 0 12px;
+}
+
+#cpu {
+  margin-right: 8px;
+}
+
+#pulseaudio {
+  margin-right: 8px;
+}
+
+#bluetooth {
+  margin-right: 4px;
+}
+
+#network {
+  margin-right: 12px;
+}
+
+#custom-expand-icon {
+  margin-left: 18px;
+  margin-right: 4px;
+}
+
+tooltip * {
+  padding: 2px;
+}
