@@ -75,7 +75,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "imagemagick"
       "inotify-tools"
       "jq"
-      "keepassxc"
       "less"
       "man-db"
       "man-pages"
