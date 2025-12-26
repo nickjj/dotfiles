@@ -11,7 +11,7 @@ installed in these environments.*
 # System / Service
 
 | Package        | Description                                                   |
-|----------------|---------------------------------------------------------------|
+|:---------------|:--------------------------------------------------------------|
 | base           | Minimal package set to define a basic Arch Linux installation |
 | base-devel     | Basic tools to build Arch Linux packages                      |
 | pacman-contrib | Contributed scripts and tools for pacman systems              |
@@ -26,7 +26,7 @@ installed in these environments.*
 # CLI
 
 | Package                    | Description                                                                       |
-|----------------------------|-----------------------------------------------------------------------------------|
+|:---------------------------|:----------------------------------------------------------------------------------|
 | aspell                     | General purpose spell checker                                                     |
 | bat                        | Cat clone with syntax highlighting and git integration                            |
 | bc                         | An arbitrary precision calculator language                                        |
@@ -71,7 +71,7 @@ installed in these environments.*
 # TUI
 
 | Package               | Description                                                      |
-|---------------------- |------------------------------------------------------------------|
+|:--------------------- |:-----------------------------------------------------------------|
 | bluetui               | Manage Bluetooth devices                                         |
 | btop                  | A monitor of system resources                                    |
 | fzf                   | Command-line fuzzy finder                                        |
@@ -88,7 +88,7 @@ installed in these environments.*
 ## Desktop Environment
 
 | Package                  | Description                                             |
-|--------------------------|---------------------------------------------------------|
+|:-------------------------|:--------------------------------------------------------|
 | mako                     | Lightweight notification daemon for Wayland             |
 | niri                     | A scrollable-tiling Wayland compositor                  |
 | swaybg                   | Wallpaper tool for Wayland compositors                  |
@@ -104,7 +104,7 @@ installed in these environments.*
 ## Launcher
 
 | Package                                  | Description                                |
-|------------------------------------------|--------------------------------------------|
+|:-----------------------------------------|:-------------------------------------------|
 | walker-bin *(AUR)*                       | Wayland application runner                 |
 | elephant-bin *(AUR)*                     | General purpose datasource and executor    |
 | elephant-calc-bin *(AUR)*                | Calc provider for elephant                 |
@@ -122,7 +122,7 @@ installed in these environments.*
 ## File manager
 
 | Package               | Description                                                                 |
-|-----------------------|-----------------------------------------------------------------------------|
+|:----------------------|:----------------------------------------------------------------------------|
 | thunar                | Modern, fast and easy-to-use file manager for Xfce                          |
 | ffmpegthumbnailer     | Lightweight video thumbnailer that can be used by file managers             |
 | thunar-archive-plugin | Adds archive operations to Thunar context menus                             |
@@ -132,7 +132,7 @@ installed in these environments.*
 ## Screenshots
 
 | Package       | Description                                                        |
-|---------------|--------------------------------------------------------------------|
+|:--------------|:-------------------------------------------------------------------|
 | grim          | Screenshot utility for Wayland                                     |
 | satty         | Modern screenshot annotation tool inspired by Swappy and Flameshot |
 | slurp         | Select a region in a Wayland compositor                            |
@@ -141,14 +141,14 @@ installed in these environments.*
 ## Fonts
 
 | Package          | Description                             |
-|------------------|-----------------------------------------|
+|:-----------------|:----------------------------------------|
 | gnu-free-fonts   | A free family of scalable outline fonts |
 | noto-fonts-emoji | Google Noto Color Emoji font            |
 
 ## Apps
 
 | Package            | Description                                                          |
-|--------------------|----------------------------------------------------------------------|
+|:-------------------|:---------------------------------------------------------------------|
 | firefox            | Fast, Private & Safe Web Browser                                     |
 | ghostty            | Fast, native, feature-rich terminal emulator pushing modern features |
 | gimp               | GNU Image Manipulation Program                                       |
