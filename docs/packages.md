@@ -1,6 +1,7 @@
 All packages listed here are the names of the packages either in the official
 Arch package repository or the AUR. The AUR is used sparingly and will be
-called out when used.
+called out when used. They get installed and configured for you by these
+dotfiles.
 
 On Arch Linux with these dotfiles you can run `pkg list` to see a comparable
 list of packages you have installed.
@@ -22,6 +23,16 @@ installed in these environments.*
 | mpd            | Flexible, powerful, server-side application for playing music |
 | mpd-mpris      | An implementation of the MPRIS protocol for MPD               |
 | wireplumber    | Session and policy manager for PipeWire                       |
+
+## Linux Kernel
+
+This is picked by you during the `archinstall` script, typically it's the
+mainline stable kernel which is the default `linux` package but it's up to you!
+Other options are `linux-lts`, `linux-zen` and `linux-hardened`.
+
+## GPU drivers
+
+If needed, these get automatically installed for you by these dotfiles.
 
 # CLI
 
