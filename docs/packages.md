@@ -10,332 +10,151 @@ installed in these environments.*
 
 # System / Service
 
-base
-: Minimal package set to define a basic Arch Linux installation
-
-base-devel
-: Basic tools to build Arch Linux packages
-
-pacman-contrib
-: Contributed scripts and tools for pacman systems
-
-pipewire
-: Low-latency audio/video router and processor
-
-pipewire-alsa
-: PipeWire ALSA configuration
-
-pipewire-jack
-: PipeWire JACK replacement
-
-pipewire-pulse
-: PipeWire PulseAudio replacement
-
-mpd
-: Flexible, powerful, server-side application for playing music
-
-mpd-mpris
-: An implementation of the MPRIS protocol for MPD
-
-wireplumber
-: Session and policy manager for PipeWire
+| Package        | Description                                                   |
+|----------------|---------------------------------------------------------------|
+| base           | Minimal package set to define a basic Arch Linux installation |
+| base-devel     | Basic tools to build Arch Linux packages                      |
+| pacman-contrib | Contributed scripts and tools for pacman systems              |
+| pipewire       | Low-latency audio/video router and processor                  |
+| pipewire-alsa  | PipeWire ALSA configuration                                   |
+| pipewire-jack  | PipeWire JACK replacement                                     |
+| pipewire-pulse | PipeWire PulseAudio replacement                               |
+| mpd            | Flexible, powerful, server-side application for playing music |
+| mpd-mpris      | An implementation of the MPRIS protocol for MPD               |
+| wireplumber    | Session and policy manager for PipeWire                       |
 
 # CLI
 
-aspell
-: General purpose spell checker
-
-bat
-: Cat clone with syntax highlighting and git integration
-
-bc
-: An arbitrary precision calculator language
-
-bind
-: Provides the `host`, `nslookup` and `dig` commands
-
-brightnessctl
-: Control monitor and other device brightness
-
-docker
-: Pack, ship and run any application as a lightweight container
-
-docker-buildx
-: Docker CLI plugin for extended build capabilities with BuildKit
-
-docker-compose
-: Fast, isolated development environments using Docker
-
-eza
-: A modern replacement for ls (community fork of exa)
-
-fastfetch
-: A feature-rich and performance oriented neofetch-like system information tool
-
-fd
-: Simple, fast and user-friendly alternative to find
-
-ffmpeg
-: Complete solution to record, convert and stream audio and video
-
-fontconfig
-: Library for configuring and customizing font access
-
-git
-: The fast distributed version control system
-
-git-delta (`delta`)
-: Syntax-highlighting pager for git and diff output
-
-go-yq (`yq`)
-: Portable command-line YAML processor
-
-inotify-tools
-: C library and command-line tools providing a simple interface to inotify
-
-jq
-: Command-line JSON processor
-
-man-db (`man`)
-: A utility for reading man pages
-
-man-pages
-: Linux man pages
-
-mise
-: The front-end to your dev env
-
-ntfs-3g
-: NTFS filesystem driver and utilities
-
-openbsd-netcat (`netcat`)
-: TCP/IP swiss army knife (OpenBSD variant)
-
-openssh
-: SSH protocol implementation for remote login, command execution and file transfer
-
-pwgen
-: Password generator for creating easily memorable passwords
-
-ripgrep (`rg`)
-: Search tool combining the usability of ag with the speed of grep
-
-shellcheck
-: Shell script analysis tool
-
-shfmt
-: Shell program formatter
-
-smartmontools (`smartctl`)
-: Control and monitor S.M.A.R.T. enabled ATA and SCSI drives
-
-timidity++
-: MIDI to WAVE converter and player
-
-unzip
-: Extracting and viewing .zip archives
-
-usbutils (`lsub`)
-: USB tools to query connected USB devices
-
-wev
-: Tool for debugging Wayland events (similar to xev)
-
-wget
-: Network utility to retrieve files from the web
-
-whois
-: Intelligent WHOIS client
-
-wl-clipboard
-: Command-line copy/paste utilities for Wayland
-
-yay-bin
-: Pacman wrapper and AUR helper written in Go (pre-compiled)
-
-yay-bin-debug
-: Detached debugging symbols for yay-bin
-
-zip
-: Compressor/archiver for creating and modifying zip files
-
-zsh
-: Advanced and programmable UNIX shell
+| Package                    | Description                                                                       |
+|----------------------------|-----------------------------------------------------------------------------------|
+| aspell                     | General purpose spell checker                                                     |
+| bat                        | Cat clone with syntax highlighting and git integration                            |
+| bc                         | An arbitrary precision calculator language                                        |
+| bind                       | Provides the `host`, `nslookup` and `dig` commands                                |
+| brightnessctl              | Control monitor and other device brightness                                       |
+| docker                     | Pack, ship and run any application as a lightweight container                     |
+| docker-buildx              | Docker CLI plugin for extended build capabilities with BuildKit                   |
+| docker-compose             | Fast, isolated development environments using Docker                              |
+| eza                        | A modern replacement for ls (community fork of exa)                               |
+| fastfetch                  | A feature-rich and performance oriented neofetch-like system information tool     |
+| fd                         | Simple, fast and user-friendly alternative to find                                |
+| ffmpeg                     | Complete solution to record, convert and stream audio and video                   |
+| fontconfig                 | Library for configuring and customizing font access                               |
+| git                        | The fast distributed version control system                                       |
+| git-delta (`delta`)        | Syntax-highlighting pager for git and diff output                                 |
+| go-yq (`yq`)               | Portable command-line YAML processor                                              |
+| inotify-tools              | C library and command-line tools providing a simple interface to inotify          |
+| jq                         | Command-line JSON processor                                                       |
+| man-db (`man`)             | A utility for reading man pages                                                   |
+| man-pages                  | Linux man pages                                                                   |
+| mise                       | The front-end to your dev env                                                     |
+| ntfs-3g                    | NTFS filesystem driver and utilities                                              |
+| openbsd-netcat (`netcat`)  | TCP/IP swiss army knife (OpenBSD variant)                                         |
+| openssh                    | SSH protocol implementation for remote login, command execution and file transfer |
+| pwgen                      | Password generator for creating easily memorable passwords                        |
+| ripgrep (`rg`)             | Search tool combining the usability of ag with the speed of grep                  |
+| shellcheck                 | Shell script analysis tool                                                        |
+| shfmt                      | Shell program formatter                                                           |
+| smartmontools (`smartctl`) | Control and monitor S.M.A.R.T. enabled ATA and SCSI drives                        |
+| timidity++                 | MIDI to WAVE converter and player                                                 |
+| unzip                      | Extracting and viewing .zip archives                                              |
+| usbutils (`lsub`)          | USB tools to query connected USB devices                                          |
+| wev                        | Tool for debugging Wayland events (similar to xev)                                |
+| wget                       | Network utility to retrieve files from the web                                    |
+| whois                      | Intelligent WHOIS client                                                          |
+| wl-clipboard               | Command-line copy/paste utilities for Wayland                                     |
+| yay-bin                    | Pacman wrapper and AUR helper written in Go (pre-compiled)                        |
+| yay-bin-debug              | Detached debugging symbols for yay-bin                                            |
+| zip                        | Compressor/archiver for creating and modifying zip files                          |
+| zsh                        | Advanced and programmable UNIX shell                                              |
 
 # TUI
 
-bluetui
-: Manage Bluetooth devices
-
-btop
-: A monitor of system resources
-
-fzf
-: Command-line fuzzy finder
-
-impala
-: Manage Wi-Fi networks
-
-less
-: A terminal based program for viewing text files
-
-libqalculate (`qalc`)
-: Multi-purpose desktop calculator
-
-neovim
-: Fork of Vim aiming to improve user experience, plugins, and GUIs
-
-rmpc
-: A beautiful and configurable TUI client for MPD
-
-tmux
-: Terminal multiplexer
-
-wiremix
-: Simple audio mixer for PipeWire
+| Package               | Description                                                      |
+|---------------------- |------------------------------------------------------------------|
+| bluetui               | Manage Bluetooth devices                                         |
+| btop                  | A monitor of system resources                                    |
+| fzf                   | Command-line fuzzy finder                                        |
+| impala                | Manage Wi-Fi networks                                            |
+| less                  | A terminal based program for viewing text files                  |
+| libqalculate (`qalc`) | Multi-purpose desktop calculator                                 |
+| neovim                | Fork of Vim aiming to improve user experience, plugins, and GUIs |
+| rmpc                  | A beautiful and configurable TUI client for MPD                  |
+| tmux                  | Terminal multiplexer                                             |
+| wiremix               | Simple audio mixer for PipeWire                                  |
 
 # GUI
 
 ## Desktop Environment
 
-mako
-: Lightweight notification daemon for Wayland
-
-niri
-: A scrollable-tiling Wayland compositor
-
-swaybg
-: Wallpaper tool for Wayland compositors
-
-swayidle
-: Idle management daemon for Wayland
-
-swaylock
-: Screen locker for Wayland
-
-uwsm
-: Standalone Wayland session manager
-
-waybar
-: Highly customizable Wayland bar for wlroots compositors
-
-wlrctl *(AUR)*
-: Utility for miscellaneous wlroots extensions
-
-xdg-desktop-portal-gnome
-: GNOME backend for xdg-desktop-portal
-
-xdg-desktop-portal-gtk
-: GTK backend for xdg-desktop-portal
-
-xwayland-satellite
-: Xwayland outside your Wayland
+| Package                  | Description                                             |
+|--------------------------|---------------------------------------------------------|
+| mako                     | Lightweight notification daemon for Wayland             |
+| niri                     | A scrollable-tiling Wayland compositor                  |
+| swaybg                   | Wallpaper tool for Wayland compositors                  |
+| swayidle                 | Idle management daemon for Wayland                      |
+| swaylock                 | Screen locker for Wayland                               |
+| uwsm                     | Standalone Wayland session manager                      |
+| waybar                   | Highly customizable Wayland bar for wlroots compositors |
+| wlrctl *(AUR)*           | Utility for miscellaneous wlroots extensions            |
+| xdg-desktop-portal-gnome | GNOME backend for xdg-desktop-portal                    |
+| xdg-desktop-portal-gtk   | GTK backend for xdg-desktop-portal                      |
+| xwayland-satellite       | Xwayland outside your Wayland                           |
 
 ## Launcher
 
-walker-bin *(AUR)*
-: Wayland application runner
-
-elephant-bin *(AUR)*
-: General purpose datasource and executor
-
-elephant-calc-bin *(AUR)*
-: Calc provider for elephant
-
-elephant-clipboard-bin *(AUR)*
-: Clipboard provider for elephant
-
-elephant-desktopapplications-bin *(AUR)*
-: Desktop applications provider for elephant
-
-elephant-files-bin *(AUR)*
-: Files provider for elephant
-
-elephant-menus-bin *(AUR)*
-: Menus provider for elephant
-
-elephant-providerlist-bin *(AUR)*
-: Providerlist provider for elephant
-
-elephant-runner-bin *(AUR)*
-: Runner provider for elephant
-
-elephant-symbols-bin *(AUR)*
-: Symbols provider for elephant
-
-elephant-unicode-bin *(AUR)*
-: Unicode provider for elephant
-
-elephant-websearch-bin *(AUR)*
-: Websearch provider for elephant
-
-elephant-windows-bin *(AUR)*
-: Windows provider for elephant
+| Package                                  | Description                                |
+|------------------------------------------|--------------------------------------------|
+| walker-bin *(AUR)*                       | Wayland application runner                 |
+| elephant-bin *(AUR)*                     | General purpose datasource and executor    |
+| elephant-calc-bin *(AUR)*                | Calc provider for elephant                 |
+| elephant-clipboard-bin *(AUR)*           | Clipboard provider for elephant            |
+| elephant-desktopapplications-bin *(AUR)* | Desktop applications provider for elephant |
+| elephant-files-bin *(AUR)*               | Files provider for elephant                |
+| elephant-menus-bin *(AUR)*               | Menus provider for elephant                |
+| elephant-providerlist-bin *(AUR)*        | Providerlist provider for elephant         |
+| elephant-runner-bin *(AUR)*              | Runner provider for elephant               |
+| elephant-symbols-bin *(AUR)*             | Symbols provider for elephant              |
+| elephant-unicode-bin *(AUR)*             | Unicode provider for elephant              |
+| elephant-websearch-bin *(AUR)*           | Websearch provider for elephant            |
+| elephant-windows-bin *(AUR)*             | Windows provider for elephant              |
 
 ## File manager
 
-thunar
-: Modern, fast and easy-to-use file manager for Xfce
-
-ffmpegthumbnailer
-: Lightweight video thumbnailer that can be used by file managers
-
-thunar-archive-plugin
-: Adds archive operations to Thunar context menus
-
-tumbler
-: Thumbnail service implementing the thumbnail management D-Bus specification
-
-xarchiver
-: GTK frontend to command-line archivers
+| Package               | Description                                                                 |
+|-----------------------|-----------------------------------------------------------------------------|
+| thunar                | Modern, fast and easy-to-use file manager for Xfce                          |
+| ffmpegthumbnailer     | Lightweight video thumbnailer that can be used by file managers             |
+| thunar-archive-plugin | Adds archive operations to Thunar context menus                             |
+| tumbler               | Thumbnail service implementing the thumbnail management D-Bus specification |
+| xarchiver             | GTK frontend to command-line archivers                                      |
 
 ## Screenshots
 
-grim
-: Screenshot utility for Wayland
-
-satty
-: Modern screenshot annotation tool inspired by Swappy and Flameshot
-
-slurp
-: Select a region in a Wayland compositor
-
-hyprpicker
-: A wlroots-compatible Wayland color picker that does not suck
+| Package       | Description                                                        |
+|---------------|--------------------------------------------------------------------|
+| grim          | Screenshot utility for Wayland                                     |
+| satty         | Modern screenshot annotation tool inspired by Swappy and Flameshot |
+| slurp         | Select a region in a Wayland compositor                            |
+| hyprpicker    | A wlroots-compatible Wayland color picker that does not suck       |
 
 ## Fonts
 
-gnu-free-fonts
-: A free family of scalable outline fonts
-
-noto-fonts-emoji
-: Google Noto Color Emoji font
+| Package          | Description                             |
+|------------------|-----------------------------------------|
+| gnu-free-fonts   | A free family of scalable outline fonts |
+| noto-fonts-emoji | Google Noto Color Emoji font            |
 
 ## Apps
 
-firefox
-: Fast, Private & Safe Web Browser
-
-ghostty
-: Fast, native, feature-rich terminal emulator pushing modern features
-
-gimp
-: GNU Image Manipulation Program
-
-kdenlive
-: A non-linear video editor for Linux using the MLT video framework
-
-keepassxc
-: Cross-platform community-driven port of Keepass password manager
-
-libreoffice-fresh
-: LibreOffice branch containing new features and enhancements
-
-mpv
-: Free, open source, cross-platform media player
-
-obs-studio
-: Free, open source software for live streaming and recording
-
-xnviewmp *(AUR)*
-: Efficient multimedia viewer, browser, and converter
+| Package            | Description                                                          |
+|--------------------|----------------------------------------------------------------------|
+| firefox            | Fast, Private & Safe Web Browser                                     |
+| ghostty            | Fast, native, feature-rich terminal emulator pushing modern features |
+| gimp               | GNU Image Manipulation Program                                       |
+| kdenlive           | A non-linear video editor for Linux using the MLT video framework    |
+| keepassxc          | Cross-platform community-driven port of Keepass password manager     |
+| libreoffice-fresh  | LibreOffice branch containing new features and enhancements          |
+| mpv                | Free, open source, cross-platform media player                       |
+| obs-studio         | Free, open source software for live streaming and recording          |
+| xnviewmp *(AUR)*   | Efficient multimedia viewer, browser, and converter                  |
