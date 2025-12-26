@@ -51,7 +51,7 @@ supported Linux distro.*
   - Prefer TUI (Terminal User Interface) apps over GUI apps when possible
   - Development / media creation focused apps are ready to go
 
-### Why niri and not XYZ?
+#### Why niri and not XYZ?
 
 It's resource efficient, lightning fast, super stable, infinitely tweakable,
 intuitively handles scrolling / tiling / floating windows, integrates awesomely
