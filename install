@@ -113,6 +113,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     PACKAGES_PACMAN_GUI=(
       "brightnessctl"
       "docker"
+      "docker-buildx"
       "docker-compose"
       "ffmpegthumbnailer"
       "firefox"
