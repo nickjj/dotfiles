@@ -46,7 +46,7 @@ supported Linux distro.*
 *Supports Arch Linux.*
 
 - Highlights:
-  - [niri](https://github.com/YaLTeR/niri), Waybar, Walker and friends
+  - [niri](https://github.com/YaLTeR/niri) *(Wayland compositor)*, Waybar *(status bar)*, Walker *(app launcher)* and friends
   - Hotkey focused but tons of mouse / trackpad support
   - Prefer TUI (Terminal User Interface) apps over GUI apps when possible
   - Development / media creation focused apps are ready to go
@@ -63,6 +63,15 @@ it's *that* good. I'm the "I was there 3,000 years ago" meme from Windows 2000,
 XP, 7, 10 and also macOS on company issued laptops. Nothing I have ever used in
 ~25 years has approached how I feel using this set up. It's not even close (yes
 I tried Hyprland too).
+
+### Full Package List
+
+There's docs with a [complete list of packages](./docs/packages.md) along with
+what they're being used for and why.
+
+The source of truth can always be found near the top of the [install
+script](./install). If you scroll down a little bit you'll see variables for
+each package manager. You can search for `PACKAGES_PACMAN` and go from there.
 
 ## 🧾 Documentation
 
