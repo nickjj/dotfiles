@@ -74,7 +74,7 @@ If needed, these get automatically installed for you by these dotfiles.
 | wget                       | Network utility to retrieve files from the web                                    |
 | whois                      | Intelligent WHOIS client                                                          |
 | wl-clipboard               | Command-line copy/paste utilities for Wayland                                     |
-| yay-bin                    | Pacman wrapper and AUR helper written in Go (pre-compiled)                        |
+| yay-bin (`yay`)            | Pacman wrapper and AUR helper written in Go (pre-compiled)                        |
 | yay-bin-debug              | Detached debugging symbols for yay-bin                                            |
 | zip                        | Compressor/archiver for creating and modifying zip files                          |
 | zsh                        | Advanced and programmable UNIX shell                                              |
