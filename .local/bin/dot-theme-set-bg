@@ -76,4 +76,4 @@ ln -fns "${DOTFILES_PATH}/wallpapers/${NEXT_WALLPAPER}" "${WALLPAPER_PATH}"
 swaybg --image "${WALLPAPER_PATH}" --mode fill >/dev/null 2>&1 &
 
 # When booting up, we don't want to display this message.
-[ -z "${KEEP_CURRENT}" ] && notify-send "Wallpaper set to ${NEXT_WALLPAPER}"
+if [ -z "${KEEP_CURRENT}" ]; then notify-send "Wallpaper set to ${NEXT_WALLPAPER}"; fi
