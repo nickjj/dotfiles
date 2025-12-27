@@ -634,6 +634,23 @@ _install_packages_arch() {
 
   # Install Mise packages.
   _package_install mise "${MISE_ARCH[@]}" "${MISE_ARCH_EXTRAS[@]}"
+
+  # Install packages manually since they don't exist elsewhere.
+
+  # GIMP plugin: GEGL effects.
+  if [ "${GUI_ENABLED}" == "1" ]; then
+    local gegl_plugins_path="${XDG_DATA_HOME}/gegl-0.4/plug-ins"
+    local gegl_zip_path="/tmp/gegl_effectd.zip"
+
+    if [ ! -f "${gegl_plugins_path}/gegleffectspending.so" ]; then
+      echo
+      rm -rf "${gegl_zip_path}"
+      curl -fsSL "https://github.com/LinuxBeaver/Gimp_Layer_Effects_Text_Styler_Plugin_GEGL_Effects/releases/download/Continual_July22_2023/gegl_effects_linux_binaries_gegl_plugin.zip" -o "${gegl_zip_path}"
+      mkdir -p "${gegl_plugins_path}"
+      unzip "${gegl_zip_path}" -d "${gegl_plugins_path}"
+      rm -rf "${gegl_zip_path}"
+    fi
+  fi
 }
 
 _install_packages_debian() {
