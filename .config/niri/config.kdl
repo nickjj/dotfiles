@@ -226,8 +226,8 @@ binds {
 
     Mod+Equal       hotkey-overlay-title="Increase column width" { set-column-width "+10%"; }
     Mod+Minus       hotkey-overlay-title="Decrease column width" { set-column-width "-10%"; }
-    Mod+Shift+Equal hotkey-overlay-title="Increase column height" { set-window-height "+10%"; }
-    Mod+Shift+Minus hotkey-overlay-title="Decrease column height" { set-window-height "-10%"; }
+    Mod+Shift+Equal hotkey-overlay-title="Increase window height" { set-window-height "+10%"; }
+    Mod+Shift+Minus hotkey-overlay-title="Decrease window height" { set-window-height "-10%"; }
 
     // Window and column movement.
     Mod+I hotkey-overlay-title="Focus previously focused window" { focus-window-previous; }
