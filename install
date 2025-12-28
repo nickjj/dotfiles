@@ -967,10 +967,10 @@ EOF
     # Choose driver based on generation.
     case "${gpu_line}" in
     *RTX\ [2-9][0-9]* | *GTX\ 16*)
-      PACKAGES_PACMAN+=("nvidia-open-dkms" "nvidia-utils")
+      PACKAGES_PACMAN+=("nvidia-open-dkms" "nvidia-utils" "lib32-nvidia-utils")
       ;;
     *GTX\ [7-9]* | *GTX\ 10*)
-      PACKAGES_AUR+=("nvidia-580xx-dkms" "nvidia-580xx-utils")
+      PACKAGES_AUR+=("nvidia-580xx-dkms" "nvidia-580xx-utils" "lib32-nvidia-580xx-utils")
       ;;
     *)
       cat <<EOF
