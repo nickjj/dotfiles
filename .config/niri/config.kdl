@@ -192,12 +192,13 @@ binds {
     Mod+Alt+V repeat=false hotkey-overlay-title="Launcher (clipboard)" { spawn "walker" "--provider" "clipboard"; }
 
     // Apps.
-    Mod+Alt+T       hotkey-overlay-title="Terminal" { spawn "ghostty"; }
-    Mod+Alt+F       hotkey-overlay-title="File manager" { spawn "thunar"; }
-    Mod+Alt+B       hotkey-overlay-title="Browser" { spawn "firefox"; }
-    Mod+Shift+Alt+B hotkey-overlay-title="Browser (private)" { spawn "firefox" "-private-window"; }
-    Mod+Alt+P       hotkey-overlay-title="Passwords" { spawn "dot-launch-or-focus" "keepassxc"; }
-    Mod+Alt+M       hotkey-overlay-title="Music" { spawn "dot-launch-or-focus-tui" "rmpc"; }
+    Mod+Alt+T            hotkey-overlay-title="Terminal" { spawn "ghostty"; }
+    Mod+Alt+F            hotkey-overlay-title="File manager" { spawn "thunar"; }
+    Mod+Alt+P            hotkey-overlay-title="Passwords" { spawn "dot-launch-or-focus" "keepassxc"; }
+    Mod+Alt+M            hotkey-overlay-title="Music" { spawn "dot-launch-or-focus-tui" "rmpc"; }
+    Mod+Alt+B            hotkey-overlay-title="Browser" { spawn "firefox"; }
+    Mod+Shift+Alt+B      hotkey-overlay-title="Browser (private)" { spawn "firefox" "-private-window"; }
+    Mod+Ctrl+Shift+Alt+B hotkey-overlay-title="Browser (isolated profile)" { spawn-sh "firefox -P ${BROWSER_ISOLATED_PROFILE:-isolated}"; }
 
     // Window and column behavior.
     Mod+Q repeat=false hotkey-overlay-title="Close window" { close-window; }
