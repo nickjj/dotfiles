@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# Scale (zoom) an output by static amount or +/- increments.
+#
+# Usage examples:
+#   output-scale       # defaults to 1.0
+#   output-scale 2.0   # set the current scale to 2.0 (zoom in)
+#   output-scale +0.2  # increase the current scale by 0.2 (zoom in)
+#   output-scale -0.1  # decrease the current scale by 0.1 (zoom out)
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+if [ -z "${NIRI_SOCKET}" ]; then
+  echo "This script is only available with the desktop environment, sorry!" >&2
+  exit 1
+fi
+
+# Which monitor(s) are being used? If your monitors are different, export these
+# variables in your local zprofile with your values.
+OUTPUT_PRIMARY="${OUTPUT_PRIMARY:-DP-1}"
+OUTPUT_SECONDARY="${OUTPUT_SECONDARY:-HDMI-A-1}"
+
+# Get primary output's preferred width (native resolution) and current scale.
+OUTPUTS="$(niri msg --json outputs)"
+read -r OUTPUT_PRIMARY_WIDTH SCALE_AMOUNT_CURRENT <<<"$(
+  jq --raw-output --exit-status --arg primary "${OUTPUT_PRIMARY}" '
+    .[$primary] as $device |
+    $device.modes[] | select(.is_preferred) | "\(.width) \($device.logical.scale)"
+  ' <<<"${OUTPUTS}"
+)"
+
+# Normalize number so that 1.0 becomes 1.
+normalize() { printf "%g\n" "${1}"; }
+
+OUTPUT_PRIMARY_WIDTH=$(normalize "${OUTPUT_PRIMARY_WIDTH}")
+SCALE_AMOUNT_CURRENT=$(normalize "${SCALE_AMOUNT_CURRENT}")
+
+# Determine new scale, either by +/- increments or an absolute amount.
+ARG_SCALE="${1:-1.0}"
+if [[ "${ARG_SCALE}" =~ ^[+-] ]]; then
+  SCALE_AMOUNT=$(echo "${SCALE_AMOUNT_CURRENT} ${ARG_SCALE}" | bc -l)
+else
+  SCALE_AMOUNT=$(normalize "${ARG_SCALE}")
+fi
+
+# Nothing to do if the scale is unchanged.
+[ "${SCALE_AMOUNT}" == "${SCALE_AMOUNT_CURRENT}" ] && exit
+
+# Protect against very small and large amounts.
+if (($(echo "$SCALE_AMOUNT < 0.5" | bc -l))); then
+  SCALE_AMOUNT=0.5
+fi
+if (($(echo "$SCALE_AMOUNT > 5" | bc -l))); then
+  SCALE_AMOUNT=5
+fi
+
+# Apply the new scale factor.
+niri msg output "${OUTPUT_PRIMARY}" scale "${SCALE_AMOUNT}"
+
+# Fix aspect ratio of wallpaper.
+dot-theme-set-bg --keep-current
+
+# Is the secondary monitor connected? If not, we're done.
+jq --raw-output --arg secondary "${OUTPUT_SECONDARY}" '.[$secondary] | if . then true else false end' <<<"${OUTPUTS}" || exit
+
+# Figure out the new logical pixels and round down to avoid sub-pixels.
+OUTPUT_PRIMARY_WIDTH_SCALED=$(echo "scale=0; ${OUTPUT_PRIMARY_WIDTH} / ${SCALE_AMOUNT}" | bc)
+
+# Position the secondary monitor to the right of the primary monitor.
+niri msg output "${OUTPUT_SECONDARY}" position set "${OUTPUT_PRIMARY_WIDTH_SCALED}" 0
