@@ -15,13 +15,15 @@ installed in these environments.*
 |:---------------|:--------------------------------------------------------------|
 | base           | Minimal package set to define a basic Arch Linux installation |
 | base-devel     | Basic tools to build Arch Linux packages                      |
+| bluez          | Daemons for the bluetooth protocol stack                      |
+| iwd            | Internet Wireless Daemon                                      |
+| mpd            | Flexible, powerful, server-side application for playing music |
+| mpd-mpris      | An implementation of the MPRIS protocol for MPD               |
 | pacman-contrib | Contributed scripts and tools for pacman systems              |
 | pipewire       | Low-latency audio/video router and processor                  |
 | pipewire-alsa  | PipeWire ALSA configuration                                   |
 | pipewire-jack  | PipeWire JACK replacement                                     |
 | pipewire-pulse | PipeWire PulseAudio replacement                               |
-| mpd            | Flexible, powerful, server-side application for playing music |
-| mpd-mpris      | An implementation of the MPRIS protocol for MPD               |
 | wireplumber    | Session and policy manager for PipeWire                       |
 
 ## Linux Kernel
