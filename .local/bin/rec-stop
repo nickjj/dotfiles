@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Reset a few things back to normal after recording.
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+if [ -z "${NIRI_SOCKET}" ]; then
+  echo "This script is only available with the desktop environment, sorry!" >&2
+  exit 1
+fi
+
+GHOSTTY_FONT_SIZE=10
+
+# Restore from the backup if it exists. Using mv here is safe because otherwise
+# we would run cp + rm on the file resulting in the same outcome.
+if [ -f "${HISTFILE}.bak" ]; then
+  mv "${HISTFILE}.bak" "${HISTFILE}"
+fi
+
+CLIPBOARD_HISTORY_FILE="${XDG_CACHE_HOME}/elephant/clipboard.gob"
+if [ -f "${CLIPBOARD_HISTORY_FILE}.bak" ]; then
+  mv "${CLIPBOARD_HISTORY_FILE}.bak" "${CLIPBOARD_HISTORY_FILE}"
+  dot-reload-app walker
+fi
+
+perl -i -pe "s/^font-size = .*/font-size = ${GHOSTTY_FONT_SIZE}/g" "${DOTFILES_PATH}/.config/ghostty/config.local"
+dot-reload-app ghostty
+
+output-scale 1.0
+
+perl -i -pe "s/^window-rule { open-maximized .*; }/window-rule { open-maximized false; }/g" "${DOTFILES_PATH}/.config/niri/config.kdl.local"
+
+cat <<EOF
+-> Shell history has been restored to ${HISTFILE}
+-> Clipboard history has been restored to ${CLIPBOARD_HISTORY_FILE}
+
+Nice work, here's a few things to maybe do:
+  - Restore tmux sessions by running tmux and then Leader + CTRL + r
+  - Open a new Ghostty tab or window to show font-size adjustments
+  - Close all isolated profile browser windows
+    - Example: pkill -f "firefox .* -P isolated"
+EOF
