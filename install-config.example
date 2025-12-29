@@ -188,6 +188,7 @@ export SUDOERS_ENTRIES_EXTRAS
 
 # Services in this list will start on boot if they exist, omit the .service
 # extension, for example SYSTEMD_ENABLED_SERVICES_EXTRAS=("docker") is
-# enabled by default.
+# enabled by default. Use "myservice --user" to have it enabled with --user,
+# likewise you can use "myservice --now" and combine these flags as needed.
 export SYSTEMD_ENABLED_SERVICES=()
 export SYSTEMD_ENABLED_SERVICES_EXTRAS=()

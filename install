@@ -1548,10 +1548,19 @@ configure_systemd_services() {
     return
   fi
 
-  for service in "${services[@]}"; do
-    if systemctl cat "${service}.service" 1>/dev/null; then
-      sudo systemctl enable "${service}.service"
-      echo "${service}"
+  for item in "${services[@]}"; do
+    # Segment out the service name and all of the flags.
+    # shellcheck disable=SC2086
+    set -- $item
+    service="${1}"
+    shift
+    flags=("${@}")
+
+    prefix=()
+    [[ " ${flags[*]} " == *" --user"* ]] || prefix=(sudo)
+
+    if systemctl cat "${flags[@]}" "${service}.service" 1>/dev/null; then
+      "${prefix[@]}" systemctl "${flags[@]}" enable "${service}.service"
     fi
 
     echo
