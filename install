@@ -1723,10 +1723,12 @@ configure_shell() {
     fi
 
     if ! grep -q "eval.*homebrew.*shellenv" "${zprofile_path}" 2>/dev/null; then
+      # shellcheck disable=SC2178
       local prefix="/opt/homebrew"
+      # shellcheck disable=SC2178
       [[ "${CPU_ARCH}" == "x86_64" ]] && prefix="/usr/local"
 
-      # shellcheck disable=SC2016
+      # shellcheck disable=SC2016,SC2128
       printf "\neval \"\$(%s/bin/brew shellenv)\"\n" "${prefix}" >>"${zprofile_path}"
     fi
 
