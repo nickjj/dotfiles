@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Reload or restart apps not managed by systemd.
+# Reload or restart apps not managed by systemd. Any of the case statement
+# options can be passed in as a value.
 
 set -o errexit
 set -o pipefail

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Scale (zoom) an output by static amount or +/- increments.
 #
-# Usage examples:
+# Examples:
 #   output-scale       # defaults to 1.0
 #   output-scale 2.0   # set the current scale to 2.0 (zoom in)
 #   output-scale +0.2  # increase the current scale by 0.2 (zoom in)

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Convert images to various formats and sizes. All functions support passing
-# in optional custom args to so you can do adhoc conversions.
+# in optional custom args so you can do adhoc conversions.
 #
-# Usage examples:
+#  Examples:
 #   convert img2jpg hello.jpg
 #   convert img2jpg hello.jpg -quality 5     # Override the default quality
 #   convert img2jpg hello.jpg -resize 640x   # Resize to 640 width w/ aspect ratio

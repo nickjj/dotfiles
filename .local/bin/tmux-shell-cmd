@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 # Run a shell command in all open tmux sessions, windows and panes.
+#
+# Examples:
+#   tmux-shell-cmd  # outputs a few usage examples
 
 set -o pipefail
 set -o nounset
@@ -23,7 +26,7 @@ COMMAND="${ARGS[*]}"
 
 if [[ -z "${COMMAND:-}" ]]; then
   cat <<EOF
-Usage:
+Examples:
   tmux-shell-cmd whoami
   tmux-shell-cmd --kill "echo 'kill any process before running this command'"
   AUTO_KILL=1 tmux-shell-cmd --kill <same as above except it won't prompt you>

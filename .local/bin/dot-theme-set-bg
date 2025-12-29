@@ -2,7 +2,7 @@
 # Set the next available wallpaper, defaulting to a color if none are available.
 # Optionally supports keeping the current wallpaper (useful after rebooting).
 #
-# Usage:
+# Examples:
 #   dot-theme-set-bg
 #   dot-theme-set-bg --keep-current
 

@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-# Usage:
-#   ppjson [file path] [jq args]
+# View pretty printed JSON.
 #
 # Examples:
-#   ppjson myfile.json  Pretty print the contents of a file
-#   ppjson              Pretty print the contents of your clipboard
-#   ppjson --indent 4   Pretty print your clipboard with 4 spaces
+#   ppjson myfile.json  # contents of a file
+#   ppjson              # contents of your clipboard
+#   ppjson --indent 4   # contents of your clipboard with 4 spaces
 
 set -o errexit
 set -o pipefail

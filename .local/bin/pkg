@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 # Manage packages using Pacman (Arch) and Yay (AUR) repositories.
+#
+# Examples:
+#   pkg --help
 
 set -o errexit
 set -o pipefail

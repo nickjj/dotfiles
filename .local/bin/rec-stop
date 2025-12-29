@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 # Reset a few things back to normal after recording.
+#
+# Examples:
+#   rec-stop
 
 set -o errexit
 set -o pipefail

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Wrapper script to use X11 instead of Wayland.
 
 set -o errexit
 set -o pipefail

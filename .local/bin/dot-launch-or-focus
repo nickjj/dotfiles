@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Launch or focus an already running app by shortname or reverse DNS identifier.
-# Usage:
+#
+# Examples:
 #   dot-launch-or-focus ghostty [ARGS]
 #   dot-launch-or-focus com.mitchellh.ghostty [ARGS]
 

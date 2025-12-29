@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Generate a secure secret and have it copied to your clipboard.
 
 set -o errexit
 set -o pipefail

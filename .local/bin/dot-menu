@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# System menu.
+# System menu. Typically assigned to a key bind (ie. Mod + /).
 
 set -o errexit
 set -o pipefail

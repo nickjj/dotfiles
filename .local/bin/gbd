@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Delete all local branches except for skipped branches, it's useful for cleanup.
-# Usage:
+#
+# Examples:
 #   gbd
 #   gbd --dry-run
 

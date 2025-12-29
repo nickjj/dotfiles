@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Used by the clipboard manager to auto-paste on select instead of copy, this
 # lets you hit enter on the item instead of having to paste it after selecting.
+#
+# Examples:
+#   It is referenced in .config/elephant/clipboard.toml
 
 set -o errexit
 set -o pipefail

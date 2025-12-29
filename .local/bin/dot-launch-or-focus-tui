@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Launch or focus an already running TUI by binary name.
-# Usage:
+#
+# Examples:
 #   dot-launch-or-focus-tui btop [ARGS]
 
 set -o errexit

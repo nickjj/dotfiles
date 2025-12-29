@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# Get the weather for a region. It uses https://github.com/chubin/wttr.in
+# which you can check for all available options.
+#
+# Examples:
+#   weather           # current location based on IP lookup
+#   weather ZIP_CODE  # near a specific zip code
+#   weather CITY      # near a specific city
 
 set -o errexit
 set -o pipefail

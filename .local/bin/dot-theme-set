@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Set a theme by name, if omit then a random theme will be chosen.
 #
-# Usage:
+# Examples:
 #   dot-theme-set --list
 #   dot-theme-set NAME
 #   dot-theme-set

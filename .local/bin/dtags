@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# List sorted tags for a specific Docker images.
+#
+# Examples:
+#   dtags python
 
 set -o errexit
 set -o pipefail

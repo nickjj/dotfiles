@@ -2,6 +2,7 @@
 # Show and preview git diffs through fzf. Anything you can pass to git diff
 # you can pass to this script. It also supports passing in --side to configure
 # delta to use side-by-side mode.
+#
 # Examples:
 #   gd
 #   gd --staged

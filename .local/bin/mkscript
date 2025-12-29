@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# Create a ready to go shell script.
+#
+# Examples:
+#   mkscript hello
+#   mkscript /tmp/myscript
 
 set -o errexit
 set -o pipefail

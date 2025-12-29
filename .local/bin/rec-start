@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Set a few things to avoid leaking secrets and set reasonable font sizes.
 #
-# Usage examples:
+# Examples:
 #   rec-start -s  # scales display output (zoom in)
 #   rec-start -o  # launches and positions OBS
 #   rec-start -e  # exit after helping prevent secrets from being leaked
