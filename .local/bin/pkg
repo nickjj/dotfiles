@@ -27,23 +27,26 @@ Usage examples:
 
   pkg CMD [-a|--aur]
 
-  pkg install          # Install / search new packages
+  pkg install                # Install / search new packages
   ^ pacman -Syu --needed
 
-  pkg install --aur    # Install / search new AUR packages
+  pkg install --aur          # Install / search new AUR packages
   ^ yay -S --answerclean N --needed
 
-  pkg list             # List locally installed packages
+  pkg list                   # List locally installed packages
   ^ pacman -Qei
 
-  pkg list --aur       # List locally installed AUR packages
+  pkg list --aur             # List locally installed AUR packages
   ^ yay -Qm
 
-  pkg remove           # Remove installed packages
+  pkg remove                 # Remove installed packages
   ^ pacman -Rns
 
-  pkg remove --aur     # Remove installed AUR packages
+  pkg remove --aur           # Remove installed AUR packages
   ^ pacman -Rns
+
+  pkg news [q]               # Show Arch news (optionally headlines only)
+  ^ yay -Pww[q]
 EOF
 }
 
@@ -67,6 +70,8 @@ while [[ "${#}" -gt 0 ]]; do
       shift
       ;;
     1)
+      [[ "${CMD}" == "news" && "${1}" == "q" ]] && break
+
       printf "Unknown argument: %s\n\n" "${1}" >&2
       usage >&2
       exit 1
@@ -257,6 +262,22 @@ remove_aur() {
   fi
 }
 
+show_news() {
+  local headlines="${1}"
+
+  # This occasionally breaks when Arch is getiting attacked but the main site
+  # is sometimes still up so let's always allow this to work to display a link
+  # to the main site in all cases.
+  yay -Pww"${headlines}" || true
+
+  cat <<EOF
+
+---
+
+View the official Arch news site: https://archlinux.org/news/
+EOF
+}
+
 if [[ "${CMD}" = "install" && -z "${AUR}" ]]; then
   install
 elif [[ "${CMD}" = "install" && -n "${AUR}" ]]; then
@@ -269,6 +290,8 @@ elif [[ "${CMD}" = "remove" && -z "${AUR}" ]]; then
   remove
 elif [[ "${CMD}" = "remove" && -n "${AUR}" ]]; then
   remove_aur
+elif [[ "${CMD}" = "news" ]]; then
+  show_news "${1:-}"
 else
   printf "Unknown command: %s\n\n" "${CMD}" >&2
   usage >&2
