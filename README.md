@@ -454,7 +454,7 @@ space to toggle checkboxes.*
     - Now it asks if you want a separate partition for your home directory, I chose no because I always end up wanting to adjust the size later and prefer skipping LVM but it's up to you of course
     - Review the info, you should see `/boot` and `/` (root) partitions at the very least
 - **Disk encryption**:
-    - It's up to you, I would, choose to encrypt the partition and set a good password, then double confirm you can remember this password, it's very important
+    - It's up to you, I would, choose to encrypt all of your non-boot partitions and set a good password, then double confirm you can remember this password, it's very important
 - **Swap**:
   - It's up to you, I kept it enabled with zram which was the default
 - **Bootloader**:
