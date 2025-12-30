@@ -772,6 +772,11 @@ _config_install() {
   ((${#commands[@]} == 0)) && return
 
   for item in "${commands[@]}"; do
+    # A special rule to avoid breaking DNS in WSL 2.
+    if [[ "${OS_IN_WSL}" == "1" && "${OS_DISTRO}" = "arch" ]]; then
+      [[ "${item}" == *"stub-resolv.conf"* ]] && continue
+    fi
+
     eval "${item//${str_find}/${str_replace}}"
   done
 }
@@ -800,6 +805,11 @@ _config_install_display() {
   fi
 
   for item in "${commands[@]}"; do
+    # A special rule to avoid breaking DNS in WSL 2.
+    if [[ "${OS_IN_WSL}" == "1" && "${OS_DISTRO}" = "arch" ]]; then
+      [[ "${item}" == *"stub-resolv.conf"* ]] && continue
+    fi
+
     echo "   - ${item//${str_find}/${str_replace}}"
   done
 }
