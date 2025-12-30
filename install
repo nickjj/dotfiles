@@ -413,6 +413,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "ln -fns \"\${DOTFILES_PATH}/.config/mako/config.local\" \"\${XDG_CONFIG_HOME}/mako/config.local\""
       "ln -fns \"\${DOTFILES_PATH}/.config/mako/config\" \"\${XDG_CONFIG_HOME}/mako/config\""
       "ln -fns \"\${DOTFILES_PATH}/.config/mpd/mpd.conf\" \"\${XDG_CONFIG_HOME}/mpd/mpd.conf\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/mpv/input.conf\" \"\${XDG_CONFIG_HOME}/mpv/input.conf\""
       "ln -fns \"\${DOTFILES_PATH}/.config/niri/config.kdl.local\" \"\${XDG_CONFIG_HOME}/niri/config.kdl.local\""
       "ln -fns \"\${DOTFILES_PATH}/.config/niri/config.kdl\" \"\${XDG_CONFIG_HOME}/niri/config.kdl\""
       "ln -fns \"\${DOTFILES_PATH}/.config/rmpc/config.ron\" \"\${XDG_CONFIG_HOME}/rmpc/config.ron\""
@@ -1141,6 +1142,7 @@ create_initial_dirs() {
       "${XDG_CONFIG_HOME}/hypr" \
       "${XDG_CONFIG_HOME}/mako" \
       "${XDG_CONFIG_HOME}/mpd" \
+      "${XDG_CONFIG_HOME}/mpv" \
       "${XDG_CONFIG_HOME}/niri" \
       "${XDG_CONFIG_HOME}/rmpc" \
       "${XDG_CONFIG_HOME}/satty" \
