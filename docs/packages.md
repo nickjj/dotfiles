@@ -69,6 +69,7 @@ If needed, these get automatically installed for you by these dotfiles.
 | shellcheck                 | Shell script analysis tool                                                        |
 | shfmt                      | Shell program formatter                                                           |
 | smartmontools (`smartctl`) | Control and monitor S.M.A.R.T. enabled ATA and SCSI drives                        |
+| strace                     | A diagnostic, debugging and instructional userspace tracer                        |
 | timidity++                 | MIDI to WAVE converter and player                                                 |
 | unzip                      | Extracting and viewing .zip archives                                              |
 | usbutils (`lsub`)          | USB tools to query connected USB devices                                          |
