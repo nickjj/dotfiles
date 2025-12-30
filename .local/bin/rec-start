@@ -83,6 +83,8 @@ perl -i -pe "s/^font-size = .*/font-size = ${GHOSTTY_FONT_SIZE}/g" "${DOTFILES_P
 dot-reload-app ghostty
 
 if [ "${SCALE}" == "1" ]; then
+  perl -i -pe "s/^input { mouse { scroll-factor .*; }; }/input { mouse { scroll-factor 1.0; }; }/g" "${DOTFILES_PATH}/.config/niri/config.kdl.local"
+
   output-scale 3.0
 fi
 

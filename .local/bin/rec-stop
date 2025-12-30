@@ -32,7 +32,10 @@ dot-reload-app ghostty
 
 output-scale 1.0
 
-perl -i -pe "s/^window-rule { open-maximized .*; }/window-rule { open-maximized false; }/g" "${DOTFILES_PATH}/.config/niri/config.kdl.local"
+perl -i -pe "
+  s/^window-rule { open-maximized .*; }/window-rule { open-maximized false; }/g;
+  s/^input { mouse { scroll-factor .*; }; }/input { mouse { scroll-factor 2.0; }; }/g;
+" "${DOTFILES_PATH}/.config/niri/config.kdl.local"
 
 cat <<EOF
 -> Shell history has been restored to ${HISTFILE}
