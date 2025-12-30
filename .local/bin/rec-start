@@ -82,15 +82,19 @@ rm -f "${NEOVIM_SWAP_PATH}"*
 perl -i -pe "s/^font-size = .*/font-size = ${GHOSTTY_FONT_SIZE}/g" "${DOTFILES_PATH}/.config/ghostty/config.local"
 dot-reload-app ghostty
 
+SCALE_NIRI_CONFIG=
 if [ "${SCALE}" == "1" ]; then
-  perl -i -pe "s/^input { mouse { scroll-factor .*; }; }/input { mouse { scroll-factor 1.0; }; }/g" "${DOTFILES_PATH}/.config/niri/config.kdl.local"
+  SCALE_NIRI_CONFIG="s/^input { mouse { scroll-factor .*; }; }/input { mouse { scroll-factor 1.0; }; }/g"
 
   output-scale 3.0
 fi
 
 # It's handy for windows to open full screen since you're typically zoomed in
 # or are capturing a region of your screen with a smaller resolution.
-perl -i -pe "s/^window-rule { open-maximized .*; }/window-rule { open-maximized true; }/g" "${DOTFILES_PATH}/.config/niri/config.kdl.local"
+perl -i -pe "
+  s/^window-rule { open-maximized .*; }/window-rule { open-maximized true; }/g;
+  ${SCALE_NIRI_CONFIG}
+" "${DOTFILES_PATH}/.config/niri/config.kdl.local"
 
 # Launch and position OBS.
 if [ "${OBS}" == "1" ]; then
