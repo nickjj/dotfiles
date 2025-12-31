@@ -753,7 +753,6 @@ _display_packages() {
 _config_install() {
   local str_find="${1:-}"
   local str_replace="${2:-}"
-  local commands=("${@}")
 
   # This is a huge hack to detect if the first 2 args being passed in are
   # strings to do a template-like replacement. It can be refactored if the
@@ -762,12 +761,13 @@ _config_install() {
   # Basically this detects if %WindowsUser is passed in to chop out the first
   # 2 arguments for the string replacement so they are not commands.
   if [[ "${str_find}" == "%"* ]]; then
-    shift 3
+    shift 2
   else
     str_find=""
     str_replace=""
-    shift
   fi
+
+  local commands=("${@}")
 
   ((${#commands[@]} == 0)) && return
 
