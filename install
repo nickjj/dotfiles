@@ -846,7 +846,7 @@ bootstrap() {
 
   # This only exists now, so let's source it.
   # shellcheck disable=SC1091
-  . ./install-config
+  . "${BOOTSTRAP_PATH}/install-config"
 
   cat <<EOF
 :: Welcome to ${DOTFILES_REPO_SLUG}!
