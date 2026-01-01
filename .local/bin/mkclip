@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Create a clip out of a video without re-encoding it.
+#
+# Usage:
+#   mkclip FILE_NAME CLIP_SUFFIX START_TIME END_TIME
+#
+# Examples:
+#   mkclip example.mp4 -1 01:15:42 01:16:00
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+input="${1}"
+part="${2}"
+start="${3}"
+end="${4}"
+
+IFS="." read -r -a input_split <<<"${input}"
+
+filename="${input_split[0]}"
+extension="${input_split[1]}"
+
+ffmpeg -ss "${start}" -to "${end}" -i "${input}" -c copy "${filename}${part}.${extension}"
