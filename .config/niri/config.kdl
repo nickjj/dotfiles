@@ -187,6 +187,8 @@ binds {
     XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
+    XF86Calculator repeat=false { spawn "walker" "--provider" "calc"; }
+
     // Launcher.
     Mod+Space              hotkey-overlay-title="Launcher" { spawn "walker"; }
     Mod+Alt+V repeat=false hotkey-overlay-title="Launcher (clipboard)" { spawn "walker" "--provider" "clipboard"; }
