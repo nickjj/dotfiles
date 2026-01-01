@@ -174,20 +174,20 @@ binds {
     Mod+Shift+BackSlash hotkey-overlay-title="Set random theme" { spawn "dot-theme-set"; }
 
     // Media keys.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
-    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="Raise volume" { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
+    XF86AudioLowerVolume allow-when-locked=true hotkey-overlay-title="Lower volume" { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
+    XF86AudioMute        allow-when-locked=true hotkey-overlay-title="Mute playback" { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute     allow-when-locked=true hotkey-overlay-title="Mute microphone"{ spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
 
-    XF86AudioPlay  allow-when-locked=true { spawn "playerctl" "play-pause"; }
-    XF86AudioStop  allow-when-locked=true { spawn "playerctl" "stop"; }
-    XF86AudioPrev  allow-when-locked=true { spawn "playerctl" "previous"; }
-    XF86AudioNext  allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPlay  allow-when-locked=true hotkey-overlay-title="Play / pause track" { spawn "playerctl" "play-pause"; }
+    XF86AudioStop  allow-when-locked=true hotkey-overlay-title="Stop track" { spawn "playerctl" "stop"; }
+    XF86AudioPrev  allow-when-locked=true hotkey-overlay-title="Previous track" { spawn "playerctl" "previous"; }
+    XF86AudioNext  allow-when-locked=true hotkey-overlay-title="Next track" { spawn "playerctl" "next"; }
 
-    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    XF86MonBrightnessUp   allow-when-locked=true hotkey-overlay-title="Increase brightness" { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true hotkey-overlay-title="Decrease brightness" { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
-    XF86Calculator repeat=false { spawn "walker" "--provider" "calc"; }
+    XF86Calculator repeat=false hotkey-overlay-title="Launcher (calculator)" { spawn "walker" "--provider" "calc"; }
 
     // Launcher.
     Mod+Space              hotkey-overlay-title="Launcher" { spawn "walker"; }
