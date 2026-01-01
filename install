@@ -1770,7 +1770,7 @@ EOF
     # Is a Linux GUI supported?
     if [ "${GUI_ENABLED}" == "1" ]; then
       if ! grep -q "^if uwsm check may-start.*$" "${zprofile_path}" 2>/dev/null; then
-        printf "\n# Start niri after logging in.\nif uwsm check may-start; then exec uwsm start -F -- niri-session -l; fi\n" >>"${zprofile_path}"
+        printf "\n# Start niri after logging in.\nif uwsm check may-start; then exec uwsm start -- niri.desktop; fi\n" >>"${zprofile_path}"
       fi
     # Are we in WSL 2?
     elif [ "${OS_IN_WSL}" == "1" ]; then
