@@ -72,7 +72,7 @@ If needed, these get automatically installed for you by these dotfiles.
 | strace                     | A diagnostic, debugging and instructional userspace tracer                        |
 | timidity++                 | MIDI to WAVE converter and player                                                 |
 | unzip                      | Extracting and viewing .zip archives                                              |
-| usbutils (`lsub`)          | USB tools to query connected USB devices                                          |
+| usbutils (`lsusb`)         | USB tools to query connected USB devices                                          |
 | wev                        | Tool for debugging Wayland events (similar to xev)                                |
 | wget                       | Network utility to retrieve files from the web                                    |
 | whois                      | Intelligent WHOIS client                                                          |
