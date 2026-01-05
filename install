@@ -281,7 +281,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "shellcheck"
       "shfmt"
       "smartmontools"
-      "strace"
       "tmux"
       "usbutils"
       "wget"
