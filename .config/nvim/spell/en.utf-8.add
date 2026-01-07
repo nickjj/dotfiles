@@ -197,6 +197,7 @@ frontmatter
 fzf
 fzf's
 GalliumOS
+gamescope
 GCP
 GCP's
 GDPR
@@ -204,6 +205,7 @@ Gemfile
 Genomic
 GenServer
 Geocities
+Ghostty
 GID
 gifs
 Gigalixir
@@ -226,6 +228,7 @@ Google'd
 GoRails
 GovCloud
 GPG
+GPU's
 Gracenote
 Grafana
 Graphene
@@ -360,6 +363,7 @@ MongoDB
 mortem
 MP3
 MP3's
+mpv
 mtime
 multiline
 Mux
@@ -384,6 +388,7 @@ Noctua
 Nokogiri
 NoSQL
 NumPy
+NVIDIA
 nvim
 OAuth
 Oban
@@ -425,6 +430,7 @@ PII
 Pingdom
 Pinterest
 Pipenv
+PipeWire
 pjax
 PKI
 pkill
@@ -595,6 +601,7 @@ Textract
 That'll
 Theorycrafting
 Threadripper
+Thunar
 Timestamped
 timestamps
 TLD
@@ -691,8 +698,10 @@ WSLg's
 wsltty
 WTF'd
 www
+X11
 Xenial
 XLR
+XWayland
 YAML
 Yay
 YCombinator
