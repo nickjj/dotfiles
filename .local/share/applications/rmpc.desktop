@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=rmpc
+GenericName=Rusty Music Player Client
+Comment=A modern, configurable, terminal based MPD Client with album art support via various terminal image protocols
+Exec=dot-launch-or-focus-tui rmpc
+Terminal=true
