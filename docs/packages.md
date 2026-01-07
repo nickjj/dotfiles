@@ -171,4 +171,3 @@ If needed, these get automatically installed for you by these dotfiles.
 | libreoffice-fresh  | LibreOffice branch containing new features and enhancements          |
 | mpv                | Free, open source, cross-platform media player                       |
 | obs-studio         | Free, open source software for live streaming and recording          |
-| xnviewmp *(AUR)*   | Efficient multimedia viewer, browser, and converter                  |

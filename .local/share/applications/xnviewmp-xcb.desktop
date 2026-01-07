@@ -1,7 +1,0 @@
-[Desktop Entry]
-NoDisplay=true
-Name=XnViewMP (XCB)
-Exec=env QT_QPA_PLATFORM=xcb /usr/bin/xnviewmp %f
-Type=Application
-MimeType=image/png;image/jpeg;image/jpg;image/gif;image/bmp;image/webp;image/tiff;image/x-portable-pixmap;image/x-xbitmap;
-Comment=Allows the app to auto-resize based on image size

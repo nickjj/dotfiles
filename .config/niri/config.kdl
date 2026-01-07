@@ -109,11 +109,6 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"XnView(MP)?$"#
-    open-floating true
-}
-
-window-rule {
     match app-id="mpv"
     open-floating true
 }

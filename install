@@ -196,7 +196,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "elephant-windows-bin"
       "walker-bin"
       "wlrctl"
-      "xnviewmp"
     )
   fi
 
