@@ -103,9 +103,8 @@ window-rule {
 }
 
 window-rule {
-    match app-id="org.kde.kdenlive"
-    open-maximized true
-    open-maximized-to-edges false
+    match app-id="org.kde.kdenlive" title=r#" — Kdenlive$"#
+    open-floating true
 }
 
 window-rule {
