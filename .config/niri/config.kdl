@@ -113,6 +113,22 @@ window-rule {
 }
 
 window-rule {
+    match app-id="dot.floating.ghostty"
+    open-floating true
+
+    default-column-width { proportion 0.33; }
+    default-window-height { proportion 0.5; }
+}
+
+window-rule {
+    match app-id="dot.floating.thunar"
+    open-floating true
+
+    default-column-width { proportion 0.33; }
+    default-window-height { proportion 0.5; }
+}
+
+window-rule {
     match app-id="mpv"
     open-floating true
 }
@@ -194,7 +210,9 @@ binds {
 
     // Apps.
     Mod+Alt+T            hotkey-overlay-title="Terminal" { spawn "ghostty"; }
+    Mod+Alt+Shift+T      hotkey-overlay-title="Terminal (floating)" { spawn "ghostty" "--class=dot.floating.ghostty"; }
     Mod+Alt+F            hotkey-overlay-title="File manager" { spawn "thunar"; }
+    Mod+Alt+Shift+F      hotkey-overlay-title="File manager (floating)" { spawn "thunar" "--name=dot.floating.thunar"; }
     Mod+Alt+P            hotkey-overlay-title="Passwords" { spawn "dot-launch-or-focus" "keepassxc"; }
     Mod+Alt+M            hotkey-overlay-title="Music" { spawn "dot-launch-or-focus-tui" "rmpc"; }
     Mod+Alt+B            hotkey-overlay-title="Browser" { spawn "firefox"; }
