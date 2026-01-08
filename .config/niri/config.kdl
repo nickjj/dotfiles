@@ -109,6 +109,11 @@ window-rule {
 }
 
 window-rule {
+    match app-id="soffice" title="^Text Import"
+    open-floating true
+}
+
+window-rule {
     match app-id="mpv"
     open-floating true
 }
