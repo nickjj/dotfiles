@@ -10,7 +10,7 @@ MODE="${1:-region}"
 
 case "${MODE}" in
 region)
-  grim -g "$(slurp)" -
+  grim -g "$(slurp -d)" -
   ;;
 window)
   niri msg action screenshot-window
