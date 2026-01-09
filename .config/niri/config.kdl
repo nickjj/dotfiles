@@ -124,6 +124,11 @@ window-rule {
 }
 
 window-rule {
+    match app-id="gimp" title="Preferences"
+    open-floating true
+}
+
+window-rule {
     match app-id="mpv"
     open-floating true
 }
