@@ -129,6 +129,11 @@ window-rule {
 }
 
 window-rule {
+    match app-id="Pinentry-gtk" title="/usr/bin/gpg"
+    open-floating true
+}
+
+window-rule {
     match app-id="mpv"
     open-floating true
 }
