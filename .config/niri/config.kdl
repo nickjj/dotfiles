@@ -103,11 +103,6 @@ window-rule {
 }
 
 window-rule {
-    match app-id="org.kde.kdenlive" title=r#" — Kdenlive$"#
-    open-floating true
-}
-
-window-rule {
     match app-id="soffice" title="^Text Import"
     open-floating true
 }
