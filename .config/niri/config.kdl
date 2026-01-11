@@ -58,16 +58,16 @@ input {
 screenshot-path null
 
 hotkey-overlay {
-    // Avoid auto-showing the impport hotkeys menu.
+    // Avoid auto-showing the important hotkeys menu.
     skip-at-startup
 }
 
 gestures {
-  // Disable overview when mousing over the top left of primary screen.
-  hot-corners {
-      off
-  }
- }
+    // Disable overview when mousing over the top left of primary screen.
+    hot-corners {
+        off
+    }
+}
 
 // Remove window decorations (requires opening and closing each app to change).
 prefer-no-csd
