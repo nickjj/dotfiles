@@ -61,6 +61,9 @@ niri msg output "${OUTPUT_PRIMARY}" scale "${SCALE_AMOUNT}"
 # Fix aspect ratio of wallpaper.
 dot-theme-set-bg --keep-current
 
+# Let folks know what the new scale is.
+notify-send "Output scale: ${SCALE_AMOUNT}x"
+
 # Is the secondary monitor connected? If not, we're done.
 jq --raw-output --arg secondary "${OUTPUT_SECONDARY}" '.[$secondary] | if . then true else false end' <<<"${OUTPUTS}" || exit
 
