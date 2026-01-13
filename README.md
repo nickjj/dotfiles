@@ -64,6 +64,9 @@ XP, 7, 10 and also macOS on company issued laptops. Nothing I have ever used in
 ~25 years has approached how I feel using this set up. It's not even close (yes
 I tried Hyprland too).
 
+I recorded a [demo video](https://www.youtube.com/watch?v=7XmD5UyyhZQ) on how I
+use niri in my day to day. This repo will always have the most up to date changes so what you see on video will likely evolve over time!
+
 ### Full Package List
 
 There's docs with a [complete list of packages](./docs/packages.md) along with
