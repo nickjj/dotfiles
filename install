@@ -998,7 +998,9 @@ EOF
     esac
     ;;
   *AMD*)
-    # AMD drivers are handled automatically by the Linux kernel.
+    # AMD drivers are handled automatically by the Linux kernel but let's get
+    # the Vulkan drivers so Steam and gaming works.
+    PACKAGES_PACMAN+=("vulkan-radeon" "lib32-vulkan-radeon")
     ;;
   *Intel*)
     # Choose driver based on generation.
