@@ -32,6 +32,9 @@ dot-reload-app ghostty
 
 output-scale 1.0
 
+# Restore original background.
+dot-theme-set-bg --current
+
 perl -i -pe "
   s/^window-rule { open-maximized .*; }/window-rule { open-maximized false; }/g;
   s/^input { mouse { scroll-factor .*; }; }/input { mouse { scroll-factor 2.0; }; }/g;
