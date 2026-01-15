@@ -93,7 +93,7 @@ window-rule {
 
 // Assorted window rules.
 window-rule {
-    match app-id=r#"firefox$"# title="^Picture-in-Picture|Library$"
+    match app-id=r#"firefox$"# title="^Picture-in-Picture|Library|About Mozilla Firefox$"
     open-floating true
 }
 
