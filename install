@@ -45,6 +45,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   YOUR_NAME="${YOUR_NAME:-}"
   YOUR_EMAIL="${YOUR_EMAIL:-}"
 
+  # Do we want to auto confirm packages during installation?
+  PACKAGES_AUTO_CONFIRM="${PACKAGES_AUTO_CONFIRM:-}"
+
   # Is the variable defined as an array or string? -z doesn't reliably work
   # on arrays since it only looks at the first element.
   if [[ "${PACKAGES_PACMAN+x}" ]]; then
