@@ -74,6 +74,11 @@ export XDG_VIDEOS_DIR="${HOME}/tmp/videos"
 # System packages
 # -----------------------------------------------------------------------------
 
+# When set to 1, package managers that support non-interactive mode where you
+# can skip typing "y" to confirm will be set. Be careful, this allows hands free
+# installs at the cost of not being able to review changes before installing.
+export PACKAGES_AUTO_CONFIRM=
+
 # These rules apply to all package variables:
 # - Left as is OR commented out            -> default packages get used
 # - Remove () and set an empty value OR "" -> nothing gets used

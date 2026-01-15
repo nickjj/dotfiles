@@ -581,15 +581,36 @@ _package_install() {
 
   ((${#packages[@]} == 0)) && return
 
+  local -A confirm_map=(
+    ["pacman"]="--noconfirm"
+    ["yay"]="--noconfirm"
+    ["apt"]="--yes"
+  )
+
+  local -a confirm_flag=()
+  [ "${PACKAGES_AUTO_CONFIRM}" == "1" ] && confirm_flag+=("${confirm_map[${manager}]}")
+
   case "${manager}" in
   pacman)
-    sudo pacman -Syu --noconfirm --needed "${packages[@]}"
+    if [ "${PACKAGES_AUTO_CONFIRM}" != "1" ]; then
+      printf "\n:: Arch news\n\n"
+      yay -Pwwq || true
+      cat <<EOF
+
+---
+
+View the official Arch news site: https://archlinux.org/news/
+
+EOF
+    fi
+
+    sudo pacman -Syu "${confirm_flag[@]}" --needed "${packages[@]}"
     ;;
   yay)
-    yay -S --noconfirm --needed "${packages[@]}"
+    yay -S "${confirm_flag[@]}" --needed "${packages[@]}"
     ;;
   apt)
-    sudo apt-get update && sudo apt-get install -y --no-install-recommends "${packages[@]}"
+    sudo apt-get update && sudo apt-get install "${confirm_flag[@]}" --no-install-recommends "${packages[@]}"
     ;;
   brew)
     brew install "${packages[@]}"
