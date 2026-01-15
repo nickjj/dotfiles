@@ -93,38 +93,36 @@ window-rule {
 
 // Assorted window rules.
 window-rule {
-    match app-id=r#"firefox$"# title="^Picture-in-Picture|Library|About Mozilla Firefox$"
+    match app-id=r#"firefox$"# title=r#"^(Picture-in-Picture|Library|About Mozilla Firefox)$"#
     open-floating true
 }
 
 window-rule {
-    match app-id="thunar" title="^Rename "
+    match app-id=r#"^thunar$"# title=r#"^Rename "#
     open-floating true
 }
 
 window-rule {
-    match app-id="soffice" title="^Text Import"
+    match app-id=r#"^soffice$"# title=r#"^Text Import"#
     open-floating true
 }
 
 window-rule {
-    match app-id="dot.floating.ghostty"
+    match app-id=r#"^dot\.floating\.ghostty$"#
     open-floating true
-
     default-column-width { proportion 0.33; }
     default-window-height { proportion 0.5; }
 }
 
 window-rule {
-    match app-id="dot.floating.thunar"
+    match app-id=r#"^dot\.floating\.thunar$"#
     open-floating true
-
     default-column-width { proportion 0.33; }
     default-window-height { proportion 0.5; }
 }
 
 window-rule {
-    match app-id="gimp" title="Preferences"
+    match app-id=r#"^gimp$"# title=r#"Preferences"#
     open-floating true
 }
 
@@ -134,27 +132,27 @@ window-rule {
 }
 
 window-rule {
-    match app-id="mpv"
+    match app-id=r#"^mpv$"#
     open-floating true
 }
 
 window-rule {
-    match app-id="wev"
+    match app-id=r#"^wev$"#
     open-floating true
 }
 
 window-rule {
-    match app-id="xarchiver"
+    match app-id=r#"^xarchiver$"#
     open-floating true
 }
 
 window-rule {
-    match app-id="Tk"
+    match app-id=r#"^Tk$"#
     open-floating true
 }
 
 window-rule {
-    match app-id="com.gabm.satty"
+    match app-id=r#"^com\.gabm\.satty$"#
     open-floating true
     min-width 730
     min-height 300
