@@ -129,7 +129,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="Pinentry-gtk" title="/usr/bin/gpg"
+    match app-id=r#"^Pinentry-gtk$"#
     open-floating true
 }
 
