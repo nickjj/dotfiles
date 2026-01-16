@@ -209,8 +209,9 @@ binds {
     XF86Calculator repeat=false hotkey-overlay-title="Launcher (calculator)" { spawn "walker" "--provider" "calc"; }
 
     // Launcher.
-    Mod+Space              hotkey-overlay-title="Launcher" { spawn "walker"; }
-    Mod+Alt+V repeat=false hotkey-overlay-title="Launcher (clipboard)" { spawn "walker" "--provider" "clipboard"; }
+    Mod+Space  hotkey-overlay-title="Launcher" { spawn "walker"; }
+    Mod+W      repeat=false hotkey-overlay-title="Launcher (windows)" { spawn "walker" "--provider" "windows"; }
+    Mod+V      repeat=false hotkey-overlay-title="Launcher (clipboard)" { spawn "walker" "--provider" "clipboard"; }
 
     // Apps.
     Mod+Alt+T            hotkey-overlay-title="Terminal" { spawn "ghostty"; }
