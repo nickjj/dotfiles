@@ -143,7 +143,7 @@ If needed, these get automatically installed for you by these dotfiles.
 | tumbler               | Thumbnail service implementing the thumbnail management D-Bus specification |
 | xarchiver             | GTK frontend to command-line archivers                                      |
 
-## Screenshots
+## Capture
 
 | Package       | Description                                                        |
 |:--------------|:-------------------------------------------------------------------|

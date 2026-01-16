@@ -173,13 +173,14 @@ binds {
     Mod+Shift+Alt+L  hotkey-overlay-title="Power off monitors" { power-off-monitors; }
     Mod+Ctrl+Shift+Q hotkey-overlay-title="Exit niri session" { quit; }
 
-    // Screenshots.
+    // Capture.
     Mod+S            hotkey-overlay-title="Screenshot (region)" { spawn "dot-screenshot" "region"; }
     Mod+Shift+S      hotkey-overlay-title="Screenshot (window)" { spawn "dot-screenshot" "window"; }
     Mod+Ctrl+S       hotkey-overlay-title="Screenshot (monitor: focused)" { spawn "dot-screenshot" "monitor-focused"; }
     Mod+Ctrl+Shift+S hotkey-overlay-title="Screenshot (monitor: all)" { spawn "dot-screenshot" "monitor-all"; }
 
-    Mod+Shift+Alt+S  hotkey-overlay-title="Color picker" { spawn-sh "killall hyprpicker || hyprpicker --autocopy --lowercase-hex"; }
+    Mod+P            hotkey-overlay-title="Pick window" { spawn "ghostty" "--class=dot.floating.ghostty" "-e" "sh" "-c" "printf 'Pick a window...\n\n'; niri msg pick-window; niri msg action focus-window-previous; printf '\nDone! Press CTRL+c to quit\n'; read"; }
+    Mod+Shift+P      hotkey-overlay-title="Pick color" { spawn-sh "killall hyprpicker || hyprpicker --autocopy --lowercase-hex"; }
 
     // Notifications.
     Mod+N            hotkey-overlay-title="Show last notification" { spawn "makoctl" "restore"; }
