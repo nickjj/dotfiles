@@ -16,3 +16,11 @@ layout {
 
     background-color "#14151fff"
 }
+
+window-rule {
+    match is-window-cast-target=true
+
+    focus-ring {
+        active-gradient from="#f38ba8ee" to="#cc241dee" angle=45
+    }
+}
