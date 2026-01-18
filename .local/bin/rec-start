@@ -74,14 +74,14 @@ if [[ "${SCALE}" == 1 && "${REGION}" == 1 ]]; then
 fi
 
 # Only create a backup if it doesn't exist. This avoids accidentally overwriting
-# your real files if you create backups twice in a row.
+# your real files if you run rec-start more than once without stopping first.
 if [ ! -f "${HISTFILE}.bak" ]; then
   cp -a "${HISTFILE}" "${HISTFILE}.bak"
   rm "${HISTFILE}"
 fi
 
 CLIPBOARD_HISTORY_FILE="${XDG_CACHE_HOME}/elephant/clipboard.gob"
-if [ ! -f "${CLIPBOARD_HISTORY_FILE}" ]; then
+if [ ! -f "${CLIPBOARD_HISTORY_FILE}.bak" ]; then
   cp -a "${CLIPBOARD_HISTORY_FILE}" "${CLIPBOARD_HISTORY_FILE}.bak"
   rm "${CLIPBOARD_HISTORY_FILE}"
   dot-reload-app walker
