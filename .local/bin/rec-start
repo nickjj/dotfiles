@@ -3,6 +3,7 @@
 #
 # Examples:
 #   rec-start -s  # scales display output (zoom in)
+#   rec-start -r  # sets niri struts to capture a 1080p region
 #   rec-start -o  # launches and positions OBS
 #   rec-start -e  # exit after helping prevent secrets from being leaked
 
@@ -16,6 +17,7 @@ if [ -z "${NIRI_SOCKET}" ]; then
 fi
 
 SCALE=
+REGION=
 OBS=
 EXIT_EARLY=
 
@@ -28,7 +30,7 @@ _usage() {
   cat <<EOF
 
 Usage:
-  ${0} [--obs | -o] [--scale | -s] [--exit-early | -e ]
+  ${0} [--obs | -o] [--scale | -s OR --region | -r ] [--exit-early | -e ]
 EOF
 }
 
@@ -41,6 +43,10 @@ while [[ "${#}" -gt 0 ]]; do
   -s | --scale)
     SCALE=1
     GHOSTTY_FONT_SIZE=14
+    shift
+    ;;
+  -r | --region)
+    REGION=1
     shift
     ;;
   -o | --obs)
@@ -61,6 +67,11 @@ while [[ "${#}" -gt 0 ]]; do
     ;;
   esac
 done
+
+if [[ "${SCALE}" == 1 && "${REGION}" == 1 ]]; then
+  echo "You can only set --scale OR --region, not both, aborting!" >&2
+  exit 1
+fi
 
 # Only create a backup if it doesn't exist. This avoids accidentally overwriting
 # your real files if you create backups twice in a row.
@@ -85,19 +96,41 @@ rm -f "${NEOVIM_SWAP_PATH}"*
 perl -i -pe "s/^font-size = .*/font-size = ${GHOSTTY_FONT_SIZE}/g" "${DOTFILES_PATH}/.config/ghostty/config.local"
 dot-reload-app ghostty
 
-SCALE_NIRI_CONFIG=
+NIRI_CONFIG_SCALE=
 if [ "${SCALE}" == "1" ]; then
-  SCALE_NIRI_CONFIG="s/^input { mouse { scroll-factor .*; }; }/input { mouse { scroll-factor 1.0; }; }/g"
-
-  output-scale 3.0
+  NIRI_CONFIG_SCALE="s/^input { mouse { scroll-factor .*; }; }/input { mouse { scroll-factor 1.0; }; }/g;"
 fi
 
-# It's handy for windows to open full screen since you're typically zoomed in
-# or are capturing a region of your screen with a smaller resolution.
+NIRI_CONFIG_REGION=
+if [ "${REGION}" == "1" ]; then
+
+  # In my config.kdl.local file I have this line in my primary output's config:
+  #
+  # // layout { struts { left 949; right 949; top 6; bottom 1031; }; }
+  #
+  # These values are optimized for a 4k display with a 1080p region. The idea
+  # is we create struts to force tiled windows into this area. You can use
+  # whatever values you want, that's why I left this regex to be greedy.
+  NIRI_CONFIG_REGION="s|^    // layout { struts|    layout { struts|g;"
+fi
+
 perl -i -pe "
-  s/^window-rule { open-maximized .*; }/window-rule { open-maximized true; }/g;
-  ${SCALE_NIRI_CONFIG}
+  ${NIRI_CONFIG_REGION}
+  ${NIRI_CONFIG_SCALE}
+  s/^window-rule { open-maximized .*; }/window-rule { open-maximized true; }/g
 " "${DOTFILES_PATH}/.config/niri/config.kdl.local"
+
+# Fix the wallpaper, it only occupies a quadrant of the screen without this.
+if [ "${REGION}" == "1" ]; then
+  sleep 0.25
+  dot-theme-set-bg --current
+  sleep 0.25
+fi
+
+# Scaling should happen after the niri config gets adjusted.
+if [ "${SCALE}" == "1" ]; then
+  output-scale 3.0
+fi
 
 # Launch and position OBS.
 if [ "${OBS}" == "1" ]; then

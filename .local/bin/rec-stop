@@ -27,6 +27,12 @@ if [ -f "${CLIPBOARD_HISTORY_FILE}.bak" ]; then
   dot-reload-app walker
 fi
 
+perl -i -pe '
+  s|^    layout { struts|    // layout { struts|g;
+  s/^input { mouse { scroll-factor .*; }; }/input { mouse { scroll-factor 2.0; }; }/g;
+  s/^window-rule { open-maximized .*; }/window-rule { open-maximized false; }/g
+' "${DOTFILES_PATH}/.config/niri/config.kdl.local"
+
 perl -i -pe "s/^font-size = .*/font-size = ${GHOSTTY_FONT_SIZE}/g" "${DOTFILES_PATH}/.config/ghostty/config.local"
 dot-reload-app ghostty
 
@@ -34,11 +40,6 @@ output-scale 1.0
 
 # Restore original background.
 dot-theme-set-bg --current
-
-perl -i -pe "
-  s/^window-rule { open-maximized .*; }/window-rule { open-maximized false; }/g;
-  s/^input { mouse { scroll-factor .*; }; }/input { mouse { scroll-factor 2.0; }; }/g;
-" "${DOTFILES_PATH}/.config/niri/config.kdl.local"
 
 cat <<EOF
 -> Shell history has been restored to ${HISTFILE}
