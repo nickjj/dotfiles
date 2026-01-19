@@ -26,6 +26,14 @@ return {
           },
         },
       },
+      styles = {
+        input = {
+          relative = "editor",
+          -- Normally this loads a bit lower in the buffer, it often blocked
+          -- important text (blog post titles) in files I frequently edit.
+          row = 0,
+        },
+      },
       terminal = {
         win = {
           position = "float",
