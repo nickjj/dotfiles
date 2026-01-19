@@ -1032,7 +1032,7 @@ EOF
     *HD\ Graphics* | *Iris* | *Xe*)
       PACKAGES_PACMAN+=("intel-media-driver")
       ;;
-    *GMA*)
+    *2nd\ Generation* | *3rd\ Generation* | *GMA*)
       PACKAGES_PACMAN+=("libva-intel-driver")
       ;;
     *)
