@@ -2112,7 +2112,6 @@ set_theme() {
       theme="${active_theme}"
       switch_wallpaper=
     fi
-
   else
     # This is when the dot-theme-set script gets run. Even if a random theme
     # is picked by supplying no argument, $1 is always set from that script.
