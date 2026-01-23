@@ -1000,6 +1000,7 @@ EOF
     # Avoid recreating the file every time, if a user changes it manually then
     # let's not clobber their changes.
     if [ ! -f /etc/modprobe.d/nvidia.conf ]; then
+      # This is taken from: https://wiki.archlinux.org/title/NVIDIA
       echo "options nvidia-drm modeset=1" | sudo tee /etc/modprobe.d/nvidia.conf >/dev/null
     fi
 
