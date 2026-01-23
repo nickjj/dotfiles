@@ -17,6 +17,7 @@ installed in these environments.*
 | base-devel     | Basic tools to build Arch Linux packages                      |
 | bluez          | Daemons for the bluetooth protocol stack                      |
 | iwd            | Internet Wireless Daemon                                      |
+| lact           | Linux GPU Configuration Tool (supports AMD, NVIDIA and Intel) |
 | mpd            | Flexible, powerful, server-side application for playing music |
 | mpd-mpris      | An implementation of the MPRIS protocol for MPD               |
 | pacman-contrib | Contributed scripts and tools for pacman systems              |
