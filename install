@@ -1027,6 +1027,9 @@ EOF
     PACKAGES_PACMAN+=("vulkan-radeon" "lib32-vulkan-radeon" "amdgpu_top")
     ;;
   *Intel*)
+    # This is for monitoring.
+    PACKAGES_PACMAN+=("intel-gpu-tools")
+
     # Choose driver based on generation.
     case "${gpu_line}" in
     *HD\ Graphics* | *Iris* | *Xe*)
