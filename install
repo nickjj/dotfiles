@@ -1003,6 +1003,37 @@ EOF
       echo "options nvidia-drm modeset=1" | sudo tee /etc/modprobe.d/nvidia.conf >/dev/null
     fi
 
+    # Without this, niri takes ~1 GB of GPU memory on boot. After this patch
+    # on my machine it only uses about 60 MB.
+    # This is taken from: https://github.com/YaLTeR/niri/wiki/Nvidia
+    if [ ! -f /etc/nvidia/nvidia-application-profiles-rc.d/50-limit-free-buffer-pool-in-wayland-compositors.json ]; then
+      sudo mkdir -p /etc/nvidia/nvidia-application-profiles-rc.d
+      cat <<EOF | sudo tee /etc/nvidia/nvidia-application-profiles-rc.d/50-limit-free-buffer-pool-in-wayland-compositors.json >/dev/null
+{
+    "rules": [
+        {
+            "pattern": {
+                "feature": "procname",
+                "matches": "niri"
+            },
+            "profile": "Limit Free Buffer Pool On Wayland Compositors"
+        }
+    ],
+    "profiles": [
+        {
+            "name": "Limit Free Buffer Pool On Wayland Compositors",
+            "settings": [
+                {
+                    "key": "GLVidHeapReuseRatio",
+                    "value": 0
+                }
+            ]
+        }
+    ]
+}
+EOF
+    fi
+
     # Choose driver based on generation.
     case "${gpu_line}" in
     *RTX\ [2-9][0-9]* | *GTX\ 16*)
