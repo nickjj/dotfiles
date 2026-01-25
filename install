@@ -386,6 +386,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "ln -fns \"\${DOTFILES_PATH}/.config/ghostty/config\" \"\${XDG_CONFIG_HOME}/ghostty/config\""
       "ln -fns \"\${DOTFILES_PATH}/.config/git/config.local\" \"\${XDG_CONFIG_HOME}/git/config.local\""
       "ln -fns \"\${DOTFILES_PATH}/.config/git/config\" \"\${XDG_CONFIG_HOME}/git/config\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/gnupg/gpg-agent.conf\" \"\${XDG_CONFIG_HOME}/gnupg/gpg-agent.conf\""
       "ln -fns \"\${DOTFILES_PATH}/.config/nvim\" \"\${XDG_CONFIG_HOME}/nvim\""
       "ln -fns \"\${DOTFILES_PATH}/.config/tmux/tmux.conf\" \"\${XDG_CONFIG_HOME}/tmux/tmux.conf\""
       "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.aliases.local\" \"\${XDG_CONFIG_HOME}/zsh/.aliases.local\""
@@ -1202,6 +1203,7 @@ create_initial_dirs() {
     "${XDG_CONFIG_HOME}/ghostty" \
     "${XDG_CONFIG_HOME}/git" \
     "${XDG_CONFIG_HOME}/gitui" \
+    "${XDG_CONFIG_HOME}/gnupg" \
     "${XDG_CONFIG_HOME}/tmux/plugins" \
     "${XDG_CONFIG_HOME}/zsh" \
     "${XDG_DATA_HOME}/fonts" \
