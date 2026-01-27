@@ -21,8 +21,9 @@ spawn-sh-at-startup "sleep 1; exec mpd-mpris"
 input {
     keyboard {
         xkb {
-            // Swap these keys for all keyboard layouts.
-            options "caps:swapescape"
+            // Swap caps lock and escape.
+            // Remap menu key to act as the super / mod key.
+            options "caps:swapescape,altwin:menu_win"
         }
 
         // A fairly fast repeat rate and delay.
