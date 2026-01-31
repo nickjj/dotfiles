@@ -14,13 +14,11 @@ region)
   ;;
 window)
   niri msg action screenshot-window
-  sleep 0.2
+  sleep 0.5
   wl-paste --type image/png
   ;;
 monitor-focused)
-  niri msg action screenshot-screen --show-pointer=false
-  sleep 0.2
-  wl-paste --type image/png
+  grim -o "$(niri msg --json focused-output | jq --raw-output .name)" -
   ;;
 monitor-all)
   grim -
