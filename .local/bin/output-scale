@@ -19,7 +19,7 @@ fi
 # Which monitor(s) are being used? If your monitors are different, export these
 # variables in your local zprofile with your values.
 OUTPUT_PRIMARY="${OUTPUT_PRIMARY:-DP-1}"
-OUTPUT_SECONDARY="${OUTPUT_SECONDARY:-HDMI-A-1}"
+OUTPUT_SECONDARY="${OUTPUT_SECONDARY:-HDMI-A-2}"
 
 # Get primary output's preferred width (native resolution) and current scale.
 OUTPUTS="$(niri msg --json outputs)"
