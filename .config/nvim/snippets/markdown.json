@@ -1,4 +1,10 @@
 {
+  "Hugo Relative Link": {
+    "prefix": "relref",
+    "body": [
+      "{{% relref \"${1}\" %}}"
+    ]
+  },
   "YouTube description": {
     "prefix": "ytd",
     "body": [
