@@ -489,7 +489,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   else
     SYSTEMD_ENABLED_SERVICES=(
       "docker"
-      "lact"
+      "lactd"
     )
   fi
 
@@ -1639,11 +1639,11 @@ configure_systemd_services() {
 
     if systemctl cat "${flags[@]}" "${service}.service" 1>/dev/null; then
       "${prefix[@]}" systemctl "${flags[@]}" enable "${service}.service"
+      echo "'${service}' has been enabled"
     fi
-
-    echo
   done
 
+  echo
   echo "They have been configured to start on boot"
 }
 
