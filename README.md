@@ -445,10 +445,12 @@ space to toggle checkboxes.*
 
 - **Archinstall language**:
   - Pick what makes sense for your location
-- **Mirrors**:
-  - Pick a region close to where your live
 - **Locales**:
-  - Pick what makes sense to you
+  - Pick what makes sense to you for all of the sub-sections
+- **Mirrors**:
+  - Select a region close to where your live
+  - *Optional repositories*:
+    - You can skip this unless you have reasons otherwise
 - **Disk configuration**:
   - If you go with the default "best effort" it will wipe your full drive:
     - This is reasonable if you're *not* dual booting, if you dual boot you'll want to manually set this up
@@ -456,39 +458,38 @@ space to toggle checkboxes.*
     - For the file system type, I went with `ext4` given how mature it is but `btrfs` is also mostly ok, if you're not sure or don't know what's different just choose `ext4`
     - Now it asks if you want a separate partition for your home directory, I chose no because I always end up wanting to adjust the size later and prefer skipping LVM but it's up to you of course
     - Review the info, you should see `/boot` and `/` (root) partitions at the very least
-- **Disk encryption**:
-    - It's up to you, I would, choose to encrypt all of your non-boot partitions and set a good password, then double confirm you can remember this password, it's very important
+  - *Disk encryption*:
+      - It's up to you, I would, choose to encrypt all of your non-boot partitions and set a good password, then double confirm you can remember this password, it's very important
 - **Swap**:
   - It's up to you, I kept it enabled with zram which was the default
 - **Bootloader**:
   - I rolled with `systemd-boot` which is the default
-- **Unified kernel images**:
-  - I left this turned off but I suggest reading up on this more if you're interested
+  - *Unified kernel images*:
+    - I left this turned off but I suggest reading up on this more if you're interested
+- **Kernels**:
+  - The normal kernel is likely fine which is the default but feel free to choose otherwise
 - **Hostname**:
   - Picking a cool name will probably be the [longest time](https://xkcd.com/910/) you spend in the installer
   - You can always change it afterwards, don't sweat it!
-- **Root password**:
-  - Definitely set a password and don't forget it
-- **User account**:
-  - Create your main user and pick a password you won't forget
-  - Allow this user to be a superuser (sudo) as well
-  - You'll be logging in as this user, you can create more users later if needed
+- **Authentication**:
+  - *Root password*:
+    - Definitely set a password and don't forget it
+  - *User account*:
+    - Create your main user and pick a password you won't forget
+    - Allow this user to be a superuser (sudo) as well
+    - You'll be logging in as this user, you can create more users later if needed
 - **Profile**:
   - You can skip this (leave it unselected)
   - These dotfiles handle setting up your desktop environment (including GPU drivers)
-- **Audio**:
-  - You can skip this (choose no audio server)
-  - These dotfiles will set up `pipewire` and its related packages
-- **Kernels**:
-  - The normal kernel is likely fine which is the default but feel free to choose otherwise
+- **Applications**:
+  - These dotfiles will configure "Bluetooth" and "Audio", you can skip them
+  - If you have a printer you may want to configure the "Print service""
 - **Network configuration**:
   - Go with "Copy ISO network configuration" unless you have other opinions
   - This just means it will use whatever you used in this bootable USB environment
 - **Additional packages**:
   - I suggest installing `neovim` to maybe edit the dotfiles `install-config` before you run it
     - This isn't extra bloat since these dotfiles install `neovim` by default
-- **Optional repositories**:
-  - You can skip this unless you have reasons otherwise
 - **Timezone**:
   - Pick what makes sense for your location
 - **Automatic time sync (NTP)**:
