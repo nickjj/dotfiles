@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Wrap paccache with custom arguments, such as keeping 2 instead of 3 versions.
+
+pacman_contrib_path="/etc/conf.d/pacman-contrib"
+
+# shellcheck disable=SC1090
+[ -f "${pacman_contrib_path}" ] && source "${pacman_contrib_path}"
+
+# shellcheck disable=SC2086
+exec /usr/bin/paccache ${PACCACHE_ARGS} "$@"

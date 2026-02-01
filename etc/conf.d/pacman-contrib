@@ -1,0 +1,7 @@
+# Pacman-Contrib arguments
+#
+# The PACCACHE_ARGS environment variable is used to provide flags
+# and extra arguments to `paccache` when running paccache.service.
+# See `man 8 paccache` or `paccache --help` for further information.
+
+PACCACHE_ARGS="--keep 2"
