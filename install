@@ -488,8 +488,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     [ -z "${SYSTEMD_ENABLED_SERVICES}" ] && SYSTEMD_ENABLED_SERVICES=()
   else
     SYSTEMD_ENABLED_SERVICES=(
-      "docker"
-      "lactd"
+      "docker.service"
+      "lactd.service"
     )
   fi
 
@@ -1637,8 +1637,8 @@ configure_systemd_services() {
     prefix=()
     [[ " ${flags[*]} " == *" --user"* ]] || prefix=(sudo)
 
-    if systemctl cat "${flags[@]}" "${service}.service" 1>/dev/null; then
-      "${prefix[@]}" systemctl "${flags[@]}" enable "${service}.service"
+    if systemctl cat "${flags[@]}" "${service}" 1>/dev/null; then
+      "${prefix[@]}" systemctl "${flags[@]}" enable "${service}"
       echo "'${service}' has been enabled"
     fi
   done
