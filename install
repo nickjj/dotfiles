@@ -1740,9 +1740,9 @@ export XDG_STATE_HOME="${XDG_STATE_HOME}"
 EOF
 
   if [ "${GUI_ENABLED}" == "1" ]; then
-    cat <<EOF >>"${xdg_local_path}"
-
-# XDG user directories.
+    local xdg_paths
+    xdg_paths=$(
+      cat <<EOF
 export XDG_DESKTOP_DIR="${XDG_DESKTOP_DIR}"
 export XDG_DOCUMENTS_DIR="${XDG_DOCUMENTS_DIR}"
 export XDG_DOWNLOAD_DIR="${XDG_DOWNLOAD_DIR}"
@@ -1752,19 +1752,19 @@ export XDG_PUBLICSHARE_DIR="${XDG_PUBLICSHARE_DIR}"
 export XDG_TEMPLATES_DIR="${XDG_TEMPLATES_DIR}"
 export XDG_VIDEOS_DIR="${XDG_VIDEOS_DIR}"
 EOF
+    )
+
+    cat <<EOF >>"${xdg_local_path}"
+
+# XDG user directories.
+${xdg_paths}
+EOF
 
     cat <<EOF >"${XDG_CONFIG_HOME}/user-dirs.dirs"
 # These are set from the dotfiles' install-config script, update the values
 # in that file not here since they will get overwritten.
 
-export XDG_DESKTOP_DIR="${XDG_DESKTOP_DIR}"
-export XDG_DOCUMENTS_DIR="${XDG_DOCUMENTS_DIR}"
-export XDG_DOWNLOAD_DIR="${XDG_DOWNLOAD_DIR}"
-export XDG_MUSIC_DIR="${XDG_MUSIC_DIR}"
-export XDG_PICTURES_DIR="${XDG_PICTURES_DIR}"
-export XDG_PUBLICSHARE_DIR="${XDG_PUBLICSHARE_DIR}"
-export XDG_TEMPLATES_DIR="${XDG_TEMPLATES_DIR}"
-export XDG_VIDEOS_DIR="${XDG_VIDEOS_DIR}"
+${xdg_paths}
 EOF
 
     cat <<EOF >"${XDG_CONFIG_HOME}/user-dirs.conf"
