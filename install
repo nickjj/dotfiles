@@ -880,7 +880,7 @@ bootstrap() {
 :: Welcome to ${DOTFILES_REPO_SLUG}!
 
 Given this is your first run, a few temporary files were downloaded to
-'/tmp/nickjj-dotfiles' which is where you'll kick off running the install
+'${BOOTSTRAP_PATH}' which is where you'll kick off running the install
 script. It is set up this way so you have a chance to review a few config
 values before running anything on your system.
 
