@@ -8,11 +8,11 @@
     ),
     keybinds: (
         global: {
-            "1":       SwitchToTab("Queue"),
-            "2":       SwitchToTab("Directories"),
-            "3":       SwitchToTab("Playlists"),
-            "4":       SwitchToTab("Search"),
-            "?":       ShowHelp,
+            "1": SwitchToTab("Queue"),
+            "2": SwitchToTab("Directories"),
+            "3": SwitchToTab("Playlists"),
+            "4": SwitchToTab("Search"),
+            "?": ShowHelp,
         },
     ),
     tabs: [
