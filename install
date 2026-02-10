@@ -430,6 +430,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "ln -fns \"\${DOTFILES_PATH}/.config/walker/themes/base/style.css\" \"\${XDG_CONFIG_HOME}/walker/themes/base/style.css\""
       "ln -fns \"\${DOTFILES_PATH}/.config/waybar/config.jsonc\" \"\${XDG_CONFIG_HOME}/waybar/config.jsonc\""
       "ln -fns \"\${DOTFILES_PATH}/.config/waybar/style.css\" \"\${XDG_CONFIG_HOME}/waybar/style.css\""
+      "ln -fns \"\${DOTFILES_PATH}/.config/xarchiver/xarchiverrc\" \"\${XDG_CONFIG_HOME}/xarchiver/xarchiverrc\""
       "ln -fns \"\${DOTFILES_PATH}/.local/share/applications/\"* \"\${XDG_DATA_HOME}/applications/\""
     )
   fi
@@ -1228,6 +1229,7 @@ create_initial_dirs() {
       "${XDG_CONFIG_HOME}/walker/themes/base" \
       "${XDG_CONFIG_HOME}/wallpaper" \
       "${XDG_CONFIG_HOME}/waybar" \
+      "${XDG_CONFIG_HOME}/xarchiver" \
       "${XDG_DATA_HOME}/applications" \
       "${XDG_DESKTOP_DIR}" \
       "${XDG_DOCUMENTS_DIR}" \
