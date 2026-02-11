@@ -1766,7 +1766,7 @@ EOF
 # These are set from the dotfiles' install-config script, update the values
 # in that file not here since they will get overwritten.
 
-${xdg_paths}
+${xdg_paths//export /}
 EOF
 
     cat <<EOF >"${XDG_CONFIG_HOME}/user-dirs.conf"
