@@ -1897,7 +1897,7 @@ EOF
   [ "${SHELL: -3}" != "zsh" ] && chsh -s "${shell_path}"
 
   # shellcheck disable=SC1091
-  . "${XDG_CONFIG_HOME}/zsh/.zprofile"
+  . "${XDG_CONFIG_HOME}/zsh/.zprofile" 1>/dev/null
 
   # Given the above line sets this env var if it's defined, this ensures we
   # always use the value that was set when running this script. This is mainly
