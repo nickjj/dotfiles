@@ -1,0 +1,14 @@
+# Basic zoom. This overrides the defaults. Realistically this means pressing
+# + will zoom in without needing to press shift.
+map = zoom in
+map - zoom out
+map 0 zoom default
+
+# Copy text to the system clipboard.
+set selection-clipboard "clipboard"
+
+# Keep link color and original image colors when recolor (CTRL+r) is enabled.
+set recolor-keephue "true"
+set recolor-reverse-video "true"
+
+include themerc

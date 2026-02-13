@@ -71,6 +71,7 @@ If needed, these get automatically installed for you by these dotfiles.
 | shfmt                      | Shell program formatter                                                           |
 | smartmontools (`smartctl`) | Control and monitor S.M.A.R.T. enabled ATA and SCSI drives                        |
 | strace                     | A diagnostic, debugging and instructional userspace tracer                        |
+| tesseract                  | An OCR program                                                                    |
 | timidity++                 | MIDI to WAVE converter and player                                                 |
 | unzip                      | Extracting and viewing .zip archives                                              |
 | usbutils (`lsusb`)         | USB tools to query connected USB devices                                          |
@@ -172,3 +173,6 @@ If needed, these get automatically installed for you by these dotfiles.
 | libreoffice-fresh  | LibreOffice branch containing new features and enhancements          |
 | mpv                | Free, open source, cross-platform media player                       |
 | obs-studio         | Free, open source software for live streaming and recording          |
+| zathura            | Minimalistic document viewer                                         |
+| zathura-djvu       | DjVu support for Zathura                                             |
+| zathura-pdf-mupdf  | Supports PDF, ePub, and OpenXPS for Zathura                          |

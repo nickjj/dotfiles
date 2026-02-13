@@ -106,7 +106,9 @@ text/x-sql=nvim.desktop;
 text/x-tex=nvim.desktop;
 text/x-yaml=nvim.desktop;
 
-application/pdf=firefox.desktop;
+application/epub=org.pwmt.zathura.desktop;
+application/djvu=org.pwmt.zathura.desktop;
+application/pdf=org.pwmt.zathura.desktop;
 
 application/x-7z-compressed=xarchiver.desktop;
 application/x-gzip=xarchiver.desktop;
