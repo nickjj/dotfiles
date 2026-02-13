@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Get the word of the day with its definition.
+
+DATA=$(curl --silent https://www.merriam-webster.com/wotd/feed/rss2)
+WORD=$(sed --silent 's|.*<title><!\[CDATA\[\(.*\)\]\]></title>.*|\1|p' <<<"${DATA}" | head -1)
+DEFINITION=$(sed --silent 's|.*<merriam:shortdef><!\[CDATA\[\(.*\)\]\]></merriam:shortdef>.*|\1|p' <<<"${DATA}" | head -1)
+
+echo "$(date "+%F") :: ${WORD} :: ${DEFINITION} :: https://www.merriam-webster.com/dictionary/${WORD}"
