@@ -43,8 +43,8 @@
     }
   },
   "clock": {
-    "format": "{:%a %b %d %y :: %I:%M %p %Z}",
-    "format-alt": "{:%a %b %d %y :: %H:%M %Z}",
+    "format": "{:%a %b %d %Y :: %I:%M %p %Z}",
+    "format-alt": "{:%a %b %d %Y :: %H:%M %Z}",
     "tooltip": true,
     "tooltip-format": "<tt>{calendar}</tt>",
     "timezones": [
