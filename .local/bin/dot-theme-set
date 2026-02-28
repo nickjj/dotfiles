@@ -23,11 +23,11 @@ if [ "${THEME}" = "--list" ]; then
 fi
 
 if [ -z "${THEME}" ]; then
-  THEME_DATA_LINK_PATH="${XDG_CONFIG_HOME}/wallpaper/theme.json"
+  ACTIVE_THEME_PATH="${XDG_CONFIG_HOME}/fzf/theme.sh"
   CURRENT_THEME=
 
-  if [[ -L "${THEME_DATA_LINK_PATH}" && -e "${THEME_DATA_LINK_PATH}" ]]; then
-    CURRENT_THEME=$(basename "$(dirname "$(readlink -f "${THEME_DATA_LINK_PATH}")")")
+  if [[ -L "${ACTIVE_THEME_PATH}" && -e "${ACTIVE_THEME_PATH}" ]]; then
+    CURRENT_THEME=$(basename "$(dirname "$(readlink -f "${ACTIVE_THEME_PATH}")")")
   fi
 
   # Pick the first theme as a default.
