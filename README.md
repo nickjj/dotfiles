@@ -127,7 +127,7 @@ After installing these dotfiles you can switch themes with:
 ```sh
 # Get a full list of themes by running: dot-theme-set --list
 #
-# Optionally you can skip adding a theme name and a random theme will be chosen.
+# Optionally you can skip adding a theme name and the next theme will be picked.
 dot-theme-set THEME_NAME
 ```
 
