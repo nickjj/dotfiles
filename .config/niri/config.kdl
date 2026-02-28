@@ -163,7 +163,7 @@ binds {
 
     // Themes.
     Mod+BackSlash       hotkey-overlay-title="Cycle theme backgrounds" { spawn "dot-theme-set-bg"; }
-    Mod+Shift+BackSlash hotkey-overlay-title="Set random theme" { spawn "dot-theme-set"; }
+    Mod+Shift+BackSlash hotkey-overlay-title="Cycle themes" { spawn "dot-theme-set"; }
 
     // Media keys.
     XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="Raise volume" { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05+"; }

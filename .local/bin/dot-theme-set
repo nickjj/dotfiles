@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Set a theme by name, if omit then a random theme will be chosen.
+# Set a theme by name, if omit then the next theme in the list will be set.
 #
 # Examples:
 #   dot-theme-set --list
@@ -13,21 +13,34 @@ set -o nounset
 # shellcheck disable=SC1091
 . "${DOTFILES_PATH}/install"
 
+mapfile -t ALL_THEMES < <(find "${DOTFILES_PATH}/themes" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
+
 THEME="${1:-}"
 
-if [ -z "${THEME}" ]; then
-  # Pick a random theme and avoid using shuf since it doesn't exist on macOS
-  # in a way where it works out of the box.
-  THEME="$(
-    find "${DOTFILES_PATH}/themes" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; |
-      sort --random-sort |
-      head --lines 1
-  )"
+if [ "${THEME}" = "--list" ]; then
+  printf "%s\n" "${ALL_THEMES[@]}"
+  exit
 fi
 
-if [ "${THEME}" = "--list" ]; then
-  find "${DOTFILES_PATH}/themes" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; |
-    sort
-else
-  set_theme "${THEME}"
+if [ -z "${THEME}" ]; then
+  THEME_DATA_LINK_PATH="${XDG_CONFIG_HOME}/wallpaper/theme.json"
+  CURRENT_THEME=
+
+  if [[ -L "${THEME_DATA_LINK_PATH}" && -e "${THEME_DATA_LINK_PATH}" ]]; then
+    CURRENT_THEME=$(basename "$(dirname "$(readlink -f "${THEME_DATA_LINK_PATH}")")")
+  fi
+
+  # Pick the first theme as a default.
+  THEME="${ALL_THEMES[0]}"
+
+  # Find the next theme, wrap back to the first one if at the end of the list.
+  # Using ! ensures this returns an index (0, 1, etc.) instead of the name.
+  for i in "${!ALL_THEMES[@]}"; do
+    if [[ "${ALL_THEMES[${i}]}" = "${CURRENT_THEME}" ]]; then
+      THEME="${ALL_THEMES[(i + 1) % ${#ALL_THEMES[@]}]}"
+      break
+    fi
+  done
 fi
+
+set_theme "${THEME}"
