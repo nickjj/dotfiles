@@ -1351,7 +1351,6 @@ install_packages() {
   _skip_packages "MISE_ARCH" "MISE_ARCH_SKIP"
   _skip_packages "MISE_DEBIAN" "MISE_DEBIAN_SKIP"
   _skip_packages "MISE_MACOS" "MISE_MACOS_SKIP"
-  _skip_packages "MISE_LANGUAGES" "MISE_LANGUAGES_SKIP"
 
   cat <<EOF
 If you choose y, all of the packages below will be installed:
