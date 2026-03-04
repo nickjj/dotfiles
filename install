@@ -112,6 +112,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     PACKAGES_PACMAN_EXTRAS=()
   fi
 
+  if [[ "${PACKAGES_PACMAN_SKIP+x}" ]]; then
+    [ -z "${PACKAGES_PACMAN_SKIP}" ] && PACKAGES_PACMAN_SKIP=()
+  else
+    PACKAGES_PACMAN_SKIP=()
+  fi
+
   if [[ "${PACKAGES_PACMAN_GUI+x}" ]]; then
     [ -z "${PACKAGES_PACMAN_GUI}" ] && PACKAGES_PACMAN_GUI=()
   else
@@ -174,6 +180,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     PACKAGES_PACMAN_GUI_EXTRAS=()
   fi
 
+  if [[ "${PACKAGES_PACMAN_GUI_SKIP+x}" ]]; then
+    [ -z "${PACKAGES_PACMAN_GUI_SKIP}" ] && PACKAGES_PACMAN_GUI_SKIP=()
+  else
+    PACKAGES_PACMAN_GUI_SKIP=()
+  fi
+
   if [[ "${PACKAGES_AUR+x}" ]]; then
     [ -z "${PACKAGES_AUR}" ] && PACKAGES_AUR=()
   else
@@ -184,6 +196,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     [ -z "${PACKAGES_AUR_EXTRAS}" ] && PACKAGES_AUR_EXTRAS=()
   else
     PACKAGES_AUR_EXTRAS=()
+  fi
+
+  if [[ "${PACKAGES_AUR_SKIP+x}" ]]; then
+    [ -z "${PACKAGES_AUR_SKIP}" ] && PACKAGES_AUR_SKIP=()
+  else
+    PACKAGES_AUR_SKIP=()
   fi
 
   if [[ "${PACKAGES_AUR_GUI+x}" ]]; then
@@ -211,6 +229,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     [ -z "${PACKAGES_AUR_GUI_EXTRAS}" ] && PACKAGES_AUR_GUI_EXTRAS=()
   else
     PACKAGES_AUR_GUI_EXTRAS=()
+  fi
+
+  if [[ "${PACKAGES_AUR_GUI_SKIP+x}" ]]; then
+    [ -z "${PACKAGES_AUR_GUI_SKIP}" ] && PACKAGES_AUR_GUI_SKIP=()
+  else
+    PACKAGES_AUR_GUI_SKIP=()
   fi
 
   if [[ "${PACKAGES_APT+x}" ]]; then
@@ -258,6 +282,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     PACKAGES_APT_EXTRAS=()
   fi
 
+  if [[ "${PACKAGES_APT_SKIP+x}" ]]; then
+    [ -z "${PACKAGES_APT_SKIP}" ] && PACKAGES_APT_SKIP=()
+  else
+    PACKAGES_APT_SKIP=()
+  fi
+
   if [[ "${PACKAGES_BREW+x}" ]]; then
     [ -z "${PACKAGES_BREW}" ] && PACKAGES_BREW=()
   else
@@ -303,6 +333,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     PACKAGES_BREW_EXTRAS=()
   fi
 
+  if [[ "${PACKAGES_BREW_SKIP+x}" ]]; then
+    [ -z "${PACKAGES_BREW_SKIP}" ] && PACKAGES_BREW_SKIP=()
+  else
+    PACKAGES_BREW_SKIP=()
+  fi
+
   if [[ "${PACKAGES_BREW_CASK+x}" ]]; then
     [ -z "${PACKAGES_BREW_CASK}" ] && PACKAGES_BREW_CASK=()
   else
@@ -323,6 +359,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     PACKAGES_BREW_CASK_EXTRAS=()
   fi
 
+  if [[ "${PACKAGES_BREW_CASK_SKIP+x}" ]]; then
+    [ -z "${PACKAGES_BREW_CASK_SKIP}" ] && PACKAGES_BREW_CASK_SKIP=()
+  else
+    PACKAGES_BREW_CASK_SKIP=()
+  fi
+
   if [[ "${MISE_ARCH+x}" ]]; then
     [ -z "${MISE_ARCH}" ] && MISE_ARCH=()
   else
@@ -333,6 +375,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     [ -z "${MISE_ARCH_EXTRAS}" ] && MISE_ARCH_EXTRAS=()
   else
     MISE_ARCH_EXTRAS=()
+  fi
+
+  if [[ "${MISE_ARCH_SKIP+x}" ]]; then
+    [ -z "${MISE_ARCH_SKIP}" ] && MISE_ARCH_SKIP=()
+  else
+    MISE_ARCH_SKIP=()
   fi
 
   if [[ "${MISE_DEBIAN+x}" ]]; then
@@ -357,6 +405,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     MISE_DEBIAN_EXTRAS=()
   fi
 
+  if [[ "${MISE_DEBIAN_SKIP+x}" ]]; then
+    [ -z "${MISE_DEBIAN_SKIP}" ] && MISE_DEBIAN_SKIP=()
+  else
+    MISE_DEBIAN_SKIP=()
+  fi
+
   if [[ "${MISE_MACOS+x}" ]]; then
     [ -z "${MISE_MACOS}" ] && MISE_MACOS=()
   else
@@ -367,6 +421,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     [ -z "${MISE_MACOS_EXTRAS}" ] && MISE_MACOS_EXTRAS=()
   else
     MISE_MACOS_EXTRAS=()
+  fi
+
+  if [[ "${MISE_MACOS_SKIP+x}" ]]; then
+    [ -z "${MISE_MACOS_SKIP}" ] && MISE_MACOS_SKIP=()
+  else
+    MISE_MACOS_SKIP=()
   fi
 
   if [[ ! "${MISE_LANGUAGES+x}" ]]; then
@@ -643,8 +703,10 @@ _install_packages_arch() {
   if [ "${GUI_ENABLED}" != "1" ]; then
     PACKAGES_PACMAN_GUI=()
     PACKAGES_PACMAN_GUI_EXTRAS=()
+    PACKAGES_PACMAN_GUI_SKIP=()
     PACKAGES_AUR_GUI=()
     PACKAGES_AUR_GUI_EXTRAS=()
+    PACKAGES_AUR_GUI_SKIP=()
   fi
 
   # Install Arch packages.
@@ -752,6 +814,28 @@ _package_display() {
   for item in "${packages[@]}"; do
     echo "   - ${item}"
   done
+}
+
+_skip_packages() {
+  # -n creates a pointer to the variable passed in (allows optional mutation).
+  local -n packages_default="${1}"
+  local -n packages_skip="${2}"
+  local packages_filtered=()
+
+  declare -A packages_skip_map
+
+  for item in "${packages_skip[@]}"; do
+    packages_skip_map["${item}"]=1
+  done
+
+  for item in "${packages_default[@]}"; do
+    # Avoid adding skipped packages to the new filtered packages.
+    if [ -z "${packages_skip_map[${item}]}" ]; then
+      packages_filtered+=("${item}")
+    fi
+  done
+
+  packages_default=("${packages_filtered[@]}")
 }
 
 _display_packages() {
@@ -1255,6 +1339,19 @@ install_packages() {
     echo "Skipping, you've chosen not to or your distro isn't fully supported"
     return
   fi
+
+  # Filter default packages before we do anything.
+  _skip_packages "PACKAGES_PACMAN" "PACKAGES_PACMAN_SKIP"
+  _skip_packages "PACKAGES_PACMAN_GUI" "PACKAGES_PACMAN_GUI_SKIP"
+  _skip_packages "PACKAGES_AUR" "PACKAGES_AUR_SKIP"
+  _skip_packages "PACKAGES_AUR_GUI" "PACKAGES_AUR_GUI_SKIP"
+  _skip_packages "PACKAGES_APT" "PACKAGES_APT_SKIP"
+  _skip_packages "PACKAGES_BREW" "PACKAGES_BREW_SKIP"
+  _skip_packages "PACKAGES_BREW_CASK" "PACKAGES_BREW_CASK_SKIP"
+  _skip_packages "MISE_ARCH" "MISE_ARCH_SKIP"
+  _skip_packages "MISE_DEBIAN" "MISE_DEBIAN_SKIP"
+  _skip_packages "MISE_MACOS" "MISE_MACOS_SKIP"
+  _skip_packages "MISE_LANGUAGES" "MISE_LANGUAGES_SKIP"
 
   cat <<EOF
 If you choose y, all of the packages below will be installed:

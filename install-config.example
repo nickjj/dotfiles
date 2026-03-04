@@ -86,31 +86,42 @@ export PACKAGES_AUTO_CONFIRM=
 #
 # You can use "extras" to keep the default packages but add your own to avoid
 # needing to duplicate the entire package list. Think of this as merging.
+#
+# You can use "skip" to avoid installing these packages from the default list.
+# It's useful if you want to skip a handful of packages without needing to
+# duplicate and maintain the default package list.
 
 # Applies to Arch Linux.
 export PACKAGES_PACMAN=()
 export PACKAGES_PACMAN_EXTRAS=()
+export PACKAGES_PACMAN_SKIP=()
 
 # Packages defined here only get installed when GUI_LINUX=1 is set.
 export PACKAGES_PACMAN_GUI=()
 export PACKAGES_PACMAN_GUI_EXTRAS=()
+export PACKAGES_PACMAN_GUI_SKIP=()
 
 export PACKAGES_AUR=()
 export PACKAGES_AUR_EXTRAS=()
+export PACKAGES_AUR_SKIP=()
 
 # Packages defined here only get installed when GUI_LINUX=1 is set.
 export PACKAGES_AUR_GUI=()
 export PACKAGES_AUR_GUI_EXTRAS=()
+export PACKAGES_AUR_GUI_SKIP=()
 
 # Applies to Debian and Ubuntu.
 export PACKAGES_APT=()
 export PACKAGES_APT_EXTRAS=()
+export PACKAGES_APT_SKIP=()
 
 # Applies to macOS.
 export PACKAGES_BREW=()
 export PACKAGES_BREW_EXTRAS=()
+export PACKAGES_BREW_SKIP=()
 export PACKAGES_BREW_CASK=()
 export PACKAGES_BREW_CASK_EXTRAS=()
+export PACKAGES_BREW_CASK_SKIP=()
 
 # -----------------------------------------------------------------------------
 # Mise packages
@@ -120,12 +131,15 @@ export PACKAGES_BREW_CASK_EXTRAS=()
 
 export MISE_ARCH=()
 export MISE_ARCH_EXTRAS=()
+export MISE_ARCH_SKIP=()
 
 export MISE_DEBIAN=()
 export MISE_DEBIAN_EXTRAS=()
+export MISE_DEBIAN_SKIP=()
 
 export MISE_MACOS=()
 export MISE_MACOS_EXTRAS=()
+export MISE_MACOS_SKIP=()
 
 # Install programming languages.
 declare -A MISE_LANGUAGES=()
