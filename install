@@ -1925,6 +1925,13 @@ alias fgrep="fgrep -G"
 alias egrep="egrep -G"
 EOF
     fi
+
+    if ! grep -q '^alias outdated="brew update' "${aliases_path}" 2>/dev/null; then
+      cat <<EOF >>"${aliases_path}"
+
+alias outdated="brew update --quiet && brew outdated --formula && print '\n' && brew outdated --casks"
+EOF
+    fi
   else
     if ! grep -q 'alias ls="ls --color=auto"' "${aliases_path}" 2>/dev/null; then
       cat <<EOF >>"${aliases_path}"
@@ -1934,6 +1941,22 @@ alias grep="grep --color=auto"
 alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 EOF
+    fi
+
+    if [ "${OS_DISTRO}" == "arch" ]; then
+      if ! grep -q '^alias outdated="checkupdates' "${aliases_path}" 2>/dev/null; then
+        cat <<EOF >>"${aliases_path}"
+
+alias outdated="checkupdates && printf '\n\n' && yay -Qua"
+EOF
+      fi
+    elif [ "${OS_DISTRO}" == "debian" ]; then
+      if ! grep -q '^alias outdated="sudo apt-get update -qq' "${aliases_path}" 2>/dev/null; then
+        cat <<EOF >>"${aliases_path}"
+
+alias outdated="sudo apt-get update -qq && apt list --upgradable"
+EOF
+      fi
     fi
 
     # Is a Linux GUI supported?
