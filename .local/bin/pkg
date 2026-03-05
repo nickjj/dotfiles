@@ -45,6 +45,12 @@ Usage examples:
   pkg remove --aur           # Remove installed AUR packages
   ^ pacman -Rns
 
+  pkg outdated               # Show outdated package
+  ^ checkupdates
+
+  pkg outdated --aur         # Show outdated AUR packages
+  ^ yay -Qua
+
   pkg news [q]               # Show Arch news (optionally headlines only)
   ^ yay -Pww[q]
 EOF
@@ -262,6 +268,36 @@ remove_aur() {
   fi
 }
 
+outdated() {
+  # shellcheck disable=SC2016
+  mapfile -t fzf_opts \
+    < <(fzf_args "Search outdated packages..." 'pacman -Qi $(echo {} | cut -d " " -f 1)' "tiebreak")
+
+  packages="$(
+    checkupdates | awk '{
+      pkg = $1
+      $1 = ""
+      sub(/^ /, "")
+      printf "%s %s\n", pkg, $0
+    }' | fzf "${fzf_opts[@]}" | cut -d " " -f 1
+  )"
+}
+
+outdated_aur() {
+  # shellcheck disable=SC2016
+  mapfile -t fzf_opts \
+    < <(fzf_args "Search outdated AUR packages..." 'yay -Qi $(echo {} | cut -d " " -f 1)' "tiebreak")
+
+  packages="$(
+    yay -Qua | awk '{
+      pkg = $1
+      $1 = ""
+      sub(/^ /, "")
+      printf "%s %s\n", pkg, $0
+    }' | fzf "${fzf_opts[@]}" | cut -d " " -f 1
+  )"
+}
+
 show_news() {
   local headlines="${1}"
 
@@ -290,6 +326,10 @@ elif [[ "${CMD}" = "remove" && -z "${AUR}" ]]; then
   remove
 elif [[ "${CMD}" = "remove" && -n "${AUR}" ]]; then
   remove_aur
+elif [[ "${CMD}" = "outdated" && -z "${AUR}" ]]; then
+  outdated
+elif [[ "${CMD}" = "outdated" && -n "${AUR}" ]]; then
+  outdated_aur
 elif [[ "${CMD}" = "news" ]]; then
   show_news "${1:-}"
 else
