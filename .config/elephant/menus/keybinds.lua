@@ -94,9 +94,5 @@ function GetEntries()
 		})
 	end
 
-	table.sort(entries, function(a, b)
-		return a.Text < b.Text
-	end)
-
 	return entries
 end
