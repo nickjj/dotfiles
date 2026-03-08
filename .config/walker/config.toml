@@ -5,7 +5,7 @@ additional_theme_location = "./themes/base"
 quick_activate = []
 
 [providers]
-default = ["desktopapplications", "menus"]
+default = ["desktopapplications"]
 
 [providers.clipboard]
 time_format = "%b %d %y :: %I:%M %p"
