@@ -6,6 +6,13 @@
   font-size: 14px;
 }
 
+popover {
+  background: lighter(@window_bg_color);
+  border: 1px solid darker(@accent_bg_color);
+  border-radius: 4px;
+  padding: 10px;
+}
+
 .normal-icons {
   -gtk-icon-size: 16px;
 }
@@ -19,6 +26,9 @@ scrollbar {
 }
 
 .box-wrapper {
+  box-shadow:
+    0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
   background: @window_bg_color;
   padding: 20px;
   border-radius: 4px;
@@ -40,6 +50,10 @@ scrollbar {
 
 .input placeholder {
   opacity: 0.5;
+}
+
+.input selection {
+  background: lighter(lighter(lighter(@window_bg_color)));
 }
 
 .input {
@@ -76,24 +90,27 @@ child {
 
 .item-quick-activation {
   background: alpha(@accent_bg_color, 0.25);
-  border-radius: 2px;
+  border-radius: 5px;
   padding: 10px;
 }
 
-child:hover .item-box,
-child:selected .item-box {
+/* child:hover .item-box, */
+child:selected .item-box,
+row:selected .item-box {
   background: alpha(@accent_bg_color, 0.25);
 }
 
 .item-text-box {
 }
 
-.item-text {
-}
-
 .item-subtext {
   font-size: 12px;
   opacity: 0.5;
+}
+
+.providerlist .item-subtext {
+  font-size: unset;
+  opacity: 0.75;
 }
 
 .item-image-text {
@@ -138,25 +155,39 @@ child:selected .item-box {
   -gtk-icon-size: 64px;
 }
 
-.keybinds-wrapper {
+.keybinds {
+  padding-top: 10px;
   border-top: 1px solid lighter(@window_bg_color);
   font-size: 12px;
-  opacity: 0.5;
   color: @theme_fg_color;
 }
 
-.keybinds {
+.global-keybinds {
+}
+
+.item-keybinds {
 }
 
 .keybind {
 }
 
+.keybind-button {
+  opacity: 0.5;
+}
+
+.keybind-button:hover {
+  opacity: 0.75;
+}
+
 .keybind-bind {
-  font-weight: bold;
   text-transform: lowercase;
+  opacity: 0.35;
 }
 
 .keybind-label {
+  padding: 2px 4px;
+  border-radius: 4px;
+  border: 1px solid @theme_fg_color;
 }
 
 .error {
