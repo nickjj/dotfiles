@@ -9,3 +9,6 @@ default = ["desktopapplications"]
 
 [providers.clipboard]
 time_format = "%b %d %y :: %I:%M %p"
+
+[columns]
+"menus:keybinds" = 2
