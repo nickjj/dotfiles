@@ -37,7 +37,7 @@ if [ -z "${THEME}" ]; then
   # Using ! ensures this returns an index (0, 1, etc.) instead of the name.
   for i in "${!ALL_THEMES[@]}"; do
     if [[ "${ALL_THEMES[${i}]}" = "${CURRENT_THEME}" ]]; then
-      THEME="${ALL_THEMES[(i + 1) % ${#ALL_THEMES[@]}]}"
+      THEME="${ALL_THEMES[(i + 1)%${#ALL_THEMES[@]}]}"
       break
     fi
   done
