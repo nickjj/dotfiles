@@ -497,6 +497,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "ln -fns \"\${DOTFILES_PATH}/.config/xarchiver/xarchiverrc\" \"\${XDG_CONFIG_HOME}/xarchiver/xarchiverrc\""
       "ln -fns \"\${DOTFILES_PATH}/.config/zathura/zathurarc\" \"\${XDG_CONFIG_HOME}/zathura/zathurarc\""
       "ln -fns \"\${DOTFILES_PATH}/.local/share/applications/\"* \"\${XDG_DATA_HOME}/applications/\""
+      "sudo ln -fns \"\${DOTFILES_PATH}/etc/systemd/system/systemd-networkd-wait-online.service.d/99-network-timeout.conf\" \"/etc/systemd/system/systemd-networkd-wait-online.service.d/99-network-timeout.conf"\"
     )
   fi
 
@@ -1612,6 +1613,7 @@ create_configs() {
   _config_install_display "Configs" "${config_install[@]}"
 
   if [ "${GUI_ENABLED}" == "1" ]; then
+    sudo mkdir -p "/etc/systemd/system/systemd-networkd-wait-online.service.d"
     _config_install_display "Configs (GUI)" "${config_install_gui_linux[@]}"
   fi
 
