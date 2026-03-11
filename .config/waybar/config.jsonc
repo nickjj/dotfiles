@@ -54,7 +54,8 @@
       "UTC"
     ],
     "on-click-right": "xdg-open https://calendar.google.com",
-    "on-click-middle": "xdg-open https://www.worldtimebuddy.com",
+    "on-click-middle": "dot-tz-set",
+    "on-click-backward": "xdg-open https://www.worldtimebuddy.com",
     "actions": {
       "on-scroll-up": "tz_up",
       "on-scroll-down": "tz_down"
