@@ -32,8 +32,6 @@ alias ge="rg '[\p{Emoji}--\p{Ascii}]'"
 
 alias drun='docker container run --rm -it -v "${PWD}":/app -w /app'
 
-alias myip="curl -s -4 https://ifconfig.me | tee >(clip-copy)"
-
 alias k="kubectl"
 alias tf="terraform"
 alias ymp3="youtube-dl --extract-audio --audio-format mp3"

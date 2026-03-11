@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Prints and / or copies your local / public IP address.
+#
+# Examples:
+#   myip         prints both your local and public IP address
+#   myip -l      prints your local IP address and copies it to your clipboard
+#   myip -p      prints your public IP address and copies it to your clipboard
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+flag="${1:-}"
+
+get_local() {
+  if [[ "${OSTYPE}" == linux-* ]]; then
+    # \K matches on 'src ' but doesn't return it in the output.
+    ip route get 1.1.1.1 | grep --only-matching --perl-regexp "src \K[^ ]+"
+  else
+    ipconfig getifaddr "$(route -n get 1.1.1.1 | awk '/interface:/{print $2}')"
+  fi
+}
+
+get_public() {
+  curl --silent --ipv4 --max-time 3 --connect-timeout 3 https://ifconfig.me
+}
+
+case "${flag:-}" in
+-l | --local)
+  get_local | tee >(clip-copy)
+  ;;
+-p | --public)
+  get_public | tee >(clip-copy)
+  echo
+  ;;
+"")
+  printf "%s\n%s\n" "$(get_local)" "$(get_public)"
+  ;;
+*)
+  echo "'${flag}' is an invalid flag, please use: -l or -p" >&2
+  exit 1
+  ;;
+esac

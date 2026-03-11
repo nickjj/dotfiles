@@ -103,6 +103,7 @@
   "pulseaudio": {
     "format": "{icon}",
     "on-click": "dot-launch-or-focus-tui wiremix",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     "tooltip-format": "Playback volume: {volume}%",
     "scroll-step": 5,
     "format-muted": "󰝟",
@@ -141,7 +142,9 @@
     "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}\n\n{ipaddr}",
     "tooltip-format-disconnected": "Disconnected",
     "interval": 10,
-    "on-click": "dot-launch-or-focus-tui impala"
+    "on-click": "dot-launch-or-focus-tui impala",
+    "on-click-right": "myip --local",
+    "on-click-middle": "myip --public"
   },
   "cpu": {
     "interval": 5,
