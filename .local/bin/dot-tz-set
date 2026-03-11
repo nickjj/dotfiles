@@ -10,5 +10,5 @@ tz="$(timedatectl list-timezones | walker --dmenu --placeholder "Set timezone...
 if [ -n "${tz}" ]; then
   sudo timedatectl set-timezone "${tz}"
   dot-reload-app waybar
-  notify-send "Timezone is set to: ${tz}"
+  notify-send "Timezone set to ${tz}"
 fi
