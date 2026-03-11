@@ -152,7 +152,7 @@
     "interval": 5,
     "format": "󰍛",
     "on-click": "dot-launch-or-focus-tui monitor",
-    "on-click-right": "fastfetch --logo none | head -n -3 | tail -n +3 | clip-copy"
+    "on-click-right": "fastfetch --logo none --structure-disabled 'Title:Separator:Colors:Break' | clip-copy"
   },
   "battery": {
     "format": "{capacity}% {icon}",
