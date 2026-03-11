@@ -151,7 +151,7 @@
   "cpu": {
     "interval": 5,
     "format": "󰍛",
-    "on-click": "dot-launch-or-focus-tui btop"
+    "on-click": "dot-launch-or-focus-tui dot-monitor"
   },
   "battery": {
     "format": "{capacity}% {icon}",
