@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Show an assortment of system monitoring tools together.
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# These dotfiles don't install nvtop on Linux but if it's available it means
+# someone has it installed and likely prefers it so let's use it first.
+if command -v nvtop &>/dev/null; then
+  gpu_command=(nvtop)
+elif command -v amdgpu_top &>/dev/null; then
+  gpu_command=(amdgpu_top --dark)
+elif command -v nvidia-smi &>/dev/null; then
+  gpu_command=(nvidia-smi)
+elif command -v intel_gpu_top &>/dev/null; then
+  gpu_command=(sudo intel_gpu_top)
+else
+  gpu_command=(bash -c "printf 'No GPU monitoring tools available\n\n'; read -p 'Press Enter to close...'")
+fi
+
+tmux_command=(new-session -s)
+[ -n "${TMUX:-}" ] && tmux_command=(new-window -n)
+
+tmux "${tmux_command[@]}" "monitor" "btop" \; split-window "${gpu_command[@]}"
