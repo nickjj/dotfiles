@@ -12,7 +12,7 @@ set -o nounset
 
 flag="${1:-}"
 
-get_local() {
+local_ip() {
   if [[ "${OSTYPE}" == linux-* ]]; then
     # \K matches on 'src ' but doesn't return it in the output.
     ip route get 1.1.1.1 | grep --only-matching --perl-regexp "src \K[^ ]+"
@@ -21,20 +21,20 @@ get_local() {
   fi
 }
 
-get_public() {
+public_ip() {
   curl --silent --ipv4 --max-time 3 --connect-timeout 3 https://ifconfig.me
 }
 
 case "${flag:-}" in
 -l | --local)
-  get_local | tee >(clip-copy)
+  local_ip | tee >(clip-copy)
   ;;
 -p | --public)
-  get_public | tee >(clip-copy)
+  public_ip | tee >(clip-copy)
   echo
   ;;
 "")
-  printf "%s\n%s\n" "$(get_local)" "$(get_public)"
+  printf "%s\n%s\n" "$(local_ip)" "$(public_ip)"
   ;;
 *)
   echo "'${flag}' is an invalid flag, please use: -l or -p" >&2
