@@ -82,8 +82,8 @@
       "paused": "⏸"
     },
     "on-click": "playerctl play-pause",
-    "on-click-middle": "dot-launch-or-focus-tui rmpc",
     "on-click-right": "playerctl stop",
+    "on-click-middle": "dot-launch-or-focus-tui rmpc",
     "on-scroll-up": "playerctl previous",
     "on-scroll-down": "playerctl next"
   },
