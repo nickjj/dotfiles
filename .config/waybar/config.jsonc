@@ -27,6 +27,7 @@
   },
   "niri/workspaces": {
     "on-click": "activate",
+    "on-click-right": "niri msg action toggle-overview",
     "format": "{icon}",
     "format-icons": {
       "default": "",
