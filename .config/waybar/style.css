@@ -1,7 +1,6 @@
 @import "./theme.css";
 
 * {
-  background-color: @background;
   color: @foreground;
 
   font-family: monospace;
@@ -66,6 +65,11 @@
   margin-right: 4px;
 }
 
+window#waybar {
+  background-color: rgba(0, 0, 0, 0.70);
+}
+
 tooltip * {
   padding: 2px;
+  background-color: @tooltip;
 }
