@@ -1,11 +1,32 @@
 #!/usr/bin/env bash
 # Set the timezone.
+#
+# Usage:
+#   dot-tz-set            pick your timezone without geo assistance
+#   dot-tz-set --geo      pick your timezone with geo assistance
 
 set -o errexit
 set -o pipefail
 set -o nounset
 
-tz="$(timedatectl list-timezones | walker --dmenu --placeholder "Set timezone...")"
+flag="${1:-}"
+placeholder="Set timezone..."
+
+# Instead of fully depending on an auto-geo lookup which could be wrong or rate
+# limited, offer assistance by setting the placeholder to a geolocated value.
+#
+# This is handy when you're traveling and might not know which timezone value
+# to pick because the city, state or country you're in isn't included.
+#
+# If you're rate limited or it times out, you'll get no assistance which is ok.
+if [ "${flag}" == "--geo" ]; then
+  geo_tz="$(curl --silent --fail --ipv4 --max-time 3 --connect-timeout 3 https://ipapi.co/timezone || geo_tz=)"
+  if [ -n "${geo_tz}" ]; then
+    placeholder="${geo_tz}"
+  fi
+fi
+
+tz="$(timedatectl list-timezones | walker --dmenu --placeholder "${placeholder}")"
 
 if [ -n "${tz}" ]; then
   sudo timedatectl set-timezone "${tz}"
