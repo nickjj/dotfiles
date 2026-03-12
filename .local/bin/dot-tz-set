@@ -10,7 +10,8 @@ set -o pipefail
 set -o nounset
 
 flag="${1:-}"
-placeholder="Set timezone..."
+configured_tz="$(timedatectl show --property=Timezone --value)"
+placeholder="${configured_tz}"
 
 # Instead of fully depending on an auto-geo lookup which could be wrong or rate
 # limited, offer assistance by setting the placeholder to a geolocated value.
@@ -20,10 +21,8 @@ placeholder="Set timezone..."
 #
 # If you're rate limited or it times out, you'll get no assistance which is ok.
 if [ "${flag}" == "--geo" ]; then
-  geo_tz="$(curl --silent --fail --max-time 3 --connect-timeout 3 https://ipapi.co/timezone || geo_tz=)"
-  if [ -n "${geo_tz}" ]; then
-    placeholder="${geo_tz}"
-  fi
+  geo_tz="$(curl --silent --fail --max-time 3 --connect-timeout 3 https://ipapi.co/timezone || echo "N/A")"
+  placeholder="${placeholder} (Geo: ${geo_tz})"
 fi
 
 tz="$(timedatectl list-timezones | walker --dmenu --placeholder "${placeholder}")"
