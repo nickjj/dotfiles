@@ -146,10 +146,10 @@
     "tooltip-format-disconnected": "Disconnected",
     "interval": 10,
     "on-click": "dot-launch-or-focus-tui impala",
-    "on-click-right": "myip --local",
-    "on-click-middle": "myip --public"
-    // TODO: add shortcut to open speed test? https://www.speedtest.net/
-    // forward (public)/back (local) for public and local binds instead or keep as is?
+    "on-click-right": "xdg-open https://speedtest.net",
+    "on-click-middle": "xdg-open http://www.asusrouter.com/Main_Login.asp",
+    "on-click-forward": "myip --local",
+    "on-click-backward": "myip --public"
   },
   "cpu": {
     "interval": 5,
