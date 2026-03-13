@@ -148,12 +148,15 @@
     "on-click": "dot-launch-or-focus-tui impala",
     "on-click-right": "myip --local",
     "on-click-middle": "myip --public"
+    // TODO: add shortcut to open speed test? https://www.speedtest.net/
+    // forward (public)/back (local) for public and local binds instead or keep as is?
   },
   "cpu": {
     "interval": 5,
     "format": "󰍛",
     "on-click": "dot-launch-or-focus-tui monitor",
-    "on-click-right": "fastfetch --logo none --structure-disabled 'Title:Separator:Colors:Break' | clip-copy"
+    "on-click-right": "dot-launch-or-focus-tui btop",
+    "on-click-middle": "fastfetch --logo none --structure-disabled 'Title:Separator:Colors:Break' | clip-copy"
   },
   "battery": {
     "format": "{capacity}% {icon}",
