@@ -156,7 +156,7 @@
     "format": "󰍛",
     "on-click": "dot-launch-or-focus-tui monitor",
     "on-click-right": "dot-launch-or-focus-tui btop",
-    "on-click-middle": "fastfetch --logo none --structure-disabled 'Title:Separator:Colors:Break' | clip-copy"
+    "on-click-middle": "sh -c 'specs && notify-send \"Specs copied to clipboard\"'"
   },
   "battery": {
     "format": "{capacity}% {icon}",

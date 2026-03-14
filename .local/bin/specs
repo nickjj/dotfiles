@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Print specs about your system and copy it to your clipboard.
+#
+# Examples:
+#   specs
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+fastfetch --logo none --structure-disabled "Title:Separator:Colors:Break" | tee >(clip-copy) || true
