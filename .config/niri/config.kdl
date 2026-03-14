@@ -135,7 +135,7 @@ window-rule {
 
 binds {
     // Overview.
-    Mod+Slash          hotkey-overlay-title="System menu" { spawn "dot-menu"; }
+    Mod+Grave          hotkey-overlay-title="System menu" { spawn "dot-menu"; }
     Mod+Shift+Slash    hotkey-overlay-title="Search keybinds" { spawn "walker" "--height" "980" "--width" "980" "--provider" "menus:keybinds"; }
     Mod+O repeat=false hotkey-overlay-title="Toggle overview (4-finger swipe)" { toggle-overview; }
 
