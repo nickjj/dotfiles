@@ -136,7 +136,8 @@ window-rule {
 binds {
     // Overview.
     Mod+Grave          hotkey-overlay-title="System menu" { spawn "dot-menu"; }
-    Mod+Shift+Slash    hotkey-overlay-title="Search keybinds" { spawn "walker" "--height" "980" "--width" "980" "--provider" "menus:keybinds"; }
+    Mod+Slash          hotkey-overlay-title="Search niri keybinds" { spawn "walker" "--height" "980" "--width" "980" "--provider" "menus:keybinds"; }
+    Mod+Shift+Slash    hotkey-overlay-title="Search Waybar actions" { spawn "walker" "--height" "980" "--width" "800" "--provider" "menus:waybar"; }
     Mod+O repeat=false hotkey-overlay-title="Toggle overview (4-finger swipe)" { toggle-overview; }
 
     // System.
