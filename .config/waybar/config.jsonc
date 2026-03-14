@@ -148,8 +148,8 @@
     "on-click": "sh -c 'dot-launch-or-focus-tui impala || notify-send \"Wi-Fi adapter not found\"'",
     "on-click-right": "xdg-open https://speedtest.net",
     "on-click-middle": "xdg-open http://www.asusrouter.com/Main_Login.asp",
-    "on-click-forward": "myip --local",
-    "on-click-backward": "myip --public"
+    "on-click-forward": "sh -c 'notify-send \"$(myip --public) copied to clipboard\"'",
+    "on-click-backward": "sh -c 'notify-send \"$(myip --local) copied to clipboard\"'"
   },
   "cpu": {
     "interval": 5,
