@@ -1205,7 +1205,7 @@ detect_and_prepare_network() {
 
   if compgen -G "/sys/class/net/*/wireless" 1>/dev/null; then
     PACKAGES_PACMAN+=("impala" "iwd")
-    SYSTEMD_ENABLED_SERVICES+=("iwd")
+    SYSTEMD_ENABLED_SERVICES+=("iwd.service")
 
     echo "Wi-Fi adapter found, iwd + impala packages will be installed"
   else
@@ -1223,7 +1223,7 @@ detect_and_prepare_bluetooth() {
 
   if [ -d "/sys/class/bluetooth" ]; then
     PACKAGES_PACMAN+=("bluetui" "bluez")
-    SYSTEMD_ENABLED_SERVICES+=("bluetooth")
+    SYSTEMD_ENABLED_SERVICES+=("bluetooth.service")
 
     echo "Compatible adapter found, bluez + bluetui packages will be installed"
   else
