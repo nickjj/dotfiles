@@ -10,5 +10,10 @@ default = ["desktopapplications"]
 [providers.clipboard]
 time_format = "%b %d %y :: %I:%M %p"
 
+[providers.max_results_provider]
+niriactions = 150
+"menus:keybinds" = 150
+"menus:waybar" = 150
+
 [columns]
 "menus:keybinds" = 2
