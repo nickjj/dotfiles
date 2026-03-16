@@ -23,12 +23,13 @@
   "custom/menu": {
     "format": "󰣇",
     "on-click": "dot-menu",
+    "on-click-right": "walker --height 980 --width 980 --provider menus:keybinds",
+    "on-click-middle": "walker --height 980 --width 800 --provider menus:waybar",
     "tooltip-format": "System menu"
   },
   "niri/workspaces": {
     "on-click": "activate",
     "on-click-right": "niri msg action toggle-overview",
-    "on-click-middle": "walker --height 980 --width 980 --provider menus:keybinds",
     "format": "{icon}",
     "format-icons": {
       "default": "",
