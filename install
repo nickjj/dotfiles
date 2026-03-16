@@ -214,6 +214,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "elephant-desktopapplications-bin"
       "elephant-files-bin"
       "elephant-menus-bin"
+      "elephant-niriactions-bin"
       "elephant-providerlist-bin"
       "elephant-runner-bin"
       "elephant-symbols-bin"
