@@ -102,7 +102,10 @@
     ]
   },
   "custom/expand-icon": {
-    "format": " ",
+    "format": "",
+    "on-click": "xdg-open https://archlinux.org/packages/",
+    "on-click-right": "xdg-open https://aur.archlinux.org/packages",
+    "on-click-middle": "xdg-open https://www.nerdfonts.com/cheat-sheet",
     "tooltip": false
   },
   "pulseaudio": {
