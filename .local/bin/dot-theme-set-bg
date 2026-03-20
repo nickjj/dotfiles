@@ -21,6 +21,11 @@ THEME_DATA_PATH="${WALLPAPER_DIR}/theme.json"
 if readlink "${WALLPAPER_PATH}" 1>/dev/null; then
   CURRENT_WALLPAPER_PATH="$(readlink "${WALLPAPER_PATH}")"
   CURRENT_WALLPAPER="$(basename "${CURRENT_WALLPAPER_PATH}")"
+else
+  # Fall back to this as a default since it's likely a new install. If there's
+  # really no wallpaper available it'll use the fallback color later.
+  CURRENT_WALLPAPER="lake-twilight.jpg"
+  KEEP_CURRENT=1
 fi
 
 # Avoid setting the next wallpaper if we're keeping the current one. We don't
