@@ -123,6 +123,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   else
     PACKAGES_PACMAN_GUI=(
       "brightnessctl"
+      "dnsmasq"
       "docker"
       "docker-buildx"
       "docker-compose"
@@ -132,11 +133,13 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "gimp"
       "grim"
       "hyprpicker"
+      "iptables-nft"
       "kdenlive"
       "keepassxc"
       "lact"
       "libqalculate"
       "libreoffice"
+      "libvirt"
       "mako"
       "mpd"
       "mpd-mpris"
@@ -148,6 +151,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "pipewire-alsa"
       "pipewire-jack"
       "pipewire-pulse"
+      "qemu-desktop"
       "rmpc"
       "satty"
       "slurp"
@@ -161,6 +165,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "ttf-freefont"
       "tumbler"
       "uwsm"
+      "virt-manager"
       "waybar"
       "wiremix"
       "wireplumber"
@@ -560,7 +565,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     SYSTEMD_ENABLED_SERVICES=(
       "docker.service"
       "lactd.service"
+      "libvirtd.socket"
       "paccache.timer --now"
+      "virtlogd.socket"
     )
   fi
 
@@ -1771,11 +1778,13 @@ configure_system_configs() {
     fi
   fi
 
-  # If Docker is being installed, ensure the user is in the docker group.
-  if [[ "${PACMAN_PACKAGES_GUI}" == *docker* && "${GUI_ENABLED}" == "1" ]]; then
-    if ! groups "${USER}" | grep --quiet "\bdocker\b"; then
-      sudo usermod -aG docker "${USER}"
-    fi
+  if [ "${GUI_ENABLED}" == "1" ]; then
+    for group in docker libvirt; do
+      if [[ " ${PACKAGES_PACMAN_GUI[*]} " == *" ${group} "* ]] &&
+        ! id --name --groups "${USER}" | grep --quiet --word-regexp "${group}"; then
+        sudo usermod -aG "${group}" "${USER}"
+      fi
+    done
   fi
 
   echo "Everything that required configuring was updated"

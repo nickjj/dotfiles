@@ -100,6 +100,7 @@ window-rule {
     match app-id=r#"^mpv$"#
     match app-id=r#"^soffice$"# title=r#"^Text Import"#
     match app-id=r#"^thunar$"# title=r#"^Rename "#
+    match app-id=r#"^virt-manager$"# title=r#" - Connection Details"#
     match app-id=r#"^wev$"#
     match app-id=r#"^xarchiver$"#
     match app-id=r#"firefox$"# title=r#"^(Picture-in-Picture|Library|About Mozilla Firefox)$"#

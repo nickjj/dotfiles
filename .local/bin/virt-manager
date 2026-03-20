@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Start virt-manager using the system's default Python interpreter instead of Mise.
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+/usr/bin/python3 /usr/bin/virt-manager "$@"
