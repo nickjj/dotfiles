@@ -22,10 +22,17 @@ if readlink "${WALLPAPER_PATH}" 1>/dev/null; then
   CURRENT_WALLPAPER_PATH="$(readlink "${WALLPAPER_PATH}")"
   CURRENT_WALLPAPER="$(basename "${CURRENT_WALLPAPER_PATH}")"
 else
-  # Fall back to this as a default since it's likely a new install. If there's
-  # really no wallpaper available it'll use the fallback color later.
-  CURRENT_WALLPAPER="lake-twilight.jpg"
-  KEEP_CURRENT=1
+  # This happens in 1 of 2 cases:
+  #   - This is the first time you've installed the dotfiles
+  #   - There's no eligible or available wallpapers for this theme
+  #
+  # For first time installs we want the first Tokyonight Moon wallpaper to
+  # be used, so let's set the last one. Later on when the next wallpaper gets
+  # selected it will wrap back around and choose the first.
+  #
+  # If there's no eligible wallpaper the logic to pick the next one will null
+  # this out so it'll use the fallback.
+  CURRENT_WALLPAPER="starry-night.jpg"
 fi
 
 # Avoid setting the next wallpaper if we're keeping the current one. We don't
@@ -58,6 +65,12 @@ else
       ' "${THEME_DATA_PATH}")"
 fi
 
+notify() {
+  local wallpaper="${1:-}"
+
+  notify-send "Wallpaper set to ${wallpaper}" 2>/dev/null || true
+}
+
 fallback() {
   local color=
   color="$(jq --raw-output ".wallpaper.color" "${THEME_DATA_PATH}")"
@@ -69,6 +82,7 @@ fallback() {
 
   [ -L "${WALLPAPER_PATH}" ] && rm "${WALLPAPER_PATH}"
   swaybg --color "${color}" >/dev/null 2>&1 &
+  notify "${color}"
 
   exit
 }
@@ -82,5 +96,5 @@ swaybg --image "${WALLPAPER_PATH}" --mode fill >/dev/null 2>&1 &
 
 # When booting up, we don't want to display this message.
 if [ -z "${KEEP_CURRENT}" ]; then
-  notify-send "Wallpaper set to ${NEXT_WALLPAPER}" 2>/dev/null || true
+  notify "${NEXT_WALLPAPER}"
 fi
