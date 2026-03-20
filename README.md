@@ -505,7 +505,7 @@ going to happen. Triple check your drive being formatted is the correct one
 and everything else looks good!
 
 - Sit back and relax while everything gets installed for ~5-10 minutes
-- Choose "no" when it prompts you to chroot into the installation
+- Choose "Exit archinstall" when it prompts you after it has finished
 - Remove the USB drive from your computer
 - Run `reboot`
 - Configure your BIOS to boot from the drive you just installed Arch on
