@@ -2253,14 +2253,6 @@ install_tmux_plugins() {
   "${tpm_path}/bin/install_plugins"
 }
 
-install_nvim_plugins() {
-  _info "INSTALL NEOVIM PLUGINS"
-
-  nvim +q
-
-  echo "They've been installed"
-}
-
 set_theme() {
   # Default to this theme as a fallback.
   local theme="tokyonight-moon"
@@ -2599,7 +2591,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   configure_git
   install_programming_languages
   install_tmux_plugins
-  install_nvim_plugins
   set_theme "${@}"
   healthcheck
   completed_message
