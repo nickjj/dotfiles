@@ -490,6 +490,7 @@ space to toggle checkboxes.*
 - **Additional packages**:
   - I suggest installing `neovim` to maybe edit the dotfiles `install-config` before you run it
     - This isn't extra bloat since these dotfiles install `neovim` by default
+    - You can type `/neovim` to search for it and hit enter to choose it
 - **Timezone**:
   - Pick what makes sense for your location
 - **Automatic time sync (NTP)**:
