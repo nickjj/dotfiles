@@ -1139,6 +1139,10 @@ EOF
     *GTX\ [7-9]* | *GTX\ 10*)
       PACKAGES_AUR+=("nvidia-580xx-dkms" "nvidia-580xx-utils" "lib32-nvidia-580xx-utils")
       ;;
+    *Virtio* | *QXL*)
+      # The kernel already has drivers for these VM devices.
+      :
+      ;;
     *)
       cat <<EOF
 
