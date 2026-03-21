@@ -49,7 +49,8 @@ if [ "${ARG:-}" == "--list" ]; then
   eligible_wallpapers
   exit
 elif [ "${ARG:-}" == "--menu" ]; then
-  NEXT_WALLPAPER="$(eligible_wallpapers | walker --dmenu --placeholder "Wallpapers...")"
+  walker --provider menus:wallpapers
+  exit
 elif [ -z "${ARG:-}" ]; then
   # We only want to set this if there's an existing symlink.
   if [[ -L "${WALLPAPER_PATH}" && -e "${WALLPAPER_PATH}" ]]; then
