@@ -123,7 +123,7 @@ perl -i -pe "
 # Fix the wallpaper, it only occupies a quadrant of the screen without this.
 if [ "${REGION}" == "1" ]; then
   sleep 0.25
-  dot-theme-set-bg --current
+  dot-theme-set-bg --keep-current
   sleep 0.25
 fi
 

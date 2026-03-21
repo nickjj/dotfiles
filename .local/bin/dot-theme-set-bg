@@ -45,13 +45,13 @@ fallback() {
   exit
 }
 
-if [ "${ARG:-}" == "--list" ]; then
+if [ "${ARG}" == "--list" ]; then
   eligible_wallpapers
   exit
-elif [ "${ARG:-}" == "--menu" ]; then
+elif [ "${ARG}" == "--menu" ]; then
   walker --provider menus:wallpapers
   exit
-elif [ -z "${ARG:-}" ]; then
+elif [[ -z "${ARG}" || "${ARG}" == "--keep-current" ]]; then
   # We only want to set this if there's an existing symlink.
   if [[ -L "${WALLPAPER_PATH}" && -e "${WALLPAPER_PATH}" ]]; then
     CURRENT_WALLPAPER_PATH="$(readlink "${WALLPAPER_PATH}")"
@@ -72,7 +72,7 @@ elif [ -z "${ARG:-}" ]; then
 
   # Avoid setting the next wallpaper if we're keeping the current one. We don't
   # exit early so we can still fallback to a color if something went wrong.
-  if [ -n "${ARG}" ]; then
+  if [ "${ARG}" == "--keep-current" ]; then
     NEXT_WALLPAPER="${CURRENT_WALLPAPER}"
   else
     # Parse out the next wallpaper.
