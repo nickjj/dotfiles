@@ -16,8 +16,11 @@ installed in these environments.*
 | base           | Minimal package set to define a basic Arch Linux installation |
 | base-devel     | Basic tools to build Arch Linux packages                      |
 | bluez          | Daemons for the bluetooth protocol stack                      |
+| dnsmasq        | Lightweight, easy to configure DNS forwarder and DHCP server  |
+| iptables-nft   | Linux kernel packet control tool (using nft interface)        |
 | iwd            | Internet Wireless Daemon                                      |
 | lact           | Linux GPU Configuration Tool (supports AMD, NVIDIA and Intel) |
+| libvirt        | API for controlling virtualization engines (kvm,qemu,etc)     |
 | mpd            | Flexible, powerful, server-side application for playing music |
 | mpd-mpris      | An implementation of the MPRIS protocol for MPD               |
 | pacman-contrib | Contributed scripts and tools for pacman systems              |
@@ -25,6 +28,7 @@ installed in these environments.*
 | pipewire-alsa  | PipeWire ALSA configuration                                   |
 | pipewire-jack  | PipeWire JACK replacement                                     |
 | pipewire-pulse | PipeWire PulseAudio replacement                               |
+| qemu-desktop   |  A QEMU setup for desktop environments                        |
 | wireplumber    | Session and policy manager for PipeWire                       |
 
 ## Linux Kernel
@@ -176,3 +180,4 @@ If needed, these get automatically installed for you by these dotfiles.
 | zathura            | Minimalistic document viewer                                         |
 | zathura-djvu       | DjVu support for Zathura                                             |
 | zathura-pdf-mupdf  | Supports PDF, ePub, and OpenXPS for Zathura                          |
+| virt-manager       | Desktop user interface for managing virtual machines                 |
