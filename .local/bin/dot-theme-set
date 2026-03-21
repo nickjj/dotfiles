@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# Set a theme by name, if omit then the next theme in the list will be set.
+# Set a theme.
 #
 # Examples:
-#   dot-theme-set --list
-#   dot-theme-set NAME
-#   dot-theme-set
+#   dot-theme-set --list     # print available themes
+#   dot-theme-set --menu     # pick from available themes
+#   dot-theme-set NAME       # provide a specific theme
+#   dot-theme-set            # pick the next available theme
 
 set -o errexit
 set -o pipefail
@@ -20,6 +21,8 @@ THEME="${1:-}"
 if [ "${THEME}" = "--list" ]; then
   printf "%s\n" "${ALL_THEMES[@]}"
   exit
+elif [ "${THEME}" = "--menu" ]; then
+  THEME="$(printf "%s\n" "${ALL_THEMES[@]}" | walker --dmenu --placeholder "Themes...")"
 fi
 
 if [ -z "${THEME}" ]; then

@@ -165,8 +165,9 @@ binds {
     Mod+Ctrl+Shift+N hotkey-overlay-title="Toggle silencing notifications" { spawn-sh "makoctl mode -t do-not-disturb && makoctl mode | grep -q 'do-not-disturb' && notify-send 'Silenced notifications' || notify-send 'Enabled notifications'"; }
 
     // Themes.
-    Mod+BackSlash       hotkey-overlay-title="Cycle theme backgrounds" { spawn "dot-theme-set-bg"; }
-    Mod+Shift+BackSlash hotkey-overlay-title="Cycle themes" { spawn "dot-theme-set"; }
+    Mod+BackSlash           hotkey-overlay-title="Cycle theme backgrounds" { spawn "dot-theme-set-bg"; }
+    Mod+Shift+BackSlash     hotkey-overlay-title="Cycle themes" { spawn "dot-theme-set"; }
+    Mod+Alt+Shift+BackSlash hotkey-overlay-title="Pick theme" { spawn "dot-theme-set" "--menu"; }
 
     // Media keys.
     XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="Raise volume" { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05+"; }
