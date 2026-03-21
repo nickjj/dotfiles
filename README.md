@@ -53,10 +53,10 @@ supported Linux distro.*
 
 #### Why niri and not XYZ?
 
-It's resource efficient, lightning fast, infinitely tweakable, intuitively
-handles scrolling / tiling / floating windows, integrates awesomely with
-multiple monitors, actively developed, well thought out, has great
-documentation and the author is very helpful.
+It's resource efficient, extremely stable, lightning fast, infinitely
+tweakable, intuitively handles scrolling / tiling / floating windows,
+integrates awesomely with multiple monitors, actively developed, well thought
+out, has great documentation and the author is very helpful.
 
 niri feels like a perfect match and I wanted to make a special call out because
 it's *that* good. I'm the "I was there 3,000 years ago" meme from Windows 2000,
