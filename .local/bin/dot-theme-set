@@ -22,7 +22,8 @@ if [ "${ARG}" = "--list" ]; then
   printf "%s\n" "${ALL_THEMES[@]}"
   exit
 elif [ "${ARG}" = "--menu" ]; then
-  ARG="$(printf "%s\n" "${ALL_THEMES[@]}" | walker --dmenu --placeholder "Themes...")"
+  walker --provider menus:themes
+  exit
 fi
 
 if [ -z "${ARG}" ]; then
