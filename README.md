@@ -113,19 +113,9 @@ Inconsolata NF which these dotfiles install for you.
 
 ### Setting a theme
 
-These dotfiles include a `dot-theme-set` script that you can run from your
-terminal to set your theme to any of the themes listed above.
-
-You can look in the [themes/](./themes/) directory to see which apps are themed
-and [add additional apps](#how-to-theme-custom-apps) too.
-
-If you don't like the included themes that's no problem. You can [add custom
-themes](#how-to-add-custom-themes) and remove the defaults.
-
-After installing these dotfiles you can switch themes with:
-
 ```sh
 # Get a full list of themes by running: dot-theme-set --list
+# There's also a --menu flag to preview themes in the desktop environment.
 #
 # Optionally you can skip adding a theme name and the next theme will be picked.
 dot-theme-set THEME_NAME
@@ -139,18 +129,26 @@ alias to source new theme related configs.
 *Not all terminals are supported, if yours didn't change then check [theming
 custom apps](#how-to-theme-custom-apps).*
 
+You can look in the [themes/](./themes/) directory to see which apps are themed
+and [add additional apps](#how-to-theme-custom-apps) too. If you don't like the
+included themes that's no problem. You can [add custom
+themes](#how-to-add-custom-themes) and remove the defaults.
+
 ### Wallpapers
 
 *Only available when the desktop environment is set up.*
 
+```sh
+# Get a full list of wallpapers by running: dot-theme-set-bg --list
+# There's also a --menu flag to preview wallpapers.
+#
+# Optionally you can skip adding a wallpaper name and the next wallpaper will be picked.
+dot-theme-set-bg WALLPAPER_NAME
+```
+
 You can cycle between wallpapers that are compatible with the active theme.
 This is controlled through the `_theme.json` file in each theme's directory,
 it's under the `wallpaper.synergy` object.
-
-```sh
-# Set the next wallpaper.
-dot-theme-set-bg
-```
 
 ## ✨ Quickly Get Set Up
 
