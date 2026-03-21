@@ -5,6 +5,7 @@
 #   dot-theme-set-bg --list           # print wallpapers for active theme
 #   dot-theme-set-bg --menu           # pick from available wallpapers for active theme
 #   dot-theme-set-bg --keep-current   # useful when rebooting
+#   dot-theme-set-bg FILE_NAME        # provide a specific wallpaper
 #   dot-theme-set-bg                  # pick the next available wallpaper
 
 set -o errexit
@@ -49,7 +50,7 @@ if [ "${ARG:-}" == "--list" ]; then
   exit
 elif [ "${ARG:-}" == "--menu" ]; then
   NEXT_WALLPAPER="$(eligible_wallpapers | walker --dmenu --placeholder "Wallpapers...")"
-else
+elif [ -z "${ARG:-}" ]; then
   # We only want to set this if there's an existing symlink.
   if [[ -L "${WALLPAPER_PATH}" && -e "${WALLPAPER_PATH}" ]]; then
     CURRENT_WALLPAPER_PATH="$(readlink "${WALLPAPER_PATH}")"
@@ -96,6 +97,13 @@ else
           end
       end
       ' "${THEME_DATA_PATH}")"
+  fi
+else
+  NEXT_WALLPAPER="${ARG}"
+
+  if [ ! -f "${DOTFILES_PATH}/wallpapers/${NEXT_WALLPAPER}" ]; then
+    echo "${NEXT_WALLPAPER} does not exist, aborting!" >&2
+    exit 1
   fi
 fi
 
