@@ -25,6 +25,8 @@
     "on-click": "dot-menu",
     "on-click-right": "walker --height 980 --width 980 --provider menus:keybinds",
     "on-click-middle": "walker --height 980 --width 800 --provider menus:waybar",
+    "on-click-forward": "dot-theme-set --menu",
+    "on-click-backward": "dot-theme-set-bg --menu",
     "tooltip-format": "System menu"
   },
   "niri/workspaces": {
