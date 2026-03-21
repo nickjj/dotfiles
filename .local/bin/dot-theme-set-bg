@@ -1,69 +1,26 @@
 #!/usr/bin/env bash
-# Set the next available wallpaper, defaulting to a color if none are available.
-# Optionally supports keeping the current wallpaper (useful after rebooting).
+# Set the wallpaper, defaulting to a color if none are available.
 #
 # Examples:
-#   dot-theme-set-bg
-#   dot-theme-set-bg --keep-current
+#   dot-theme-set-bg --list           # print wallpapers for active theme
+#   dot-theme-set-bg --menu           # pick from available wallpapers for active theme
+#   dot-theme-set-bg --keep-current   # useful when rebooting
+#   dot-theme-set-bg                  # pick the next available wallpaper
 
 set -o errexit
 set -o pipefail
 set -o nounset
 
-KEEP_CURRENT="${1:-}"
+ARG="${1:-}"
 
 WALLPAPER_DIR="${XDG_CONFIG_HOME}/wallpaper"
 WALLPAPER_PATH="${WALLPAPER_DIR}/wallpaper.jpg"
 
 THEME_DATA_PATH="${WALLPAPER_DIR}/theme.json"
 
-# We only want to set this if there's an existing symlink.
-if readlink "${WALLPAPER_PATH}" 1>/dev/null; then
-  CURRENT_WALLPAPER_PATH="$(readlink "${WALLPAPER_PATH}")"
-  CURRENT_WALLPAPER="$(basename "${CURRENT_WALLPAPER_PATH}")"
-else
-  # This happens in 1 of 2 cases:
-  #   - This is the first time you've installed the dotfiles
-  #   - There's no eligible or available wallpapers for this theme
-  #
-  # For first time installs we want the first Tokyonight Moon wallpaper to
-  # be used, so let's set the last one. Later on when the next wallpaper gets
-  # selected it will wrap back around and choose the first.
-  #
-  # If there's no eligible wallpaper the logic to pick the next one will null
-  # this out so it'll use the fallback.
-  CURRENT_WALLPAPER="starry-night.jpg"
-fi
-
-# Avoid setting the next wallpaper if we're keeping the current one. We don't
-# exit early so we can still fallback to a color if something went wrong.
-if [ -n "${KEEP_CURRENT}" ]; then
-  NEXT_WALLPAPER="${CURRENT_WALLPAPER}"
-else
-  # Parse out the next wallpaper.
-  #
-  # if ($arr | length) == 0 then null
-  #   - Avoid divide by zero errors if the array is empty.
-  #
-  # ($arr | index($current)) as $idx
-  #   - Check to see if the current wallpaper is in the list.
-  #
-  # if $idx == null then $arr[0]
-  #   - Default to the first item if the current wallpaper isn't found.
-  #
-  # else $arr[($idx + 1) % ($arr | length)]
-  #   - Get the next item in the list and wrap to the start if at the last item.
-  NEXT_WALLPAPER="$(jq --raw-output --arg current "${CURRENT_WALLPAPER:-}" '
-    .wallpaper.synergy as $arr
-    | if ($arr | length) == 0 then null
-      else
-        ($arr | index($current)) as $idx
-        | if $idx == null then $arr[0]
-          else $arr[($idx + 1) % ($arr | length)]
-          end
-      end
-      ' "${THEME_DATA_PATH}")"
-fi
+eligible_wallpapers() {
+  jq --raw-output ".wallpaper.synergy[]" "${THEME_DATA_PATH}"
+}
 
 notify() {
   local wallpaper="${1:-}"
@@ -87,6 +44,61 @@ fallback() {
   exit
 }
 
+if [ "${ARG:-}" == "--list" ]; then
+  eligible_wallpapers
+  exit
+elif [ "${ARG:-}" == "--menu" ]; then
+  NEXT_WALLPAPER="$(eligible_wallpapers | walker --dmenu --placeholder "Wallpapers...")"
+else
+  # We only want to set this if there's an existing symlink.
+  if [[ -L "${WALLPAPER_PATH}" && -e "${WALLPAPER_PATH}" ]]; then
+    CURRENT_WALLPAPER_PATH="$(readlink "${WALLPAPER_PATH}")"
+    CURRENT_WALLPAPER="$(basename "${CURRENT_WALLPAPER_PATH}")"
+  else
+    # This happens in 1 of 2 cases:
+    #   - This is the first time you've installed the dotfiles
+    #   - There's no eligible or available wallpapers for this theme
+    #
+    # For first time installs we want the first Tokyonight Moon wallpaper to
+    # be used, so let's set the last one. Later on when the next wallpaper gets
+    # selected it will wrap back around and choose the first.
+    #
+    # If there's no eligible wallpaper the logic to pick the next one will null
+    # this out so it'll use the fallback.
+    CURRENT_WALLPAPER="starry-night.jpg"
+  fi
+
+  # Avoid setting the next wallpaper if we're keeping the current one. We don't
+  # exit early so we can still fallback to a color if something went wrong.
+  if [ -n "${ARG}" ]; then
+    NEXT_WALLPAPER="${CURRENT_WALLPAPER}"
+  else
+    # Parse out the next wallpaper.
+    #
+    # if ($arr | length) == 0 then null
+    #   - Avoid divide by zero errors if the array is empty.
+    #
+    # ($arr | index($current)) as $idx
+    #   - Check to see if the current wallpaper is in the list.
+    #
+    # if $idx == null then $arr[0]
+    #   - Default to the first item if the current wallpaper isn't found.
+    #
+    # else $arr[($idx + 1) % ($arr | length)]
+    #   - Get the next item in the list and wrap to the start if at the last item.
+    NEXT_WALLPAPER="$(jq --raw-output --arg current "${CURRENT_WALLPAPER:-}" '
+    .wallpaper.synergy as $arr
+    | if ($arr | length) == 0 then null
+      else
+        ($arr | index($current)) as $idx
+        | if $idx == null then $arr[0]
+          else $arr[($idx + 1) % ($arr | length)]
+          end
+      end
+      ' "${THEME_DATA_PATH}")"
+  fi
+fi
+
 killall swaybg 2>/dev/null || true
 
 [ "${NEXT_WALLPAPER}" = "null" ] && fallback
@@ -95,6 +107,6 @@ ln -fns "${DOTFILES_PATH}/wallpapers/${NEXT_WALLPAPER}" "${WALLPAPER_PATH}"
 swaybg --image "${WALLPAPER_PATH}" --mode fill >/dev/null 2>&1 &
 
 # When booting up, we don't want to display this message.
-if [ -z "${KEEP_CURRENT}" ]; then
+if [ -z "${ARG}" ]; then
   notify "${NEXT_WALLPAPER}"
 fi
