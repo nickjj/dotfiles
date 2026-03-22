@@ -192,6 +192,7 @@ binds {
     Mod+V      repeat=false hotkey-overlay-title="Launcher (clipboard)" { spawn "walker" "--provider" "clipboard"; }
 
     // Apps.
+    Mod+Alt+H            hotkey-overlay-title="System health" { spawn "dot-launch-or-focus-tui" "monitor"; }
     Mod+Alt+T            hotkey-overlay-title="Terminal" { spawn "ghostty"; }
     Mod+Alt+Shift+T      hotkey-overlay-title="Terminal (floating)" { spawn "ghostty" "--class=dot.floating.ghostty"; }
     Mod+Alt+F            hotkey-overlay-title="File manager" { spawn "thunar"; }
