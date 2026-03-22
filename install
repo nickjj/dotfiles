@@ -2457,18 +2457,32 @@ parse_args() {
   --new-commits | -n)
     # Show details about new commits that only exist in the target vs local.
     target="${2:-"..origin/${DOTFILES_BRANCH}"}"
+    side_by_side="${3:-}"
+
+    # Since target is optional we need to handle only passing in --side.
+    if [ "${target}" = "--side" ]; then
+      target="origin/${DOTFILES_BRANCH}"
+      side_by_side="--side"
+    fi
 
     git remote | grep -q "${target//./}" && git fetch --quiet "${target//./}"
-    git log "${target}" --pretty="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s" --date=short
+    gl "${target}" "${side_by_side}"
 
     exit
     ;;
   --changelog | -c)
     # Show all remote commits.
     target="${2:-"origin/${DOTFILES_BRANCH}"}"
+    side_by_side="${3:-}"
+
+    # Since target is optional we need to handle only passing in --side.
+    if [ "${target}" = "--side" ]; then
+      target="origin/${DOTFILES_BRANCH}"
+      side_by_side="--side"
+    fi
 
     git remote | grep -q "${target}" && git fetch --quiet "${target}"
-    git log "${target}" --pretty="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s" --date=short
+    gl "${target}" "${side_by_side}"
 
     exit
     ;;

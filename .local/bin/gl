@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Browse git log through fzf, it will search both commit messages and code.
+# Anything you can pass to git log you can pass to this script. It also
+# supports passing in --side to configure delta to use side-by-side mode.
+#
+# Examples:
+#   gl
+#   gl --side
+#   gl [any flag that git log supports]
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+git_args=()
+
+# Handle displaying side by side on demand.
+for arg in "${@}"; do
+  if [ "${arg}" = "--side" ]; then
+    export DELTA_FEATURES="${DELTA_FEATURES} side-by-side"
+  else
+    git_args+=("${arg}")
+  fi
+done
+
+format="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s"
+git_args_str="--color=always --pretty='${format}' --date=short ${git_args[*]}"
+
+# There's a lot going on here, here's a few comments for my future self:
+#
+# start:reload
+#   Run this when fzf starts, this works instead of piping in git log because
+#   we also use --disabled.
+#
+# change:reload:sleep
+#   change  fires every time a key is pressed
+#   reload  starts a new process with the typed query
+#   sleep   acts as a 150ms debounce to trigger the change / reload
+#
+# [[ \"\$query\" =~ [A-Z] ]] && flag=\"\" || flag=\"--regexp-ignore-case\"
+#   This is effectively smart casing, if any capital letters exist then the
+#   search is case sensitive, otherwise it's case insensitive.
+#
+# --grep and -G run as separate searches to make them an OR instead of AND.
+#
+# awk 'NF && !seen[\$0]++' || true"
+#   Skip empty lines, rank commit messages before code matches and remove
+#   duplicate results between both searches.
+fzf --ansi --disabled --query "" \
+  --bind "start:reload(git log ${git_args_str})" \
+  --bind "change:reload:sleep 0.15;
+        query={q};
+        [[ \"\$query\" =~ [A-Z] ]] && flag=\"\" || flag=\"--regexp-ignore-case\";
+        (git log \${flag} ${git_args_str} --grep=\"\${query}\";
+         echo;
+         git log \${flag} ${git_args_str} -G\"\${query}\") |
+         awk 'NF && !seen[\$0]++' || true" \
+  --bind "enter:execute(git show {1} -- | delta --paging always)" \
+  --preview "git show {1} -- | delta --width=\${FZF_PREVIEW_COLUMNS}" \
+  --preview-window="right:70%"
