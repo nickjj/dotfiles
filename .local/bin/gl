@@ -3,6 +3,8 @@
 # Anything you can pass to git log you can pass to this script. It also
 # supports passing in --side to configure delta to use side-by-side mode.
 #
+# While looking at the git log you can press CTRL+o to open it in a browser.
+#
 # Examples:
 #   gl
 #   gl --side
@@ -11,6 +13,43 @@
 set -o errexit
 set -o pipefail
 set -o nounset
+
+# Later on we'll use this to open / browse the selected commit.
+open_commit_url() {
+  local commit="${1}"
+
+  [ -z "${commit}" ] && return
+
+  local branch=
+  local remote=
+  local remote_url=
+  local normalized_url=
+
+  branch="$(git branch --show-current)"
+  remote="$(git config --get "branch.${branch}.remote")"
+  remote_url="$(git remote get-url "${remote:-origin}" 2>/dev/null)"
+
+  # Ensure all remote formats (SSH, HTTPS, variants, etc.) get converted into
+  # an https:// URL without .git since this is what will get opened.
+  normalized_url="$(sed -E 's|^(git@\|https?://\|ssh://git@)([:/]+)?||; s|\.git/?$||; s|:|/|; s|^|https://|; s|/+|/|g; s|https:/|https://|; s|/$||' <<<"${remote_url}")"
+
+  local commit_path=
+
+  case "${normalized_url}" in
+  *gitlab*) commit_path="-/commit/${commit}" ;;
+  *bitbucket*) commit_path="commits/${commit}" ;;
+  *) commit_path="commit/${commit}" ;;
+  esac
+
+  local commit_url="${normalized_url}/${commit_path}"
+
+  if [[ "${OSTYPE}" == linux* ]]; then
+    xdg-open "${commit_url}" >/dev/null 2>&1
+  else
+    open "${commit_url}" >/dev/null 2>&1
+  fi
+}
+export -f open_commit_url
 
 git_args=()
 
@@ -54,7 +93,14 @@ git_log_default="git log --pretty='${format_message}' ${git_args_str} | ${strip_
 # we run them in a subshell to sort their results later. We always want newest
 # commits on top, sorted by the hidden timestamp and we use a different > color
 # to know if it's a message (blue) or code (yellow) result.
-fzf --ansi --disabled --no-sort --query "" \
+#
+# The CTRL+o bind is running through bash explicitly because when fzf triggers
+# execute, it will use your system's shell and exporting a function like we're
+# doing doesn't work in zsh, so we're forcing bash.
+fzf \
+  --ansi \
+  --border --border-label " [ CTRL-o: Open (browser) | ENTER: Show (local)] " \
+  --disabled --no-sort --query "" \
   --bind "start:reload(${git_log_default})" \
   --bind "change:reload:sleep 0.15;
         query={q};
@@ -68,5 +114,6 @@ fzf --ansi --disabled --no-sort --query "" \
            ${strip_timestamp};
         fi" \
   --bind "enter:execute(git show {1} -- | delta --paging always)" \
+  --bind "ctrl-o:execute(bash -c 'open_commit_url {1}')" \
   --preview "git show {1} -- | delta --width=\${FZF_PREVIEW_COLUMNS}" \
   --preview-window="right:70%" || true
