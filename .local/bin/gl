@@ -23,8 +23,17 @@ for arg in "${@}"; do
   fi
 done
 
-format="format:%C(magenta)%h %C(green)%ad %C(yellow)> %C(reset)%s"
-git_args_str="--color=always --pretty='${format}' --date=short ${git_args[*]}"
+git_args_str="--color=always --date=short ${git_args[*]}"
+
+# %at is a hidden timestamp, it it used for sorting later.
+# COLOR is a placeholder that changes depending on the search result type.
+format="%at %C(magenta)%h %C(green)%ad %C(COLOR)> %C(reset)%s"
+format_message="${format//COLOR/blue}"
+format_code="${format//COLOR/yellow}"
+
+strip_timestamp="cut --delimiter ' ' --fields 2-"
+
+git_log_default="git log --pretty='${format_message}' ${git_args_str} | ${strip_timestamp}"
 
 # There's a lot going on here, here's a few comments for my future self:
 #
@@ -41,20 +50,23 @@ git_args_str="--color=always --pretty='${format}' --date=short ${git_args[*]}"
 #   This is effectively smart casing, if any capital letters exist then the
 #   search is case sensitive, otherwise it's case insensitive.
 #
-# --grep and -G run as separate searches to make them an OR instead of AND.
-#
-# awk 'NF && !seen[\$0]++' || true"
-#   Skip empty lines, rank commit messages before code matches and remove
-#   duplicate results between both searches.
-fzf --ansi --disabled --query "" \
-  --bind "start:reload(git log ${git_args_str})" \
+# --grep and -G run as separate searches to make them an OR instead of AND,
+# we run them in a subshell to sort their results later. We always want newest
+# commits on top, sorted by the hidden timestamp and we use a different > color
+# to know if it's a message (blue) or code (yellow) result.
+fzf --ansi --disabled --no-sort --query "" \
+  --bind "start:reload(${git_log_default})" \
   --bind "change:reload:sleep 0.15;
         query={q};
-        [[ \"\$query\" =~ [A-Z] ]] && flag=\"\" || flag=\"--regexp-ignore-case\";
-        (git log \${flag} ${git_args_str} --grep=\"\${query}\";
-         echo;
-         git log \${flag} ${git_args_str} -G\"\${query}\") |
-         awk 'NF && !seen[\$0]++' || true" \
+        if [ -z \"\$query\" ]; then
+          ${git_log_default};
+        else
+          [[ \"\$query\" =~ [A-Z] ]] && flag=\"\" || flag=\"--regexp-ignore-case\";
+          (git log \${flag} --pretty='${format_code}' ${git_args_str} -G\"\$query\";
+           git log \${flag} --pretty='${format_message}' ${git_args_str} --grep=\"\$query\") |
+           sort --numeric-sort --reverse --unique --key=1,1 |
+           ${strip_timestamp};
+        fi" \
   --bind "enter:execute(git show {1} -- | delta --paging always)" \
   --preview "git show {1} -- | delta --width=\${FZF_PREVIEW_COLUMNS}" \
-  --preview-window="right:70%"
+  --preview-window="right:70%" || true
