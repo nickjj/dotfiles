@@ -99,7 +99,7 @@ export -f open_commit_url
 # doing doesn't work in zsh, so we're forcing bash.
 fzf \
   --ansi \
-  --border --border-label " [ CTRL-o: Open (browser) | ENTER: Show (local)] " \
+  --border --border-label " [ Enter: Show (local) | CTRL-o: Open (browser) | CTRL-y: Copy (commit) ] " \
   --disabled --no-sort --query "" \
   --bind "start:reload(${GIT_LOG_DEFAULT})" \
   --bind "change:reload:sleep 0.15
@@ -114,6 +114,7 @@ fzf \
            ${STRIP_TIMESTAMP}
         fi" \
   --bind "enter:execute(git show {1} -- | delta --paging always)" \
-  --bind "ctrl-o:execute(bash -c 'open_commit_url {1}')" \
+  --bind "ctrl-o:execute-silent(bash -c 'open_commit_url {1}')" \
+  --bind "ctrl-y:execute-silent(git show {1} -- | clip-copy)" \
   --preview "git show {1} -- | delta --width=\${FZF_PREVIEW_COLUMNS}" \
   --preview-window="right:70%" || true
