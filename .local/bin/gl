@@ -14,29 +14,6 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-GIT_ARGS=()
-
-# Handle displaying side by side on demand.
-for arg in "${@}"; do
-  if [ "${arg}" = "--side" ]; then
-    export DELTA_FEATURES="${DELTA_FEATURES} side-by-side"
-  else
-    GIT_ARGS+=("${arg}")
-  fi
-done
-
-GIT_ARGS+=("--color=always" "--date=short")
-
-# %at is a hidden timestamp, it it used for sorting later.
-# COLOR is a placeholder that changes depending on the search result type.
-FORMAT="%at %C(magenta)%h %C(green)%ad %C(COLOR)> %C(reset)%s"
-FORMAT_MESSAGE="${FORMAT//COLOR/blue}"
-FORMAT_CODE="${FORMAT//COLOR/yellow}"
-
-STRIP_TIMESTAMP="cut --delimiter ' ' --fields 2-"
-
-GIT_LOG_DEFAULT="git log --pretty='${FORMAT_MESSAGE}' ${GIT_ARGS[*]} | ${STRIP_TIMESTAMP}"
-
 # Later on we'll use this to open / browse the selected commit.
 open_commit_url() {
   local commit="${1}"
@@ -74,34 +51,58 @@ open_commit_url() {
 }
 export -f open_commit_url
 
-# There's a lot going on here, here's a few comments for my future self:
-#
-# start:reload
-#   Run this when fzf starts, this works instead of piping in git log because
-#   we also use --disabled.
-#
-# change:reload:sleep
-#   change  fires every time a key is pressed
-#   reload  starts a new process with the typed query
-#   sleep   acts as a 150ms debounce to trigger the change / reload
-#
-# [[ \"\$query\" =~ [A-Z] ]] && flag=\"\" || flag=\"--regexp-ignore-case\"
-#   This is effectively smart casing, if any capital letters exist then the
-#   search is case sensitive, otherwise it's case insensitive.
-#
-# --grep and -G run as separate searches to make them an OR instead of AND,
-# we run them in a subshell to sort their results later. We always want newest
-# commits on top, sorted by the hidden timestamp and we use a different > color
-# to know if it's a message (blue) or code (yellow) result.
-#
-# The CTRL+o bind is running through bash explicitly because when fzf triggers
-# execute, it will use your system's shell and exporting a function like we're
-# doing doesn't work in zsh, so we're forcing bash.
-fzf \
-  --border --border-label " [ Enter: Show (local) | CTRL-o: Open (browser) | CTRL-y: Copy (commit) ] " \
-  --disabled --no-sort --query "" \
-  --bind "start:reload(${GIT_LOG_DEFAULT})" \
-  --bind "change:reload:sleep 0.15
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  GIT_ARGS=()
+
+  # Handle displaying side by side on demand.
+  for arg in "${@}"; do
+    if [ "${arg}" = "--side" ]; then
+      export DELTA_FEATURES="${DELTA_FEATURES} side-by-side"
+    else
+      GIT_ARGS+=("${arg}")
+    fi
+  done
+
+  GIT_ARGS+=("--color=always" "--date=short")
+
+  # %at is a hidden timestamp, it it used for sorting later.
+  # COLOR is a placeholder that changes depending on the search result type.
+  FORMAT="%at %C(magenta)%h %C(green)%ad %C(COLOR)> %C(reset)%s"
+  FORMAT_MESSAGE="${FORMAT//COLOR/blue}"
+  FORMAT_CODE="${FORMAT//COLOR/yellow}"
+
+  STRIP_TIMESTAMP="cut -d ' ' -f 2-"
+
+  GIT_LOG_DEFAULT="git log --pretty='${FORMAT_MESSAGE}' ${GIT_ARGS[*]} | ${STRIP_TIMESTAMP}"
+
+  # There's a lot going on here, here's a few comments for my future self:
+  #
+  # start:reload
+  #   Run this when fzf starts, this works instead of piping in git log because
+  #   we also use --disabled.
+  #
+  # change:reload:sleep
+  #   change  fires every time a key is pressed
+  #   reload  starts a new process with the typed query
+  #   sleep   acts as a 150ms debounce to trigger the change / reload
+  #
+  # [[ \"\$query\" =~ [A-Z] ]] && flag=\"\" || flag=\"--regexp-ignore-case\"
+  #   This is effectively smart casing, if any capital letters exist then the
+  #   search is case sensitive, otherwise it's case insensitive.
+  #
+  # --grep and -G run as separate searches to make them an OR instead of AND,
+  # we run them in a subshell to sort their results later. We always want newest
+  # commits on top, sorted by the hidden timestamp and we use a different > color
+  # to know if it's a message (blue) or code (yellow) result.
+  #
+  # The CTRL+o bind is running through bash explicitly because when fzf triggers
+  # execute, it will use your system's shell and exporting a function like we're
+  # doing doesn't work in zsh, so we're forcing bash.
+  fzf \
+    --border --border-label " [ Enter: Show (local) | CTRL-o: Open (browser) | CTRL-y: Copy (commit) ] " \
+    --disabled --no-sort --query "" \
+    --bind "start:reload(${GIT_LOG_DEFAULT})" \
+    --bind "change:reload:sleep 0.15
         query={q};
         if [ -z \"\${query}\" ]; then
           ${GIT_LOG_DEFAULT}
@@ -112,8 +113,9 @@ fzf \
            sort --numeric-sort --reverse --unique --key 1,1 |
            ${STRIP_TIMESTAMP}
         fi" \
-  --bind "enter:execute(git show {1} -- | delta --paging always)" \
-  --bind "ctrl-o:execute-silent(bash -c 'open_commit_url {1}')" \
-  --bind "ctrl-y:execute-silent(git show {1} -- | clip-copy)" \
-  --preview "git show {1} -- | delta --width=\${FZF_PREVIEW_COLUMNS}" \
-  --preview-window="right:70%" || true
+    --bind "enter:execute(git show {1} -- | delta --paging always)" \
+    --bind "ctrl-o:execute-silent(bash -c 'open_commit_url {1}')" \
+    --bind "ctrl-y:execute-silent(git show {1} -- | clip-copy)" \
+    --preview "git show {1} -- | delta --width=\${FZF_PREVIEW_COLUMNS}" \
+    --preview-window="right:70%" || true
+fi
