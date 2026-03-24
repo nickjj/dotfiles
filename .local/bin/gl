@@ -98,7 +98,6 @@ export -f open_commit_url
 # execute, it will use your system's shell and exporting a function like we're
 # doing doesn't work in zsh, so we're forcing bash.
 fzf \
-  --ansi \
   --border --border-label " [ Enter: Show (local) | CTRL-o: Open (browser) | CTRL-y: Copy (commit) ] " \
   --disabled --no-sort --query "" \
   --bind "start:reload(${GIT_LOG_DEFAULT})" \

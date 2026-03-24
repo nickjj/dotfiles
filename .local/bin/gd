@@ -28,6 +28,6 @@ GIT_ARGS+=("--color=always")
 
 # shellcheck disable=SC2086
 git diff ${GIT_ARGS:-} --name-only |
-  fzf --ansi \
+  fzf \
     --preview "git diff ${GIT_ARGS:-} -- {-1} | delta --width=\${FZF_PREVIEW_COLUMNS}" \
     --preview-window="right,75%" || true
