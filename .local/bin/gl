@@ -103,7 +103,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     --disabled --no-sort --query "" \
     --bind "start:reload(${GIT_LOG_DEFAULT})" \
     --bind "change:reload:sleep 0.15
-        query={q};
+        query={q}
         if [ -z \"\${query}\" ]; then
           ${GIT_LOG_DEFAULT}
         else
