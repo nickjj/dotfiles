@@ -14,6 +14,29 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
+GIT_ARGS=()
+
+# Handle displaying side by side on demand.
+for arg in "${@}"; do
+  if [ "${arg}" = "--side" ]; then
+    export DELTA_FEATURES="${DELTA_FEATURES} side-by-side"
+  else
+    GIT_ARGS+=("${arg}")
+  fi
+done
+
+GIT_ARGS+=("--color=always" "--date=short")
+
+# %at is a hidden timestamp, it it used for sorting later.
+# COLOR is a placeholder that changes depending on the search result type.
+FORMAT="%at %C(magenta)%h %C(green)%ad %C(COLOR)> %C(reset)%s"
+FORMAT_MESSAGE="${FORMAT//COLOR/blue}"
+FORMAT_CODE="${FORMAT//COLOR/yellow}"
+
+STRIP_TIMESTAMP="cut --delimiter ' ' --fields 2-"
+
+GIT_LOG_DEFAULT="git log --pretty='${FORMAT_MESSAGE}' ${GIT_ARGS[*]} | ${STRIP_TIMESTAMP}"
+
 # Later on we'll use this to open / browse the selected commit.
 open_commit_url() {
   local commit="${1}"
@@ -51,29 +74,6 @@ open_commit_url() {
 }
 export -f open_commit_url
 
-git_args=()
-
-# Handle displaying side by side on demand.
-for arg in "${@}"; do
-  if [ "${arg}" = "--side" ]; then
-    export DELTA_FEATURES="${DELTA_FEATURES} side-by-side"
-  else
-    git_args+=("${arg}")
-  fi
-done
-
-git_args_str="--color=always --date=short ${git_args[*]}"
-
-# %at is a hidden timestamp, it it used for sorting later.
-# COLOR is a placeholder that changes depending on the search result type.
-format="%at %C(magenta)%h %C(green)%ad %C(COLOR)> %C(reset)%s"
-format_message="${format//COLOR/blue}"
-format_code="${format//COLOR/yellow}"
-
-strip_timestamp="cut --delimiter ' ' --fields 2-"
-
-git_log_default="git log --pretty='${format_message}' ${git_args_str} | ${strip_timestamp}"
-
 # There's a lot going on here, here's a few comments for my future self:
 #
 # start:reload
@@ -101,17 +101,17 @@ fzf \
   --ansi \
   --border --border-label " [ CTRL-o: Open (browser) | ENTER: Show (local)] " \
   --disabled --no-sort --query "" \
-  --bind "start:reload(${git_log_default})" \
-  --bind "change:reload:sleep 0.15;
+  --bind "start:reload(${GIT_LOG_DEFAULT})" \
+  --bind "change:reload:sleep 0.15
         query={q};
-        if [ -z \"\$query\" ]; then
-          ${git_log_default};
+        if [ -z \"\${query}\" ]; then
+          ${GIT_LOG_DEFAULT}
         else
-          [[ \"\$query\" =~ [A-Z] ]] && flag=\"\" || flag=\"--regexp-ignore-case\";
-          (git log \${flag} --pretty='${format_code}' ${git_args_str} -G\"\$query\";
-           git log \${flag} --pretty='${format_message}' ${git_args_str} --grep=\"\$query\") |
-           sort --numeric-sort --reverse --unique --key=1,1 |
-           ${strip_timestamp};
+          [[ \"\${query}\" =~ [A-Z] ]] && case= || case=\"--regexp-ignore-case\"
+          (git log \${case} --pretty='${FORMAT_CODE}' ${GIT_ARGS[*]} -G \"\${query}\"
+           git log \${case} --pretty='${FORMAT_MESSAGE}' ${GIT_ARGS[*]} --grep \"\${query}\") |
+           sort --numeric-sort --reverse --unique --key 1,1 |
+           ${STRIP_TIMESTAMP}
         fi" \
   --bind "enter:execute(git show {1} -- | delta --paging always)" \
   --bind "ctrl-o:execute(bash -c 'open_commit_url {1}')" \
