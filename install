@@ -2583,16 +2583,20 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   [[ "${BOOTSTRAP}" == "1" && "${IN_CONTAINER}" != "1" ]] && bootstrap && exit
 
   parse_args "${@}"
-  detect_env
-  detect_and_prepare_gpu
-  detect_and_prepare_network
-  detect_and_prepare_bluetooth
-  warn_root
+
+  if [ "${PULL}" != "1" ]; then
+    detect_env
+    detect_and_prepare_gpu
+    detect_and_prepare_network
+    detect_and_prepare_bluetooth
+    warn_root
+  fi
+
   update_dotfiles "${@}"
-  check_install_config
 
   [ "${PULL}" == "1" ] && exit
 
+  check_install_config
   check_prereqs
   create_initial_dirs
   install_packages
