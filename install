@@ -1319,6 +1319,7 @@ create_initial_dirs() {
     mkdir -p \
       "${XDG_CACHE_HOME}/mpd" \
       "${XDG_CONFIG_HOME}/fontconfig" \
+      "${XDG_CONFIG_HOME}/gtk-4.0" \
       "${XDG_CONFIG_HOME}/hypr" \
       "${XDG_CONFIG_HOME}/mako" \
       "${XDG_CONFIG_HOME}/mpd" \
@@ -2321,6 +2322,22 @@ set_theme() {
     ln -fns "${DOTFILES_PATH}/themes/${theme}/walker.css" "${XDG_CONFIG_HOME}/walker/themes/base/theme.css"
     ln -fns "${DOTFILES_PATH}/themes/${theme}/waybar.css" "${XDG_CONFIG_HOME}/waybar/theme.css"
     ln -fns "${DOTFILES_PATH}/themes/${theme}/zathurarc" "${XDG_CONFIG_HOME}/zathura/themerc"
+
+    local gtk_theme_path="${XDG_DATA_HOME}/themes/${theme}"
+
+    if [ -d "${gtk_theme_path}" ]; then
+      ln -fns "${gtk_theme_path}/gtk-4.0/assets" "${XDG_CONFIG_HOME}/gtk-4.0/assets"
+      ln -fns "${gtk_theme_path}/gtk-4.0/gtk.css" "${XDG_CONFIG_HOME}/gtk-4.0/gtk.css"
+
+      # This command works as a source of truth for GTK-3 and GTK-4 apps.
+      # Given niri highly suggests installing xdg-desktop-portal-gnome, this
+      # comes with glib2 which provides gsettings.
+      #
+      # If more things end up being configured, settings.ini could be used to
+      # store those settings but gsettings still needs to run to switch the
+      # active theme so it takes effect.
+      gsettings set org.gnome.desktop.interface gtk-theme "${theme}"
+    fi
 
     [ -n "${switch_wallpaper}" ] && "${DOTFILES_PATH}/.local/bin/dot-theme-set-bg"
   fi
