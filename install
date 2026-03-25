@@ -2329,13 +2329,19 @@ set_theme() {
       ln -fns "${gtk_theme_path}/gtk-4.0/assets" "${XDG_CONFIG_HOME}/gtk-4.0/assets"
       ln -fns "${gtk_theme_path}/gtk-4.0/gtk.css" "${XDG_CONFIG_HOME}/gtk-4.0/gtk.css"
 
+      local gtk_theme_settings_path="${DOTFILES_PATH}/themes/${theme}/gtk.ini"
+
+      if [ -f "${gtk_theme_settings_path}" ]; then
+        ln -fns "${gtk_theme_settings_path}" "${XDG_CONFIG_HOME}/gtk-3.0/settings.ini"
+        ln -fns "${gtk_theme_settings_path}" "${XDG_CONFIG_HOME}/gtk-4.0/settings.ini"
+      fi
+
       # This command works as a source of truth for GTK-3 and GTK-4 apps.
       # Given niri highly suggests installing xdg-desktop-portal-gnome, this
       # comes with glib2 which provides gsettings.
       #
-      # If more things end up being configured, settings.ini could be used to
-      # store those settings but gsettings still needs to run to switch the
-      # active theme so it takes effect.
+      # Even after symlinking settings.ini, gsettings still needs to run to
+      # switch the active theme so it takes effect.
       gsettings set org.gnome.desktop.interface gtk-theme "${theme}"
     fi
 
