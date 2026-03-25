@@ -162,7 +162,7 @@ binds {
     Mod+N            hotkey-overlay-title="Show last notification" { spawn "makoctl" "restore"; }
     Mod+Shift+N      hotkey-overlay-title="Dismiss last notification" { spawn "makoctl" "dismiss"; }
     Mod+Ctrl+N       hotkey-overlay-title="Dismiss all notifications" { spawn "makoctl" "dismiss" "--all"; }
-    Mod+Ctrl+Shift+N hotkey-overlay-title="Toggle silencing notifications" { spawn-sh "makoctl mode -t do-not-disturb && makoctl mode | grep -q 'do-not-disturb' && notify-send 'Silenced notifications' || notify-send 'Enabled notifications'"; }
+    Mod+Ctrl+Shift+N hotkey-overlay-title="Toggle silencing notifications" { spawn-sh "makoctl mode -t do-not-disturb && makoctl mode | grep -q 'do-not-disturb' && notify-send --urgency critical 'Silenced notifications' || notify-send 'Enabled notifications'"; }
 
     // Themes.
     Mod+BackSlash           hotkey-overlay-title="Cycle theme's wallpapers" { spawn "dot-theme-set-bg"; }
