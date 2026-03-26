@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Set the timezone.
 #
-# Usage:
+# Examples:
 #   dot-tz-set            pick your timezone without geo assistance
 #   dot-tz-set --geo      pick your timezone with geo assistance
 

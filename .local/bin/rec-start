@@ -2,10 +2,10 @@
 # Set a few things to avoid leaking secrets and set reasonable font sizes.
 #
 # Examples:
-#   rec-start -s  # scales display output (zoom in)
-#   rec-start -r  # sets niri struts to capture a 1080p region
-#   rec-start -o  # launches and positions OBS
-#   rec-start -e  # exit after helping prevent secrets from being leaked
+#   rec-start -s  # Scales display output (zoom in)
+#   rec-start -r  # Sets niri struts to capture a 1080p region
+#   rec-start -o  # Launches and positions OBS
+#   rec-start -e  # Exit after helping prevent secrets from being leaked
 
 set -o errexit
 set -o pipefail

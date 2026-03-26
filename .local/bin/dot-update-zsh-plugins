@@ -4,7 +4,7 @@
 function clone_or_pull {
   local repo_path="${1}"
   local project=
-  project="$(echo "${repo_path}" | cut -d"/" -f2)"
+  project="$(echo "${repo_path}" | cut -d "/" -f 2)"
   local project_path="${XDG_DATA_HOME}/${project}"
 
   echo

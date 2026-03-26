@@ -2,11 +2,11 @@
 # Set the wallpaper, defaulting to a color if none are available.
 #
 # Examples:
-#   dot-theme-set-bg --list           # print wallpapers for active theme
-#   dot-theme-set-bg --menu           # pick from available wallpapers for active theme
-#   dot-theme-set-bg --keep-current   # useful when rebooting
-#   dot-theme-set-bg FILE_NAME        # provide a specific wallpaper
-#   dot-theme-set-bg                  # pick the next available wallpaper
+#   dot-theme-set-bg --list          # Print wallpapers for active theme
+#   dot-theme-set-bg --menu          # Pick from available wallpapers for active theme
+#   dot-theme-set-bg --keep-current  # Useful when rebooting
+#   dot-theme-set-bg FILE_NAME       # Rrovide a specific wallpaper
+#   dot-theme-set-bg                 # Pick the next available wallpaper
 
 set -o errexit
 set -o pipefail

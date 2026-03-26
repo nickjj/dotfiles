@@ -2,7 +2,7 @@
 # Run a shell command in all open tmux sessions, windows and panes.
 #
 # Examples:
-#   tmux-shell-cmd  # outputs a few usage examples
+#   tmux-shell-cmd  # Outputs a few usage examples
 
 set -o pipefail
 set -o nounset

@@ -2,9 +2,9 @@
 # View pretty printed JSON.
 #
 # Examples:
-#   ppjson myfile.json  # contents of a file
-#   ppjson              # contents of your clipboard
-#   ppjson --indent 4   # contents of your clipboard with 4 spaces
+#   ppjson myfile.json  # Contents of a file
+#   ppjson              # Contents of your clipboard
+#   ppjson --indent 4   # Contents of your clipboard with 4 spaces
 
 set -o errexit
 set -o pipefail

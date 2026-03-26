@@ -2,9 +2,9 @@
 # Prints and / or copies your local / public IP address.
 #
 # Examples:
-#   myip         prints both your local and public IP address
-#   myip -l      prints your local IP address and copies it to your clipboard
-#   myip -p      prints your public IP address and copies it to your clipboard
+#   myip     # Prints both your local and public IP address
+#   myip -l  # Prints your local IP address and copies it to your clipboard
+#   myip -p  # Prints your public IP address and copies it to your clipboard
 
 set -o errexit
 set -o pipefail

@@ -10,6 +10,7 @@ set -o pipefail
 set -o nounset
 
 default_branch_whitelist="(main|master)"
+
 skip_branches="${1:-"${default_branch_whitelist}"}"
 dry_run="${2:-}"
 
@@ -22,4 +23,4 @@ fi
 
 git branch | grep -wEv "${skip_branches}" |
   grep -wv "$(git branch --show-current)" |
-  { if [ -n "${dry_run}" ]; then cat -; else xargs git branch -D; fi; }
+  { if [ -n "${dry_run}" ]; then cat -; else xargs git branch --delete --force; fi; }
