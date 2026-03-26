@@ -1360,6 +1360,7 @@ create_initial_dirs() {
       "${XDG_CONFIG_HOME}/xarchiver" \
       "${XDG_CONFIG_HOME}/zathura" \
       "${XDG_DATA_HOME}/applications" \
+      "${XDG_DATA_HOME}/themes" \
       "${XDG_DESKTOP_DIR}" \
       "${XDG_DOCUMENTS_DIR}" \
       "${XDG_DOWNLOAD_DIR}" \
