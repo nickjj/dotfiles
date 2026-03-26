@@ -942,6 +942,30 @@ _config_install_display() {
   done
 }
 
+_theme_download() {
+  local theme_name="${1}"
+  local url="${2}"
+  local internal_directory_name="${3}"
+
+  local zip_file_name=
+  zip_file_name="$(basename "${url}" .zip)"
+
+  local zip_path="/tmp/${theme_name}.zip"
+  local theme_path="${XDG_DATA_HOME}/themes/${theme_name}"
+
+  if [ -d "${theme_path}" ]; then
+    echo "Skipping, since '${theme_name}' is already installed, delete it to reinstall or update"
+  else
+    rm -rf "${zip_path}" "/tmp/${zip_file_name}"
+    curl -fsSL "${url}" -o "${zip_path}"
+    unzip -q "${zip_path}" -d "/tmp"
+    mv "/tmp/${zip_file_name}/${internal_directory_name}" "${theme_path}"
+    rm -rf "${zip_path}" "/tmp/${zip_file_name}"
+
+    echo "'${theme_name}' has been installed"
+  fi
+}
+
 # -----------------------------------------------------------------------------
 # Main functions
 # -----------------------------------------------------------------------------
@@ -1596,6 +1620,27 @@ EOF
 
     rm -rf "${font_zip}" "${font_tmp}"
   fi
+}
+
+install_gui_themes() {
+  _info "INSTALL GUI THEMES"
+
+  if [ "${GUI_ENABLED}" != "1" ]; then
+    echo "Skipping, since this only runs on Linux when GUI_LINUX=1 is set"
+    return
+  fi
+
+  _theme_download \
+    "tokyonight-moon" \
+    "https://github.com/user-attachments/files/26270035/Tokyonight-BL-LB-dark-Moon.zip" \
+    "Tokyonight-BL-LB-Dark-Moon"
+
+  _theme_download \
+    "gruvbox-dark-medium" \
+    "https://github.com/user-attachments/files/26270135/Gruvbox-BL-LB-dark-Medium.zip" \
+    "Gruvbox-BL-LB-Dark-Medium"
+
+  printf "\nThey were installed to '%s'\n" "${XDG_DATA_HOME}/themes/"
 }
 
 install_zsh_plugins() {
@@ -2625,6 +2670,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   install_packages
   clone_dotfiles
   install_fonts
+  install_gui_themes
   install_zsh_plugins
   create_configs
   configure_sudoers_entries
