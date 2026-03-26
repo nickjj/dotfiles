@@ -1806,7 +1806,7 @@ configure_systemd_services() {
     [[ " ${flags[*]} " == *" --user"* ]] || prefix=(sudo)
 
     if systemctl cat "${flags[@]}" "${service}" 1>/dev/null; then
-      "${prefix[@]}" systemctl "${flags[@]}" enable "${service}"
+      "${prefix[@]}" systemctl "${flags[@]}" enable "${service}" 1>/dev/null
       echo "'${service}' has been enabled"
     fi
   done
