@@ -1,5 +1,5 @@
 [xarchiver]
-preferred_format=23
+preferred_format=24
 prefer_unzip=true
 confirm_deletion=true
 sort_filename_content=false
