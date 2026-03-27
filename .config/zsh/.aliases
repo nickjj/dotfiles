@@ -14,9 +14,6 @@ alias dt='cd ${DOTFILES_PATH} && nvim .'
 alias lz='cd ${XDG_DATA_HOME}/nvim/lazy/LazyVim && nvim .'
 alias lp='cd ${XDG_DATA_HOME}/nvim/lazy && nvim .'
 
-alias start-rec="start-recording && HISTSIZE=0"
-alias stop-rec='stop-recording && HISTSIZE=${SAVEHIST} && fc -R'
-
 alias 755d="find . -type d -exec chmod 755 {} \;"
 alias 644f="find . -type f -exec chmod 644 {} \;"
 
@@ -35,7 +32,6 @@ alias drun='docker container run --rm -it -v "${PWD}":/app -w /app'
 alias k="kubectl"
 alias tf="terraform"
 alias ymp3="yt-dlp --embed-metadata --extract-audio --audio-format mp3"
-alias jek="RUBYOPT='-W0' bundle exec jekyll serve --config _config.yml,_config.dev.yml --drafts --livereload"
 
 # A way to define and run tasks in a project. It's like make except it's pure
 # Bash so there's no make limitations like not being able to forward arguments.
