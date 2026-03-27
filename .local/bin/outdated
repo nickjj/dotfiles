@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Check if system packages are out of date for supported operating systems.
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+if [[ "${OSTYPE}" == linux* ]]; then
+  # shellcheck disable=SC1091
+  OS_DISTRO="$(. /etc/os-release && echo "${ID_LIKE:-${ID}}")"
+
+  if [ "${OS_DISTRO}" == "arch" ]; then
+    checkupdates && printf '\n\n'
+    yay -Qua
+  else
+    sudo apt-get update -qq
+    apt list --upgradable
+  fi
+else
+  brew update --quiet
+  brew outdated --formula && printf '\n'
+  brew outdated --casks
+fi
