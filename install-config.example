@@ -153,6 +153,26 @@ export MISE_LANGUAGES
 export MISE_LANGUAGES_EXTRAS
 
 # -----------------------------------------------------------------------------
+# External scripts
+# -----------------------------------------------------------------------------
+
+# The same rules apply as system packages for how to define these.
+
+# These are single files that get downloaded and made executable. Typically
+# they would be standalone scripts and tools that aren't in a package manager.
+#
+# For skipping, supply the name of the script, for example "invoice" but for
+# everything else you must supply the RAW_GITHUB_URL|VERSION_COMMAND, example:
+#   "https://raw.githubusercontent.com/nickjj/notes/v0.3.1/notes|--version"
+#
+# The version is used to avoid downloading the same copy on every run.
+
+# Scripts defined here will get installed in all OS / environments.
+export SCRIPTS_INSTALL=()
+export SCRIPTS_INSTALL_EXTRAS=()
+export SCRIPTS_INSTALL_SKIP=()
+
+# -----------------------------------------------------------------------------
 # Config files
 # -----------------------------------------------------------------------------
 

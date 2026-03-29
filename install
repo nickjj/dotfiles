@@ -447,6 +447,31 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     declare -A MISE_LANGUAGES_EXTRAS
   fi
 
+  if [[ "${SCRIPTS_INSTALL+x}" ]]; then
+    [ -z "${SCRIPTS_INSTALL}" ] && SCRIPTS_INSTALL=()
+  else
+    SCRIPTS_INSTALL=(
+      "https://raw.githubusercontent.com/nickjj/invoice/v0.1.3/invoice|--version"
+      "https://raw.githubusercontent.com/nickjj/lcurl/0.1.2/lcurl|--version"
+      "https://raw.githubusercontent.com/nickjj/notes/v0.3.1/notes|--version"
+      "https://raw.githubusercontent.com/nickjj/plutus/0.7.2/src/plutus|--version"
+      "https://raw.githubusercontent.com/nickjj/wait-until/v0.3.1/wait-until|--version"
+      "https://raw.githubusercontent.com/nickjj/webserver/v0.4.2/webserver|--version"
+    )
+  fi
+
+  if [[ "${SCRIPTS_INSTALL_EXTRAS+x}" ]]; then
+    [ -z "${SCRIPTS_INSTALL_EXTRAS}" ] && SCRIPTS_INSTALL_EXTRAS=()
+  else
+    SCRIPTS_INSTALL_EXTRAS=()
+  fi
+
+  if [[ "${SCRIPTS_INSTALL_SKIP+x}" ]]; then
+    [ -z "${SCRIPTS_INSTALL_SKIP}" ] && SCRIPTS_INSTALL_SKIP=()
+  else
+    SCRIPTS_INSTALL_SKIP=()
+  fi
+
   if [[ "${CONFIG_INSTALL+x}" ]]; then
     [ -z "${CONFIG_INSTALL}" ] && CONFIG_INSTALL=()
   else
@@ -1645,6 +1670,68 @@ install_zsh_plugins() {
   "${DOTFILES_PATH}/.local/bin/dot-update-zsh-plugins"
 }
 
+install_external_scripts() {
+  _info "INSTALL EXTERNAL SCRIPTS"
+
+  if [ "${SKIP_SYSTEM_PACKAGES}" == "1" ]; then
+    echo "Skipping, since this only runs when packages get installed"
+    return
+  fi
+
+  local scripts_install=()
+  local scripts_install_filtered=()
+
+  ((${#SCRIPTS_INSTALL[@]} > 0)) && scripts_install+=("${SCRIPTS_INSTALL[@]}")
+  ((${#SCRIPTS_INSTALL_EXTRAS[@]} > 0)) && scripts_install+=("${SCRIPTS_INSTALL_EXTRAS[@]}")
+
+  for script in "${scripts_install[@]}"; do
+    for skip_script in "${SCRIPTS_INSTALL_SKIP[@]}"; do
+      # Add leading slash if it's not already there.
+      local skip_pattern="${skip_script}"
+      [[ "${skip_pattern}" != /* ]] && skip_pattern="/${skip_pattern}"
+
+      if [[ "${script}" == *"${skip_pattern}"* ]]; then
+        # Continue the outer loop (the next script).
+        continue 2
+      fi
+    done
+
+    scripts_install_filtered+=("${script}")
+  done
+
+  if [ ${#scripts_install_filtered[@]} == 0 ]; then
+    echo "Skipping, since there's no scripts to install"
+    return
+  fi
+
+  for item in "${scripts_install_filtered[@]}"; do
+    local url="${item%|*}"
+
+    local script="${url##*/}"
+
+    local tag=
+    tag=$(cut -d / -f 6 <<<"${url}")
+    tag="${tag#v}"
+
+    local version_command="${script} ${item#*|}"
+
+    local installed_version=
+    installed_version=$(${version_command} 2>/dev/null || true)
+
+    if [[ -z "${installed_version}" || "${installed_version}" != "${tag}" ]]; then
+      curl -fsSL "${url}" \
+        -o "${HOME}/.local/bin/${script}" &&
+        chmod +x "${HOME}/.local/bin/${script}" || true
+
+      echo "Installed '${script}' version ${tag}"
+    else
+      echo "Skipping '${script}', since version ${tag} already exists"
+    fi
+  done
+
+  printf "\nThey were installed to '%s'\n" "${HOME}/.local/bin/"
+}
+
 create_configs() {
   _info "CREATE CONFIGS"
 
@@ -2645,6 +2732,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   install_fonts
   install_gui_themes
   install_zsh_plugins
+  install_external_scripts
   create_configs
   configure_sudoers_entries
   configure_systemd_services
