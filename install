@@ -1719,9 +1719,9 @@ install_external_scripts() {
     installed_version=$(${version_command} 2>/dev/null || true)
 
     if [[ -z "${installed_version}" || "${installed_version}" != "${tag}" ]]; then
-      curl -fsSL "${url}" \
-        -o "${HOME}/.local/bin/${script}" &&
-        chmod +x "${HOME}/.local/bin/${script}" || true
+      if curl -fsSL "${url}" -o "${HOME}/.local/bin/${script}"; then
+        chmod +x "${HOME}/.local/bin/${script}"
+      fi || true
 
       echo "Installed '${script}' version ${tag}"
     else
