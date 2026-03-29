@@ -847,7 +847,7 @@ _package_display() {
 }
 
 _skip_packages() {
-  # -n creates a pointer to the variable passed in (allows optional mutation).
+  # -n creates a reference by name to the variable passed in (allows optional mutation).
   local -n packages_default="${1}"
   local -n packages_skip="${2}"
   local packages_filtered=()
