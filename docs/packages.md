@@ -132,6 +132,7 @@ If needed, these get automatically installed for you by these dotfiles.
 | elephant-desktopapplications-bin *(AUR)* | Desktop applications provider for elephant |
 | elephant-files-bin *(AUR)*               | Files provider for elephant                |
 | elephant-menus-bin *(AUR)*               | Menus provider for elephant                |
+| elephant-niriactions-bin *(AUR)*         | niriactions provider for elephant          |
 | elephant-providerlist-bin *(AUR)*        | Providerlist provider for elephant         |
 | elephant-runner-bin *(AUR)*              | Runner provider for elephant               |
 | elephant-symbols-bin *(AUR)*             | Symbols provider for elephant              |
