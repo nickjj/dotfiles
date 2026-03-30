@@ -2556,7 +2556,7 @@ parse_args() {
     [ "${side_by_side}" = "--side" ] && side_by_side="--side-by-side"
 
     # shellcheck disable=SC2086
-    git diff --no-index install-config.example install-config ${side_by_side}
+    git diff --no-index install-config.example install-config | delta ${side_by_side:+"${side_by_side}"}
 
     exit
     ;;
@@ -2575,7 +2575,7 @@ parse_args() {
 
     git remote | grep -q "${target//./}" && git fetch "${target//./}"
 
-    gd "${target}" "${side_by_side}"
+    gd "${target}" ${side_by_side:+"${side_by_side}"}
 
     _info "CONDENSED GIT DIFF"
     GIT_PAGER="" git diff "${target}" --compact-summary
@@ -2594,7 +2594,7 @@ parse_args() {
     fi
 
     git remote | grep -q "${target//./}" && git fetch --quiet "${target//./}"
-    gl "${target}" "${side_by_side}"
+    gl "${target}" ${side_by_side:+"${side_by_side}"}
 
     exit
     ;;
@@ -2610,7 +2610,7 @@ parse_args() {
     fi
 
     git remote | grep -q "${target}" && git fetch --quiet "${target}"
-    gl "${target}" "${side_by_side}"
+    gl "${target}" ${side_by_side:+"${side_by_side}"}
 
     exit
     ;;

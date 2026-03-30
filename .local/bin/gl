@@ -52,7 +52,7 @@ open_commit_url() {
 export -f open_commit_url
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-  GIT_ARGS=()
+  GIT_ARGS=("--color=always" "--date=short")
 
   # Handle displaying side by side on demand.
   for arg in "${@}"; do
@@ -62,8 +62,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       GIT_ARGS+=("${arg}")
     fi
   done
-
-  GIT_ARGS+=("--color=always" "--date=short")
 
   # %at is a hidden timestamp, it it used for sorting later.
   # COLOR is a placeholder that changes depending on the search result type.
