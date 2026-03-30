@@ -33,7 +33,7 @@ MAP(
 )
 
 MAP({ "n", "x" }, "x", '"_x', { desc = "Delete Chars Into Void" })
-MAP({ "n", "x" }, "X", '"_x', { desc = "Delete Chars Into Void" })
+MAP({ "n", "x" }, "X", '"_D', { desc = "Delete to EOL Into Void" })
 MAP({ "n", "x" }, "<Del>", '"_x', { desc = "Delete Chars Into Void" })
 
 MAP("x", "y", "ygv<Esc>", { desc = "Yank Preserve Cursor" })
