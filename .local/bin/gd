@@ -26,7 +26,6 @@ done
 
 GIT_ARGS+=("--color=always")
 printf -v GIT_ARGS_STRING "%q " "${GIT_ARGS[@]}"
-GIT_ARGS_STRING="${GIT_ARGS_STRING%" "}"
 
 git diff "${GIT_ARGS[@]}" --name-only |
   fzf \
