@@ -63,6 +63,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
   done
 
+  printf -v GIT_ARGS_STR "%q " "${GIT_ARGS[@]}"
+
   # %at is a hidden timestamp, it it used for sorting later.
   # COLOR is a placeholder that changes depending on the search result type.
   FORMAT="%at %C(magenta)%h %C(green)%ad %C(COLOR)> %C(reset)%s"
@@ -71,7 +73,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
   STRIP_TIMESTAMP="cut -d ' ' -f 2-"
 
-  GIT_LOG_DEFAULT="git log --pretty='${FORMAT_MESSAGE}' ${GIT_ARGS[*]} | ${STRIP_TIMESTAMP}"
+  GIT_LOG_DEFAULT="git log --pretty='${FORMAT_MESSAGE}' ${GIT_ARGS_STR:-} | ${STRIP_TIMESTAMP}"
 
   # There's a lot going on here, here's a few comments for my future self:
   #
@@ -106,8 +108,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
           ${GIT_LOG_DEFAULT}
         else
           [[ \"\${query}\" =~ [A-Z] ]] && case= || case=\"--regexp-ignore-case\"
-          (git log \${case} --pretty='${FORMAT_CODE}' ${GIT_ARGS[*]} -G \"\${query}\"
-           git log \${case} --pretty='${FORMAT_MESSAGE}' ${GIT_ARGS[*]} --grep \"\${query}\") |
+          (git log \${case} --pretty='${FORMAT_CODE}' ${GIT_ARGS_STR:-} -G \"\${query}\"
+           git log \${case} --pretty='${FORMAT_MESSAGE}' ${GIT_ARGS_STR:-} --grep \"\${query}\") |
            sort --numeric-sort --reverse --unique --key 1,1 |
            ${STRIP_TIMESTAMP}
         fi" \
