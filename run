@@ -21,7 +21,8 @@ lint() {
     ! -path "./.ruff_cache/*" \
     ! -path "./.pytest_cache/*" \
     ! -path "./mnt/c/*" \
-    -exec grep --quiet -E '^(#!.*sh|# shellcheck shell=)' {} \; -exec "${shellcheck_cmd[@]}" {} +
+    -exec sh -c 'head -n 1 "${1}" | grep --quiet -E "^(#!.*sh|# shellcheck shell=)"' _ {} \; \
+    -exec "${shellcheck_cmd[@]}" {} +
 
   "${ruff_cmd[@]}" check "${@}"
 }
