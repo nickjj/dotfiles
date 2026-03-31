@@ -25,9 +25,9 @@ for arg in "${@}"; do
 done
 
 GIT_ARGS+=("--color=always")
+printf -v GIT_ARGS_STRING "%q " "${GIT_ARGS[@]}"
 
-# shellcheck disable=SC2086
-git diff ${GIT_ARGS:-} --name-only |
+git diff "${GIT_ARGS[@]}" --name-only |
   fzf \
-    --preview "git diff ${GIT_ARGS:-} -- {-1} | delta --width=\${FZF_PREVIEW_COLUMNS}" \
+    --preview "git diff ${GIT_ARGS_STRING:-} -- {-1} | delta --width=\${FZF_PREVIEW_COLUMNS}" \
     --preview-window="right,75%" || true
