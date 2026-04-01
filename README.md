@@ -293,7 +293,7 @@ Here's a few handy commands, you can run `./install --help` to see all of them:
 or running the other install commands. This is handy for doing local tests
 in containers without needing to commit, push and pull changes.*
 
-### 🛠 Make it your own
+### 🔧 Make it your own
 
 If you just ran the install script and haven't done so already please close
 your terminal and open a new one. If you've set up GUI mode with Arch Linux
