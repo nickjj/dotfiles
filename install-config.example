@@ -90,6 +90,9 @@ export PACKAGES_AUTO_CONFIRM=
 # You can use "skip" to avoid installing these packages from the default list.
 # It's useful if you want to skip a handful of packages without needing to
 # duplicate and maintain the default package list.
+#
+# Here's a documented list of what's installed:
+# https://github.com/nickjj/dotfiles/blob/master/docs/packages.md
 
 # Applies to Arch Linux.
 export PACKAGES_PACMAN=()
@@ -166,6 +169,9 @@ export MISE_LANGUAGES_EXTRAS
 #   "https://raw.githubusercontent.com/nickjj/notes/v0.3.1/notes|--version"
 #
 # The version is used to avoid downloading the same copy on every run.
+#
+# Here's a documented list of what's installed:
+# https://github.com/nickjj/dotfiles/blob/master/docs/scripts.md
 
 # Scripts defined here will get installed in all OS / environments.
 export SCRIPTS_INSTALL=()

@@ -76,6 +76,8 @@ The source of truth can always be found near the top of the [install
 script](./install). If you scroll down a little bit you'll see variables for
 each package manager. You can search for `PACKAGES_PACMAN` and go from there.
 
+There's a separate doc for [standalone scripts](./docs/scripts.md) too.
+
 ## 🧾 Documentation
 
 - [Themes](#-themes)
