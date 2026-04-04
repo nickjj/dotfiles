@@ -172,6 +172,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "xarchiver"
       "xdg-desktop-portal-gnome"
       "xdg-desktop-portal-gtk"
+      "xdg-utils"
       "xwayland-satellite"
       "zathura"
       "zathura-djvu"

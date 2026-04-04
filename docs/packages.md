@@ -119,6 +119,7 @@ If needed, these get automatically installed for you by these dotfiles.
 | wlrctl *(AUR)*           | Utility for miscellaneous wlroots extensions            |
 | xdg-desktop-portal-gnome | GNOME backend for xdg-desktop-portal                    |
 | xdg-desktop-portal-gtk   | GTK backend for xdg-desktop-portal                      |
+| xdg-utils                | Assist applications with desktop integration tasks      |
 | xwayland-satellite       | Xwayland outside your Wayland                           |
 
 ## Launcher
