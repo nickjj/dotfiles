@@ -7,8 +7,8 @@ below has extensive documentation and potentially a demo video to go with it.
 
 # CLI
 
-| Package                    | Description                                                  |
-|:---------------------------|:-------------------------------------------------------------|
+| Script       | Description                                                                |
+|:-------------|:---------------------------------------------------------------------------|
 | [bmsu]       | An rsync based backup script to gain control over your backups             |
 | [invoice]    | Track and calculate how much money to bill your clients every month        |
 | [lcurl]      | Run a specific curl command X number of times in a loop to detect downtime |
