@@ -2,8 +2,8 @@
 # Set the timezone.
 #
 # Examples:
-#   dot-tz-set            pick your timezone without geo assistance
-#   dot-tz-set --geo      pick your timezone with geo assistance
+#   dot-tz-set        # pick your timezone without geo assistance
+#   dot-tz-set --geo  # pick your timezone with geo assistance
 
 set -o errexit
 set -o pipefail
@@ -21,14 +21,12 @@ placeholder="${configured_tz}"
 #
 # If you're rate limited or it times out, you'll get no assistance which is ok.
 if [ "${flag}" == "--geo" ]; then
-  geo_tz="$(curl --fail --max-time 3 https://ipapi.co/timezone || echo "N/A")"
+  geo_tz="$(curl --silent --fail --max-time 3 https://ipapi.co/timezone || echo "N/A")"
   placeholder="${placeholder} (Geo: ${geo_tz})"
 fi
 
 tz="$(timedatectl list-timezones | walker --dmenu --placeholder "${placeholder}")"
 
-if [ -n "${tz}" ]; then
-  sudo timedatectl set-timezone "${tz}"
-  dot-reload-app waybar
-  notify-send "Timezone set to ${tz}"
-fi
+sudo timedatectl set-timezone "${tz}"
+dot-reload-app waybar
+notify-send "Timezone set to ${tz}"
