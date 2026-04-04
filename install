@@ -612,10 +612,10 @@ OS_TYPE="$(uname | tr "[:upper:]" "[:lower:]")"
 OS_DISTRO=
 OS_IN_WSL=
 
-C_RED="\e[0;31;1m"
-C_GREEN="\e[0;32;1m"
-C_CYAN="\e[0;36;1m"
-C_RESET="\e[0m"
+C_RED=$'\e[1;31;1m'
+C_GREEN=$'\e[1;32;1m'
+C_CYAN=$'\e[1;36;1m'
+C_RESET=$'\e[0m'
 
 # Do we want GUI support? GUI_ENABLED will get set based on multiple conditions.
 GUI_LINUX="${GUI_LINUX:-}"
@@ -2637,8 +2637,7 @@ parse_args() {
     SKIP_SYSTEM_PACKAGES=1
     ;;
   --help | -h)
-    echo -e "$(
-      cat <<EOF
+    cat <<EOF
   Usage examples:
 
   # Run the install script based on the local copy of your dotfiles
@@ -2696,7 +2695,6 @@ parse_args() {
   # Show this help menu.
   ${C_GREEN}./install --help${C_RESET}
 EOF
-    )"
     exit
     ;;
   *)
