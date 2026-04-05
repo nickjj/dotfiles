@@ -640,6 +640,39 @@ _info() {
   printf "\n\n%b%s:%b\n\n" "${C_CYAN}" "${message}" "${C_RESET}"
 }
 
+_curl() {
+  local url="${1}"
+
+  # Attempt to make all curl commands more resilient to failure. The speed
+  # flags help protect against zombie connections while still allowing long
+  # downloads on slower connections (avoiding --max-time).
+  #
+  # At the same time, let stderr get printed in real-time. If errors occur,
+  # producee a final error message so folks know we cannot continue.
+  #
+  # Pass in any custom flags after the URL, such as -o to write files to disk.
+  local args=(
+    "--silent"
+    "--show-error"
+    "--fail"
+    "--location"
+    "--connect-timeout" "10"
+    "--retry" "4"
+    "--retry-all-errors"
+    "--speed-limit" "100"
+    "--speed-time" "30"
+  )
+
+  args+=("${@}")
+
+  if ! curl "${args[@]}"; then
+    local message="'${url}' didn't respond successfully, retry or check your connection, aborting!"
+
+    printf "%bERROR: %s%b\n\n" "${C_RED}" "${message}" "${C_RESET}" >&2
+    return 1
+  fi
+}
+
 _local_clone() {
   [ "${LOCAL}" != "1" ] && return 1
 
@@ -678,7 +711,7 @@ Please install any comparable packages on your own, you can view the list at:
 
 Then re-run this script and explicitly skip installing system packages:
 
-    bash <(curl -sS https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/${DOTFILES_BRANCH}/install) --skip-system-packages
+    bash <(_curl https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/${DOTFILES_BRANCH}/install) --skip-system-packages
 EOF
 
   exit 1
@@ -783,7 +816,7 @@ _install_packages_arch() {
     if [ ! -f "${gegl_plugins_path}/gegleffectspending.so" ]; then
       echo
       rm -rf "${gegl_zip_path}"
-      curl -fsSL "https://github.com/LinuxBeaver/Gimp_Layer_Effects_Text_Styler_Plugin_GEGL_Effects/releases/download/Continual_July22_2023/gegl_effects_linux_binaries_gegl_plugin.zip" -o "${gegl_zip_path}"
+      _curl "https://github.com/LinuxBeaver/Gimp_Layer_Effects_Text_Styler_Plugin_GEGL_Effects/releases/download/Continual_July22_2023/gegl_effects_linux_binaries_gegl_plugin.zip" -o "${gegl_zip_path}"
       mkdir -p "${gegl_plugins_path}"
       unzip "${gegl_zip_path}" -d "${gegl_plugins_path}"
       rm -rf "${gegl_zip_path}"
@@ -797,7 +830,7 @@ _install_packages_debian() {
 
   # Install Mise.
   sudo install -dm 755 /etc/apt/keyrings
-  curl -fsSL https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+  _curl https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
   echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
   sudo apt-get update && sudo apt-get install -y mise
 
@@ -808,7 +841,7 @@ _install_packages_debian() {
 
   # fastfetch, Debian 13 / Ubuntu 26.04 LTS will have it in apt by default.
   echo
-  curl -fsSL https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.deb -o /tmp/fastfetch.deb
+  _curl https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.deb -o /tmp/fastfetch.deb
   sudo dpkg -i "${_}"
   rm "${_}"
 }
@@ -979,7 +1012,7 @@ _theme_download() {
     echo "Skipping, since '${theme_name}' is already installed, delete it to reinstall or update"
   else
     rm -rf "${zip_path}" "/tmp/${zip_file_name}"
-    curl -fsSL "${url}" -o "${zip_path}"
+    _curl "${url}" -o "${zip_path}"
     unzip -q "${zip_path}" -d "/tmp"
     mv "/tmp/${zip_file_name}/${internal_directory_name}" "${theme_path}"
     rm -rf "${zip_path}" "/tmp/${zip_file_name}"
@@ -1009,9 +1042,9 @@ bootstrap() {
       exit 1
     fi
   else
-    curl -sSL "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/${DOTFILES_BRANCH}/install" \
+    _curl "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/${DOTFILES_BRANCH}/install" \
       -o "${BOOTSTRAP_PATH}/install"
-    curl -sSL "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/${DOTFILES_BRANCH}/install-config.example" \
+    _curl "https://raw.githubusercontent.com/${DOTFILES_REPO_SLUG}/${DOTFILES_BRANCH}/install-config.example" \
       -o "${BOOTSTRAP_PATH}/install-config.example"
   fi
 
@@ -1613,7 +1646,7 @@ install_fonts() {
     echo "Skipping, since fonts are already installed at '${font_path}'"
   else
     rm -rf "${font_zip}" "${font_tmp}"
-    curl -sSL "${font_url}" -o "${font_zip}"
+    _curl "${font_url}" -o "${font_zip}"
     unzip "${font_zip}" -d "${font_tmp}"
 
     if [ "${OS_IN_WSL}" == "1" ]; then
@@ -1721,9 +1754,9 @@ install_external_scripts() {
     installed_version=$(${version_command} 2>/dev/null || true)
 
     if [[ -z "${installed_version}" || "${installed_version}" != "${tag}" ]]; then
-      if curl -fsSL "${url}" -o "${HOME}/.local/bin/${script}"; then
+      if _curl "${url}" -o "${HOME}/.local/bin/${script}"; then
         chmod +x "${HOME}/.local/bin/${script}"
-      fi || true
+      fi
 
       echo "Installed '${script}' version ${tag}"
     else
