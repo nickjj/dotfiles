@@ -1604,7 +1604,7 @@ clone_dotfiles() {
 
   [[ -z "${dotfiles_path}" ]] && dotfiles_path="${default_dotfiles_path}"
 
-  DOTFILES_PATH="${dotfiles_path//\~/"${HOME}"}"
+  DOTFILES_PATH="${dotfiles_path/#~/"${HOME}"}"
 
   _local_clone && return 0
 
