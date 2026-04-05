@@ -23,6 +23,30 @@ return {
             --     position = "right",
             --   },
             -- },
+          },
+          -- I created a feature request for this at:
+          -- https://github.com/folke/snacks.nvim/issues/2804
+          --
+          -- This git_diff config can be removed if a PR addresses the above.
+          git_diff = {
+            toggles = {
+              staged = "s",
+            },
+            actions = {
+              toggle_staged = function(picker)
+                picker.opts.staged = not picker.opts.staged
+                picker:find()
+              end,
+            },
+            win = {
+              input = {
+                keys = {
+                  ["<A-s>"] = { "toggle_staged", mode = { "n", "i" } },
+                },
+              },
+            },
+          },
+        },
         previewers = {
           diff = {
             style = "terminal",
