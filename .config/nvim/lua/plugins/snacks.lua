@@ -53,6 +53,14 @@ return {
             cmd = { "delta" },
           },
         },
+        win = {
+          input = {
+            keys = {
+              ["<PageUp>"] = { "list_scroll_up", mode = { "n", "i" } },
+              ["<PageDown>"] = { "list_scroll_down", mode = { "n", "i" } },
+              ["<S-Up>"] = { "preview_scroll_up", mode = { "n", "i" } },
+              ["<S-Down>"] = { "preview_scroll_down", mode = { "n", "i" } },
+            },
           },
         },
       },
