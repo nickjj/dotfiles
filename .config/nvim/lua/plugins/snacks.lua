@@ -23,6 +23,12 @@ return {
             --     position = "right",
             --   },
             -- },
+        previewers = {
+          diff = {
+            style = "terminal",
+            cmd = { "delta" },
+          },
+        },
           },
         },
       },
