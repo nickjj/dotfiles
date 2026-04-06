@@ -5,3 +5,7 @@ indent_size = 2
 [[bash]]
 indent_style = space
 indent_size = 2
+
+[[zsh]]
+indent_style = space
+indent_size = 2
