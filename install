@@ -133,7 +133,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
       "gimp"
       "grim"
       "hyprpicker"
-      "iptables-nft"
+      "iptables"
       "kdenlive"
       "keepassxc"
       "lact"
