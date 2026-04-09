@@ -6,8 +6,9 @@
 # While looking at the git log you can press CTRL+o to open it in a browser.
 #
 # Examples:
-#   gl
-#   gl --side
+#   gl         # Search commit messages and use -S for searching code
+#   gl -G      # Use -G instead of -S for searching code
+#   gl --side  # Show diffs side by side
 #   gl [any flag that git log supports]
 
 set -o errexit
@@ -53,11 +54,17 @@ export -f open_commit_url
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   GIT_ARGS=("--color=always" "--date=short")
+  GIT_LOG_SEARCH_MODE="-S"
 
-  # Handle displaying side by side on demand.
   for arg in "${@}"; do
     if [ "${arg}" = "--side" ]; then
+      # Handle displaying side by side.
       export DELTA_FEATURES="${DELTA_FEATURES} side-by-side"
+    elif [ "${arg}" = "-G" ]; then
+      # Handle the search mode, -G is much slower on large repos but supports
+      # regular expression searches and will return more results, but as a
+      # default -S tends to produce less noise and more relevant results.
+      GIT_LOG_SEARCH_MODE="-G"
     else
       GIT_ARGS+=("${arg}")
     fi
@@ -108,7 +115,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
           ${GIT_LOG_DEFAULT}
         else
           [[ \"\${query}\" =~ [A-Z] ]] && case= || case=\"--regexp-ignore-case\"
-          (git log \${case} --pretty='${FORMAT_CODE}' ${GIT_ARGS_STR:-} -G \"\${query}\"
+          (git log \${case} --pretty='${FORMAT_CODE}' ${GIT_ARGS_STR:-} ${GIT_LOG_SEARCH_MODE} \"\${query}\"
            git log \${case} --pretty='${FORMAT_MESSAGE}' ${GIT_ARGS_STR:-} --grep \"\${query}\") |
            sort --numeric-sort --reverse --unique --key 1,1 |
            ${STRIP_TIMESTAMP}
