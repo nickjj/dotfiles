@@ -2,8 +2,8 @@
 # Set the timezone.
 #
 # Examples:
-#   dot-tz-set        # pick your timezone without geo assistance
-#   dot-tz-set --geo  # pick your timezone with geo assistance
+#   dot-tz-set        # Pick your timezone without geo assistance
+#   dot-tz-set --geo  # Pick your timezone with geo assistance
 
 set -o errexit
 set -o pipefail
