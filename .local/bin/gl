@@ -59,7 +59,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   for arg in "${@}"; do
     if [ "${arg}" = "--side" ]; then
       # Handle displaying side by side.
-      export DELTA_FEATURES="${DELTA_FEATURES} side-by-side"
+      export DELTA_FEATURES="${DELTA_FEATURES:-} side-by-side"
     elif [ "${arg}" = "-G" ]; then
       # Handle the search mode, -G is much slower on large repos but supports
       # regular expression searches and will return more results, but as a
@@ -105,8 +105,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   # The CTRL+o bind is running through bash explicitly because when fzf triggers
   # execute, it will use your system's shell and exporting a function like we're
   # doing doesn't work in zsh, so we're forcing bash.
+  #
+  # If you're sniping this script without my dotfiles, you'll likely want to
+  # set a number of FZF_DEFAULT_OPTS such as the ones you can find here:
+  #   https://github.com/nickjj/dotfiles/blob/master/.config/fzf/config.sh
   fzf \
-    --border --border-label " [ Enter: Show (local) | CTRL-o: Open (browser) | CTRL-y: Copy (commit) ] " \
+    --ansi --border=top --border-label " [ Enter: Show (local) | CTRL-o: Open (browser) | CTRL-y: Copy (commit) ] " \
     --disabled --no-sort --query "" \
     --bind "start:reload(${GIT_LOG_DEFAULT})" \
     --bind "change:reload:sleep 0.15
