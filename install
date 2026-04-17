@@ -978,6 +978,7 @@ create_initial_dirs() {
     mkdir -p \
       "${XDG_CACHE_HOME}/mpd" \
       "${XDG_CONFIG_HOME}/fontconfig" \
+      "${XDG_CONFIG_HOME}/gtk-3.0" \
       "${XDG_CONFIG_HOME}/gtk-4.0" \
       "${XDG_CONFIG_HOME}/hypr" \
       "${XDG_CONFIG_HOME}/mako" \
