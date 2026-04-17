@@ -67,7 +67,7 @@ export DEFAULT_PACKAGES_PACMAN_GUI=(
   "keepassxc"
   "lact"
   "libqalculate"
-  "libreoffice"
+  "libreoffice-fresh"
   "libvirt"
   "mako"
   "mpd"
