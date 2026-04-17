@@ -247,10 +247,12 @@ install_homebrew() {
 
   local brew_bin_path="${brew_prefix}/bin/brew"
 
-  if [ ! -f "${brew_bin_path}" ]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  if [ -f "${brew_bin_path}" ]; then
+    echo "Skipping, since it's already installed"
+    return
   fi
 
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   eval "$(${brew_bin_path} shellenv)"
 }
 
