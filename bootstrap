@@ -423,7 +423,7 @@ EOF
       less "${DOTFILES_PATH}/_install/default/packages/${OS_DISTRO}"
       nano "${DOTFILES_PATH}/install-config"
 
-      continue
+      next_steps
       ;;
     *) _error "'${option}' isn't a valid choice, pick 1, 2 or 3" "" ;;
     esac
