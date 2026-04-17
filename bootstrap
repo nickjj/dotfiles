@@ -357,7 +357,7 @@ _update_config() {
     s|export DOTFILES_UPSTREAM_URL=".*"|export DOTFILES_UPSTREAM_URL="\${DOTFILES_UPSTREAM_URL:-'"${DOTFILES_UPSTREAM_URL}"'}"|g;
     s|export DOTFILES_BRANCH=".*"|export DOTFILES_BRANCH="\${DOTFILES_BRANCH:-'"${DOTFILES_BRANCH}"'}"|g;
     '"${gui}"'
-  ' install-config
+  ' "${DOTFILES_PATH}/install-config"
 }
 
 next_steps() {
