@@ -444,7 +444,7 @@ _install_packages_arch() {
 
   # Install Yay (AUR) if needed.
   local yay_local_version=
-  yay_local_version="$(yay --version 2>/dev/null | cut -d " " -f 2)"
+  yay_local_version="$(yay --version 2>/dev/null | cut -d " " -f 2 || true)"
 
   local yay_latest_version=
   yay_latest_version="$(git ls-remote --tags https://github.com/Jguer/yay.git |
