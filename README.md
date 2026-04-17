@@ -352,7 +352,7 @@ contribute your change.
 
 ### How to add custom themes?
 
-1. Locate the [_themes/](./themes) directory in this repo
+1. Locate the [_themes/](./_themes) directory in this repo
 2. Copy one of the existing themes' directory
 3. Rename your directory, this will be your theme's name
 4. Adjust all of the colors as you see fit
