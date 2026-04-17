@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# Customize these in the config file instead of editing them here.
+
+export DEFAULT_PACKAGES_BREW=(
+  "aspell"
+  "bash"
+  "bat"
+  "bc"
+  "btop"
+  "curl"
+  "diffutils"
+  "eza"
+  "fastfetch"
+  "fd"
+  "ffmpeg"
+  "fzf"
+  "git"
+  "git-delta"
+  "gnupg"
+  "imagemagick"
+  "jq"
+  "libqalculate"
+  "mise"
+  "nvim"
+  "nvtop"
+  "pwgen"
+  "ripgrep"
+  "rsync"
+  "shellcheck"
+  "shfmt"
+  "smartmontools"
+  "tmux"
+  "usbutils"
+  "wget"
+  "xz"
+  "yq"
+  "zsh"
+)
+
+export DEFAULT_PACKAGES_BREW_CASK=(
+  "firefox"
+  "ghostty"
+  "gimp"
+  "google-chrome"
+  "keepassxc"
+  "key-codes"
+  "maccy"
+)
+
+export DEFAULT_MISE_DARWIN=()

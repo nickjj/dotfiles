@@ -1,0 +1,457 @@
+#!/usr/bin/env bash
+# Bootstrap and kick off installing these dotfiles.
+#
+# Examples:
+#   ./bootstrap          # Clone from the default remote location
+#   ./bootstrap --local  # Copy from your $PWD instead of cloning (useful for testing)
+#
+# You can also customize the branch and more (check the env vars below).
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+export C_RED=$'\e[1;31;1m'
+export C_GREEN=$'\e[1;32;1m'
+export C_YELLOW=$'\e[1;33;1m'
+# shellcheck disable=2034
+export C_BLUE=$'\e[1;34;1m'
+export C_MAGENTA=$'\e[1;35;1m'
+export C_CYAN=$'\e[1;36;1m'
+export C_WHITE=$'\e[1;37;1m'
+export C_RESET=$'\e[0m'
+
+export PACKAGES_CRITICAL=("less" "git" "nano")
+
+export LOCAL=
+
+export CPU_ARCH=
+export OS_TYPE=
+export OS_DISTRO=
+export OS_IN_WSL=
+export OS_IN_CONTAINER="${OS_IN_CONTAINER:-}"
+export GUI_LINUX=
+export GUI_ELIGIBLE=
+export GUI_ENABLED=
+
+export DOTFILES_PATH="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
+export DOTFILES_BRANCH="${DOTFILES_BRANCH:-master}"
+export DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/nickjj/dotfiles}"
+export DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-"${DOTFILES_CLONE_URL}"}"
+
+for arg in "${@}"; do
+  case "${arg}" in
+  --local)
+    LOCAL=1
+    shift
+    ;;
+  esac
+done
+
+_info() {
+  local message="${1}"
+  local pre_message="${2-\n\n}"
+
+  printf "%b%b:: %b%b\n\n" "${pre_message}" "${C_CYAN}" "${message}" "${C_RESET}"
+}
+
+_error() {
+  local message="${1}"
+  local exit_strategy="${2-1}"
+
+  printf "%bError: %b%b\n" "${C_RED}" "${message}" "${C_RESET}" >&2
+
+  # If the file is sourced, return instead of exit.
+  if [[ "${BASH_SOURCE[0]}" != "${0}" && "${exit_strategy}" == "1" ]]; then
+    exit_strategy="2"
+  fi
+
+  case "${exit_strategy}" in
+  1)
+    exit 1
+    ;;
+  2)
+    return 1
+    ;;
+  "") ;;
+  esac
+}
+
+_run_as_root() {
+  if command -v sudo >/dev/null 2>&1; then
+    sudo bash -c "${*}"
+  else
+    su -c "${*}"
+  fi
+}
+
+_install_pkgs() {
+  local pkgs=("${@}")
+
+  case "${OS_DISTRO}" in
+  arch)
+    _run_as_root pacman -Syu --noconfirm --needed "${pkgs[*]}"
+    ;;
+  debian)
+    _run_as_root apt-get update && _run_as_root apt-get install --yes --no-install-recommends "${pkgs[*]}"
+    ;;
+  *)
+    brew install "${pkgs[@]}"
+    ;;
+  esac
+}
+
+detect_env() {
+  case "${OSTYPE}" in
+  linux*)
+    OS_TYPE="linux"
+
+    if [ -r /etc/os-release ]; then
+      # shellcheck disable=SC1091
+      OS_DISTRO="$(. /etc/os-release && echo "${ID_LIKE:-${ID}}")"
+
+      # Technically ID_LIKE can have a space separated list of distros but
+      # we really only care that we have a Debian based system where apt is
+      # available to use.
+      [[ "${OS_DISTRO}" =~ (ubuntu|debian) ]] && OS_DISTRO="debian"
+    fi
+
+    # Only fully support these Linux distros.
+    if [[ -z "${OS_DISTRO}" || ! "arch ubuntu debian raspbian" =~ ${OS_DISTRO} ]]; then
+      cat <<EOF >&2
+Your distro identified as: '${OS_DISTRO}'
+
+Supported distros are Arch and Debian based distros. If your distro identifies
+as one of those the expectation is it should be supported.
+
+If you feel this is a bug please open an issue at: ${DOTFILES_CLONE_URL}
+
+Please include the output of running: cat /etc/os-release
+
+EOF
+
+      _error "Your distro isn't supported, aborting!"
+    fi
+
+    # Are we in WSL?
+    if grep --quiet --ignore-case "microsoft" /proc/version; then
+      OS_IN_WSL=1
+    fi
+
+    # We can't fully depend on these which is why the in container env var exists,
+    # but this at least protects someone running this script without passing in
+    # environment variable in the common case (Docker or Podman).
+    [[ -f "/.dockerenv" || -f "/run/.containerenv" ]] && OS_IN_CONTAINER="1"
+
+    # Can we install and configure a window manager and GUI tools?
+    if [[ "${OS_DISTRO}" = "arch" && "${OS_IN_WSL}" != "1" && "${OS_IN_CONTAINER}" != "1" ]]; then
+      GUI_ELIGIBLE=1
+    fi
+
+    if [[ "${GUI_LINUX}" == "1" && "${GUI_ELIGIBLE}" == "1" ]]; then
+      GUI_ENABLED=1
+    fi
+
+    ;;
+  darwin*)
+    OS_TYPE="darwin"
+    OS_DISTRO="${OS_TYPE}"
+
+    ;;
+  *)
+    _error "'${OSTYPE}' isn't supported, aborting!"
+
+    ;;
+  esac
+
+  CPU_ARCH="$(uname -m)"
+}
+
+warn_root() {
+  _info "ROOT USER WARNING"
+
+  # This could be empty in a containerized environment.
+  local user="${USER:-$(whoami)}"
+  local sudo_user="${SUDO_USER:-}"
+
+  if [ "${OS_IN_CONTAINER}" == "1" ]; then
+    echo "Skipping, since this script is being run in a container"
+    return
+  fi
+
+  # Root will have an effective uid of 0.
+  if [ "${EUID}" != "0" ]; then
+    echo "Skipping, since this script is being run as '${user}'"
+    return
+  fi
+
+  cat <<EOF
+Root user detected!
+
+$(id)
+
+USER=${user}
+SUDO_USER=${sudo_user}
+EOF
+
+  local msg="as root"
+  [ -n "${sudo_user}" ] && msg="with sudo as '${sudo_user}'"
+
+  while true; do
+    printf "\nThis script is meant to run as a non-root user,\nare you sure you want to run this %s? (y/n) " "${msg}"
+    read -r yn
+
+    case "${yn}" in
+    [Yy]*)
+      break
+      ;;
+    [Nn]*)
+      exit
+      ;;
+    *) printf "Please answer y or n\n" ;;
+    esac
+  done
+}
+
+ensure_sudo_works() {
+  _info "ENSURE SUDO WORKS"
+
+  if ! command -v sudo >/dev/null 2>&1; then
+    _install_pkgs "sudo"
+  fi
+
+  if sudo --validate >/dev/null 2>&1; then
+    echo "Confirmed, it's working"
+  else
+    local sudoers_dir="/etc/sudoers.d"
+
+    local real_user=
+    real_user="${SUDO_USER:-${USER:-$(whoami)}}"
+
+    local user_file="${sudoers_dir}/00_${real_user}"
+    local user_entry="${real_user} ALL=(ALL:ALL) ALL"
+
+    _run_as_root "mkdir -p ${sudoers_dir} && echo '${user_entry}' > ${user_file} && chmod 0440 ${user_file}"
+
+    echo "'${user_file}' was created with '${user_entry}'"
+
+    sudo --validate
+  fi
+}
+
+install_homebrew() {
+  _info "INSTALL HOMEBREW"
+
+  local brew_prefix="/opt/homebrew"
+  [ "${CPU_ARCH}" != "arm64" ] && brew_prefix="/usr/local"
+
+  local brew_bin_path="${brew_prefix}/bin/brew"
+
+  if [ -f "${brew_bin_path}" ]; then
+    echo "Skipping, since it's already installed"
+    return
+  fi
+
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(${brew_bin_path} shellenv)"
+}
+
+install_critical_packages() {
+  _info "INSTALL CRITICAL PACKAGES"
+
+  if [ "${OS_TYPE}" == "darwin" ]; then
+    PACKAGES_CRITICAL+=("bash")
+  fi
+
+  _install_pkgs "${PACKAGES_CRITICAL[@]}"
+}
+
+_local_clone() {
+  [ "${LOCAL}" != "1" ] && return 1
+
+  local source_path
+  source_path="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+
+  if [ "$(realpath "${source_path}")" == "$(realpath "${DOTFILES_PATH}")" ]; then
+    # This is already protected against in the clone_dotfiles function but
+    # this is an extra layer of defense in case that function changes.
+    echo "Skipping, since '${source_path}' is your real dotfiles path"
+  else
+    cp -R "${source_path}/." "${DOTFILES_PATH}"
+
+    # Ensure the containerized environment starts fresh.
+    if [ "${OS_IN_CONTAINER}" == "1" ]; then
+      rm -f \
+        "${DOTFILES_PATH}/.config/ghostty/config.local" \
+        "${DOTFILES_PATH}/.config/git/config.local" \
+        "${DOTFILES_PATH}/.config/mako/config.local" \
+        "${DOTFILES_PATH}/.config/niri/config.kdl.local" \
+        "${DOTFILES_PATH}/.config/zsh/.aliases.local" \
+        "${DOTFILES_PATH}/.config/zsh/.zprofile.local" \
+        "${DOTFILES_PATH}/.config/zsh/.zsh_history" \
+        "${DOTFILES_PATH}/.config/zsh/.zshrc.local"
+
+      local git_config="${DOTFILES_PATH}/.git/config"
+
+      if grep --quiet "git@github.com:" "${git_config}"; then
+        perl -pi -e "s|git@github.com:|https://github.com/|g" "${git_config}"
+      fi
+
+      cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
+    fi
+  fi
+
+  echo "Locally copied from '${source_path}' to '${DOTFILES_PATH}'"
+}
+
+clone_dotfiles() {
+  _info "CLONE DOTFILES"
+
+  cat <<EOF
+Your dotfiles path is where your dotfiles will live on disk. You can change
+this at a later time. Nothing will be installed yet, it only clones this repo:
+
+DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL}"
+DOTFILES_BRANCH="${DOTFILES_BRANCH}"
+
+EOF
+
+  if [ "${LOCAL}" == "1" ]; then
+    printf "%bSince you've used --local, it will get copied from your \$PWD instead of the clone URL.%b\n\n" "${C_WHITE}" "${C_RESET}"
+  fi
+
+  while true; do
+    printf "Where would you like to clone these dotfiles to [%s]? " "${DOTFILES_PATH}"
+    read -r dotfiles_path
+
+    [ -z "${dotfiles_path}" ] && dotfiles_path="${DOTFILES_PATH}"
+
+    # Expand ~ and normalize path to remove trailing slash.
+    DOTFILES_PATH="${dotfiles_path/#~/"${HOME}"}"
+    DOTFILES_PATH="${DOTFILES_PATH%/}"
+
+    if [ -e "${DOTFILES_PATH:-}" ]; then
+      _error "'${DOTFILES_PATH}' already exists, it must be a new directory\n" ""
+    else
+      break
+    fi
+  done
+
+  echo
+
+  mkdir -p "${DOTFILES_PATH}"
+
+  _local_clone && return
+
+  git clone --branch "${DOTFILES_BRANCH}" "${DOTFILES_CLONE_URL}" "${DOTFILES_PATH}"
+  git -C "${DOTFILES_PATH}" remote | grep --quiet --word-regexp upstream ||
+    git -C "${DOTFILES_PATH}" remote add upstream "${DOTFILES_UPSTREAM_URL}.git"
+
+  cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
+}
+
+_update_config() {
+  local gui=""
+  [ "${1:-}" == "--gui" ] && gui='s|export GUI_LINUX=|export GUI_LINUX="1"|g;'
+
+  perl -pi -e '
+    s|export DOTFILES_CLONE_URL=".*"|export DOTFILES_CLONE_URL="\${DOTFILES_CLONE_URL:-'"${DOTFILES_CLONE_URL}"'}"|g;
+    s|export DOTFILES_UPSTREAM_URL=".*"|export DOTFILES_UPSTREAM_URL="\${DOTFILES_UPSTREAM_URL:-'"${DOTFILES_UPSTREAM_URL}"'}"|g;
+    s|export DOTFILES_BRANCH=".*"|export DOTFILES_BRANCH="\${DOTFILES_BRANCH:-'"${DOTFILES_BRANCH}"'}"|g;
+    '"${gui}"'
+  ' "${DOTFILES_PATH}/install-config"
+}
+
+next_steps() {
+  _info "NEXT STEPS"
+
+  local not_eligible=" ${C_RED}[OS NOT ELIGIBLE]${C_RESET}"
+  [ "${GUI_ELIGIBLE}" == "1" ] && not_eligible=
+
+  cat <<EOF
+${C_GREEN}Everything went as planned, your system is ready to install these dotfiles.
+
+${C_YELLOW}What would you like to do next?
+
+1) Install dotfiles (command line)
+2) Install dotfiles (command line + niri based GUI)${not_eligible}
+${C_YELLOW}3) Review which packages get installed and edit the config (optional)${C_RESET}
+
+${C_MAGENTA}You can also quit with CTRL+c and browse the dotfiles at your discretion. When
+you're ready to install them, you can run:
+
+cd "${DOTFILES_PATH}" && ./install${C_RESET}
+
+In any case, you're all set to install these dotfiles however you see fit.
+
+With option 3, when viewing the packages use the arrow keys to scroll up / down
+and "q" to quit when you're done. If editing the config, hit CTRL+o to save your
+changes and CTRL+x to exit (nano shows the key shortcuts on the bottom).
+
+${C_WHITE}Extra information:
+
+Choosing option 1 runs the above install command. Option 2 does the same except
+it edits the config for you to enable GUI mode. Option 3 uses less and nano to
+let you view / edit files, then it shows this prompt again.${C_RESET}
+EOF
+
+  while true; do
+    printf "\nWhich option number would you like to pick? "
+    read -r option
+
+    case "${option}" in
+    1)
+      _update_config
+      break
+      ;;
+    2)
+      if [ "${GUI_ELIGIBLE}" != "1" ]; then
+        cat <<EOF
+
+${C_RED}Sorry your OS isn't eligible, this option requires all of these to be true:${C_RESET}
+
+- Running an Arch based Linux distro [Yours: ${OS_DISTRO}]
+- Not running within WSL (Windows Subsystem for Linux) [Yours: ${OS_IN_WSL:-0}]
+- Not running in a container [Yours: ${OS_IN_CONTAINER:-0}]
+EOF
+
+        continue
+      fi
+
+      _update_config --gui
+      break
+      ;;
+    3)
+      less "${DOTFILES_PATH}/_install/default/packages/${OS_DISTRO}"
+      nano "${DOTFILES_PATH}/install-config"
+
+      next_steps
+      ;;
+    *) _error "'${option}' isn't a valid choice, pick 1, 2 or 3" "" ;;
+    esac
+  done
+
+  cd "${DOTFILES_PATH}" && "./install"
+}
+
+main() {
+  detect_env
+  warn_root
+
+  if [ "${OS_TYPE}" == "darwin" ]; then
+    install_homebrew
+  else
+    # It will work on macOS out of the box.
+    ensure_sudo_works
+  fi
+
+  install_critical_packages
+  clone_dotfiles
+  next_steps
+}
+
+# Is the script being run the same as this file? We know we're calling it
+# directly. This protects against running everything when this file is sourced.
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "${@:-}"
+fi

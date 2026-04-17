@@ -6,7 +6,7 @@ HideFromProviderlist = true
 Action = "dot-theme-set-bg %VALUE%"
 Cache = false
 
-local wallpapers_dir = os.getenv("DOTFILES_PATH") .. "/wallpapers/"
+local wallpapers_dir = os.getenv("DOTFILES_PATH") .. "/_wallpapers/"
 
 local theme_data_path = os.getenv("XDG_CONFIG_HOME") .. "/wallpaper/theme.json"
 local theme_data = io.open(theme_data_path, "r")

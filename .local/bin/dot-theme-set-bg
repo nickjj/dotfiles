@@ -102,7 +102,7 @@ elif [[ -z "${ARG}" || "${ARG}" == "--keep-current" ]]; then
 else
   NEXT_WALLPAPER="${ARG}"
 
-  if [ ! -f "${DOTFILES_PATH}/wallpapers/${NEXT_WALLPAPER}" ]; then
+  if [ ! -f "${DOTFILES_PATH}/_wallpapers/${NEXT_WALLPAPER}" ]; then
     echo "${NEXT_WALLPAPER} does not exist, aborting!" >&2
     exit 1
   fi
@@ -112,7 +112,7 @@ killall swaybg 2>/dev/null || true
 
 [ "${NEXT_WALLPAPER}" = "null" ] && fallback
 
-ln -fns "${DOTFILES_PATH}/wallpapers/${NEXT_WALLPAPER}" "${WALLPAPER_PATH}"
+ln -fns "${DOTFILES_PATH}/_wallpapers/${NEXT_WALLPAPER}" "${WALLPAPER_PATH}"
 swaybg --image "${WALLPAPER_PATH}" --mode fill >/dev/null 2>&1 &
 
 # When booting up, we don't want to display this message.

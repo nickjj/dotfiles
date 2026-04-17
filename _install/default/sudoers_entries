@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Customize these in the config file instead of editing them here.
+
+# shellcheck disable=SC2034
+declare -A DEFAULT_SUDOERS_ENTRIES
+
+DEFAULT_SUDOERS_ENTRIES["dot-timedatectl"]="${USER:-$(whoami)} ALL=(ALL) NOPASSWD: /usr/bin/timedatectl"
