@@ -93,7 +93,7 @@ rm -f "${NEOVIM_SWAP_PATH}"*
 # Avoid adjusting font sizes or anything else.
 [ "${EXIT_EARLY}" == "1" ] && exit
 
-perl -i -pe "s/^font-size = .*/font-size = ${GHOSTTY_FONT_SIZE}/g" "${DOTFILES_PATH}/.config/ghostty/config.local"
+perl -pi -e "s/^font-size = .*/font-size = ${GHOSTTY_FONT_SIZE}/g" "${DOTFILES_PATH}/.config/ghostty/config.local"
 dot-reload-app ghostty
 
 NIRI_CONFIG_SCALE=
@@ -114,7 +114,7 @@ if [ "${REGION}" == "1" ]; then
   NIRI_CONFIG_REGION="s|^    // layout { struts|    layout { struts|g;"
 fi
 
-perl -i -pe "
+perl -pi -e "
   ${NIRI_CONFIG_REGION}
   ${NIRI_CONFIG_SCALE}
   s/^window-rule { open-maximized .*; }/window-rule { open-maximized true; }/g

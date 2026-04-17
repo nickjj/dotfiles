@@ -726,7 +726,7 @@ EOF
     done
 
     local zprofile_path="${DOTFILES_PATH}/.config/zsh/.zprofile.local"
-    perl -i -pe "s|DOTFILES_PATH=\".*\"|DOTFILES_PATH=\"${DOTFILES_PATH}\"|g" "${zprofile_path}"
+    perl -pi -e "s|DOTFILES_PATH=\".*\"|DOTFILES_PATH=\"${DOTFILES_PATH}\"|g" "${zprofile_path}"
 
     install_configs 1
   fi
