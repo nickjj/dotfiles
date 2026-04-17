@@ -81,6 +81,7 @@ export DEFAULT_PACKAGES_PACMAN_GUI=(
   "pipewire-jack"
   "pipewire-pulse"
   "qemu-desktop"
+  "qt6-multimedia-ffmpeg"
   "rmpc"
   "satty"
   "slurp"
