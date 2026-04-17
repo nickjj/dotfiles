@@ -6,7 +6,7 @@ HideFromProviderlist = true
 Action = "dot-theme-set %VALUE%"
 Cache = false
 
-local themes_dir = os.getenv("DOTFILES_PATH") .. "/themes/"
+local themes_dir = os.getenv("DOTFILES_PATH") .. "/_themes/"
 
 local function PrettyName(str)
 	-- Strip file extension.

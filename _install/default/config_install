@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# Customize these in the config file instead of editing them here.
+
+export DEFAULT_CONFIG_INSTALL=(
+  "ln -fns \"\${DOTFILES_PATH}/.config/bat/config\" \"\${XDG_CONFIG_HOME}/bat/config\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/btop/btop.conf\" \"\${XDG_CONFIG_HOME}/btop/btop.conf\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/fzf/config.sh\" \"\${XDG_CONFIG_HOME}/fzf/config.sh\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/ghostty/config.local\" \"\${XDG_CONFIG_HOME}/ghostty/config.local\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/ghostty/config\" \"\${XDG_CONFIG_HOME}/ghostty/config\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/git/config.local\" \"\${XDG_CONFIG_HOME}/git/config.local\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/git/config\" \"\${XDG_CONFIG_HOME}/git/config\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/gnupg/gpg-agent.conf\" \"\${XDG_CONFIG_HOME}/gnupg/gpg-agent.conf\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/nvim\" \"\${XDG_CONFIG_HOME}/nvim\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/tmux/tmux.conf\" \"\${XDG_CONFIG_HOME}/tmux/tmux.conf\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.aliases.local\" \"\${XDG_CONFIG_HOME}/zsh/.aliases.local\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.aliases\" \"\${XDG_CONFIG_HOME}/zsh/.aliases\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.xdg.local\" \"\${XDG_CONFIG_HOME}/zsh/.xdg.local\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zprofile.local\" \"\${XDG_CONFIG_HOME}/zsh/.zprofile.local\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zprofile\" \"\${XDG_CONFIG_HOME}/zsh/.zprofile\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshenv\" \"\${HOME}/.zshenv\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshrc.local\" \"\${XDG_CONFIG_HOME}/zsh/.zshrc.local\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/zsh/.zshrc\" \"\${XDG_CONFIG_HOME}/zsh/.zshrc\""
+  "ln -fns \"\${DOTFILES_PATH}/.local/bin/\"* \"\${HOME}/.local/bin/\""
+)
+
+export DEFAULT_CONFIG_INSTALL_GUI_LINUX=(
+  "ln -fns \"\${DOTFILES_PATH}/.config/elephant\" \"\${XDG_CONFIG_HOME}/elephant\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/fontconfig/fonts.conf\" \"\${XDG_CONFIG_HOME}/fontconfig/fonts.conf\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/mako/config.local\" \"\${XDG_CONFIG_HOME}/mako/config.local\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/mako/config\" \"\${XDG_CONFIG_HOME}/mako/config\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/mimeapps.list\" \"\${XDG_CONFIG_HOME}/mimeapps.list\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/mpd/mpd.conf\" \"\${XDG_CONFIG_HOME}/mpd/mpd.conf\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/mpv\" \"\${XDG_CONFIG_HOME}/mpv\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/niri/config.kdl.local\" \"\${XDG_CONFIG_HOME}/niri/config.kdl.local\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/niri/config.kdl\" \"\${XDG_CONFIG_HOME}/niri/config.kdl\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/rmpc/config.ron\" \"\${XDG_CONFIG_HOME}/rmpc/config.ron\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/satty/config.toml\" \"\${XDG_CONFIG_HOME}/satty/config.toml\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/swayidle/config\" \"\${XDG_CONFIG_HOME}/swayidle/config\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/swaylock/config\" \"\${XDG_CONFIG_HOME}/swaylock/config\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/tumbler/tumbler.rc\" \"\${XDG_CONFIG_HOME}/tumbler/tumbler.rc\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/uwsm/env\" \"\${XDG_CONFIG_HOME}/uwsm/env\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/walker/config.toml\" \"\${XDG_CONFIG_HOME}/walker/config.toml\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/walker/themes/base/style.css\" \"\${XDG_CONFIG_HOME}/walker/themes/base/style.css\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/waybar/config.jsonc\" \"\${XDG_CONFIG_HOME}/waybar/config.jsonc\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/waybar/style.css\" \"\${XDG_CONFIG_HOME}/waybar/style.css\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/xarchiver/xarchiverrc\" \"\${XDG_CONFIG_HOME}/xarchiver/xarchiverrc\""
+  "ln -fns \"\${DOTFILES_PATH}/.config/zathura/zathurarc\" \"\${XDG_CONFIG_HOME}/zathura/zathurarc\""
+  "ln -fns \"\${DOTFILES_PATH}/.local/share/applications/\"* \"\${XDG_DATA_HOME}/applications/\""
+  "sudo ln -fns \"\${DOTFILES_PATH}/etc/systemd/system/systemd-networkd-wait-online.service.d/99-network-timeout.conf\" \"/etc/systemd/system/systemd-networkd-wait-online.service.d/99-network-timeout.conf"\"
+)
+
+export DEFAULT_CONFIG_INSTALL_ARCH=(
+  "sudo ln -fns \"/run/systemd/resolve/stub-resolv.conf\" \"/etc/resolv.conf\""
+  "sudo ln -fns \"\${DOTFILES_PATH}/etc/conf.d/pacman-contrib\" \"/etc/conf.d/pacman-contrib\""
+  "sudo ln -fns \"\${DOTFILES_PATH}/etc/pacman.d/01-options.conf\" \"/etc/pacman.d/01-options.conf\""
+)
+
+export DEFAULT_CONFIG_INSTALL_WSL=(
+  "cp \"\${DOTFILES_PATH}/mnt/c/Users/Nick/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json\" \"/mnt/c/Users/%WindowsUser/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json\" || true"
+  "sudo ln -fns \"\${DOTFILES_PATH}/etc/wsl.conf\" \"/etc/wsl.conf\""
+)

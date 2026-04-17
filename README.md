@@ -67,16 +67,14 @@ I tried Hyprland too).
 I recorded a [demo video](https://www.youtube.com/watch?v=7XmD5UyyhZQ) on how I
 use niri in my day to day. This repo will always have the most up to date changes so what you see on video will likely evolve over time!
 
-### Full package list
+### Packages, scripts and more
 
-There's docs with a [complete list of packages](./docs/packages.md) along with
-what they're being used for and why.
+There's docs with a list of [packages](./_docs/packages.md) and
+[scripts](./_docs/scripts.md) along with what they're being used for and why.
 
-The source of truth can always be found near the top of the [install
-script](./install). If you scroll down a little bit you'll see variables for
-each package manager. You can search for `PACKAGES_PACMAN` and go from there.
-
-There's a separate doc for [standalone scripts](./docs/scripts.md) too.
+The source of truth can always be found within the files at
+[_install/default/](./_install/default/). You'll find files related to
+packages, standalone scripts, programming languages and more.
 
 ## 🧾 Documentation
 
@@ -132,7 +130,7 @@ alias to source new theme related configs.
 *Not all terminals are supported, if yours didn't change then check [theming
 custom apps](#how-to-theme-custom-apps).*
 
-You can look in the [themes/](./themes/) directory to see which apps are themed
+You can look in the [_themes/](./_themes/) directory to see which apps are themed
 and [add additional apps](#how-to-theme-custom-apps) too. If you don't like the
 included themes that's no problem. You can [add custom
 themes](#how-to-add-custom-themes) and remove the defaults.
@@ -155,13 +153,13 @@ it's under the `wallpaper.synergy` object.
 
 ## ✨ Quickly Get Set Up
 
-There's an `./install` script you can run to automate installing everything.
-That includes installing system packages such as zsh, tmux, Neovim, etc. and
-configuring a number of tools in your home directory.
+There's an automated script to get you going quickly (we'll go over running it
+soon). It handles checking system compatibility and installing / configuring
+everything.
 
-It even handles cloning down this repo. You'll get a chance to pick the clone
-location when running the script as well as view and / or change any system
-packages that get installed before your system is modified.
+You'll be able to choose where you want to clone these dotfiles to and also
+have an opportunity to review and edit what gets installed if you want to
+customize the defaults.
 
 If you're setting up a brand new system and plan to use the desktop environment
 you'll want to set up a bootable USB stick with the official [Arch Linux
@@ -171,83 +169,49 @@ FAQ item [covering all of that](#how-to-install-arch-linux).
 
 ### 🌱 On a fresh system?
 
-We're in a catch-22 where this install script will set everything up for you
-but to download and run the script to completion a few things need to exist on
-your system first.
+We're in a catch-22 where this project will set everything up for you
+but to start using it you need `curl` to download its related install script.
 
-**It comes down to needing these packages, you can skip this step if you have
-them**:
+#### Arch Linux and macOS
 
-- `curl` to download the install script
-- `bash 4+` since the install script uses modern Bash features
-  - This is only related to macOS, all supported Linux distros are good to go out of the box
-
-Here's 1 liners you can copy / paste once to meet the above requirements on all
-supported platforms:
+You're good to go and don't need to do anything since `curl` is installed by
+default.
 
 #### Debian / Ubuntu
 
 ```sh
 # You can run this as root.
-apt-get update && apt-get install -y curl
+apt-get update && apt-get install --yes --no-install-recommends curl
 ```
 
-#### macOS
+### ⚡️ Install
 
-If you run `bash --version` and it says you're using Bash 3.X please follow
-the instructions below:
+**You can download and run the bootstrap script with this 1 liner:**
 
 ```sh
-# Curl is installed by default but bash needs to be upgraded, we can do that
-# by brew installing bash. Once this command completes you can run the install
-# script in the same terminal where you ran this command. Before running the
-# install script `bash --version` should return a version > 3.X.
-
-# OPTION 1: Using Apple silicon?
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
-  && eval "$(/opt/homebrew/bin/brew shellenv)" \
-  && brew install bash \
-  && bash
-
-# OPTION 2: Using an Intel CPU?
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
-  && eval "$(/usr/local/bin/brew shellenv)" \
-  && brew install bash \
-  && bash
-
-# The colors will look bad with the default macOS Terminal app. These dotfiles install: https://ghostty.org/
+bash <(curl -fsSL https://raw.githubusercontent.com/nickjj/dotfiles/master/bootstrap)
 ```
 
-### ⚡️ Install script
-
-**You can download and run the install script with this 1 liner:**
-
-```sh
-BOOTSTRAP=1 bash <(curl -fsSL https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
-```
-
-The above command only downloads a few files into a temporary directory and
-then provides a little bit of help text on how to proceed with the
-installation. Think of it as a pre-installer.
+You'll be presented with a y/n prompt before installing anything of substance.
 
 *If you're not comfortable blindly running a script on the internet, that's no
-problem. You can view the [install script](./install) to see exactly what it
-does. The bottom of the file is a good place to start. Alternatively you can
+problem. You can view the [bootstrap script](./bootstrap) to see exactly what
+it does. The bottom of the file is a good place to start. Alternatively you can
 look around this repo and reference the config files directly without using any
 script.*
 
 🐳 **Try it in Docker without modifying your system:**
 
 ```sh
-# Start a Debian container, we're passing IN_CONTAINER to be explicit we're in Docker.
-docker container run --rm -it -e "IN_CONTAINER=1" -v "${PWD}:/app" -w /app debian:stable-slim bash
+# Start a Debian container, we're passing OS_IN_CONTAINER to be explicit we're in a container.
+docker container run --rm -it -e "OS_IN_CONTAINER=1" -v "${PWD}:/app" -w /app debian:stable-slim bash
 
 # Copy / paste all 3 lines into the container's prompt and run it.
 #
 # Since we can't open a new terminal in a container we'll need to manually
 # launch zsh and source a few files. That's what the last line is doing.
-apt-get update && apt-get install -y curl \
-  && bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) \
+apt-get update && apt-get install --yes --no-install-recommends curl \
+  && bash <(curl -fsSL https://raw.githubusercontent.com/nickjj/dotfiles/master/bootstrap) \
   && zsh -c ". ~/.config/zsh/.zprofile && . ~/.config/zsh/.zshrc; zsh -i"
 ```
 
@@ -290,10 +254,6 @@ Here's a few handy commands, you can run `./install --help` to see all of them:
   - Show all local git ignored files such as configs, history and scripts
   - Useful to see everything not committed and for optionally backing up those files
     - Example: `./install --local-files | xargs zip dotfiles-personal.zip`
-
-*There's also a `LOCAL=1` environment variable you can set when bootstrapping
-or running the other install commands. This is handy for doing local tests
-in containers without needing to commit, push and pull changes.*
 
 ### 🔧 Make it your own
 
@@ -382,7 +342,7 @@ tweaked the install config.
 
 ### How to theme custom apps?
 
-You'd add its theme file to each theme in [themes/](./themes) and update the
+You'd add its theme file to each theme in [_themes/](./_themes) and update the
 [install](./install) script's `set_theme` function to symlink the config. If
 your app has no dedicated config file, you can copy what I did for the
 Microsoft Terminal in `set_theme`.
@@ -392,7 +352,7 @@ contribute your change.
 
 ### How to add custom themes?
 
-1. Locate the [themes/](./themes) directory in this repo
+1. Locate the [_themes/](./themes) directory in this repo
 2. Copy one of the existing themes' directory
 3. Rename your directory, this will be your theme's name
 4. Adjust all of the colors as you see fit
@@ -489,9 +449,7 @@ space to toggle checkboxes.*
   - Go with "Copy ISO network configuration" unless you have other opinions
   - This just means it will use whatever you used in this bootable USB environment
 - **Additional packages**:
-  - I suggest installing `neovim` to maybe edit the dotfiles `install-config` before you run it
-    - This isn't extra bloat since these dotfiles install `neovim` by default
-    - You can type `/neovim` to search for it and hit enter to choose it
+  - You can skip this as these dotfiles will install everything for you
 - **Timezone**:
   - Pick what makes sense for your location
 - **Automatic time sync (NTP)**:

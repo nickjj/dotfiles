@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Customize these in the config file instead of editing them here.
+
+# shellcheck disable=SC2034
+declare -A DEFAULT_MISE_LANGUAGES
+
+DEFAULT_MISE_LANGUAGES["node"]="node@24.11"
+DEFAULT_MISE_LANGUAGES["python"]="python@3.14"

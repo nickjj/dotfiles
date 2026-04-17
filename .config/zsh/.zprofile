@@ -39,8 +39,8 @@ export PASSWORD_STORE_DIR="${XDG_CONFIG_HOME}/password-store"
 export DELTA_FEATURES="diff-so-fancy"
 
 # Configure zsh-vi-mode.
-export ZVM_NORMAL_MODE_CURSOR="${ZVM_CURSOR_BLOCK}"
-export ZVM_INSERT_MODE_CURSOR="${ZVM_CURSOR_BEAM}"
+export ZVM_NORMAL_MODE_CURSOR="${ZVM_CURSOR_BLOCK:-}"
+export ZVM_INSERT_MODE_CURSOR="${ZVM_CURSOR_BEAM:-}"
 
 # Load local settings if they exist.
 # shellcheck disable=SC1091

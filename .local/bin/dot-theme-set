@@ -12,9 +12,10 @@ set -o pipefail
 set -o nounset
 
 # shellcheck disable=SC1091
+. "${DOTFILES_PATH}/bootstrap"
 . "${DOTFILES_PATH}/install"
 
-mapfile -t ALL_THEMES < <(find "${DOTFILES_PATH}/themes" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
+mapfile -t ALL_THEMES < <(find "${DOTFILES_PATH}/_themes" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
 
 ARG="${1:-}"
 

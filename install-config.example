@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
 
-set -o errexit
-
 # -----------------------------------------------------------------------------
 # Repo configuration
 # -----------------------------------------------------------------------------
 
 # Provide a different repo to use. This could be useful if you've forked the
-# project into your account. If you're using GitHub you only need to
-# update DOTFILES_REPO_SLUG, ie. youraccount/dotfiles.
-export DOTFILES_REPO_SLUG="${DOTFILES_REPO_SLUG:-nickjj/dotfiles}"
-export DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/${DOTFILES_REPO_SLUG}}"
+# project into your account.
+export DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/nickjj/dotfiles}"
 export DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-https://github.com/nickjj/dotfiles}"
 
 # Provide a different remote branch. This branch will be merged into your
@@ -32,8 +28,8 @@ export YOUR_EMAIL=
 # Graphical User Interface (GUI)
 # -----------------------------------------------------------------------------
 
-# When set to 1, graphical apps and niri (window manager) will be installed if
-# you have Arch. By default it's disabled. Even if enabled, it's skipped in WSL.
+# When set to "1", niri and graphical apps will be installed if you're using an
+# Arch based Linux distro. This is always skipped in WSL and in containers.
 export GUI_LINUX=
 
 # -----------------------------------------------------------------------------
@@ -74,7 +70,7 @@ export XDG_VIDEOS_DIR="${HOME}/tmp/videos"
 # System packages
 # -----------------------------------------------------------------------------
 
-# When set to 1, package managers that support non-interactive mode where you
+# When set to "1", package managers that support non-interactive mode where you
 # can skip typing "y" to confirm will be set. Be careful, this allows hands free
 # installs at the cost of not being able to review changes before installing.
 export PACKAGES_AUTO_CONFIRM=
@@ -91,8 +87,10 @@ export PACKAGES_AUTO_CONFIRM=
 # It's useful if you want to skip a handful of packages without needing to
 # duplicate and maintain the default package list.
 #
-# Here's a documented list of what's installed:
-# https://github.com/nickjj/dotfiles/blob/master/docs/packages.md
+# Here's a documented list of what's installed by default:
+# https://github.com/nickjj/dotfiles/blob/master/_docs/packages.md
+#
+# You can also find the defaults in _install/default/packages for each supported OS.
 
 # Applies to Arch Linux.
 export PACKAGES_PACMAN=()
@@ -131,6 +129,7 @@ export PACKAGES_BREW_CASK_SKIP=()
 # -----------------------------------------------------------------------------
 
 # The same rules apply as system packages for how to define these.
+# You can also find the defaults in _install/default/packages for each supported OS.
 
 export MISE_ARCH=()
 export MISE_ARCH_EXTRAS=()
@@ -140,11 +139,13 @@ export MISE_DEBIAN=()
 export MISE_DEBIAN_EXTRAS=()
 export MISE_DEBIAN_SKIP=()
 
-export MISE_MACOS=()
-export MISE_MACOS_EXTRAS=()
-export MISE_MACOS_SKIP=()
+export MISE_DARWIN=()
+export MISE_DARWIN_EXTRAS=()
+export MISE_DARWIN_SKIP=()
 
 # Install programming languages.
+#
+# You can find the defaults in _install/default/mise_languages.
 declare -A MISE_LANGUAGES=()
 declare -A MISE_LANGUAGES_EXTRAS=()
 
@@ -171,7 +172,9 @@ export MISE_LANGUAGES_EXTRAS
 # The version is used to avoid downloading the same copy on every run.
 #
 # Here's a documented list of what's installed:
-# https://github.com/nickjj/dotfiles/blob/master/docs/scripts.md
+# https://github.com/nickjj/dotfiles/blob/master/_docs/scripts.md
+#
+# You can also find the defaults in _install/default/scripts.
 
 # Scripts defined here will get installed in all OS / environments.
 export SCRIPTS_INSTALL=()
@@ -179,12 +182,20 @@ export SCRIPTS_INSTALL_EXTRAS=()
 export SCRIPTS_INSTALL_SKIP=()
 
 # -----------------------------------------------------------------------------
-# Config files
+# Install configs
 # -----------------------------------------------------------------------------
 
 # The same rules apply as system packages for how to define these.
+# You can find the defaults in _install/default/install_configs.
 
-# Typically these would be symlinks but they could be created with cp / rsync
+# When set to "1", config files will be installed without asking you to confirm
+# by pressing "y". Keep in mind if new configs are introduced by these dotfiles
+# and this is set, if you had your own personal configs not managed by these
+# dotfiles they will be overwritten. This option exists because if you've gone
+# all-in with using these dotfiles, it avoids typing "y" every time.
+export CONFIG_INSTALL_AUTO_CONFIRM=
+
+# Typically these should be symlinks but they could be created with cp / rsync
 # or whatever commands you want.
 #
 # Symlinks allow you to keep your configs in this dotfiles repo but have them
@@ -213,6 +224,7 @@ export CONFIG_INSTALL_WSL_EXTRAS=()
 # -----------------------------------------------------------------------------
 
 # The same rules apply as mise languages for how to define these.
+# You can find the defaults in _install/default/sudoers_entries.
 
 # Creates sudoers entries into /etc/sudoers.d/.
 declare -A SUDOERS_ENTRIES=()
@@ -230,6 +242,7 @@ export SUDOERS_ENTRIES_EXTRAS
 # -----------------------------------------------------------------------------
 
 # The same rules apply as system packages for how to define these.
+# You can find the defaults in _install/default/systemd_services.
 
 # Services in this list will start on boot if they exist, omit the .service
 # extension, for example SYSTEMD_ENABLED_SERVICES_EXTRAS=("docker.service") is
