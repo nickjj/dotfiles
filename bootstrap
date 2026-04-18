@@ -138,8 +138,8 @@ EOF
       OS_IN_WSL=1
     fi
 
-    # We can't fully depend on these which is why the in container env var exists,
-    # but this at least protects someone running this script without passing in
+    # We can't fully depend on these which is why this env var exists, but it
+    # at least protects someone running this script who didn't pass in the
     # environment variable in the common case (Docker or Podman).
     [[ -f "/.dockerenv" || -f "/run/.containerenv" ]] && OS_IN_CONTAINER="1"
 
