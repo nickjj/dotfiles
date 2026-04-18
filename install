@@ -344,34 +344,8 @@ fi
 # -----------------------------------------------------------------------------
 
 _curl() {
-  local url="${1}"
-
-  # Attempt to make all curl commands more resilient to failure. The speed
-  # flags help protect against zombie connections while still allowing long
-  # downloads on slower connections (avoiding --max-time).
-  #
-  # At the same time, let stderr get printed in real-time. If errors occur,
-  # producee a final error message so folks know we cannot continue.
-  #
-  # Pass in any custom flags after the URL, such as -o to write files to disk.
-  local args=(
-    "--silent"
-    "--show-error"
-    "--fail"
-    "--location"
-    "--connect-timeout" "10"
-    "--retry" "4"
-    "--retry-all-errors"
-    "--speed-limit" "100"
-    "--speed-time" "30"
-  )
-
-  args+=("${@}")
-
-  if ! curl "${args[@]}"; then
-    local message="'${url}' didn't respond successfully, retry or check your connection, aborting!"
-    _error "${message}" 2
-  fi
+  # We can't depend on this being on the system path yet.
+  "${DOTFILES_PATH}/.local/bin/rcurl" "${@}"
 }
 
 _package_install() {
@@ -1349,9 +1323,8 @@ install_external_scripts() {
     if [[ -z "${installed_version}" || "${installed_version}" != "${tag}" ]]; then
       if _curl "${url}" -o "${HOME}/.local/bin/${script}"; then
         chmod +x "${HOME}/.local/bin/${script}"
+        echo "Installed '${script}' version ${tag}"
       fi
-
-      echo "Installed '${script}' version ${tag}"
     else
       echo "Skipping '${script}', since version ${tag} already exists"
     fi

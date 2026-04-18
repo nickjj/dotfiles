@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Run curl in a resilient way (useful for scripts). Any flag you can pass to
+# curl you can pass to this script, just make sure the URL is always first.
+#
+# Examples:
+#   rcurl https://example.com                 # Visit a site
+#   rcurl https://example.com -o output.html  # Write the output to a file
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+readonly C_RED=$'\e[1;31;1m'
+readonly C_RESET=$'\e[0m'
+
+URL="${1:-}"
+
+# Attempt to make all curl commands more resilient to failure. The speed
+# flags help protect against zombie connections while still allowing long
+# downloads on slower connections (avoiding --max-time).
+#
+# At the same time, let stderr get printed in real-time. If errors occur,
+# producee a final error message so folks know we cannot continue.
+args=(
+  "--silent"
+  "--show-error"
+  "--fail"
+  "--location"
+  "--connect-timeout" "10"
+  "--retry" "4"
+  "--retry-all-errors"
+  "--speed-limit" "100"
+  "--speed-time" "30"
+)
+
+args+=("${@}")
+
+if ! curl "${args[@]}"; then
+  message="'${URL}' didn't respond successfully, retry or check your connection, aborting!"
+
+  printf "%bError: %b%b\n" "${C_RED}" "${message}" "${C_RESET}" >&2
+  exit 1
+fi
