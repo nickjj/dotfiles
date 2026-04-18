@@ -85,18 +85,18 @@ _run_as_root() {
   fi
 }
 
-_install_pkgs() {
-  local pkgs=("${@}")
+_package_install() {
+  local packages=("${@}")
 
   case "${OS_DISTRO}" in
   arch)
-    _run_as_root pacman -Syu --noconfirm --needed "${pkgs[*]}"
+    _run_as_root pacman -Syu --noconfirm --needed "${packages[*]}"
     ;;
   debian)
-    _run_as_root apt-get update && _run_as_root apt-get install --yes --no-install-recommends "${pkgs[*]}"
+    _run_as_root apt-get update && _run_as_root apt-get install --yes --no-install-recommends "${packages[*]}"
     ;;
   *)
-    brew install "${pkgs[@]}"
+    brew install "${packages[@]}"
     ;;
   esac
 }
@@ -217,7 +217,7 @@ ensure_sudo_works() {
   _info "ENSURE SUDO WORKS"
 
   if ! command -v sudo >/dev/null 2>&1; then
-    _install_pkgs "sudo"
+    _package_install "sudo"
   fi
 
   if sudo --validate >/dev/null 2>&1; then
@@ -263,7 +263,7 @@ install_critical_packages() {
     PACKAGES_CRITICAL+=("bash")
   fi
 
-  _install_pkgs "${PACKAGES_CRITICAL[@]}"
+  _package_install "${PACKAGES_CRITICAL[@]}"
 }
 
 _local_clone() {
