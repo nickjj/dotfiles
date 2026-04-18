@@ -370,9 +370,7 @@ _curl() {
 
   if ! curl "${args[@]}"; then
     local message="'${url}' didn't respond successfully, retry or check your connection, aborting!"
-
-    printf "%bERROR: %s%b\n\n" "${C_RED}" "${message}" "${C_RESET}" >&2
-    return 1
+    _error "${message}" 2
   fi
 }
 
