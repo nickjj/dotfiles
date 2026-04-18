@@ -478,8 +478,8 @@ screen. You can log in with the user and password you created. If you enabled
 drive encryption you'll get prompted for your decrypt password before logging
 in.
 
-At this point you have Arch installed and you can run the install script
-earlier in this readme to bootstrap your box!
+At this point you have Arch installed and you can run the bootstrap script
+[mentioned earlier in this readme](#-install) to install these dotfiles!
 
 ### How do I get started with the desktop environment?
 
