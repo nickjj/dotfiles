@@ -925,38 +925,6 @@ detect_and_prepare_bluetooth() {
   fi
 }
 
-check_prereqs() {
-  _info "CHECKING SYSTEM COMPATABILITY"
-
-  local missing_packages=()
-
-  if ! command -v "sudo" 1>/dev/null; then missing_packages+=("sudo"); fi
-
-  if [[ -z "${missing_packages[*]}" ]]; then
-    # Request a user's password early so it's not buried mid-script.
-    sudo -v
-
-    echo "Everything is good to go"
-    return 0
-  fi
-
-  cat <<EOF
-This script is going to switch to the root user to install sudo then the rest
-of the script will run as your user and use sudo as needed.
-
-EOF
-
-  case "${OS_DISTRO}" in
-  arch)
-    su -c "pacman -Syu --noconfirm --needed ${missing_packages[*]}"
-    ;;
-  debian)
-    su -c "apt-get update && apt-get install -y ${missing_packages[*]}"
-    ;;
-  *) ;;
-  esac
-}
-
 create_initial_dirs() {
   mkdir -p \
     "${HOME}/.local/bin" \
@@ -2314,7 +2282,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   [ "${PULL}" == "1" ] && exit
 
   check_install_config
-  check_prereqs
+  ensure_sudo_works
   create_initial_dirs
   install_packages
   install_fonts
