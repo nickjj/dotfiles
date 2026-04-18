@@ -65,7 +65,7 @@ dot-theme-set-bg --keep-current
 notify-send "Output scale: ${SCALE_AMOUNT}x"
 
 # Is the secondary monitor connected? If not, we're done.
-jq --raw-output --arg secondary "${OUTPUT_SECONDARY}" '.[$secondary] | if . then true else false end' <<<"${OUTPUTS}" || exit
+jq --raw-output --arg secondary "${OUTPUT_SECONDARY}" '.[$secondary] | if . then true else false end' <<<"${OUTPUTS}" 1>/dev/null || exit
 
 # Figure out the new logical pixels and round down to avoid sub-pixels.
 OUTPUT_PRIMARY_WIDTH_SCALED=$(echo "scale=0; ${OUTPUT_PRIMARY_WIDTH} / ${SCALE_AMOUNT}" | bc)
