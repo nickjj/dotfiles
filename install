@@ -1053,7 +1053,8 @@ install_packages() {
 
   local first_run_msg=
 
-  if [ "${FIRST_RUN}" == "1" ]; then
+  # We'll only let users know this detail if auto confirm wasn't enabled.
+  if [[ "${FIRST_RUN}" == "1" && "${PACKAGES_AUTO_CONFIRM}" != "1" ]]; then
     first_run_msg=$(
       cat <<EOF
 
