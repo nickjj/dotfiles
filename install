@@ -1051,13 +1051,35 @@ install_packages() {
   _skip_packages "MISE_DEBIAN" "MISE_DEBIAN_SKIP"
   _skip_packages "MISE_DAWIN" "MISE_DARWIN_SKIP"
 
+  local first_run_msg=
+
+  if [ "${FIRST_RUN}" == "1" ]; then
+    first_run_msg=$(
+      cat <<EOF
+
+PACKAGES_AUTO_CONFIRM was set to 1 because it looks like you're setting up
+these dotfiles for the first time, this avoids you having to approve and
+agree many times. This won't happen automatically on future runs.
+ 
+EOF
+    )
+  fi
+
   cat <<EOF
 $(_display_packages)
 
-If you choose no, the above packages will not be installed and this script
-will exit. This gives you a chance to edit the list of packages.
+---
+
+${C_YELLOW}If you choose yes${C_RESET}, the above packages will be installed with or without
+confirmation by you based on if PACKAGES_AUTO_CONFIRM=${PACKAGES_AUTO_CONFIRM:-0} is set to 1.
+${first_run_msg}
+${C_YELLOW}If you choose no${C_RESET}, the above packages will not be installed and this script
+will exit here. This gives you a chance to edit the list of packages.
 
 You can edit 'install-config' to modify the package list(s).
+
+You can find the default list of packages for your OS in:
+less ${DOTFILES_PATH}/_install/default/packages/${OS_DISTRO}
 
 EOF
 
@@ -1078,7 +1100,7 @@ EOF
       break
       ;;
     [Nn]*) exit ;;
-    *) printf "Please answer y or n\n\n" ;;
+    *) _error "Please answer y or n\n" "" ;;
     esac
   done
 }
