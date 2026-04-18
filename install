@@ -529,12 +529,12 @@ _package_display() {
 
   # Let's show something so it doesn't look like it was blindly skipped.
   if ((${#packages[@]} == 0)); then
-    echo "   Skipping, since there's no packages defined"
+    echo "  - Skipping, since there's no packages defined"
     return
   fi
 
   for item in "${packages[@]}"; do
-    echo "   - ${item}"
+    echo "  - ${item}"
   done
 }
 
