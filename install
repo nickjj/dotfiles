@@ -525,7 +525,7 @@ _package_display() {
 
   local packages=("${@}")
 
-  printf "\n%s:\n" "${heading}"
+  printf "\n%b%s:%b\n" "${C_BLUE}" "${heading}" "${C_RESET}"
 
   # Let's show something so it doesn't look like it was blindly skipped.
   if ((${#packages[@]} == 0)); then
@@ -636,22 +636,79 @@ _config_install_display() {
 
   local commands=("${@}")
 
-  printf "\n%s:\n" "${heading}"
+  printf "\n%b%s:%b\n" "${C_BLUE}" "${heading}" "${C_RESET}"
 
   # Let's show something so it doesn't look like it was blindly skipped.
   if ((${#commands[@]} == 0)); then
-    echo "   Skipping, since there's no config commands defined"
+    echo "  - Skipping, since there's no config install commands defined"
     return
   fi
 
+  local private_warning_count=0
+
   for item in "${commands[@]}"; do
+    # Swap out placeholders like %WindowsUser% or any others that exist.
+    local expanded_item="${item//${str_find}/${str_replace}}"
+
+    # Perform shell expansion for each item such as variables, ~, * and more.
+    # We want these paths to be fully evaluated. This only evals the paths.
+    eval "set -- ${expanded_item}"
+
+    # The destination will always be the last item in the list so store it.
+    local destination="${*: -1}"
+    local sources=()
+
+    # Use reduction to build up a list of sources. If the path exists and it's
+    # not the destination then we know it's not a command or flag.
+    for arg in "${@}"; do
+      [[ "${arg}" != "${destination}" && -e "${arg}" ]] && sources+=("${arg}")
+    done
+
+    for source in "${sources[@]}"; do
+      # Skip paths that might produce false warnings like system paths, or
+      # anything users might put into the config variables that are custom.
+      [[ "${source}" != *"${DOTFILES_PATH}"* ]] && continue
+
+      local target_path="${destination}"
+
+      # If a star is used, it's pretty much guaranteed to be in the source,
+      # this handles source paths like bin/* or applications/* by looking
+      # into these directories for each file.
+      if [[ "${expanded_item}" == *"*"* ]]; then
+        target_path="${destination%/}/${source##*/}"
+      fi
+
+      # If target is a real file it will be empty. We're avoiding readlink
+      # since using it with -m doesn't work on macOS.
+      local target
+      target="$(readlink "${target_path}" 2>/dev/null || true)"
+
+      # We're only interested in paths that exist so skip invalid paths.
+      [[ ! -e "${target_path}" && ! -L "${target_path}" ]] && continue
+
+      # We're only interested in real non-symlinked files being overwritten in
+      # cases where a star (glob) is used.
+      [[ "${expanded_item}" == *"*"* && -d "${target_path}" && ! -L "${target_path}" ]] && continue
+
+      # If the target doesn't contain our path then we know it's not managed by
+      # these dotfiles which is grounds for a warning.
+      if [[ "${target}" != *"${DOTFILES_PATH}"* ]]; then
+        ((private_warning_count += 1))
+        ((warning_count += 1))
+
+        _warning "'${target_path}' is not managed by these dotfiles" "  - "
+      fi
+    done
+
     # A special rule to avoid breaking DNS in WSL 2.
     if [[ "${OS_IN_WSL}" == "1" && "${OS_DISTRO}" = "arch" ]]; then
       [[ "${item}" == *"stub-resolv.conf"* ]] && continue
     fi
-
-    echo "   - ${item//${str_find}/${str_replace}}"
   done
+
+  if ((private_warning_count == 0)); then
+    echo "  - All paths are managed by these dotfiles and are safe to overwrite"
+  fi
 }
 
 _theme_download() {
@@ -1285,6 +1342,8 @@ install_configs() {
 
   _info "INSTALL CONFIGS"
 
+  local warning_count=0
+
   local config_install=()
   local config_install_gui_linux=()
   local config_install_wsl=()
@@ -1352,38 +1411,41 @@ install_configs() {
     return
   fi
 
-  cat <<EOF
+  if ((warning_count > 0)); then
+    cat <<EOF
 
--------------------------------------------------------------------------------
+---
 
-A potentially destructive action is about to happen. The above directories and
-files are going to get forcefully overwritten if you type y in the prompt below.
+${C_MAGENTA}A destructive action is about to happen. Any warnings you see above indicate
+you have a file not managed by these dotfiles at that path and now these dotfiles
+want to overwrite it.${C_RESET}
 
-What does that mean?
+It's up to you on what you want to do:
 
-Any config files you have on the right hand side of the paths are going to get
-overwritten with the files that come with these dotfiles (left side).
+1) Overwrite all files listed (you will lose them unless you back them up!)
+2) Skip all files listed but its associated program might not work as expected
 
-Without this action, these dotfiles will not work as is. If you plan to
-type y and have existing files now would be a good time to back them up.
-
+Alternatively you can manually back up these files now while this prompt is
+running and then choose to overwrite them with option 1.
 EOF
 
-  while true; do
-    read -rep "Ready to continue? Enter y to activate them all or n to skip (y/n) " yn
-    case "${yn}" in
-    [Yy]*)
-      _activate_configs
+    while true; do
+      printf "\nWhich option number would you like to pick? "
+      read -r option
 
-      break
-      ;;
-    [Nn]*)
+      case "${option}" in
+      1)
+        break
+        ;;
+      2)
+        return
+        ;;
+      *) _error "'${option}' isn't a valid choice, pick 1, 2 or 3" "" ;;
+      esac
+    done
+  fi
 
-      break
-      ;;
-    *) echo "Please answer y or n" ;;
-    esac
-  done
+  _activate_configs
 }
 
 configure_sudoers_entries() {

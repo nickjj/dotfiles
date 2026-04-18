@@ -188,11 +188,9 @@ export SCRIPTS_INSTALL_SKIP=()
 # The same rules apply as system packages for how to define these.
 # You can find the defaults in _install/default/install_configs.
 
-# When set to "1", config files will be installed without asking you to confirm
-# by pressing "y". Keep in mind if new configs are introduced by these dotfiles
-# and this is set, if you had your own personal configs not managed by these
-# dotfiles they will be overwritten. This option exists because if you've gone
-# all-in with using these dotfiles, it avoids typing "y" every time.
+# When set to "1", even if there's files not managed by these dotfiles they
+# will get overwritten without showing you a prompt to confirm. This could
+# result in you losing your original files, be careful setting this.
 export CONFIG_INSTALL_AUTO_CONFIRM=
 
 # Typically these should be symlinks but they could be created with cp / rsync
@@ -202,6 +200,11 @@ export CONFIG_INSTALL_AUTO_CONFIRM=
 # exist in ~/.config/xxx so programs pick them up. You can also create .local
 # versions of these files in your dotfiles and symlink them, this allows you
 # to fully overwrite a config without forking this repo.
+#
+# The only requirement is each item in the list follows this format, use the
+# default file to see what real examples look like.
+#
+# "<COMMAND> <SOURCE> <DESTINATION>"
 
 # Configs defined here will get created in all OS / environments.
 export CONFIG_INSTALL=()

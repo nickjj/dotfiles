@@ -55,6 +55,13 @@ _info() {
   printf "%b%b:: %b%b\n\n" "${pre_message}" "${C_CYAN}" "${message}" "${C_RESET}"
 }
 
+_warning() {
+  local message="${1}"
+  local pre_message="${2:-}"
+
+  printf "%b%bWarning: %b%b\n" "${pre_message}" "${C_YELLOW}" "${message}" "${C_RESET}"
+}
+
 _error() {
   local message="${1}"
   local exit_strategy="${2-1}"
