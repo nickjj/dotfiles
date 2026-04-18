@@ -479,7 +479,7 @@ drive encryption you'll get prompted for your decrypt password before logging
 in.
 
 At this point you have Arch installed and you can run the bootstrap script
-[mentioned earlier in this readme](#-install) to install these dotfiles!
+[mentioned earlier in this readme](#%EF%B8%8F-install) to install these dotfiles!
 
 ### How do I get started with the desktop environment?
 
