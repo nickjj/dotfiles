@@ -463,7 +463,7 @@ Before hitting enter to continue, you can use page up / down to see what's
 going to happen. Triple check your drive being formatted is the correct one
 and everything else looks good!
 
-- Sit back and relax while everything gets installed for ~5-10 minutes
+- Sit back and relax while everything gets installed in ~2 minutes
 - Choose "Exit archinstall" when it prompts you after it has finished
 - Remove the USB drive from your computer
 - Run `reboot`
