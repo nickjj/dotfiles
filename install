@@ -1440,7 +1440,7 @@ EOF
       2)
         return
         ;;
-      *) _error "'${option}' isn't a valid choice, pick 1, 2 or 3" "" ;;
+      *) _error "'${option}' isn't a valid choice, pick 1 or 2" "" ;;
       esac
     done
   fi
