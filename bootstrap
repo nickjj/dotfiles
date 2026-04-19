@@ -438,7 +438,7 @@ EOF
     esac
   done
 
-  cd "${DOTFILES_PATH}" && "./install"
+  cd "${DOTFILES_PATH}" && DOTFILES_PATH="" "./install"
 }
 
 main() {
