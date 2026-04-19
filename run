@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Helper script to manage the project itself.
 
 set -o errexit
 set -o pipefail
