@@ -2104,23 +2104,23 @@ healthcheck() {
   _info "CHECK INFORMATION AND VERSIONS"
 
   cat <<EOF
-:: Dotfiles path:
+Dotfiles path:
 
 ${DOTFILES_PATH}
 
-:: Git user:
+Git user:
 
 $(git config --get-regex "user.(name|email)")
 
-:: tmux:
+tmux:
 
 $(tmux -V)
 
-:: Neovim:
+Neovim:
 
 $(nvim --version)
 
-:: Fastfetch:
+Fastfetch:
 
 EOF
 
@@ -2191,7 +2191,6 @@ parse_args() {
     fi
 
     git remote | grep -q "${target//./}" && git fetch "${target//./}"
-
     gd "${target}" ${side_by_side:+"${side_by_side}"}
 
     _info "CONDENSED GIT DIFF"
