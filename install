@@ -1528,8 +1528,22 @@ configure_system_configs() {
 
   if [ "${OS_DISTRO}" = "arch" ]; then
     local etc_pacman_conf_path="/etc/pacman.conf"
-    if ! grep -q "Include = /etc/pacman\.d/\*\.conf" "${etc_pacman_conf_path}" 2>/dev/null; then
-      printf "\nInclude = /etc/pacman.d/*.conf\n" | sudo tee --append "${etc_pacman_conf_path}" 1>/dev/null
+    # Ensure multilib is disabled since we'll enable it with an include file,
+    # on vanilla Arch it's disabled but other variants might have it enabled.
+    if grep -q "^\[multilib\]" "${etc_pacman_conf_path}"; then
+      sudo sed -i "/^\[multilib\]/,+1 s/^/#/" "${etc_pacman_conf_path}"
+    fi
+
+    if compgen -G "/etc/pacman.d/*.conf" 1>/dev/null; then
+      if ! grep -q "Include = /etc/pacman\.d/\*\.conf" "${etc_pacman_conf_path}"; then
+        printf "\nInclude = /etc/pacman.d/*.conf\n" | sudo tee --append "${etc_pacman_conf_path}" 1>/dev/null
+      fi
+    else
+      # Pacman will fail to run if there's no conf files while this line exists
+      # so we can remove the line.
+      if grep -q "Include = /etc/pacman\.d/\*\.conf" "${etc_pacman_conf_path}"; then
+        sudo sed -i "\|Include = /etc/pacman.d/\*\.conf|d" "${etc_pacman_conf_path}"
+      fi
     fi
   fi
 
