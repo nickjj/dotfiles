@@ -9,7 +9,7 @@ set -o nounset
 # someone has it installed and likely prefers it so let's use it first.
 if command -v nvtop >/dev/null 2>&1; then
   gpu_command=("nvtop")
-elif command -v amdgpu_top2 >/dev/null 2>&1; then
+elif command -v amdgpu_top >/dev/null 2>&1; then
   gpu_command=("amdgpu_top" "--dark")
 elif command -v nvidia-smi >/dev/null 2>&1; then
   gpu_command=("nvidia-smi")
