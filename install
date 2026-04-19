@@ -774,6 +774,12 @@ detect_and_prepare_gpu() {
 
   local kernel_package=
   case "${kernel}" in
+  *cachyos-lts*)
+    kernel_package="linux-cachyos-lts-headers"
+    ;;
+  *cachyos*)
+    kernel_package="linux-cachyos-headers"
+    ;;
   *arch*)
     kernel_package="linux-headers"
     ;;
