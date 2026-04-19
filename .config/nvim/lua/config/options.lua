@@ -12,7 +12,7 @@ vim.g.root_spec = { "cwd" }
 -- weeks with the default setting. My thought process here is it can remain OFF
 -- by default but if you're looking to troubleshoot something you can
 -- temporarily set this to WARN or ERROR.
-vim.lsp.set_log_level("OFF")
+vim.lsp.log.set_level("OFF")
 
 local opt = vim.opt
 
