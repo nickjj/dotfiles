@@ -7,13 +7,13 @@ set -o nounset
 
 # These dotfiles don't install nvtop on Linux but if it's available it means
 # someone has it installed and likely prefers it so let's use it first.
-if command -v nvtop &>/dev/null; then
+if command -v nvtop >/dev/null 2>&1; then
   gpu_command=(nvtop)
-elif command -v amdgpu_top &>/dev/null; then
+elif command -v amdgpu_top >/dev/null 2>&1; then
   gpu_command=(amdgpu_top --dark)
-elif command -v nvidia-smi &>/dev/null; then
+elif command -v nvidia-smi >/dev/null 2>&1; then
   gpu_command=(nvidia-smi)
-elif command -v intel_gpu_top &>/dev/null; then
+elif command -v intel_gpu_top >/dev/null 2>&1; then
   gpu_command=(sudo intel_gpu_top)
 else
   gpu_command=(bash -c "printf 'No GPU monitoring tools available\n\n'; read -p 'Press Enter to close...'")
