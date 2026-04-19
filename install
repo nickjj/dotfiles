@@ -1423,13 +1423,17 @@ ${C_MAGENTA}A destructive action is about to happen. Any warnings you see above 
 you have a file not managed by these dotfiles at that path and now these dotfiles
 want to overwrite it.${C_RESET}
 
-It's up to you on what you want to do:
+It's up to you on what you want to do next:
 
 1) Overwrite all files listed (you will lose them unless you back them up!)
-2) Skip all files listed but its associated program might not work as expected
+2) Skip overwriting anything and this script will exit so you can assess the situation
 
-Alternatively you can manually back up these files now while this prompt is
-running and then choose to overwrite them with option 1.
+You can manually back these files up now while this prompt is running and
+then choose to overwrite them with option 1.
+
+If you're on a fresh system with no terminal yet you can press Ctrl+Alt+F2 to
+use tty2 and then jump back to this script by pressing Ctrl+Alt+F1. If you're on
+a laptop you might need to also hold down Fn.
 EOF
 
     while true; do
@@ -1441,7 +1445,7 @@ EOF
         break
         ;;
       2)
-        return
+        exit
         ;;
       *) _error "'${option}' isn't a valid choice, pick 1 or 2" "" ;;
       esac
