@@ -1035,6 +1035,7 @@ install_packages() {
 
   # We'll only let users know this detail if auto confirm wasn't enabled.
   if [[ "${FIRST_RUN}" == "1" && "${PACKAGES_AUTO_CONFIRM}" != "1" ]]; then
+    PACKAGES_AUTO_CONFIRM="1"
     first_run_msg=$(
       cat <<EOF
 
