@@ -19,8 +19,11 @@ lint() {
 
   find . -type f \
     ! -path "./.git/*" \
+    ! -path "./.github/*" \
     ! -path "./.ruff_cache/*" \
-    ! -path "./.pytest_cache/*" \
+    ! -path "./_docs/*" \
+    ! -path "./_themes/*" \
+    ! -path "./_wallpapers/*" \
     ! -path "./mnt/c/*" \
     -exec sh -c 'head -n 1 "${1}" | grep --quiet -E "^(#!.*sh|# shellcheck shell=)"' _ {} \; \
     -exec "${shellcheck_cmd[@]}" {} +
