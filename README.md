@@ -31,6 +31,10 @@ Everyone is welcome here and you have full control.
 
 ### Command line
 
+*Supports Arch Linux, both vanilla and Arch-like distros such as CachyOS, etc..
+It also supports Debian, Ubuntu (vanilla and all flavors), macOS and there's
+WSL 2 support for any supported Linux distro.*
+
 #### Highlights
 
 - Tweak out your shell (zsh)
@@ -38,14 +42,6 @@ Everyone is welcome here and you have full control.
 - Fully configure Neovim
 - Create SSH / GPG keys if they don't already exist
 - Install modern CLI tools and programming languages
-
-#### OS support
-
-- Arch Linux, both vanilla and Arch-like distros such as CachyOS, etc.
-- Debian
-- Ubuntu (vanilla and all flavors)
-- macOS
-- *WSL 2 is supported for any supported Linux distros*
 
 ### (Optional) Scrolling / tiling desktop environment
 
