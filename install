@@ -364,7 +364,9 @@ _package_install() {
   )
 
   local -a confirm_flag=()
-  [ "${PACKAGES_AUTO_CONFIRM}" == "1" ] && confirm_flag+=("${confirm_map[${manager}]}")
+  if [[ "${PACKAGES_AUTO_CONFIRM}" == "1" && -v confirm_map["${manager}"] ]]; then
+    confirm_flag+=("${confirm_map["${manager}"]}")
+  fi
 
   case "${manager}" in
   pacman)
@@ -463,7 +465,7 @@ _install_packages_debian() {
   sudo install -dm 755 /etc/apt/keyrings
   _curl https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
   echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-  sudo apt-get update && sudo apt-get install -y mise
+  sudo apt-get update && sudo apt-get install --yes --no-install-recommends mise
 
   # Install Mise packages.
   _package_install mise "${MISE_DEBIAN[@]}" "${MISE_DEBIAN_EXTRAS[@]}"
