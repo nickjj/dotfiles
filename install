@@ -489,7 +489,7 @@ _install_packages_macos() {
   _package_install brew-cask "${PACKAGES_BREW_CASK[@]}" "${PACKAGES_BREW_CASK_EXTRAS[@]}"
 
   # Install Mise packages.
-  _package_install mise "${MISE_MACOS[@]}" "${MISE_MACOS_EXTRAS[@]}"
+  _package_install mise "${MISE_DARWIN[@]}" "${MISE_DARWIN_EXTRAS[@]}"
 }
 
 _package_display() {
@@ -559,8 +559,8 @@ _display_packages() {
     _package_display "Brew (extras)" "${PACKAGES_BREW_EXTRAS[@]}"
     _package_display "Brew Cask (default)" "${PACKAGES_BREW_CASK[@]}"
     _package_display "Brew Cask (extras)" "${PACKAGES_BREW_CASK_EXTRAS[@]}"
-    _package_display "Mise (default)" "${MISE_MACOS[@]}"
-    _package_display "Mise (extras)" "${MISE_MACOS_EXTRAS[@]}"
+    _package_display "Mise (default)" "${MISE_DARWIN[@]}"
+    _package_display "Mise (extras)" "${MISE_DARWIN_EXTRAS[@]}"
   fi
 }
 
@@ -1026,7 +1026,7 @@ install_packages() {
   _skip_packages "PACKAGES_BREW_CASK" "PACKAGES_BREW_CASK_SKIP"
   _skip_packages "MISE_ARCH" "MISE_ARCH_SKIP"
   _skip_packages "MISE_DEBIAN" "MISE_DEBIAN_SKIP"
-  _skip_packages "MISE_DAWIN" "MISE_DARWIN_SKIP"
+  _skip_packages "MISE_DARWIN" "MISE_DARWIN_SKIP"
 
   local first_run_msg=
 
@@ -1453,7 +1453,7 @@ EOF
 }
 
 configure_sudoers_entries() {
-  _info "CONFIGURE SUODERS ENTRIES"
+  _info "CONFIGURE SUDOERS ENTRIES"
 
   declare -A sudoers_entries
 
@@ -1790,7 +1790,7 @@ EOF
   # volume mounted and this value will be different in Docker.
   DOTFILES_PATH="${original_dotfiles_path}"
 
-  echo "It has been configured in '${DOTFILES_PATH}/zsh/'"
+  echo "It has been configured in '${DOTFILES_PATH}/.config/zsh/'"
 }
 
 ask_for_name() {
