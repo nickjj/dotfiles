@@ -425,7 +425,7 @@ EOF
 
 _update_config() {
   local gui=""
-  [ "${1:-}" == "--gui" ] && gui='s|export GUI_LINUX=|export GUI_LINUX="1"|g;'
+  [ "${1:-}" == "--gui" ] && gui='s|export GUI_LINUX=.*|export GUI_LINUX="1"|g;'
 
   perl -pi -e '
     s|export DOTFILES_CLONE_URL=".*"|export DOTFILES_CLONE_URL="\${DOTFILES_CLONE_URL:-'"${DOTFILES_CLONE_URL}"'}"|g;
