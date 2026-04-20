@@ -1420,17 +1420,17 @@ ${C_MAGENTA}A destructive action is about to happen. Any warnings you see above 
 you have a file not managed by these dotfiles at that path and now these dotfiles
 want to overwrite it.${C_RESET}
 
-It's up to you on what you want to do next:
+${C_YELLOW}What would you like to do next?
 
-1) Overwrite all files listed (you will lose them unless you back them up!)
-2) Skip overwriting anything and this script will exit so you can assess the situation
+1) Overwrite all files listed above (you will lose them unless you back them up!)
+2) Skip overwriting anything and this script will exit so you can assess the situation${C_RESET}
 
 You can manually back these files up now while this prompt is running and
 then choose to overwrite them with option 1.
-
+${C_WHITE}
 If you're on a fresh system with no terminal yet you can press Ctrl+Alt+F2 to
 use tty2 and then jump back to this script by pressing Ctrl+Alt+F1. If you're on
-a laptop you might need to also hold down Fn.
+a laptop you might need to also hold down Fn.${C_RESET}
 EOF
 
     while true; do

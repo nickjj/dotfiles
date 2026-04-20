@@ -83,7 +83,9 @@ _error() {
   2)
     return 1
     ;;
-  "") ;;
+  "")
+    return 0
+    ;;
   esac
 }
 
@@ -504,7 +506,8 @@ EOF
     esac
   done
 
-  cd "${DOTFILES_PATH}" && DOTFILES_PATH="" "./install"
+  # Remove all traces of the bootstrap script once the install script is called.
+  cd "${DOTFILES_PATH}" && DOTFILES_PATH="" exec "./install"
 }
 
 main() {
