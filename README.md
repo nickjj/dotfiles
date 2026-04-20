@@ -31,25 +31,32 @@ Everyone is welcome here and you have full control.
 
 ### Command line
 
-*Supports Arch Linux, Debian, Ubuntu and macOS. It also supports WSL 2 for any
-supported Linux distro.*
+#### Highlights
 
-- Highlights:
-  - Tweak out your shell (zsh)
-  - Set up tmux
-  - Fully configure Neovim
-  - Create SSH / GPG keys if they don't already exist
-  - Install modern CLI tools and programming languages
+- Tweak out your shell (zsh)
+- Set up tmux
+- Fully configure Neovim
+- Create SSH / GPG keys if they don't already exist
+- Install modern CLI tools and programming languages
+
+#### OS support
+
+- Arch Linux, both vanilla and Arch-like distros such as CachyOS, etc.
+- Debian
+- Ubuntu (vanilla and all flavors)
+- macOS
+- *WSL 2 is supported for any supported Linux distros*
 
 ### (Optional) Scrolling / tiling desktop environment
 
-*Supports Arch Linux.*
+*Supports Arch Linux, both vanilla and Arch-like distros such as CachyOS, etc.*
 
-- Highlights:
-  - [niri](https://github.com/YaLTeR/niri) *(Wayland compositor)*, Waybar *(status bar)*, Walker *(app launcher)* and friends
-  - Hotkey focused but tons of mouse / trackpad support
-  - Prefer TUI (Terminal User Interface) apps over GUI apps when possible
-  - Development / media creation focused apps are ready to go
+#### Highlights
+
+- [niri](https://github.com/YaLTeR/niri) *(Wayland compositor)*, Waybar *(status bar)*, Walker *(app launcher)* and friends
+- Hotkey focused but tons of mouse / trackpad support
+- Prefer TUI (Terminal User Interface) apps over GUI apps when possible
+- Development / media creation focused apps are ready to go
 
 #### Why niri and not XYZ?
 
@@ -65,7 +72,8 @@ XP, 7, 10 and also macOS on company issued laptops. Nothing I have ever used in
 I tried Hyprland too).
 
 I recorded a [demo video](https://www.youtube.com/watch?v=7XmD5UyyhZQ) on how I
-use niri in my day to day. This repo will always have the most up to date changes so what you see on video will likely evolve over time!
+use niri in my day to day. This repo will always have the most up to date
+changes so what you see on video will likely evolve over time!
 
 ### Packages, scripts and more
 
