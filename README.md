@@ -204,7 +204,7 @@ it does. The bottom of the file is a good place to start. Alternatively you can
 look around this repo and reference the config files directly without using any
 script.*
 
-🐳 **Try it in Docker without modifying your system:**
+🐳 **Try the command line version in Docker without modifying your system:**
 
 ```sh
 # Start a Debian container, we're passing OS_IN_CONTAINER to be explicit we're in a container.
