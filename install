@@ -769,11 +769,8 @@ detect_and_prepare_gpu() {
     return
   fi
 
-  local kernel=
-  kernel="$(uname -r)"
-
   local kernel_package=
-  case "${kernel}" in
+  case "${OS_KERNEL}" in
   *cachyos-lts*)
     kernel_package="linux-cachyos-lts-headers"
     ;;
@@ -795,13 +792,13 @@ detect_and_prepare_gpu() {
   *)
     cat <<EOF
 
-'${kernel}' Linux kernel was detected but this script doesn't automatically
+'${OS_KERNEL}' Linux kernel was detected but this script doesn't automatically
 support it because it can't determine which linux-*-headers package to install.
 
-If you think it should work, please open an issue with the above output.
+If you feel this is a bug please open an issue at: ${DOTFILES_CLONE_URL}
 
 EOF
-    _error "Unknown Linux Kernel found, aborting!"
+    _error "Unsupported Linux Kernel detected, aborting!"
     ;;
   esac
 
@@ -2349,7 +2346,7 @@ EOF
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   parse_args "${@}"
 
-  detect_env
+  detect_env_results
   verify_dotfiles_path
 
   if [ "${PULL}" != "1" ]; then

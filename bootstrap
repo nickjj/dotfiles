@@ -27,7 +27,10 @@ export LOCAL=
 
 export CPU_ARCH=
 export OS_TYPE=
+export OS_KERNEL=
 export OS_DISTRO=
+export OS_DISTRO_LIKE=
+export OS_DISTRO_ORIGINAL=
 export OS_IN_WSL=
 export OS_IN_CONTAINER="${OS_IN_CONTAINER:-}"
 export GUI_LINUX=
@@ -115,18 +118,24 @@ detect_env() {
 
     if [ -r /etc/os-release ]; then
       # shellcheck disable=SC1091
-      OS_DISTRO="$(. /etc/os-release && echo "${ID_LIKE:-${ID}}")"
+      read -r OS_DISTRO OS_DISTRO_LIKE <<<"$(. /etc/os-release && echo "${ID} ${ID_LIKE:-"${ID}"}")"
+    else
+      _error "'/etc/os-release' file is missing which is not supported, aborting!"
+    fi
 
-      # Technically ID_LIKE can have a space separated list of distros but
-      # we really only care that we have a Debian based system where apt is
-      # available to use.
-      [[ "${OS_DISTRO}" =~ (ubuntu|debian) ]] && OS_DISTRO="debian"
+    OS_DISTRO_ORIGINAL="${OS_DISTRO}"
+
+    # Technically ID_LIKE can have a space separated list of distros but
+    # we really only care that we have a Debian based system where apt is
+    # available to use.
+    if [[ "${OS_DISTRO_LIKE}" =~ (ubuntu|debian) ]]; then
+      OS_DISTRO="debian"
     fi
 
     # Only fully support these Linux distros.
     if [[ -z "${OS_DISTRO}" || ! "arch ubuntu debian raspbian" =~ ${OS_DISTRO} ]]; then
       cat <<EOF >&2
-Your distro identified as: '${OS_DISTRO}'
+Your distro identified as: '${OS_DISTRO_ORIGINAL}' (based on: '${OS_DISTRO_LIKE}')
 
 Supported distros are Arch and Debian based distros. If your distro identifies
 as one of those the expectation is it should be supported.
@@ -163,6 +172,8 @@ EOF
   darwin*)
     OS_TYPE="darwin"
     OS_DISTRO="${OS_TYPE}"
+    OS_DISTRO_ORIGINAL="${OS_DISTRO}"
+    OS_DISTRO_LIKE="${OS_DISTRO}"
 
     ;;
   *)
@@ -171,7 +182,62 @@ EOF
     ;;
   esac
 
+  OS_KERNEL="$(uname -r)"
   CPU_ARCH="$(uname -m)"
+}
+
+detect_env_results() {
+  _info "DETECT ENVIRONMENT"
+
+  detect_env
+
+  cat <<EOF
+So far so good, your system appears to be compatible with these dotfiles:
+
+CPU_ARCH=${CPU_ARCH}
+
+OS_KERNEL=${OS_KERNEL}
+OS_DISTRO=${OS_DISTRO_ORIGINAL}
+OS_DISTRO_LIKE=${OS_DISTRO_LIKE}
+
+OS_IN_WSL=${OS_IN_WSL:-0}
+OS_IN_CONTAINER=${OS_IN_CONTAINER:-0}
+
+GUI_ELIGIBLE=${GUI_ELIGIBLE:-0}
+EOF
+
+  # This will come up when running the install script for the first time.
+  if [[ "${FIRST_RUN:-}" == "1" && "${GUI_ENABLED}" == "1" && "${OS_DISTRO_ORIGINAL}" != "${OS_DISTRO}" ]]; then
+    cat <<EOF
+
+---
+${C_YELLOW}
+These dotfiles are designed for vanilla Arch and you have an Arch-like distro.
+There could be minor issues with packages or system config files. It might also
+be perfect, it really depends on the distro!${C_RESET}
+
+If you run into an issue please report it at: ${DOTFILES_CLONE_URL}
+${C_WHITE}
+This message only pops up once to give you a heads up. By the way, if you
+answer no to the prompt you can re-run this install script with: ./install
+${C_RESET}
+EOF
+
+    while true; do
+      printf "Ready to continue with the installation? (y/n) "
+      read -r yn
+
+      case "${yn}" in
+      [Yy]*)
+        break
+        ;;
+      [Nn]*)
+        exit
+        ;;
+      *) _error "'${yn}' is not a valid answer, please input 'y' or 'n'" "" ;;
+      esac
+    done
+  fi
 }
 
 warn_root() {
@@ -215,7 +281,7 @@ EOF
     [Nn]*)
       exit
       ;;
-    *) printf "Please answer y or n\n" ;;
+    *) _error "'${yn}' is not a valid answer, please input 'y' or 'n'" "" ;;
     esac
   done
 }
@@ -442,7 +508,7 @@ EOF
 }
 
 main() {
-  detect_env
+  detect_env_results
   warn_root
 
   if [ "${OS_TYPE}" == "darwin" ]; then
