@@ -481,8 +481,11 @@ _install_packages_macos() {
   local prefix="/opt/homebrew"
   [[ "${CPU_ARCH}" == "x86_64" ]] && prefix="/usr/local"
 
-  # Ensure brew's paths are available for this script
+  # Ensure brew's paths are available for this script.
   eval "$(${prefix}/bin/brew shellenv)"
+
+  # This gets written to your zprofile later but let's set it here for this shell.
+  export HOMEBREW_NO_ANALYTICS="1"
 
   # Install Brew packages.
   _package_install brew "${PACKAGES_BREW[@]}" "${PACKAGES_BREW_EXTRAS[@]}"
@@ -1686,7 +1689,7 @@ configure_shell() {
 
   if [ "${OS_TYPE}" == "darwin" ]; then
     if ! grep -q "HOMEBREW_NO_ANALYTICS" "${zprofile_path}" 2>/dev/null; then
-      printf '\nexport HOMEBREW_NO_ANALYTICS=1\n' >>"${zprofile_path}"
+      printf '\nexport HOMEBREW_NO_ANALYTICS="1"\n' >>"${zprofile_path}"
     fi
 
     if ! grep -q "eval.*homebrew.*shellenv" "${zprofile_path}" 2>/dev/null; then
