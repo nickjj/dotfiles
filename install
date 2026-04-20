@@ -2180,8 +2180,9 @@ EOF
 P.S.,
 
 Since you've set GUI_LINUX=1 and this is the first time you've run everything,
-you'll want to reboot. After logging in with your user and password then niri
-will start by default due to the .zprofile.local file in your dotfiles path.
+you'll want to reboot by running \`systemctl reboot\`. After logging in with your
+user and password then niri will start by default due to the .zprofile.local
+file in your dotfiles path.
 EOF
   fi
 }
