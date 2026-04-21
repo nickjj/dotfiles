@@ -2254,62 +2254,74 @@ parse_args() {
     ;;
   --help | -h)
     cat <<EOF
-  Usage examples:
+${C_BLUE}-------------------------------------------------------------------------------
+KEEPING UP TO DATE
+-------------------------------------------------------------------------------${C_RESET}
 
-  # Run the install script based on the local copy of your dotfiles
-  ${C_GREEN}./install${C_RESET}
+${C_WHITE}# Run the install script based on the local copy of your dotfiles.
+${C_GREEN}./install
 
-  # The same as above but skip installing packages (useful for updating symlinks)
-  ${C_GREEN}./install --skip-system-packages${C_RESET}
+${C_WHITE}# The same as above but skip installing packages (useful for updating symlinks).
+${C_GREEN}./install --skip-system-packages | -S
 
-  # Pulls in the latest remote commits and merges them into your local branch,
-  # if a BRANCH is supplied a new local branch will be created to be merged into
-  # which is helpful for testing PRs without affecting your main branch.
-  ${C_GREEN}./install --pull [BRANCH] (it defaults to the currently checked out branch if not supplied)${C_RESET}
+${C_WHITE}# Pulls in the latest remote commits and merges them into your local branch,
+# if a BRANCH is supplied a new local branch will be created to be merged into
+# which is helpful for testing PRs without affecting your main branch.
+#
+# It defaults to the currently checked out branch if not supplied.
+${C_GREEN}./install --pull ${C_CYAN}[BRANCH]
 
-  # The same as --pull but also runs the install script afterwards.
-  ${C_GREEN}./install --update [BRANCH]${C_RESET}
+${C_WHITE}# The same as --pull but also runs the install script afterwards.
+${C_GREEN}./install --update ${C_CYAN}[BRANCH]
 
-  # Show a diff of your install-config vs the local install-config.example.
-  ${C_GREEN}./install --diff-config${C_RESET}
+${C_BLUE}-------------------------------------------------------------------------------
+WHAT'S DIFFERENT
+-------------------------------------------------------------------------------${C_RESET}
 
-  # The same as above but show the diff in side-by-side (split) mode.
-  ${C_GREEN}./install --diff-config --side${C_RESET}
+${C_WHITE}# Diff your install-config vs the local install-config.example.
+${C_GREEN}./install --diff-config
 
-  # Show a diff of any local uncommited or committed changes vs the remote.
-  ${C_GREEN}./install --diff [TARGET]${C_RESET} (it defaults to "origin" if not supplied)
+${C_WHITE}# The same as above but show the diff in side-by-side (split) mode.
+${C_GREEN}./install --diff-config --side
 
-  # The same as above but show the diff in side-by-side (split) mode.
-  ${C_GREEN}./install --diff --side${C_RESET}
+${C_WHITE}# Diff any local uncommited or committed changes vs the remote, defaults to "origin".
+${C_GREEN}./install --diff ${C_CYAN}[TARGET]${C_RESET}
 
-  # Compare your currently checked out branch to your local ${DOTFILES_BRANCH} branch, this
-  # could be helpful if you have a personalized branch and you pull updates into
-  # ${DOTFILES_BRANCH} and now you want to compare them locally.
-  ${C_GREEN}./install --diff ${DOTFILES_BRANCH}${C_RESET}
+${C_WHITE}# The same as above but show the diff in side-by-side (split) mode.
+${C_GREEN}./install --diff --side
 
-  # Show new remote commits that do not exist locally.
-  ${C_GREEN}./install --new-commits [TARGET]${C_RESET} (it defaults to "..origin" if not supplied)
+${C_WHITE}# Compare your currently checked out branch to your local ${DOTFILES_BRANCH} branch, this
+# could be helpful if you have a personalized branch and you pull updates into
+# ${DOTFILES_BRANCH} and now you want to compare them locally.
+${C_GREEN}./install --diff ${C_CYAN}${DOTFILES_BRANCH}
 
-  # Show your local commits that don't exist in the remote.
-  ${C_GREEN}./install --new-commits origin..${C_RESET}
+${C_WHITE}# Show all of your local files that are git ignored such as configs, history and scripts.
+${C_GREEN}./install --local-files
 
-  # The same as above except compare it to your local ${DOTFILES_BRANCH} branch not remote.
-  ${C_GREEN}./install --new-commits ..${DOTFILES_BRANCH}${C_RESET}
+${C_BLUE}-------------------------------------------------------------------------------
+WHAT'S NEW
+-------------------------------------------------------------------------------${C_RESET}
 
-  # Show your local commits that don't exist in the remote and new remote commits.
-  ${C_GREEN}./install --new-commits origin...${C_RESET}
+${C_WHITE}# Show new remote commits that do not exist locally, defaults to "..origin".
+${C_GREEN}./install --new-commits ${C_CYAN}[TARGET]
 
-  # The same as above except compare it to your local ${DOTFILES_BRANCH} branch not remote.
-  ${C_GREEN}./install --new-commits ...${DOTFILES_BRANCH}${C_RESET}
+${C_WHITE}# Show your local commits that don't exist in the remote.
+${C_GREEN}./install --new-commits ${C_CYAN}origin..
 
-  # Show a list of commits on a remote.
-  ${C_GREEN}./install --changelog [TARGET] (it defaults to "origin" if not supplied)${C_RESET}
+${C_WHITE}# The same as above except compare it to your local ${DOTFILES_BRANCH} branch not remote.
+${C_GREEN}./install --new-commits ${C_CYAN}..${DOTFILES_BRANCH}
 
-  # Show all of your local files that are git ignored such as configs, history and scripts.
-  ${C_GREEN}./install --local-files${C_RESET}
+${C_WHITE}# Show your local commits that don't exist in the remote and new remote commits.
+${C_GREEN}./install --new-commits ${C_CYAN}origin...
 
-  # Show this help menu.
-  ${C_GREEN}./install --help${C_RESET}
+${C_WHITE}# The same as above except compare it to your local ${DOTFILES_BRANCH} branch not remote.
+${C_GREEN}./install --new-commits ${C_CYAN}...${DOTFILES_BRANCH}
+
+${C_WHITE}# Show a list of commits on a remote, defaults to "origin".
+${C_GREEN}./install --changelog ${C_CYAN}[TARGET]${C_RESET}
+
+${C_WHITE}# Show this help menu.
+${C_GREEN}./install --help
 EOF
     exit
     ;;
