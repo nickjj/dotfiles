@@ -469,14 +469,6 @@ _install_packages_debian() {
 
   # Install Mise packages.
   _package_install mise "${MISE_DEBIAN[@]}" "${MISE_DEBIAN_EXTRAS[@]}"
-
-  # Install packages manually since they don't exist elsewhere.
-
-  # fastfetch, Debian 13 / Ubuntu 26.04 LTS will have it in apt by default.
-  echo
-  _curl https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.deb -o /tmp/fastfetch.deb
-  sudo dpkg -i "${_}"
-  rm "${_}"
 }
 
 _install_packages_macos() {
@@ -1600,17 +1592,6 @@ EOF
   echo "Everything that required configuring was updated"
 }
 
-configure_home_binaries() {
-  _info "CONFIGURE HOME BINARIES"
-
-  # The bat tool has a different binary name on Debian based systems.
-  if [[ "${OS_TYPE}" == "linux" && "${OS_DISTRO}" == "debian" ]]; then
-    ln -fns /usr/bin/batcat "${HOME}/.local/bin/bat"
-  fi
-
-  echo "Everything that required configuring was updated"
-}
-
 configure_xdg_directories() {
   _info "CONFIGURE XDG DIRECTORIES"
 
@@ -2372,7 +2353,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   configure_systemd_services
   configure_system_configs
   configure_home_configs
-  configure_home_binaries
   configure_xdg_directories
   configure_shell
   ask_for_name

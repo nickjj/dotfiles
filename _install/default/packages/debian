@@ -3,12 +3,10 @@
 
 export DEFAULT_PACKAGES_APT=(
   "aspell"
-  "bat"
   "bc"
-  "dnsutils"
-  "btop"
   "build-essential"
   "curl"
+  "dnsutils"
   "ffmpeg"
   "fontconfig"
   "git"
@@ -25,7 +23,6 @@ export DEFAULT_PACKAGES_APT=(
   "rsync"
   "smartmontools"
   "strace"
-  "tmux"
   "unzip"
   "usbutils"
   "wev"
@@ -38,7 +35,10 @@ export DEFAULT_PACKAGES_APT=(
 )
 
 export DEFAULT_MISE_DEBIAN=(
+  "bat"
+  "btop"
   "eza"
+  "fastfetch"
   "fd"
   "fzf"
   "jq"
@@ -46,5 +46,6 @@ export DEFAULT_MISE_DEBIAN=(
   "ripgrep"
   "shellcheck"
   "shfmt"
+  "tmux"
   "yq"
 )
