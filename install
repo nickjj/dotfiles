@@ -1481,9 +1481,8 @@ configure_sudoers_entries() {
   done
 
   sudo chmod -R 440 /etc/sudoers.d
-  echo
 
-  echo "They have been configured in '/etc/sudoers.d/'"
+  printf "\nThey have been configured in '/etc/sudoers.d/'\n"
 }
 
 configure_systemd_services() {
@@ -1521,8 +1520,7 @@ configure_systemd_services() {
     fi
   done
 
-  echo
-  echo "They have been configured to start on boot"
+  printf "\nThey have been configured to start on boot\n"
 }
 
 configure_system_configs() {
