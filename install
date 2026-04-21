@@ -657,8 +657,8 @@ _config_install_display() {
         target_path="${destination%/}/${source##*/}"
       fi
 
-      # If target is a real file it will be empty. We're avoiding readlink
-      # since using it with -m doesn't work on macOS.
+      # If target is a real file it will be empty. We're avoiding realpath -m
+      # since -m doesn't work on macOS.
       local target
       target="$(readlink "${target_path}" 2>/dev/null || true)"
 
