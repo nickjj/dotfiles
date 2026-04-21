@@ -2129,24 +2129,19 @@ healthcheck() {
   _info "CHECK INFORMATION AND VERSIONS"
 
   cat <<EOF
-Dotfiles path:
-
+${C_BLUE}DOTFILES_PATH:${C_RESET}
 ${DOTFILES_PATH}
 
-Git user:
-
+${C_BLUE}Git user:${C_RESET}
 $(git config --get-regex "user.(name|email)")
 
-tmux:
-
+${C_BLUE}tmux:${C_RESET}
 $(tmux -V)
 
-Neovim:
-
+${C_BLUE}Neovim:${C_RESET}
 $(nvim --version)
 
-Fastfetch:
-
+${C_BLUE}Fastfetch:${C_RESET}
 EOF
 
   fastfetch
