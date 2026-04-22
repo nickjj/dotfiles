@@ -46,6 +46,13 @@ return {
               },
             },
           },
+          -- When searching git history, usually it's for specific words and
+          -- fuzzy matching may return too many false positives.
+          git_log = {
+            matcher = {
+              fuzzy = false,
+            },
+          },
         },
         previewers = {
           diff = {
