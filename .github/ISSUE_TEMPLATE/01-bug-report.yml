@@ -1,5 +1,5 @@
 name: "Bug Report"
-description: "Found a bug? Please report it here!"
+description: "Found a bug or something isn't working as expected?"
 body:
   - type: "textarea"
     id: "issue"
