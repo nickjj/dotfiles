@@ -166,16 +166,16 @@ You'll be able to choose where you want to clone these dotfiles to and also
 have an opportunity to review and edit what gets installed if you want to
 customize the defaults.
 
-If you're setting up a brand new system and plan to use the desktop environment
-you'll want to set up a bootable USB stick with the official [Arch Linux
+### 🌱 On a fresh system?
+
+If you plan to use the desktop environment you'll want to set up a bootable USB
+stick with the official [Arch Linux
 ISO](https://fastly.mirror.pkgbuild.com/iso/latest/) and then run the official
 [archinstall](https://wiki.archlinux.org/title/Archinstall) script. There is a
 FAQ item [covering all of that](#how-to-install-arch-linux).
 
-### 🌱 On a fresh system?
-
-We're in a catch-22 where this project will set everything up for you
-but to start using it you need `curl` to download its related install script.
+Also, we're in a catch-22 where this project will set everything up for you but
+to start using it you need `curl` to download its related install script.
 
 #### Arch Linux and macOS
 
@@ -188,6 +188,20 @@ default.
 # You can run this as root.
 apt-get update && apt-get install --yes --no-install-recommends curl
 ```
+
+### 🔌 On an existing system?
+
+For the command line version, it's unlikely you'll run into any conflicts when
+installing these dotfiles.
+
+For the desktop environment, these dotfiles won't modify other environments you
+have. It will install everything and configure your user's shell to launch niri
+after logging in. It won't interfere with a login manager if you have one.
+
+With that said, if you plan to go all-in with the desktop environment it's
+worth considering [backing up your files](https://github.com/nickjj/bmsu) and
+creating a fresh install but it's not technically required if you do manual
+cleanup. It's up to you!
 
 ### ⚡️ Install
 
