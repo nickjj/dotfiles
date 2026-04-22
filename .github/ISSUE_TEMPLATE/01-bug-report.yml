@@ -1,0 +1,19 @@
+name: "Bug Report"
+description: "Found a bug? Please report it here!"
+body:
+  - type: "textarea"
+    id: "issue"
+    attributes:
+      label: "What's wrong?"
+      description: "Please describe the issue in detail and include reproducible steps
+        if it makes sense"
+    validations:
+      required: true
+  - type: "textarea"
+    id: "system"
+    attributes:
+      label: "Debug information"
+      description: "You can run `./install --debug` to obtain information about your
+        environment, if this applies please include it"
+    validations:
+      required: false
