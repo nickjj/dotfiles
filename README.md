@@ -102,11 +102,11 @@ include screenshots in 1 spot.
 
 ### Tokyonight Moon
 
-![Tokyonight Moon](./themes/tokyonight-moon/_preview.jpg)
+![Tokyonight Moon](./_themes/tokyonight-moon/_preview.jpg)
 
 ### Gruvbox Dark (Medium)
 
-![Gruvbox Dark Medium](./themes/gruvbox-dark-medium/_preview.jpg)
+![Gruvbox Dark Medium](./_themes/gruvbox-dark-medium/_preview.jpg)
 
 I prefer using themes that have good contrast ratios and are clear to see in
 video recordings. These dotfiles currently support easily switching between
