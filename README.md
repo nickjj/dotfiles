@@ -258,6 +258,9 @@ Here's a few handy commands, you can run `./install --help` to see all of them:
   - Show all local git ignored files such as configs, history and scripts
   - Useful to see everything not committed and for optionally backing up those files
     - Example: `./install --local-files | xargs zip dotfiles-personal.zip`
+- `./install --debug`
+  - Show dotfiles environment and system information
+  - Can be used to help report issues and check your system stats
 
 ### 🔧 Make it your own
 

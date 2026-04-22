@@ -2252,6 +2252,52 @@ parse_args() {
   --skip-system-packages | -S)
     SKIP_SYSTEM_PACKAGES=1
     ;;
+  --debug | -b)
+    detect_env
+
+    _info "DEBUG INFORMATION" ""
+
+    cat <<EOF
+${C_BLUE}#### Dotfiles Environment${C_RESET}
+
+${C_WHITE}\`\`\`sh${C_RESET}
+CPU_ARCH="${CPU_ARCH}"
+
+OS_KERNEL="${OS_KERNEL}"
+OS_DISTRO="${OS_DISTRO}
+OS_DISTRO_LIKE=${OS_DISTRO_LIKE}"
+
+OS_IN_WSL="${OS_IN_WSL}"
+OS_IN_CONTAINER="${OS_IN_CONTAINER}"
+
+GUI_ELIGIBLE="${GUI_ELIGIBLE}"
+GUI_ENABLED="${GUI_ENABLED}"
+
+DOTFILES_BRANCH="${DOTFILES_BRANCH}"
+DOTFILES_REF="$(git log -1 --format="%as :: %h :: %s")"
+${C_WHITE}\`\`\`${C_RESET}
+EOF
+
+    local system_info=
+    if system_info="$(fastfetch --logo none --structure-disabled "Title:Separator:Colors:Break" 2>/dev/null)"; then
+      cat <<EOF
+
+${C_BLUE}#### System Information${C_RESET}
+
+${C_WHITE}\`\`\`yaml${C_RESET}
+${system_info}
+${C_WHITE}\`\`\`${C_RESET}
+EOF
+    fi
+
+    cat <<EOF
+${C_WHITE}
+If something isn't working as expected, if it makes sense please include the
+the above when creating an issue at: ${DOTFILES_CLONE_URL}${C_RESET}
+EOF
+
+    exit
+    ;;
   --help | -h)
     cat <<EOF
 ${C_BLUE}-------------------------------------------------------------------------------
@@ -2319,6 +2365,13 @@ ${C_GREEN}./install --new-commits ${C_CYAN}...${DOTFILES_BRANCH}
 
 ${C_WHITE}# Show a list of commits on a remote, defaults to "origin".
 ${C_GREEN}./install --changelog ${C_CYAN}[TARGET]${C_RESET}
+
+${C_BLUE}-------------------------------------------------------------------------------
+HELP
+-------------------------------------------------------------------------------${C_RESET}
+
+${C_WHITE}# Show debug information that you can paste into an issue.
+${C_GREEN}./install --debug
 
 ${C_WHITE}# Show this help menu.
 ${C_GREEN}./install --help
