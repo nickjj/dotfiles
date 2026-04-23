@@ -1088,7 +1088,7 @@ check_install_config() {
   real_file="install-config"
 
   if [ "${example_file}" -nt "${real_file}" ]; then
-    delta --paging=never install-config install-config.example || true
+    DELTA_PAGER="cat" git diff --no-index install-config install-config.example
 
     cat <<EOF
 
