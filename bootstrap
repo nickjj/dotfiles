@@ -196,16 +196,19 @@ detect_env_results() {
   cat <<EOF
 So far so good, your system appears to be compatible with these dotfiles:
 
-CPU_ARCH=${CPU_ARCH}
+CPU_ARCH="${CPU_ARCH}"
 
-OS_KERNEL=${OS_KERNEL}
-OS_DISTRO=${OS_DISTRO_ORIGINAL}
-OS_DISTRO_LIKE=${OS_DISTRO_LIKE}
+OS_KERNEL="${OS_KERNEL}"
+OS_DISTRO="${OS_DISTRO_ORIGINAL}"
+OS_DISTRO_LIKE="${OS_DISTRO_LIKE}"
 
-OS_IN_WSL=${OS_IN_WSL:-0}
-OS_IN_CONTAINER=${OS_IN_CONTAINER:-0}
+OS_IN_WSL="${OS_IN_WSL:-0}"
+OS_IN_CONTAINER="${OS_IN_CONTAINER:-0}"
 
-GUI_ELIGIBLE=${GUI_ELIGIBLE:-0}
+GUI_ELIGIBLE="${GUI_ELIGIBLE:-0}"
+
+DOTFILES_BRANCH="${DOTFILES_BRANCH}"
+DOTFILES_REF="$(git log -1 --format="%as :: %h :: %s")"
 EOF
 
   # This will come up when running the install script for the first time.
