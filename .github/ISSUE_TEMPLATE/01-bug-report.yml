@@ -12,7 +12,7 @@ body:
   - type: "textarea"
     id: "system"
     attributes:
-      label: "Debug information"
+      label: "System information"
       description: "You can run `./install --debug` to obtain information about your
         environment, if this applies please include it"
     validations:
