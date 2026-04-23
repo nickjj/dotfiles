@@ -510,7 +510,7 @@ After logging in you'll be greeted with an empty desktop and a top bar.
 - A few key binds:
   - `Mod + Alt + T  ::  Terminal`
   - `Mod + Alt + B  ::  Browser`
-  - `Mod + Alt + /  ::  Show Important Hotkeys`
+  - `Mod + /        ::  Show Global Hotkeys`
 - Connect to Wi-Fi *if needed* by clicking the Wi-Fi icon in the top right
   - Alternatively you can run `impala` from a terminal
   - If your system has no Wi-Fi adapter this tool won't be installed
