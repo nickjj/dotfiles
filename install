@@ -1484,16 +1484,23 @@ configure_sudoers_entries() {
   done
 
   if ((${#sudoers_entries[@]} == 0)); then
-    echo "Skipping, since there's no entries set"
+    echo "Skipping, since there's no entries defined"
     return
   fi
 
   for key in "${!sudoers_entries[@]}"; do
-    [[ "${key}" = "0" || -z "${sudoers_entries[${key}]}" ]] && continue
-    echo "${sudoers_entries[${key}]}" | sudo tee "/etc/sudoers.d/${key}"
-  done
 
-  sudo chmod -R 440 /etc/sudoers.d
+    [[ "${key}" = "0" || -z "${sudoers_entries[${key}]}" ]] && continue
+
+    local entry="/etc/sudoers.d/${key}"
+
+    if _file_changed "${sudoers_entries[${key}]}" "${entry}"; then
+      echo "${sudoers_entries[${key}]}" | sudo tee "${entry}"
+      sudo chmod 440 "${entry}"
+    else
+      echo "Skipping, since '${key}' didn't change"
+    fi
+  done
 
   printf "\nThey have been configured in '/etc/sudoers.d/'\n"
 }
@@ -1519,7 +1526,7 @@ configure_udev_rules() {
   done
 
   if ((${#udev_rules[@]} == 0)); then
-    echo "Skipping, since there's no rules set"
+    echo "Skipping, since there's no rules defined"
     return
   fi
 

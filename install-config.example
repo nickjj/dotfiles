@@ -223,7 +223,7 @@ export CONFIG_INSTALL_WSL=()
 export CONFIG_INSTALL_WSL_EXTRAS=()
 
 # -----------------------------------------------------------------------------
-# Sudoers
+# Sudoers entries
 # -----------------------------------------------------------------------------
 
 # The same rules apply as mise languages for how to define these.
