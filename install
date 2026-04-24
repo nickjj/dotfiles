@@ -1026,7 +1026,7 @@ create_initial_dirs() {
 install_packages() {
   _info "INSTALL PACKAGES"
 
-  if [ -n "${SKIP_SYSTEM_PACKAGES}" ]; then
+  if [ "${SKIP_SYSTEM_PACKAGES}" == "1" ]; then
     echo "Skipping, since you've chosen not to install packages."
     return
   fi
