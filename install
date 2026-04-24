@@ -1928,13 +1928,8 @@ create_gpg_key() {
   _info "CREATING GPG KEY"
 
   local gpg_home="${GNUPGHOME}"
-  local gpg_key=
 
-  set +o errexit
-  gpg_key="$(gpg --export --armor "${YOUR_EMAIL}" 2>/dev/null)"
-  set -o errexit
-
-  if [[ "${gpg_key}" =~ "PGP PUBLIC KEY" ]]; then
+  if [[ "$(gpg --export --armor "${YOUR_EMAIL}" 2>/dev/null)" =~ "PGP PUBLIC KEY" ]]; then
     echo "Skipping, since a key already exists for '${YOUR_EMAIL}'"
   else
     mkdir -p "${gpg_home}"
