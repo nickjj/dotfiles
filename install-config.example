@@ -241,6 +241,30 @@ export SUDOERS_ENTRIES
 export SUDOERS_ENTRIES_EXTRAS
 
 # -----------------------------------------------------------------------------
+# Udev rules
+# -----------------------------------------------------------------------------
+
+# The same rules apply as mise languages for how to define these.
+# You can find the defaults in _install/default/udev_rules.
+
+# On systems that support this, you can add any rules you need. You can use this
+# to tweak certain device properties such as power management rules. They will
+# get applied immediately without needing to reboot.
+
+# Creates configs into /etc/udev/rules.d/.
+declare -A UDEV_RULES=()
+
+# Here's an example to demonstrate the syntax. The key is the file name and
+# the value is the line written to the file which is any udev rule exactly how
+# you'd define it manually. Omit the ".rules" file extension.
+# declare -A UDEV_RULES_EXTRAS=(
+#   ["99-my-custom-rule"]='ACTION="add" [ADD_YOUR_RULE]'
+# )
+
+export UDEV_RULES
+export UDEV_RULES_EXTRAS
+
+# -----------------------------------------------------------------------------
 # Enabled systemd services
 # -----------------------------------------------------------------------------
 

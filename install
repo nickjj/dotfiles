@@ -326,6 +326,15 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     declare -A SUDOERS_ENTRIES_EXTRAS
   fi
 
+  if [[ ! "${UDEV_RULES+x}" ]]; then
+    unset UDEV_RULES
+    declare -n UDEV_RULES=DEFAULT_UDEV_RULES
+  fi
+
+  if [[ ! "${UDEV_RULES_EXTRAS+x}" ]]; then
+    declare -A UDEV_RULES_EXTRAS
+  fi
+
   if [[ "${SYSTEMD_ENABLED_SERVICES+x}" ]]; then
     [ -z "${SYSTEMD_ENABLED_SERVICES}" ] && SYSTEMD_ENABLED_SERVICES=()
   else
@@ -704,6 +713,18 @@ _theme_download() {
 
     echo "'${theme_name}' has been installed"
   fi
+}
+
+_file_changed() {
+  local a="${1}"
+  local b="${2}"
+
+  ! sudo [ -f "${b}" ] && return 0
+
+  # Quickly check a string or file against another file for equality.
+  { [ -f "${a}" ] && cat "${a}" || echo "${a}"; } | sudo cmp -s - "${b}" || return 0
+
+  return 1
 }
 
 # -----------------------------------------------------------------------------
@@ -1475,6 +1496,47 @@ configure_sudoers_entries() {
   sudo chmod -R 440 /etc/sudoers.d
 
   printf "\nThey have been configured in '/etc/sudoers.d/'\n"
+}
+
+configure_udev_rules() {
+  _info "CONFIGURE UDEV RULES"
+
+  local rules_dir="/etc/udev/rules.d"
+
+  if [ ! -d "${rules_dir}" ]; then
+    echo "Skipping, since this only runs when '${rules_dir}/' exists"
+    return
+  fi
+
+  declare -A udev_rules
+
+  # Merge both arrays.
+  for key in "${!UDEV_RULES[@]}"; do
+    udev_rules["${key}"]="${UDEV_RULES[${key}]}"
+  done
+  for key in "${!UDEV_RULES_EXTRAS[@]}"; do
+    udev_rules["${key}"]="${UDEV_RULES_EXTRAS[${key}]}"
+  done
+
+  if ((${#udev_rules[@]} == 0)); then
+    echo "Skipping, since there's no rules set"
+    return
+  fi
+
+  for key in "${!udev_rules[@]}"; do
+    [[ "${key}" = "0" || -z "${udev_rules[${key}]}" ]] && continue
+
+    if _file_changed "${udev_rules[${key}]}" "${rules_dir}/${key}.rules"; then
+      echo "${udev_rules[${key}]}" | sudo tee "${rules_dir}/${key}.rules"
+
+      # Apply the changes right now without needing to reboot.
+      sudo udevadm control --reload-rules && sudo udevadm trigger
+    else
+      echo "Skipping, since '${key}.rules' didn't change"
+    fi
+  done
+
+  printf "\nThey have been configured in '%s/'\n" "${rules_dir}"
 }
 
 configure_systemd_services() {
@@ -2415,6 +2477,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   install_external_scripts
   install_configs
   configure_sudoers_entries
+  configure_udev_rules
   configure_systemd_services
   configure_system_configs
   configure_home_configs
