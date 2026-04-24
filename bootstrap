@@ -207,12 +207,14 @@ OS_IN_CONTAINER="${OS_IN_CONTAINER:-0}"
 
 GUI_ELIGIBLE="${GUI_ELIGIBLE:-0}"
 
+DOTFILES_FIRST_RUN="${DOTFILES_FIRST_RUN:-1}"
+DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL}"
 DOTFILES_BRANCH="${DOTFILES_BRANCH}"
 DOTFILES_REF="$(git log -1 --format="%as :: %h :: %s")"
 EOF
 
   # This will come up when running the install script for the first time.
-  if [[ "${FIRST_RUN:-}" == "1" && "${GUI_ENABLED}" == "1" && "${OS_DISTRO_ORIGINAL}" != "${OS_DISTRO}" ]]; then
+  if [[ "${DOTFILES_FIRST_RUN:-}" == "1" && "${GUI_ENABLED}" == "1" && "${OS_DISTRO_ORIGINAL}" != "${OS_DISTRO}" ]]; then
     cat <<EOF
 
 ---

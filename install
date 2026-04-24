@@ -4,9 +4,9 @@
 set -o errexit
 
 # Figure out the dotfiles path and the state of the system.
-FIRST_RUN=
+DOTFILES_FIRST_RUN="0"
 DOTFILES_PATH_CONFIGURED="${DOTFILES_PATH:-}"
-[ -z "${DOTFILES_PATH}" ] && FIRST_RUN=1
+[ -z "${DOTFILES_PATH}" ] && DOTFILES_FIRST_RUN="1"
 DOTFILES_PATH="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
 # shellcheck disable=SC1091
@@ -737,7 +737,7 @@ verify_dotfiles_path() {
   fi
 
   # A user moved their dotfiles, so let's maybe adjust their symlinks.
-  if [[ "${FIRST_RUN}" != "1" && "${DOTFILES_PATH}" != "${DOTFILES_PATH_CONFIGURED}" ]]; then
+  if [[ "${DOTFILES_FIRST_RUN}" != "1" && "${DOTFILES_PATH}" != "${DOTFILES_PATH_CONFIGURED}" ]]; then
     cat <<EOF
 ${C_MAGENTA}It looks like you moved your dotfiles directory:${C_RESET}
 
@@ -1049,7 +1049,7 @@ install_packages() {
   local first_run_msg=
 
   # We'll only let users know this detail if auto confirm wasn't enabled.
-  if [[ "${FIRST_RUN}" == "1" && "${PACKAGES_AUTO_CONFIRM}" != "1" ]]; then
+  if [[ "${DOTFILES_FIRST_RUN}" == "1" && "${PACKAGES_AUTO_CONFIRM}" != "1" ]]; then
     PACKAGES_AUTO_CONFIRM="1"
     first_run_msg=$(
       cat <<EOF
@@ -2215,8 +2215,8 @@ follow the few steps there to complete the installation. You only need to do
 this once to install a few system fonts.
 EOF
   # If there's no Wayland display then it's very likely the first time a user
-  # enabled GUI mode. This is more dependable than checking FIRST_RUN=1 in
-  # case someone installs the command line tools and adds GUI support later.
+  # enabled GUI mode. This is more dependable than checking DOTFILES_FIRST_RUN=1
+  # in case someone installs the command line tools and adds GUI support later.
   elif [[ -z "${WAYLAND_DISPLAY:-}" && "${GUI_ENABLED}" == "1" ]]; then
     cat <<EOF
 
@@ -2337,6 +2337,8 @@ OS_IN_CONTAINER="${OS_IN_CONTAINER}"
 GUI_ELIGIBLE="${GUI_ELIGIBLE}"
 GUI_ENABLED="${GUI_ENABLED}"
 
+DOTFILES_FIRST_RUN="${DOTFILES_FIRST_RUN}"
+DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL}"
 DOTFILES_BRANCH="${DOTFILES_BRANCH}"
 DOTFILES_REF="$(git log -1 --format="%as :: %h :: %s")"
 ${C_WHITE}\`\`\`${C_RESET}
