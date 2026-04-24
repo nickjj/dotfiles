@@ -23,7 +23,7 @@ export C_RESET=$'\e[0m'
 
 export PACKAGES_CRITICAL=("less" "git" "nano")
 
-export LOCAL=
+export LOCAL="0"
 
 export CPU_ARCH=
 export OS_TYPE=
@@ -31,11 +31,11 @@ export OS_KERNEL=
 export OS_DISTRO=
 export OS_DISTRO_LIKE=
 export OS_DISTRO_ORIGINAL=
-export OS_IN_WSL=
-export OS_IN_CONTAINER="${OS_IN_CONTAINER:-}"
-export GUI_LINUX=
-export GUI_ELIGIBLE=
-export GUI_ENABLED=
+export OS_IN_WSL="0"
+export OS_IN_CONTAINER="${OS_IN_CONTAINER:-0}"
+export GUI_LINUX="0"
+export GUI_ELIGIBLE="0"
+export GUI_ENABLED="0"
 
 export DOTFILES_PATH="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
 export DOTFILES_BRANCH="${DOTFILES_BRANCH:-master}"
@@ -153,7 +153,7 @@ EOF
 
     # Are we in WSL?
     if grep --quiet --ignore-case "microsoft" /proc/version; then
-      OS_IN_WSL=1
+      OS_IN_WSL="1"
     fi
 
     # We can't fully depend on these which is why this env var exists, but it
@@ -163,11 +163,11 @@ EOF
 
     # Can we install and configure a window manager and GUI tools?
     if [[ "${OS_DISTRO}" = "arch" && "${OS_IN_WSL}" != "1" && "${OS_IN_CONTAINER}" != "1" ]]; then
-      GUI_ELIGIBLE=1
+      GUI_ELIGIBLE="1"
     fi
 
     if [[ "${GUI_LINUX}" == "1" && "${GUI_ELIGIBLE}" == "1" ]]; then
-      GUI_ENABLED=1
+      GUI_ENABLED="1"
     fi
 
     ;;
@@ -202,10 +202,10 @@ OS_KERNEL="${OS_KERNEL}"
 OS_DISTRO="${OS_DISTRO_ORIGINAL}"
 OS_DISTRO_LIKE="${OS_DISTRO_LIKE}"
 
-OS_IN_WSL="${OS_IN_WSL:-0}"
-OS_IN_CONTAINER="${OS_IN_CONTAINER:-0}"
+OS_IN_WSL="${OS_IN_WSL}"
+OS_IN_CONTAINER="${OS_IN_CONTAINER}"
 
-GUI_ELIGIBLE="${GUI_ELIGIBLE:-0}"
+GUI_ELIGIBLE="${GUI_ELIGIBLE}"
 
 DOTFILES_FIRST_RUN="${DOTFILES_FIRST_RUN:-1}"
 DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL}"
@@ -491,8 +491,8 @@ EOF
 ${C_RED}Sorry your OS isn't eligible, this option requires all of these to be true:${C_RESET}
 
 - Running an Arch based Linux distro [Yours: ${OS_DISTRO}]
-- Not running within WSL (Windows Subsystem for Linux) [Yours: ${OS_IN_WSL:-0}]
-- Not running in a container [Yours: ${OS_IN_CONTAINER:-0}]
+- Not running within WSL (Windows Subsystem for Linux) [Yours: ${OS_IN_WSL}]
+- Not running in a container [Yours: ${OS_IN_CONTAINER}]
 EOF
 
         continue

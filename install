@@ -34,16 +34,13 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   # shellcheck disable=SC1091
   . "${DOTFILES_PATH}/_install/default/systemd_services"
 
-  # This will get optionally populated later, it essentially does a git pull
-  # to pull in the latest changes locally.
-  PULL=
+  # Pull in the latest remote changes.
+  PULL="0"
 
-  # This will get optionally populated later, it combines pulling in the latest
-  # updates and running the install script.
-  PULL_UPDATE=
+  # Combine pulling and running the the main install script.
+  PULL_UPDATE="0"
 
-  # This will get optionally populated later.
-  SKIP_SYSTEM_PACKAGES=
+  SKIP_SYSTEM_PACKAGES="0"
 
   DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/nickjj/dotfiles}"
   DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-https://github.com/nickjj/dotfiles}"
@@ -53,10 +50,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   YOUR_EMAIL="${YOUR_EMAIL:-}"
 
   # Do we want to auto confirm installing config files during installation?
-  CONFIG_INSTALL_AUTO_CONFIRM="${CONFIG_INSTALL_AUTO_CONFIRM:-}"
+  CONFIG_INSTALL_AUTO_CONFIRM="${CONFIG_INSTALL_AUTO_CONFIRM:-0}"
 
   # Do we want to auto confirm packages during installation?
-  PACKAGES_AUTO_CONFIRM="${PACKAGES_AUTO_CONFIRM:-}"
+  PACKAGES_AUTO_CONFIRM="${PACKAGES_AUTO_CONFIRM:-0}"
 
   # Is the variable defined as an array or string? -z doesn't reliably work
   # on arrays since it only looks at the first element.
@@ -1068,7 +1065,7 @@ $(_display_packages)
 ---
 
 ${C_YELLOW}If you choose yes${C_RESET}, the above packages will be installed with or without
-confirmation by you based on if PACKAGES_AUTO_CONFIRM=${PACKAGES_AUTO_CONFIRM:-0} is set to 1.
+confirmation by you based on if PACKAGES_AUTO_CONFIRM=${PACKAGES_AUTO_CONFIRM} is set to 1.
 ${first_run_msg}
 ${C_YELLOW}If you choose no${C_RESET}, the above packages will not be installed and this script
 will exit here. This gives you a chance to edit the list of packages.
@@ -1356,7 +1353,7 @@ install_external_scripts() {
 }
 
 install_configs() {
-  local auto_confirm="${1:-"${CONFIG_INSTALL_AUTO_CONFIRM:-}"}"
+  local auto_confirm="${1:-"${CONFIG_INSTALL_AUTO_CONFIRM}"}"
 
   _info "INSTALL CONFIGS"
 
@@ -2308,13 +2305,13 @@ parse_args() {
     exit
     ;;
   --pull | -p)
-    PULL=1
+    PULL="1"
     ;;
   --update | -u)
-    PULL_UPDATE=1
+    PULL_UPDATE="1"
     ;;
   --skip-system-packages | -S)
-    SKIP_SYSTEM_PACKAGES=1
+    SKIP_SYSTEM_PACKAGES="1"
     ;;
   --debug | -b)
     detect_env

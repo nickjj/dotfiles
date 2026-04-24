@@ -30,7 +30,7 @@ export YOUR_EMAIL=
 
 # When set to "1", niri and graphical apps will be installed if you're using an
 # Arch based Linux distro. This is always skipped in WSL and in containers.
-export GUI_LINUX=
+export GUI_LINUX="0"
 
 # -----------------------------------------------------------------------------
 # XDG directories
@@ -73,7 +73,7 @@ export XDG_VIDEOS_DIR="${HOME}/tmp/videos"
 # When set to "1", package managers that support non-interactive mode where you
 # can skip typing "y" to confirm will be set. Be careful, this allows hands free
 # installs at the cost of not being able to review changes before installing.
-export PACKAGES_AUTO_CONFIRM=
+export PACKAGES_AUTO_CONFIRM="0"
 
 # These rules apply to all package variables:
 # - Left as is OR commented out            -> default packages get used
@@ -191,7 +191,7 @@ export SCRIPTS_INSTALL_SKIP=()
 # When set to "1", even if there's files not managed by these dotfiles they
 # will get overwritten without showing you a prompt to confirm. This could
 # result in you losing your original files, be careful setting this.
-export CONFIG_INSTALL_AUTO_CONFIRM=
+export CONFIG_INSTALL_AUTO_CONFIRM="0"
 
 # Typically these should be symlinks but they could be created with cp / rsync
 # or whatever commands you want.
