@@ -50,7 +50,7 @@ distro.*
 
 #### Highlights
 
-- [niri](https://github.com/YaLTeR/niri) *(Wayland compositor)*, Waybar *(status bar)*, Walker *(app launcher)* and friends
+- [niri](https://github.com/niri-wm/niri) *(Wayland compositor)*, Waybar *(status bar)*, Walker *(app launcher)* and friends
 - Hotkey focused but tons of mouse / trackpad support
 - Prefer TUI (Terminal User Interface) apps over GUI apps when possible
 - Development / media creation focused apps are ready to go
