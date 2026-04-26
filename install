@@ -506,7 +506,7 @@ _package_display() {
 
   # Let's show something so it doesn't look like it was blindly skipped.
   if ((${#packages[@]} == 0)); then
-    echo "  - Skipping, since there's no packages defined"
+    _skipping "No packages defined" "  - "
     return
   fi
 
@@ -615,9 +615,11 @@ _config_install_display() {
 
   printf "\n%b%s:%b\n" "${C_BLUE}" "${heading}" "${C_RESET}"
 
+  local commands=()
+
   # Let's show something so it doesn't look like it was blindly skipped.
   if ((${#commands[@]} == 0)); then
-    echo "  - Skipping, since there's no config install commands defined"
+    _skipping "No config install commands defined" "  - "
     return
   fi
 
@@ -700,7 +702,7 @@ _theme_download() {
   local theme_path="${XDG_DATA_HOME}/themes/${theme_name}"
 
   if [ -d "${theme_path}" ]; then
-    echo "Skipping, since '${theme_name}' is already installed, delete it to reinstall or update"
+    _skipping "'${theme_name}' is already installed, delete it to reinstall or update"
   else
     rm -rf "${zip_path}" "/tmp/${zip_file_name}"
     _curl "${url}" -o "${zip_path}"
@@ -780,7 +782,7 @@ detect_and_prepare_gpu() {
   _info "DETECT AND PREPARE GPU"
 
   if [[ "${GUI_ENABLED}" != "1" || "${SKIP_SYSTEM_PACKAGES}" == "1" ]]; then
-    echo "Skipping, since this only runs when GUI_LINUX=1 is set with packages"
+    _skipping "Only runs when GUI_LINUX=1 is set with packages"
     return
   fi
 
@@ -942,7 +944,8 @@ detect_and_prepare_network() {
   _info "DETECT AND PREPARE NETWORK"
 
   if [[ "${GUI_ENABLED}" != "1" || "${SKIP_SYSTEM_PACKAGES}" == "1" ]]; then
-    echo "Skipping, since this only runs when GUI_LINUX=1 is set with packages"
+    _skipping "Only runs when GUI_LINUX=1 is set with packages"
+
     return
   fi
 
@@ -960,7 +963,7 @@ detect_and_prepare_bluetooth() {
   _info "DETECT AND PREPARE BLUETOOTH"
 
   if [[ "${GUI_ENABLED}" != "1" || "${SKIP_SYSTEM_PACKAGES}" == "1" ]]; then
-    echo "Skipping, since this only runs when GUI_LINUX=1 is set with packages"
+    _skipping "Only runs when GUI_LINUX=1 is set with packages"
     return
   fi
 
@@ -970,7 +973,7 @@ detect_and_prepare_bluetooth() {
 
     echo "Compatible adapter found, bluez + bluetui packages will be installed"
   else
-    echo "Skipping, since no Bluetooth adapter was found"
+    _skipping "No Bluetooth adapter was found"
   fi
 }
 
@@ -1027,7 +1030,7 @@ install_packages() {
   _info "INSTALL PACKAGES"
 
   if [ "${SKIP_SYSTEM_PACKAGES}" == "1" ]; then
-    echo "Skipping, since you've chosen not to install packages."
+    _skipping "You've chosen not to install packages"
     return
   fi
 
@@ -1132,20 +1135,20 @@ EOF
     _error "There are potentially new updates to merge into your '${real_file}'"
 
   else
-    echo "Skipping, since '${real_file}' is up to date"
+    _skipping "'${real_file}' is up to date"
   fi
 }
 
 update_dotfiles() {
   _info "UPDATE DOTFILES"
 
-  if [ -z "${DOTFILES_PATH:-}" ]; then
-    echo "Skipping, since this is the first time you've run this script"
+  if [ "${DOTFILES_FIRST_RUN}" == "1" ]; then
+    _skipping "This is the first time you've run this script"
     return
   fi
 
   if [[ "${PULL}" != "1" && "${PULL_UPDATE}" != "1" ]]; then
-    echo "Skipping, rerun with --pull or --update to get the latest changes"
+    _skipping "Rerun with --pull or --update to get the latest changes"
     return
   fi
 
@@ -1188,7 +1191,7 @@ update_dotfiles() {
   new_commit_count="$(git -C "${DOTFILES_PATH}" rev-list "${local_branch}..origin/${DOTFILES_BRANCH}" --count)"
 
   if [ "${new_commit_count}" = "0" ]; then
-    echo "Skipping, since local '${local_branch}' has the latest commits from remote '${DOTFILES_BRANCH}'"
+    _skipping "Local '${local_branch}' has the latest commits from remote '${DOTFILES_BRANCH}'"
   else
     # Let's merge the latest updates into the local branch.
     git -C "${DOTFILES_PATH}" checkout --quiet "${local_branch}"
@@ -1229,7 +1232,7 @@ install_fonts() {
   [ -f "${font_path}/${font_filename}" ] && font_is_installed=1
 
   if [ -n "${font_is_installed}" ]; then
-    echo "Skipping, since fonts are already installed at '${font_path}'"
+    _skipping "'${font_path}' already contains installable fonts"
   else
     rm -rf "${font_zip}" "${font_tmp}"
     _curl "${font_url}" -o "${font_zip}"
@@ -1268,7 +1271,7 @@ install_gui_themes() {
   _info "INSTALL GUI THEMES"
 
   if [ "${GUI_ENABLED}" != "1" ]; then
-    echo "Skipping, since this only runs on Linux when GUI_LINUX=1 is set"
+    _skipping "Only runs on Linux when GUI_LINUX=1 is set"
     return
   fi
 
@@ -1295,7 +1298,7 @@ install_external_scripts() {
   _info "INSTALL EXTERNAL SCRIPTS"
 
   if [ "${SKIP_SYSTEM_PACKAGES}" == "1" ]; then
-    echo "Skipping, since this only runs when packages get installed"
+    _skipping "Only runs when packages get installed"
     return
   fi
 
@@ -1321,7 +1324,7 @@ install_external_scripts() {
   done
 
   if [ ${#scripts_install_filtered[@]} == 0 ]; then
-    echo "Skipping, since there's no scripts to install"
+    _skipping "No scripts to install"
     return
   fi
 
@@ -1345,7 +1348,7 @@ install_external_scripts() {
         echo "Installed '${script}' version ${tag}"
       fi
     else
-      echo "Skipping '${script}', since version ${tag} already exists"
+      _skipping "'${script}' already has version '${tag}' installed"
     fi
   done
 
@@ -1481,7 +1484,7 @@ configure_sudoers_entries() {
   done
 
   if ((${#sudoers_entries[@]} == 0)); then
-    echo "Skipping, since there's no entries defined"
+    _skipping "No entries defined"
     return
   fi
 
@@ -1495,7 +1498,7 @@ configure_sudoers_entries() {
       echo "${sudoers_entries[${key}]}" | sudo tee "${entry}"
       sudo chmod 440 "${entry}"
     else
-      echo "Skipping, since '${key}' didn't change"
+      _skipping "'${key}' didn't change"
     fi
   done
 
@@ -1508,7 +1511,7 @@ configure_udev_rules() {
   local rules_dir="/etc/udev/rules.d"
 
   if [ ! -d "${rules_dir}" ]; then
-    echo "Skipping, since this only runs when '${rules_dir}/' exists"
+    _skipping "Only runs when '${rules_dir}/' exists"
     return
   fi
 
@@ -1523,7 +1526,7 @@ configure_udev_rules() {
   done
 
   if ((${#udev_rules[@]} == 0)); then
-    echo "Skipping, since there's no rules defined"
+    _skipping "No rules defined"
     return
   fi
 
@@ -1536,7 +1539,7 @@ configure_udev_rules() {
       # Apply the changes right now without needing to reboot.
       sudo udevadm control --reload-rules && sudo udevadm trigger
     else
-      echo "Skipping, since '${key}.rules' didn't change"
+      _skipping "'${key}.rules' didn't change"
     fi
   done
 
@@ -1547,7 +1550,7 @@ configure_systemd_services() {
   _info "CONFIGURE SYSTEMD SERVICES"
 
   if [ "${GUI_ENABLED}" != "1" ]; then
-    echo "Skipping, since this only runs on Linux when GUI_LINUX=1 is set"
+    _skipping "Only runs on Linux when GUI_LINUX=1 is set"
     return
   fi
 
@@ -1557,7 +1560,7 @@ configure_systemd_services() {
   )
 
   if ((${#services[@]} == 0)); then
-    echo "Skipping, since there's no services defined"
+    _skipping "No services defined"
     return
   fi
 
@@ -1853,10 +1856,10 @@ ask_for_name() {
   set -o errexit
 
   if [ -n "${name}" ]; then
-    echo "Skipping, since '${name}' was retrieved from your git config"
+    _skipping "'${name}' was retrieved from your git config"
   else
     [ -n "${YOUR_NAME}" ] &&
-      echo "Skipping, since '${YOUR_NAME}' was retrieved from your install config" &&
+      _skipping "'${YOUR_NAME}' was retrieved from your install config" &&
       return 0
 
     while true; do
@@ -1884,10 +1887,10 @@ ask_for_email() {
   set -o errexit
 
   if [ -n "${email}" ]; then
-    echo "Skipping, since '${email}' was retrieved from your git config"
+    _skipping "'${email}' was retrieved from your git config"
   else
     [ -n "${YOUR_EMAIL}" ] &&
-      echo "Skipping, since '${YOUR_EMAIL}' was retrieved from your install config" &&
+      _skipping "'${YOUR_EMAIL}' was retrieved from your install config" &&
       return 0
 
     while true; do
@@ -1911,7 +1914,7 @@ create_ssh_key() {
   local -r key_path="${HOME}/.ssh/id_ed25519"
 
   if [[ -f "${key_path}" ]]; then
-    echo "Skipping, since a key already exists at '${key_path}'"
+    _skipping "'${key_path}' already exists"
   else
     ssh-keygen -t ed25519 -C "${YOUR_EMAIL}" -N "" -f "${key_path}"
   fi
@@ -1927,7 +1930,7 @@ create_gpg_key() {
   local gpg_home="${GNUPGHOME}"
 
   if [[ "$(gpg --export --armor "${YOUR_EMAIL}" 2>/dev/null)" =~ "PGP PUBLIC KEY" ]]; then
-    echo "Skipping, since a key already exists for '${YOUR_EMAIL}'"
+    _skipping "'${YOUR_EMAIL}' already exists"
   else
     mkdir -p "${gpg_home}"
     chmod 700 "${gpg_home}"
@@ -2017,7 +2020,7 @@ install_programming_languages() {
   done
 
   if ((${#mise_languages[@]} == 0)); then
-    echo "Skipping, since there's no languages set"
+    _skipping "No languages set"
     return
   fi
 
@@ -2026,7 +2029,7 @@ install_programming_languages() {
 
     printf "\nInstalling %s...\n\n" "${mise_languages[${key}]}"
     if command -v "${XDG_DATA_HOME}/mise/shims/${key}" 1>/dev/null; then
-      echo "Skipping, it's already installed, run 'mise upgrade ${key} --bump' to upgrade"
+      _skipping "Already installed, run 'mise upgrade ${key} --bump' to upgrade"
     else
       mise use --global "${mise_languages[${key}]}"
     fi

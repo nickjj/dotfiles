@@ -51,6 +51,13 @@ for arg in "${@}"; do
   esac
 done
 
+_skipping() {
+  local message="${1}"
+  local pre_message="${2:-}"
+
+  printf "%b%bSkipping: %b%b\n" "${pre_message}" "${C_WHITE}" "${message}" "${C_RESET}"
+}
+
 _info() {
   local message="${1}"
   local pre_message="${2-\n\n}"
@@ -255,13 +262,13 @@ warn_root() {
   local sudo_user="${SUDO_USER:-}"
 
   if [ "${OS_IN_CONTAINER}" == "1" ]; then
-    echo "Skipping, since this script is being run in a container"
+    _skipping "Script is being run in a container"
     return
   fi
 
   # Root will have an effective uid of 0.
   if [ "${EUID}" != "0" ]; then
-    echo "Skipping, since this script is being run as '${user}'"
+    _skipping "Script is being run as '${user}'"
     return
   fi
 
@@ -328,7 +335,7 @@ install_homebrew() {
   local brew_bin_path="${brew_prefix}/bin/brew"
 
   if [ -f "${brew_bin_path}" ]; then
-    echo "Skipping, since it's already installed"
+    _skipping "Already installed"
     return
   fi
 
@@ -355,7 +362,7 @@ _local_clone() {
   if [ "$(realpath "${source_path}")" == "$(realpath "${DOTFILES_PATH}")" ]; then
     # This is already protected against in the clone_dotfiles function but
     # this is an extra layer of defense in case that function changes.
-    echo "Skipping, since '${source_path}' is your real dotfiles path"
+    _skipping "'${source_path}' is your real dotfiles path"
   else
     cp -R "${source_path}/." "${DOTFILES_PATH}"
 
