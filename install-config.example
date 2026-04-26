@@ -17,10 +17,9 @@ export DOTFILES_BRANCH="${DOTFILES_BRANCH:-master}"
 # Personalization
 # -----------------------------------------------------------------------------
 
-# If you define these, they will get used instead of prompting you. Keep in
-# mind you won't be prompted once you've answered them once since the values
-# get persisted and read independent of these values. Still, this could be
-# handy to set for fresh systems to avoid needing to input them manually.
+# If you define these, they will get used instead of prompting you for them.
+# Keep in mind, after you've been prompted once your answers will be persisted
+# to your git config and read from there if these values are empty.
 export YOUR_NAME=
 export YOUR_EMAIL=
 

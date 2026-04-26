@@ -1863,21 +1863,18 @@ EOF
 }
 
 ask_for_name() {
-  _info "ASKING FOR YOUR NAME TO CONFIGURE GIT"
+  _info "ASKING FOR YOUR NAME"
 
   local name=
 
-  set +o errexit
-  name="$(git config user.name)"
-  set -o errexit
+  if [ -n "${YOUR_NAME}" ]; then
+    _skipping "'${YOUR_NAME}' was retrieved from your install config"
+    return 0
+  fi
 
-  if [ -n "${name}" ]; then
+  if name="$(git config user.name)"; then
     _skipping "'${name}' was retrieved from your git config"
   else
-    [ -n "${YOUR_NAME}" ] &&
-      _skipping "'${YOUR_NAME}' was retrieved from your install config" &&
-      return 0
-
     while true; do
       printf "What is your full name (ie. Dade Murphy)? "
       read -r name
@@ -1894,21 +1891,18 @@ ask_for_name() {
 }
 
 ask_for_email() {
-  _info "ASKING FOR YOUR EMAIL TO CONFIGURE GIT"
+  _info "ASKING FOR YOUR EMAIL"
 
   local email=
 
-  set +o errexit
-  email="$(git config user.email)"
-  set -o errexit
+  if [ -n "${YOUR_EMAIL}" ]; then
+    _skipping "'${YOUR_EMAIL}' was retrieved from your install config"
+    return 0
+  fi
 
-  if [ -n "${email}" ]; then
+  if email="$(git config user.email)"; then
     _skipping "'${email}' was retrieved from your git config"
   else
-    [ -n "${YOUR_EMAIL}" ] &&
-      _skipping "'${YOUR_EMAIL}' was retrieved from your install config" &&
-      return 0
-
     while true; do
       printf "What is your email address (ie. zerocool@example.com)? "
       read -r email
