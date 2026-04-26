@@ -953,7 +953,7 @@ detect_and_prepare_network() {
 
     echo "Wi-Fi adapter found, iwd + impala packages will be installed"
   else
-    echo "Ethernet adapter found, no preparation is necessary"
+    _skipping "Ethernet adapter found, no preparation is required"
   fi
 }
 
