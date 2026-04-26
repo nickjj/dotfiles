@@ -201,8 +201,6 @@ detect_env_results() {
   detect_env
 
   cat <<EOF
-So far so good, your system appears to be compatible with these dotfiles:
-
 CPU_ARCH="${CPU_ARCH}"
 
 OS_KERNEL="${OS_KERNEL}"
