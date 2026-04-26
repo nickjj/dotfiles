@@ -615,8 +615,6 @@ _config_install_display() {
 
   printf "\n%b%s:%b\n" "${C_BLUE}" "${heading}" "${C_RESET}"
 
-  local commands=()
-
   # Let's show something so it doesn't look like it was blindly skipped.
   if ((${#commands[@]} == 0)); then
     _skipping "No config install commands defined" "  - "
@@ -1285,7 +1283,7 @@ install_gui_themes() {
     "https://github.com/user-attachments/files/26270135/Gruvbox-BL-LB-dark-Medium.zip" \
     "Gruvbox-BL-LB-Dark-Medium"
 
-  printf "\nThey were installed to '%s'\n" "${XDG_DATA_HOME}/themes/"
+  printf "\nInstalled to '%s'\n" "${XDG_DATA_HOME}/themes/"
 }
 
 install_zsh_plugins() {
@@ -1352,7 +1350,7 @@ install_external_scripts() {
     fi
   done
 
-  printf "\nThey were installed to '%s'\n" "${HOME}/.local/bin/"
+  printf "\nInstalled to '%s'\n" "${HOME}/.local/bin/"
 }
 
 install_configs() {
@@ -1502,7 +1500,7 @@ configure_sudoers_entries() {
     fi
   done
 
-  printf "\nThey have been configured in '/etc/sudoers.d/'\n"
+  printf "\nConfigured in '/etc/sudoers.d/'\n"
 }
 
 configure_udev_rules() {
@@ -1543,7 +1541,7 @@ configure_udev_rules() {
     fi
   done
 
-  printf "\nThey have been configured in '%s/'\n" "${rules_dir}"
+  printf "\nConfigured in '%s/'\n" "${rules_dir}"
 }
 
 configure_systemd_services() {
@@ -1580,8 +1578,6 @@ configure_systemd_services() {
       echo "'${service}' has been enabled"
     fi
   done
-
-  printf "\nThey have been configured to start on boot\n"
 }
 
 configure_system_configs() {
@@ -1713,7 +1709,7 @@ enabled=False
 EOF
   fi
 
-  echo "They have been configured in '${xdg_local_path}'"
+  echo "Configured in '${xdg_local_path}'"
 }
 
 configure_shell() {
@@ -1843,7 +1839,7 @@ EOF
   # volume mounted and this value will be different in Docker.
   DOTFILES_PATH="${original_dotfiles_path}"
 
-  echo "It has been configured in '${DOTFILES_PATH}/.config/zsh/'"
+  echo "Configured in '${DOTFILES_PATH}/.config/zsh/'"
 }
 
 ask_for_name() {
@@ -2003,7 +1999,7 @@ configure_git() {
 EOF
   fi
 
-  echo "It has been configured in '$(dirname "${git_config_local_path}")'"
+  echo "Configured in '$(dirname "${git_config_local_path}")'"
 }
 
 install_programming_languages() {
