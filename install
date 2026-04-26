@@ -700,7 +700,7 @@ _theme_download() {
   local theme_path="${XDG_DATA_HOME}/themes/${theme_name}"
 
   if [ -d "${theme_path}" ]; then
-    _skipping "'${theme_name}' is already installed, delete it to reinstall or update"
+    _skipping "'${theme_name}' already installed, delete it to reinstall or update"
   else
     rm -rf "${zip_path}" "/tmp/${zip_file_name}"
     _curl "${url}" -o "${zip_path}"
@@ -1585,22 +1585,33 @@ configure_system_configs() {
 
   if [ "${OS_DISTRO}" = "arch" ]; then
     local etc_pacman_conf_path="/etc/pacman.conf"
+    local changed="0"
+
     # Ensure multilib is disabled since we'll enable it with an include file,
     # on vanilla Arch it's disabled but other variants might have it enabled.
     if grep -q "^\[multilib\]" "${etc_pacman_conf_path}"; then
       sudo sed -i "/^\[multilib\]/,+1 s/^/#/" "${etc_pacman_conf_path}"
+      changed="1"
     fi
 
     if compgen -G "/etc/pacman.d/*.conf" 1>/dev/null; then
       if ! grep -q "Include = /etc/pacman\.d/\*\.conf" "${etc_pacman_conf_path}"; then
         printf "\nInclude = /etc/pacman.d/*.conf\n" | sudo tee --append "${etc_pacman_conf_path}" 1>/dev/null
+        changed="1"
       fi
     else
       # Pacman will fail to run if there's no conf files while this line exists
       # so we can remove the line.
       if grep -q "Include = /etc/pacman\.d/\*\.conf" "${etc_pacman_conf_path}"; then
         sudo sed -i "\|Include = /etc/pacman.d/\*\.conf|d" "${etc_pacman_conf_path}"
+        changed="1"
       fi
+    fi
+
+    if [ "${changed}" == "0" ]; then
+      _skipping "'${etc_pacman_conf_path}' already up to date"
+    else
+      echo "'${etc_pacman_conf_path}' has been updated"
     fi
   fi
 
@@ -1612,8 +1623,6 @@ configure_system_configs() {
       fi
     done
   fi
-
-  echo "Everything that required configuring was updated"
 }
 
 configure_home_configs() {
@@ -1621,18 +1630,26 @@ configure_home_configs() {
 
   local ghostty_config="${XDG_CONFIG_HOME}/ghostty/config.local"
 
-  if [ ! -f "${ghostty_config}" ]; then
+  if [ -f "${ghostty_config}" ]; then
+    _skipping "'${ghostty_config}' already exists"
+  else
     printf "# Add your custom overrides and new additions here.\n" >"${ghostty_config}"
+    echo "'${ghostty_config}' has been created"
   fi
 
   if [ "${GUI_ENABLED}" == "1" ]; then
     local mako_config="${XDG_CONFIG_HOME}/mako/config.local"
-    if [ ! -f "${mako_config}" ]; then
+    if [ -f "${mako_config}" ]; then
+      _skipping "'${mako_config}' already exists"
+    else
       printf "# Add your custom overrides and new additions here.\n" >"${mako_config}"
+      echo "'${mako_config}' has been created"
     fi
 
     local wm_config="${XDG_CONFIG_HOME}/niri/config.kdl.local"
-    if [ ! -f "${wm_config}" ]; then
+    if [ -f "${wm_config}" ]; then
+      _skipping "'${wm_config}' already exists"
+    else
       cat <<EOF >"${wm_config}"
 // Add your custom overrides and new additions here.
 
@@ -1651,10 +1668,9 @@ configure_home_configs() {
 //     position x=2560 y=0
 // }
 EOF
+      echo "'${wm_config}' has been created"
     fi
   fi
-
-  echo "Everything that required configuring was updated"
 }
 
 configure_xdg_directories() {
