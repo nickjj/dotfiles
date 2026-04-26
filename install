@@ -2023,7 +2023,7 @@ install_programming_languages() {
   for key in "${!mise_languages[@]}"; do
     [[ "${key}" = "0" || -z "${mise_languages[${key}]}" ]] && continue
 
-    printf "\nInstalling %s...\n\n" "${mise_languages[${key}]}"
+    printf "\n%bInstalling %b:%b\n\n" "${C_BLUE}" "${mise_languages["${key}"]}" "${C_RESET}"
     if command -v "${XDG_DATA_HOME}/mise/shims/${key}" 1>/dev/null; then
       _skipping "Already installed, run 'mise upgrade ${key} --bump' to upgrade"
     else
