@@ -1100,8 +1100,8 @@ EOF
   done
 }
 
-check_install_config() {
-  _info "CHECK INSTALL CONFIG FOR UPDATES"
+compare_install_config() {
+  _info "COMPARE INSTALL CONFIG"
 
   example_file="install-config.example"
   real_file="install-config"
@@ -2483,7 +2483,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
   [ "${PULL}" == "1" ] && exit
 
-  check_install_config
+  compare_install_config
   ensure_sudo_works
   create_initial_dirs
   install_packages
