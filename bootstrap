@@ -549,7 +549,7 @@ EOF
 }
 
 main() {
-  detect_env_results
+  detect_env_results "${@}"
   warn_root
 
   if [ "${OS_TYPE}" == "darwin" ]; then
