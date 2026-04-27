@@ -32,6 +32,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   # shellcheck disable=SC1091
   . "${DOTFILES_PATH}/_install/default/sudoers_entries"
   # shellcheck disable=SC1091
+  . "${DOTFILES_PATH}/_install/default/udev_rules"
+  # shellcheck disable=SC1091
   . "${DOTFILES_PATH}/_install/default/systemd_services"
 
   # Pull in the latest remote changes.
@@ -1513,7 +1515,7 @@ configure_udev_rules() {
     return
   fi
 
-  declare -A udev_rules
+  declare -A udev_rules=()
 
   # Merge both arrays.
   for key in "${!UDEV_RULES[@]}"; do

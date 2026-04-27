@@ -2,4 +2,4 @@
 # Customize these in the config file instead of editing them here.
 
 # shellcheck disable=SC2034
-declare -A DEFAULT_UDEV_RULES
+declare -A DEFAULT_UDEV_RULES=()
