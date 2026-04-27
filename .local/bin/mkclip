@@ -20,5 +20,7 @@ IFS="." read -r -a input_split <<<"${input}"
 
 filename="${input_split[0]}"
 extension="${input_split[1]}"
+output="${filename}${part}.${extension}"
 
-ffmpeg -ss "${start}" -to "${end}" -i "${input}" -c copy "${filename}${part}.${extension}"
+ffmpeg -ss "${start}" -to "${end}" -i "${input}" -c copy "${output}"
+touch -r "${input}" "${output}"
