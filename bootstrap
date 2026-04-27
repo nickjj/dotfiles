@@ -29,8 +29,9 @@ export CPU_ARCH=
 export OS_TYPE=
 export OS_KERNEL=
 export OS_DISTRO=
-export OS_DISTRO_LIKE=
 export OS_DISTRO_ORIGINAL=
+export OS_DISTRO_LIKE=
+export OS_VERSION=
 export OS_IN_WSL="0"
 export OS_IN_CONTAINER="${OS_IN_CONTAINER:-0}"
 export GUI_LINUX="0"
@@ -126,7 +127,7 @@ _package_install() {
 
 _dotfiles_env() {
   local flag="${1:-}"
-  local gui_enabled=""
+  local gui_enabled=
   local commit="-"
 
   if [ "${flag}" == "--gui-enabled" ]; then
@@ -134,14 +135,14 @@ _dotfiles_env() {
   fi
 
   if [[ -d "${DOTFILES_PATH}/.git" && -f "${DOTFILES_PATH}/install" ]]; then
-    commit="$(git -C "${DOTFILES_PATH}" log -1 --format="%as :: %h :: %s")"
+    commit="$(git -C "${DOTFILES_PATH}" log -1 --format="%as :: %h :: %s" 2>/dev/null || echo "-")"
   fi
 
   cat <<EOF
 CPU_ARCH="${CPU_ARCH}"
 
 OS_KERNEL="${OS_KERNEL}"
-OS_DISTRO="${OS_DISTRO_ORIGINAL}"
+OS_DISTRO="${OS_DISTRO_ORIGINAL} (${OS_VERSION})"
 OS_DISTRO_LIKE="${OS_DISTRO_LIKE}"
 
 OS_IN_WSL="${OS_IN_WSL}"
@@ -167,7 +168,7 @@ detect_env() {
 
     if [ -r /etc/os-release ]; then
       # shellcheck disable=SC1091
-      read -r OS_DISTRO OS_DISTRO_LIKE <<<"$(. /etc/os-release && echo "${ID} ${ID_LIKE:-"${ID}"}")"
+      read -r OS_DISTRO OS_DISTRO_LIKE OS_VERSION <<<"$(. /etc/os-release && echo "${ID}" "${ID_LIKE:-"${ID}"}" "${BUILD_ID:-"${VERSION_ID:-"${VERSION_CODENAME:-}"}"}")"
     else
       _error "'/etc/os-release' file is missing which is not supported, aborting!"
     fi
@@ -223,6 +224,7 @@ EOF
     OS_DISTRO="${OS_TYPE}"
     OS_DISTRO_ORIGINAL="${OS_DISTRO}"
     OS_DISTRO_LIKE="${OS_DISTRO}"
+    OS_VERSION="$(uname -r)"
 
     ;;
   *)

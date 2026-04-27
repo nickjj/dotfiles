@@ -2347,7 +2347,7 @@ EOF
     if system_info="$(fastfetch --logo none --structure-disabled "Title:Separator:Colors:Break" 2>/dev/null)"; then
       cat <<EOF
 
-${C_BLUE}#### System Information${C_RESET}
+${C_BLUE}#### System Details${C_RESET}
 
 ${C_WHITE}\`\`\`yaml${C_RESET}
 ${system_info}
