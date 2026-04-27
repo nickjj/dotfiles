@@ -31,7 +31,7 @@ Everyone is welcome here and you have full control.
 
 ### Command line
 
-🛟 *Supports **Arch Linux**, both vanilla and Arch-like distros such as
+🛟 *Supports **Arch Linux**, both vanilla and Arch based distros such as
 **CachyOS**, etc.. It also supports **Debian**, **Ubuntu** (vanilla and all
 flavors), **macOS** and there's **WSL 2** support for any supported Linux
 distro.*
@@ -46,7 +46,7 @@ distro.*
 
 ### (Optional) Scrolling / tiling desktop environment
 
-🛟 *Supports **Arch Linux**, both vanilla and Arch-like distros such as **CachyOS**, etc.*
+🛟 *Supports **Arch Linux**, both vanilla and Arch based distros such as **CachyOS**, etc.*
 
 #### Highlights
 

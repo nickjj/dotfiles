@@ -215,8 +215,11 @@ GUI_ELIGIBLE="${GUI_ELIGIBLE}"
 DOTFILES_FIRST_RUN="${DOTFILES_FIRST_RUN:-1}"
 DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL}"
 DOTFILES_BRANCH="${DOTFILES_BRANCH}"
-DOTFILES_REF="$(git log -1 --format="%as :: %h :: %s")"
 EOF
+
+  if [[ -d "${DOTFILES_PATH}/.git" && -f "${DOTFILES_PATH}/install" ]]; then
+    echo "DOTFILES_REF=\"$(git -C "${DOTFILES_PATH}" log -1 --format="%as :: %h :: %s")\""
+  fi
 
   # This will come up when running the install script for the first time.
   if [[ "${DOTFILES_FIRST_RUN:-}" == "1" && "${GUI_ENABLED}" == "1" && "${OS_DISTRO_ORIGINAL}" != "${OS_DISTRO}" ]]; then
@@ -224,7 +227,7 @@ EOF
 
 ---
 ${C_YELLOW}
-These dotfiles are designed for vanilla Arch and you have an Arch-like distro.
+These dotfiles are designed for vanilla Arch and you have an Arch based distro.
 There could be minor issues with packages or system config files. It might also
 be perfect, it really depends on the distro!${C_RESET}
 
