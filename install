@@ -2339,22 +2339,7 @@ parse_args() {
 ${C_BLUE}#### Dotfiles Environment${C_RESET}
 
 ${C_WHITE}\`\`\`sh${C_RESET}
-CPU_ARCH="${CPU_ARCH}"
-
-OS_KERNEL="${OS_KERNEL}"
-OS_DISTRO="${OS_DISTRO_ORIGINAL}"
-OS_DISTRO_LIKE="${OS_DISTRO_LIKE}"
-
-OS_IN_WSL="${OS_IN_WSL}"
-OS_IN_CONTAINER="${OS_IN_CONTAINER}"
-
-GUI_ELIGIBLE="${GUI_ELIGIBLE}"
-GUI_ENABLED="${GUI_ENABLED}"
-
-DOTFILES_FIRST_RUN="${DOTFILES_FIRST_RUN}"
-DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL}"
-DOTFILES_BRANCH="${DOTFILES_BRANCH}"
-DOTFILES_REF="$(git log -1 --format="%as :: %h :: %s")"
+$(_dotfiles_env --gui-enabled)
 ${C_WHITE}\`\`\`${C_RESET}
 EOF
 
@@ -2471,7 +2456,7 @@ EOF
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   parse_args "${@}"
 
-  detect_env_results
+  detect_env_results --gui-enabled
   verify_dotfiles_path
 
   if [ "${PULL}" != "1" ]; then

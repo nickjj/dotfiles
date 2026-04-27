@@ -51,6 +51,10 @@ for arg in "${@}"; do
   esac
 done
 
+# -----------------------------------------------------------------------------
+# Helper functions
+# -----------------------------------------------------------------------------
+
 _skipping() {
   local message="${1}"
   local pre_message="${2:-}"
@@ -119,6 +123,42 @@ _package_install() {
     ;;
   esac
 }
+
+_dotfiles_env() {
+  local flag="${1:-}"
+  local gui_enabled=""
+  local commit="-"
+
+  if [ "${flag}" == "--gui-enabled" ]; then
+    gui_enabled=$'\n'"GUI_ENABLED=\"${GUI_ENABLED}\""
+  fi
+
+  if [[ -d "${DOTFILES_PATH}/.git" && -f "${DOTFILES_PATH}/install" ]]; then
+    commit="$(git -C "${DOTFILES_PATH}" log -1 --format="%as :: %h :: %s")"
+  fi
+
+  cat <<EOF
+CPU_ARCH="${CPU_ARCH}"
+
+OS_KERNEL="${OS_KERNEL}"
+OS_DISTRO="${OS_DISTRO_ORIGINAL}"
+OS_DISTRO_LIKE="${OS_DISTRO_LIKE}"
+
+OS_IN_WSL="${OS_IN_WSL}"
+OS_IN_CONTAINER="${OS_IN_CONTAINER}"
+
+GUI_ELIGIBLE="${GUI_ELIGIBLE}"${gui_enabled}
+
+DOTFILES_FIRST_RUN="${DOTFILES_FIRST_RUN:-1}"
+DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL}"
+DOTFILES_BRANCH="${DOTFILES_BRANCH}"
+DOTFILES_COMMIT="${commit}"
+EOF
+}
+
+# -----------------------------------------------------------------------------
+# Main functions
+# -----------------------------------------------------------------------------
 
 detect_env() {
   case "${OSTYPE}" in
@@ -198,28 +238,11 @@ EOF
 detect_env_results() {
   _info "DETECT ENVIRONMENT"
 
+  local flag="${1:-}"
+
   detect_env
 
-  cat <<EOF
-CPU_ARCH="${CPU_ARCH}"
-
-OS_KERNEL="${OS_KERNEL}"
-OS_DISTRO="${OS_DISTRO_ORIGINAL}"
-OS_DISTRO_LIKE="${OS_DISTRO_LIKE}"
-
-OS_IN_WSL="${OS_IN_WSL}"
-OS_IN_CONTAINER="${OS_IN_CONTAINER}"
-
-GUI_ELIGIBLE="${GUI_ELIGIBLE}"
-
-DOTFILES_FIRST_RUN="${DOTFILES_FIRST_RUN:-1}"
-DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL}"
-DOTFILES_BRANCH="${DOTFILES_BRANCH}"
-EOF
-
-  if [[ -d "${DOTFILES_PATH}/.git" && -f "${DOTFILES_PATH}/install" ]]; then
-    echo "DOTFILES_REF=\"$(git -C "${DOTFILES_PATH}" log -1 --format="%as :: %h :: %s")\""
-  fi
+  _dotfiles_env "${flag}"
 
   # This will come up when running the install script for the first time.
   if [[ "${DOTFILES_FIRST_RUN:-}" == "1" && "${GUI_ENABLED}" == "1" && "${OS_DISTRO_ORIGINAL}" != "${OS_DISTRO}" ]]; then
