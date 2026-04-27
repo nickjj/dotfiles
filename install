@@ -1619,6 +1619,8 @@ configure_system_configs() {
     else
       echo "'${etc_pacman_conf_path}' has been updated"
     fi
+  else
+    _skipping "Only runs on Arch Linux based systems"
   fi
 
   if [ "${GUI_ENABLED}" == "1" ]; then
