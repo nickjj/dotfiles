@@ -1,3 +1,5 @@
+-- Reset both types of zooming to their default value.
+
 local function zoom_reset()
 	mp.set_property("window-scale", 1.0)
 	mp.set_property("video-zoom", 0)
