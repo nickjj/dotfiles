@@ -390,19 +390,15 @@ get it added to this project.
 Nothing here is too specific to these dotfiles, it's general knowledge on
 setting up Arch but I wanted to include these steps to help get you going.
 
-#### Set up a bootable USB drive
+#### Create a bootable USB drive
 
-- Obtain a USB drive (a few gigs is fine)
-- Download the [official Arch ISO](https://fastly.mirror.pkgbuild.com/iso/latest/)
-  - You'll likely get the `archlinux-YYYY-MM-DD-x86_64.iso` file, it's about ~1.5 GB
-- Create a bootable USB drive using the above ISO
-  - The tool you use depends on your OS, but likely choose UEFI / GPT options if asked
-- Insert the USB drive and reboot
-- Configure your BIOS to boot into the USB drive first
+Here's a [written and video
+tutorial](https://nickjanetakis.com/blog/create-bootable-arch-usb-on-linux-macos-with-cat-or-rufus-on-windows)
+for Windows, Linux and macOS.
 
 #### After booting from the USB drive
 
-- Following any instructions it says before running `archinstall`
+- Follow any instructions it says before running `archinstall`
   - For example if you use Wi-Fi you'll want to run `iwctl` to [set up your network](https://wiki.archlinux.org/title/Iwd#iwctl):
     - `iwctl`
       - `device list` shows devices such as `wlan0` which we'll use below
