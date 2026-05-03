@@ -439,6 +439,7 @@ space to toggle checkboxes.*
     - Review the info, you should see `/boot` and `/` (root) partitions at the very least
   - *Disk encryption*:
       - It's up to you, I would, choose to encrypt all of your non-boot partitions and set a good password, then double confirm you can remember this password, it's very important
+      - After choosing LUKS as the type and your password, pick which partitions to wipe + encrypt, encrypt at least the root partition and skip the boot partition
 - **Swap**:
   - It's up to you, I kept it enabled with zram which was the default
 - **Bootloader**:
