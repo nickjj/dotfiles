@@ -367,13 +367,13 @@ _package_install() {
 
   local -A confirm_map=(
     ["pacman"]="--noconfirm"
-    ["yay"]="--noconfirm"
+    ["yay"]="--noconfirm --answerdiff None --answerclean None"
     ["apt"]="--yes"
   )
 
   local -a confirm_flag=()
   if [[ "${PACKAGES_AUTO_CONFIRM}" == "1" && -v confirm_map["${manager}"] ]]; then
-    confirm_flag+=("${confirm_map["${manager}"]}")
+    read -ra confirm_flag <<<"${confirm_map["${manager}"]}"
   fi
 
   case "${manager}" in
