@@ -467,6 +467,8 @@ space to toggle checkboxes.*
 - **Network configuration**:
   - Go with "Copy ISO network configuration" unless you have other opinions
   - This just means it will use whatever you used in this bootable USB environment
+- **Pacman**:
+  - You can leave the defaults, these dotfiles will configure Pacman for you
 - **Additional packages**:
   - You can skip this as these dotfiles will install everything for you
 - **Timezone**:
