@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 
 spawn-at-startup "swayidle" "-w"
-spawn-at-startup "dot-theme-set-bg" "--keep-current"
+spawn-at-startup "dfr-theme-set-bg" "--keep-current"
 spawn-at-startup "mako"
 spawn-at-startup "waybar"
 spawn-at-startup "elephant"
@@ -136,7 +136,7 @@ window-rule {
 
 binds {
     // Overview.
-    Mod+Grave          hotkey-overlay-title="System menu" { spawn "dot-menu"; }
+    Mod+Grave          hotkey-overlay-title="System menu" { spawn "dfr-menu"; }
     Mod+Slash          hotkey-overlay-title="Search niri keybinds" { spawn "walker" "--height" "980" "--width" "980" "--provider" "menus:keybinds"; }
     Mod+Shift+Slash    hotkey-overlay-title="Search niri actions" { spawn "walker" "--height" "980" "--width" "980" "--provider" "niriactions"; }
     Mod+Ctrl+Slash     hotkey-overlay-title="Search Waybar actions" { spawn "walker" "--height" "980" "--width" "800" "--provider" "menus:waybar"; }
@@ -148,12 +148,12 @@ binds {
     Mod+Ctrl+Shift+Q hotkey-overlay-title="Exit niri session" { quit; }
 
     // Capture.
-    Mod+S            hotkey-overlay-title="Screenshot (region)" { spawn "dot-screenshot" "region"; }
-    Mod+Shift+S      hotkey-overlay-title="Screenshot (window)" { spawn "dot-screenshot" "window"; }
-    Mod+Ctrl+S       hotkey-overlay-title="Screenshot (monitor: focused)" { spawn "dot-screenshot" "monitor-focused"; }
-    Mod+Ctrl+Shift+S hotkey-overlay-title="Screenshot (monitor: all)" { spawn "dot-screenshot" "monitor-all"; }
+    Mod+S            hotkey-overlay-title="Screenshot (region)" { spawn "dfr-screenshot" "region"; }
+    Mod+Shift+S      hotkey-overlay-title="Screenshot (window)" { spawn "dfr-screenshot" "window"; }
+    Mod+Ctrl+S       hotkey-overlay-title="Screenshot (monitor: focused)" { spawn "dfr-screenshot" "monitor-focused"; }
+    Mod+Ctrl+Shift+S hotkey-overlay-title="Screenshot (monitor: all)" { spawn "dfr-screenshot" "monitor-all"; }
 
-    Mod+P       hotkey-overlay-title="Pick window" { spawn "ghostty" "--class=dot.floating.ghostty" "-e" "sh" "-c" "printf 'Pick a window...\n\n'; niri msg pick-window; niri msg action focus-window-previous; printf '\nDone! Press CTRL+c to quit\n'; read"; }
+    Mod+P       hotkey-overlay-title="Pick window" { spawn "ghostty" "--class=dfr.floating.ghostty" "-e" "sh" "-c" "printf 'Pick a window...\n\n'; niri msg pick-window; niri msg action focus-window-previous; printf '\nDone! Press CTRL+c to quit\n'; read"; }
     Mod+Shift+P hotkey-overlay-title="Pick color" { spawn-sh "killall hyprpicker || hyprpicker --autocopy --lowercase-hex"; }
 
     Mod+E hotkey-overlay-title="Cast focused window" { spawn-sh "niri msg action set-dynamic-cast-window --id $(niri msg --json focused-window | jq .id)"; }
@@ -165,10 +165,10 @@ binds {
     Mod+Ctrl+Shift+N hotkey-overlay-title="Toggle silencing notifications" { spawn-sh "makoctl mode -t do-not-disturb && makoctl mode | grep -q 'do-not-disturb' && notify-send --urgency critical 'Silenced notifications' || notify-send 'Enabled notifications'"; }
 
     // Themes.
-    Mod+BackSlash           hotkey-overlay-title="Cycle theme's wallpapers" { spawn "dot-theme-set-bg"; }
-    Mod+Alt+BackSlash       hotkey-overlay-title="Pick theme's wallpapers" { spawn "dot-theme-set-bg" "--menu"; }
-    Mod+Shift+BackSlash     hotkey-overlay-title="Cycle themes" { spawn "dot-theme-set"; }
-    Mod+Alt+Shift+BackSlash hotkey-overlay-title="Pick theme" { spawn "dot-theme-set" "--menu"; }
+    Mod+BackSlash            hotkey-overlay-title="Cycle theme's wallpapers" { spawn "dfr-theme-set-bg"; }
+    Mod+Ctrl+BackSlash       hotkey-overlay-title="Pick theme's wallpapers" { spawn "dfr-theme-set-bg" "--menu"; }
+    Mod+Shift+BackSlash      hotkey-overlay-title="Cycle themes" { spawn "dfr-theme-set"; }
+    Mod+Ctrl+Shift+BackSlash hotkey-overlay-title="Pick theme" { spawn "dfr-theme-set" "--menu"; }
 
     // Media keys.
     XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="Raise volume" { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05+"; }
@@ -192,14 +192,14 @@ binds {
     Mod+V      repeat=false hotkey-overlay-title="Launcher (clipboard)" { spawn "walker" "--provider" "clipboard"; }
 
     // Apps.
-    Mod+Alt+H            hotkey-overlay-title="System health" { spawn "dot-launch-or-focus-tui" "monitor"; }
+    Mod+Alt+H            hotkey-overlay-title="System health" { spawn "dfr-launch-or-focus-tui" "monitor"; }
     Mod+Alt+T            hotkey-overlay-title="Terminal" { spawn "ghostty"; }
-    Mod+Alt+Shift+T      hotkey-overlay-title="Terminal (floating)" { spawn "ghostty" "--class=dot.floating.ghostty"; }
+    Mod+Alt+Shift+T      hotkey-overlay-title="Terminal (floating)" { spawn "ghostty" "--class=dfr.floating.ghostty"; }
     Mod+Alt+F            hotkey-overlay-title="File manager" { spawn "thunar"; }
-    Mod+Alt+Shift+F      hotkey-overlay-title="File manager (floating)" { spawn "thunar" "--name=dot.floating.thunar"; }
-    Mod+Alt+N            hotkey-overlay-title="Notes" { spawn "dot-launch-or-focus-tui" "notes"; }
-    Mod+Alt+P            hotkey-overlay-title="Passwords" { spawn "dot-launch-or-focus" "keepassxc"; }
-    Mod+Alt+M            hotkey-overlay-title="Music" { spawn "dot-launch-or-focus-tui" "rmpc"; }
+    Mod+Alt+Shift+F      hotkey-overlay-title="File manager (floating)" { spawn "thunar" "--name=dfr.floating.thunar"; }
+    Mod+Alt+N            hotkey-overlay-title="Notes" { spawn "dfr-launch-or-focus-tui" "notes"; }
+    Mod+Alt+P            hotkey-overlay-title="Passwords" { spawn "dfr-launch-or-focus" "keepassxc"; }
+    Mod+Alt+M            hotkey-overlay-title="Music" { spawn "dfr-launch-or-focus-tui" "rmpc"; }
     Mod+Alt+B            hotkey-overlay-title="Browser" { spawn "firefox"; }
     Mod+Shift+Alt+B      hotkey-overlay-title="Browser (private)" { spawn "firefox" "-private-window"; }
     Mod+Ctrl+Shift+Alt+B hotkey-overlay-title="Browser (isolated profile)" { spawn-sh "firefox -P ${BROWSER_ISOLATED_PROFILE:-isolated}"; }

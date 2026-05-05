@@ -1,10 +1,10 @@
 All packages listed here are the names of the packages either in the official
 Arch package repository or the AUR. The AUR is used sparingly and will be
 called out when used. They get installed and configured by default for you by
-these dotfiles but you can modify the list.
+DotFriedRice but you can modify the list.
 
-On Arch Linux with these dotfiles you can run `pkg list` to see a comparable
-list of packages you have installed.
+On Arch Linux you can run `pkg list` to see a list of top level packages you
+have installed.
 
 *Similar packages exist for Debian and macOS but not all packages below are
 installed in these environments.*
@@ -39,7 +39,7 @@ Other options are `linux-lts`, `linux-zen` and `linux-hardened`.
 
 ## GPU drivers
 
-If needed, these get automatically installed for you by these dotfiles.
+If needed, these get automatically installed for you by DotFriedRice.
 
 # CLI
 

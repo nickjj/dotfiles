@@ -10,7 +10,7 @@ alias diff="diff --color -u"
 
 alias sz='. ${ZDOTDIR}/.zprofile && . ${ZDOTDIR}/.zshrc'
 alias SZ='tmux-shell-cmd --kill "sz"'
-alias dt='cd ${DOTFILES_PATH} && nvim .'
+alias dfr='cd ${DOTFRIEDRICE_PATH} && nvim .'
 alias lz='cd ${XDG_DATA_HOME}/nvim/lazy/LazyVim && nvim .'
 alias lp='cd ${XDG_DATA_HOME}/nvim/lazy && nvim .'
 

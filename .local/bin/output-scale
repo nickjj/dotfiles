@@ -59,7 +59,7 @@ fi
 niri msg output "${OUTPUT_PRIMARY}" scale "${SCALE_AMOUNT}"
 
 # Fix aspect ratio of wallpaper.
-dot-theme-set-bg --keep-current
+dfr-theme-set-bg --keep-current
 
 # Let folks know what the new scale is.
 notify-send "Output scale: ${SCALE_AMOUNT}x"

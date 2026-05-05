@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Bootstrap and kick off installing these dotfiles.
+# Bootstrap and kick off installing DotFriedRice.
 #
 # Examples:
 #   ./bootstrap          # Clone from the default remote location
@@ -38,10 +38,10 @@ export GUI_LINUX="0"
 export GUI_ELIGIBLE="0"
 export GUI_ENABLED="0"
 
-export DOTFILES_PATH="${DOTFILES_PATH:-"${HOME}/dotfiles"}"
-export DOTFILES_BRANCH="${DOTFILES_BRANCH:-master}"
-export DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/nickjj/dotfiles}"
-export DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-"${DOTFILES_CLONE_URL}"}"
+export DOTFRIEDRICE_PATH="${DOTFRIEDRICE_PATH:-"${HOME}/dotfriedrice"}"
+export DOTFRIEDRICE_BRANCH="${DOTFRIEDRICE_BRANCH:-master}"
+export DOTFRIEDRICE_CLONE_URL="${DOTFRIEDRICE_CLONE_URL:-https://github.com/nickjj/dotfriedrice}"
+export DOTFRIEDRICE_UPSTREAM_URL="${DOTFRIEDRICE_UPSTREAM_URL:-"${DOTFRIEDRICE_CLONE_URL}"}"
 
 for arg in "${@}"; do
   case "${arg}" in
@@ -125,7 +125,7 @@ _package_install() {
   esac
 }
 
-_dotfiles_env() {
+_dotfriedrice_env() {
   local flag="${1:-}"
   local gui_enabled=
   local commit="-"
@@ -134,8 +134,8 @@ _dotfiles_env() {
     gui_enabled=$'\n'"GUI_ENABLED=\"${GUI_ENABLED}\""
   fi
 
-  if [[ -d "${DOTFILES_PATH}/.git" && -f "${DOTFILES_PATH}/install" ]]; then
-    commit="$(git -C "${DOTFILES_PATH}" log -1 --format="%as :: %h :: %s" 2>/dev/null || echo "-")"
+  if [[ -d "${DOTFRIEDRICE_PATH}/.git" && -f "${DOTFRIEDRICE_PATH}/dotfriedrice" ]]; then
+    commit="$(git -C "${DOTFRIEDRICE_PATH}" log -1 --format="%as :: %h :: %s" 2>/dev/null || echo "-")"
   fi
 
   cat <<EOF
@@ -150,10 +150,10 @@ OS_IN_CONTAINER="${OS_IN_CONTAINER}"
 
 GUI_ELIGIBLE="${GUI_ELIGIBLE}"${gui_enabled}
 
-DOTFILES_FIRST_RUN="${DOTFILES_FIRST_RUN:-1}"
-DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL}"
-DOTFILES_BRANCH="${DOTFILES_BRANCH}"
-DOTFILES_COMMIT="${commit}"
+DOTFRIEDRICE_FIRST_RUN="${DOTFRIEDRICE_FIRST_RUN:-1}"
+DOTFRIEDRICE_CLONE_URL="${DOTFRIEDRICE_CLONE_URL}"
+DOTFRIEDRICE_BRANCH="${DOTFRIEDRICE_BRANCH}"
+DOTFRIEDRICE_COMMIT="${commit}"
 EOF
 }
 
@@ -190,7 +190,7 @@ Your distro identified as: '${OS_DISTRO_ORIGINAL}' (based on: '${OS_DISTRO_LIKE}
 Supported distros are Arch and Debian based distros. If your distro identifies
 as one of those the expectation is it should be supported.
 
-If you feel this is a bug please open an issue at: ${DOTFILES_CLONE_URL}
+If you feel this is a bug please open an issue at: ${DOTFRIEDRICE_CLONE_URL}
 
 Please include the output of running: cat /etc/os-release
 
@@ -244,22 +244,22 @@ detect_env_results() {
 
   detect_env
 
-  _dotfiles_env "${flag}"
+  _dotfriedrice_env "${flag}"
 
-  # This will come up when running the install script for the first time.
-  if [[ "${DOTFILES_FIRST_RUN:-}" == "1" && "${GUI_ENABLED}" == "1" && "${OS_DISTRO_ORIGINAL}" != "${OS_DISTRO}" ]]; then
+  # This will come up when running the dotfriedrice script for the first time.
+  if [[ "${DOTFRIEDRICE_FIRST_RUN:-}" == "1" && "${GUI_ENABLED}" == "1" && "${OS_DISTRO_ORIGINAL}" != "${OS_DISTRO}" ]]; then
     cat <<EOF
 
 ---
 ${C_YELLOW}
-These dotfiles are designed for vanilla Arch and you have an Arch based distro.
+DotFriedRice is designed for vanilla Arch and you have an Arch based distro.
 There could be minor issues with packages or system config files. It might also
 be perfect, it really depends on the distro!${C_RESET}
 
-If you run into an issue please report it at: ${DOTFILES_CLONE_URL}
+If you run into an issue please report it at: ${DOTFRIEDRICE_CLONE_URL}
 ${C_WHITE}
 This message only pops up once to give you a heads up. By the way, if you
-answer no to the prompt you can re-run this install script with: ./install
+answer no to the prompt you can re-run this script with: ./dotfriedrice
 ${C_RESET}
 EOF
 
@@ -385,47 +385,47 @@ _local_clone() {
   local source_path
   source_path="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
-  if [ "$(realpath "${source_path}")" == "$(realpath "${DOTFILES_PATH}")" ]; then
-    # This is already protected against in the clone_dotfiles function but
+  if [ "$(realpath "${source_path}")" == "$(realpath "${DOTFRIEDRICE_PATH}")" ]; then
+    # This is already protected against in the clone_dotfriedrice function but
     # this is an extra layer of defense in case that function changes.
-    _skipping "'${source_path}' is your real dotfiles path"
+    _skipping "'${source_path}' is your real DotFriedRice path"
   else
-    cp -R "${source_path}/." "${DOTFILES_PATH}"
+    cp -R "${source_path}/." "${DOTFRIEDRICE_PATH}"
 
     # Ensure the containerized environment starts fresh.
     if [ "${OS_IN_CONTAINER}" == "1" ]; then
       rm -f \
-        "${DOTFILES_PATH}/.config/ghostty/config.local" \
-        "${DOTFILES_PATH}/.config/git/config.local" \
-        "${DOTFILES_PATH}/.config/mako/config.local" \
-        "${DOTFILES_PATH}/.config/niri/config.kdl.local" \
-        "${DOTFILES_PATH}/.config/zsh/.aliases.local" \
-        "${DOTFILES_PATH}/.config/zsh/.zprofile.local" \
-        "${DOTFILES_PATH}/.config/zsh/.zsh_history" \
-        "${DOTFILES_PATH}/.config/zsh/.zshrc.local"
+        "${DOTFRIEDRICE_PATH}/.config/ghostty/config.local" \
+        "${DOTFRIEDRICE_PATH}/.config/git/config.local" \
+        "${DOTFRIEDRICE_PATH}/.config/mako/config.local" \
+        "${DOTFRIEDRICE_PATH}/.config/niri/config.kdl.local" \
+        "${DOTFRIEDRICE_PATH}/.config/zsh/.aliases.local" \
+        "${DOTFRIEDRICE_PATH}/.config/zsh/.zprofile.local" \
+        "${DOTFRIEDRICE_PATH}/.config/zsh/.zsh_history" \
+        "${DOTFRIEDRICE_PATH}/.config/zsh/.zshrc.local"
 
-      local git_config="${DOTFILES_PATH}/.git/config"
+      local git_config="${DOTFRIEDRICE_PATH}/.git/config"
 
       if grep --quiet "git@github.com:" "${git_config}"; then
         perl -pi -e "s|git@github.com:|https://github.com/|g" "${git_config}"
       fi
 
-      cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
+      cp -n "${DOTFRIEDRICE_PATH}/dotfriedrice-config.example" "${DOTFRIEDRICE_PATH}/dotfriedrice-config"
     fi
   fi
 
-  echo "Locally copied from '${source_path}' to '${DOTFILES_PATH}'"
+  echo "Locally copied from '${source_path}' to '${DOTFRIEDRICE_PATH}'"
 }
 
-clone_dotfiles() {
-  _info "CLONE DOTFILES"
+clone_dotfriedrice() {
+  _info "CLONE DOTFRIEDRICE"
 
   cat <<EOF
-Your dotfiles path is where your dotfiles will live on disk. You can change
-this at a later time. Nothing will be installed yet, it only clones this repo:
+Your DotFriedRice path is where it will live on disk. You can change this later,
+nothing will be installed yet, it only clones this repo:
 
-DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL}"
-DOTFILES_BRANCH="${DOTFILES_BRANCH}"
+DOTFRIEDRICE_CLONE_URL="${DOTFRIEDRICE_CLONE_URL}"
+DOTFRIEDRICE_BRANCH="${DOTFRIEDRICE_BRANCH}"
 
 EOF
 
@@ -434,17 +434,17 @@ EOF
   fi
 
   while true; do
-    printf "Where would you like to clone these dotfiles to [%s]? " "${DOTFILES_PATH}"
-    read -r dotfiles_path
+    printf "Where would you like to clone DotFriedRice to [%s]? " "${DOTFRIEDRICE_PATH}"
+    read -r dotfriedrice_path
 
-    [ -z "${dotfiles_path}" ] && dotfiles_path="${DOTFILES_PATH}"
+    [ -z "${dotfriedrice_path}" ] && dotfriedrice_path="${DOTFRIEDRICE_PATH}"
 
     # Expand ~ and normalize path to remove trailing slash.
-    DOTFILES_PATH="${dotfiles_path/#~/"${HOME}"}"
-    DOTFILES_PATH="${DOTFILES_PATH%/}"
+    DOTFRIEDRICE_PATH="${dotfriedrice_path/#~/"${HOME}"}"
+    DOTFRIEDRICE_PATH="${DOTFRIEDRICE_PATH%/}"
 
-    if [ -e "${DOTFILES_PATH:-}" ]; then
-      _error "'${DOTFILES_PATH}' already exists, it must be a new directory\n" ""
+    if [ -e "${DOTFRIEDRICE_PATH:-}" ]; then
+      _error "'${DOTFRIEDRICE_PATH}' already exists, it must be a new directory\n" ""
     else
       break
     fi
@@ -452,15 +452,15 @@ EOF
 
   echo
 
-  mkdir -p "${DOTFILES_PATH}"
+  mkdir -p "${DOTFRIEDRICE_PATH}"
 
   _local_clone && return
 
-  git clone --branch "${DOTFILES_BRANCH}" "${DOTFILES_CLONE_URL}" "${DOTFILES_PATH}"
-  git -C "${DOTFILES_PATH}" remote | grep --quiet --word-regexp upstream ||
-    git -C "${DOTFILES_PATH}" remote add upstream "${DOTFILES_UPSTREAM_URL}.git"
+  git clone --branch "${DOTFRIEDRICE_BRANCH}" "${DOTFRIEDRICE_CLONE_URL}" "${DOTFRIEDRICE_PATH}"
+  git -C "${DOTFRIEDRICE_PATH}" remote | grep --quiet --word-regexp upstream ||
+    git -C "${DOTFRIEDRICE_PATH}" remote add upstream "${DOTFRIEDRICE_UPSTREAM_URL}.git"
 
-  cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
+  cp -n "${DOTFRIEDRICE_PATH}/dotfriedrice-config.example" "${DOTFRIEDRICE_PATH}/dotfriedrice-config"
 }
 
 _update_config() {
@@ -468,11 +468,11 @@ _update_config() {
   [ "${1:-}" == "--gui" ] && gui='s|export GUI_LINUX=.*|export GUI_LINUX="1"|g;'
 
   perl -pi -e '
-    s|export DOTFILES_CLONE_URL=".*"|export DOTFILES_CLONE_URL="\${DOTFILES_CLONE_URL:-'"${DOTFILES_CLONE_URL}"'}"|g;
-    s|export DOTFILES_UPSTREAM_URL=".*"|export DOTFILES_UPSTREAM_URL="\${DOTFILES_UPSTREAM_URL:-'"${DOTFILES_UPSTREAM_URL}"'}"|g;
-    s|export DOTFILES_BRANCH=".*"|export DOTFILES_BRANCH="\${DOTFILES_BRANCH:-'"${DOTFILES_BRANCH}"'}"|g;
+    s|export DOTFRIEDRICE_CLONE_URL=".*"|export DOTFRIEDRICE_CLONE_URL="\${DOTFRIEDRICE_CLONE_URL:-'"${DOTFRIEDRICE_CLONE_URL}"'}"|g;
+    s|export DOTFRIEDRICE_UPSTREAM_URL=".*"|export DOTFRIEDRICE_UPSTREAM_URL="\${DOTFRIEDRICE_UPSTREAM_URL:-'"${DOTFRIEDRICE_UPSTREAM_URL}"'}"|g;
+    s|export DOTFRIEDRICE_BRANCH=".*"|export DOTFRIEDRICE_BRANCH="\${DOTFRIEDRICE_BRANCH:-'"${DOTFRIEDRICE_BRANCH}"'}"|g;
     '"${gui}"'
-  ' "${DOTFILES_PATH}/install-config"
+  ' "${DOTFRIEDRICE_PATH}/dotfriedrice-config"
 }
 
 next_steps() {
@@ -482,20 +482,20 @@ next_steps() {
   [ "${GUI_ELIGIBLE}" == "1" ] && not_eligible=
 
   cat <<EOF
-${C_GREEN}Everything went as planned, your system is ready to install these dotfiles.
+${C_GREEN}Everything went as planned, your system is ready to install DotFriedRice.
 
 ${C_YELLOW}What would you like to do next?
 
-1) Install dotfiles (command line)
-2) Install dotfiles (command line + niri based GUI)${not_eligible}
+1) Install DotFriedRice (command line)
+2) Install DotFriedRice (command line + niri based GUI)${not_eligible}
 ${C_YELLOW}3) Review which packages get installed and edit the config (optional)${C_RESET}
 
-${C_MAGENTA}You can also quit with CTRL+c and browse the dotfiles at your discretion. When
-you're ready to install them, you can run:
+${C_MAGENTA}You can also quit with CTRL+c and browse the repo at your discretion. When
+you're ready to install DotFriedRice, you can run:
 
-cd "${DOTFILES_PATH}" && ./install${C_RESET}
+cd "${DOTFRIEDRICE_PATH}" && ./dotfriedrice${C_RESET}
 
-In any case, you're all set to install these dotfiles however you see fit.
+In any case, you're all set to install DotFriedRice however you see fit.
 
 With option 3, when viewing the packages use the arrow keys to scroll up / down
 and "q" to quit when you're done. If editing the config, hit CTRL+o to save your
@@ -503,7 +503,7 @@ changes and CTRL+x to exit (nano shows the key shortcuts on the bottom).
 
 ${C_WHITE}Extra information:
 
-Choosing option 1 runs the above install command. Option 2 does the same except
+Choosing option 1 runs the above dotfriedrice script. Option 2 does the same except
 it edits the config for you to enable GUI mode. Option 3 uses less and nano to
 let you view / edit files, then it shows this prompt again.${C_RESET}
 EOF
@@ -535,8 +535,8 @@ EOF
       break
       ;;
     3)
-      less "${DOTFILES_PATH}/_install/default/packages/${OS_DISTRO}"
-      nano "${DOTFILES_PATH}/install-config"
+      less "${DOTFRIEDRICE_PATH}/_install/default/packages/${OS_DISTRO}"
+      nano "${DOTFRIEDRICE_PATH}/dotfriedrice-config"
 
       next_steps
       ;;
@@ -544,8 +544,8 @@ EOF
     esac
   done
 
-  # Remove all traces of the bootstrap script once the install script is called.
-  cd "${DOTFILES_PATH}" && DOTFILES_PATH="" exec "./install"
+  # Remove all traces of the bootstrap script once the dotfriedrice script is called.
+  cd "${DOTFRIEDRICE_PATH}" && DOTFRIEDRICE_PATH="" exec "./dotfriedrice"
 }
 
 main() {
@@ -560,7 +560,7 @@ main() {
   fi
 
   install_critical_packages
-  clone_dotfiles
+  clone_dotfriedrice
   next_steps
 }
 
