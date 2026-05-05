@@ -36,7 +36,6 @@ export DEFAULT_PACKAGES_APT=(
 
 export DEFAULT_MISE_DEBIAN=(
   "bat"
-  "btop"
   "eza"
   "fastfetch"
   "fd"
