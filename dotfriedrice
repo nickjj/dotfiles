@@ -728,6 +728,8 @@ _file_changed() {
 # -----------------------------------------------------------------------------
 
 verify_dotfriedrice_path() {
+  _info "VERIFY DOTFRIEDRICE PATH"
+
   if [ ! -d "${DOTFRIEDRICE_PATH}" ]; then
     _error "Current directory is invalid or was deleted, please run: cd ${DOTFRIEDRICE_PATH}, aborting!"
   fi
@@ -737,7 +739,7 @@ verify_dotfriedrice_path() {
     cat <<EOF
 ${C_MAGENTA}It looks like you moved your DotFriedRice directory:${C_RESET}
 
-${C_WHITE}# Determined by this install script when you ran it.${C_RESET}
+${C_WHITE}# Determined by this script when you ran it.${C_RESET}
 DOTFRIEDRICE_PATH="${DOTFRIEDRICE_PATH}"
 
 ${C_WHITE}# Found in '${XDG_CONFIG_HOME}/zsh/.zprofile.local' due to
@@ -772,6 +774,8 @@ EOF
     perl -pi -e "s|DOTFRIEDRICE_PATH=\".*\"|DOTFRIEDRICE_PATH=\"${DOTFRIEDRICE_PATH}\"|g" "${zprofile_path}"
 
     install_configs 1
+  else
+    _skipping "'${DOTFRIEDRICE_PATH}' is valid and no adjustments were required"
   fi
 }
 
