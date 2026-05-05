@@ -90,6 +90,8 @@ packages, standalone scripts, programming languages and more.
   - [How to install Arch Linux?](#how-to-install-arch-linux)
   - [How do I get started with the desktop environment?](#how-do-i-get-started-with-the-desktop-environment)
   - [Where is the original Vim config?](#where-is-the-original-vim-config)
+- [Feedback and Code Contributions](#-feedback-and-code-contributions)
+- [Donations](#-donations)
 - [About the Author](#-about-the-author)
 
 ## 🎨 Themes
@@ -269,10 +271,11 @@ If you just ran the dotfriedrice script and haven't done so already please
 close your terminal and open a new one. If you've set up GUI mode with Arch
 Linux you'll want to reboot instead.
 
-There's a few ways to customize DotFriedRice from customizing
-[dotfriedrice-config](./dotfriedrice-config.example) which is git ignored to forking it.
-The first method lets you adjust which packages and programming languages get
-installed as well as configure a number of other things without using a fork.
+There's a few ways to customize DotFriedRice from customizing the
+[dotfriedrice-config](./dotfriedrice-config.example) which is git ignored to
+forking it. The first method lets you adjust which packages and programming
+languages get installed as well as configure a number of other things without
+using a fork.
 
 Before you start customizing other files, please take a look at the
 [personalization question in the FAQ](#how-to-personalize-dot-fried-rice).
@@ -522,6 +525,31 @@ root directory. If you cloned DotFriedRice locally you can `git checkout
 vim`. Keep in mind that's frozen to that point in time. Future updates
 unrelated to Vim will not be included in that tag.
 
+## 🤝 Feedback and Code Contributions
+
+You're more than welcome to offer suggestions and improvements!
+
+If you consider opening an issue, discussion or pull request please remember, I
+am 1 person doing this as a hobby. I maintain dozens of projects and would love
+to collaborate on anything related to this project but please don't blindly
+drop a bunch of agent generated slop onto this project.
+
+If you want to use AI or agents to help please do but there's an expectation
+that you understand the code you're submitting. We're dealing with Bash here,
+life is too short to deeply analyze a 200 line AI rewrite diff because it
+hallucinated errors instead of changing double quotes to single quotes in 1
+spot.
+
+## 🍀 Donations
+
+GitHub tips is available in the side bar of this repo.
+
+I'm not expecting anything. I'm doing this because I enjoy it but if this tool
+helps save you time or helps you create a computing environment that you enjoy
+using, tips would be greatly appreciated!
+
+I'm in this for the long haul. I've been maintaining this repo since 2018.
+
 ## 👀 About the Author
 
 I'm a self taught developer and have been freelancing for the last ~20 years.
@@ -530,4 +558,4 @@ You can read about everything I've learned along the way on my site at
 [blog posts](https://nickjanetakis.com/blog/) and a couple of [video
 courses](https://nickjanetakis.com/courses/) on web development and deployment
 topics. I also have a [podcast](https://runninginproduction.com) where I talk
-to folks about running web apps in production.
+with folks about running web apps in production.
