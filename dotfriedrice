@@ -1145,7 +1145,7 @@ update_dotfriedrice() {
   fi
 
   if [ "${PULL}" != "1" ]; then
-    _skipping "Rerun with --pull to get the latest changes"
+    _skipping "Rerun with pull to get the latest changes"
     return
   fi
 
@@ -1158,7 +1158,7 @@ update_dotfriedrice() {
   local test_branch="${2:-}"
 
   if [[ -z "${local_branch}" && -z "${test_branch}" ]]; then
-    _error "Are you in a detached state? Checkout a branch before --pull, aborting!"
+    _error "Are you in a detached state? Checkout a branch before pulling, aborting!"
   fi
 
   # If a custom branch name was set, we're testing a branch which means
