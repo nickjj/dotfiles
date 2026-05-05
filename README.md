@@ -229,7 +229,8 @@ your local terminal's config will not get automatically updated.*
 **🚀 Keeping things up to date and tinkering**
 
 Once you've installed DotFriedRice you can run `cd "${DOTFRIEDRICE_PATH}"` to
-manage it moving forward.
+manage it moving forward. There's also the `dfr` alias to move into that
+directory and open it in Neovim.
 
 Here's a few handy commands, you can run `./dotfriedrice --help` to see all of them:
 
