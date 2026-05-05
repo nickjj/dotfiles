@@ -166,8 +166,8 @@ binds {
 
     // Themes.
     Mod+BackSlash            hotkey-overlay-title="Cycle theme's wallpapers" { spawn "dfr-theme-set-bg"; }
-    Mod+Ctrl+BackSlash       hotkey-overlay-title="Pick theme's wallpapers" { spawn "dfr-theme-set-bg" "--menu"; }
-    Mod+Shift+BackSlash      hotkey-overlay-title="Cycle themes" { spawn "dfr-theme-set"; }
+    Mod+Shift+BackSlash      hotkey-overlay-title="Pick theme's wallpapers" { spawn "dfr-theme-set-bg" "--menu"; }
+    Mod+Ctrl+BackSlash       hotkey-overlay-title="Cycle themes" { spawn "dfr-theme-set"; }
     Mod+Ctrl+Shift+BackSlash hotkey-overlay-title="Pick theme" { spawn "dfr-theme-set" "--menu"; }
 
     // Media keys.

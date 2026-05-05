@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install DotFriedRice, run: ./install --help for help and examples.
+# Install DotFriedRice, run: ./dotfriedrice --help for help and examples.
 
 set -o errexit
 

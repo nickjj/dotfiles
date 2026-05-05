@@ -15,7 +15,7 @@ set -o nounset
 . "${DOTFRIEDRICE_PATH}/bootstrap"
 
 # shellcheck disable=SC1091
-. "${DOTFRIEDRICE_PATH}/install"
+. "${DOTFRIEDRICE_PATH}/dotfriedrice"
 
 mapfile -t ALL_THEMES < <(find "${DOTFRIEDRICE_PATH}/_themes" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
 
