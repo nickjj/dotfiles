@@ -2,8 +2,8 @@
 # Set the timezone.
 #
 # Examples:
-#   dot-tz-set        # Pick your timezone without geo assistance
-#   dot-tz-set --geo  # Pick your timezone with geo assistance
+#   dfr-tz-set        # Pick your timezone without geo assistance
+#   dfr-tz-set --geo  # Pick your timezone with geo assistance
 
 set -o errexit
 set -o pipefail
@@ -28,5 +28,5 @@ fi
 tz="$(timedatectl list-timezones | walker --dmenu --placeholder "${placeholder}")"
 
 sudo timedatectl set-timezone "${tz}"
-dot-reload-app waybar
+dfr-reload-app waybar
 notify-send "Timezone set to ${tz}"

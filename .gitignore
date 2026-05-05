@@ -25,4 +25,4 @@ tags
 .config/zsh/.zsh_history*
 .local/bin/local/
 etc/pacman.d/02-ignore.conf.example
-install-config
+dotfriedrice-config

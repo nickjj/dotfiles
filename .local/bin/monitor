@@ -5,7 +5,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-# These dotfiles don't install nvtop on Linux but if it's available it means
+# DotFriedRice doesn't install nvtop on Linux but if it's available it means
 # someone has it installed and likely prefers it so let's use it first.
 if command -v nvtop >/dev/null 2>&1; then
   gpu_command=("nvtop")

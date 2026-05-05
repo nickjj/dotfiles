@@ -4,4 +4,4 @@
 # shellcheck disable=SC2034
 declare -A DEFAULT_SUDOERS_ENTRIES
 
-DEFAULT_SUDOERS_ENTRIES["dot-timedatectl"]="${USER:-$(whoami)} ALL=(ALL) NOPASSWD: /usr/bin/timedatectl"
+DEFAULT_SUDOERS_ENTRIES["dfr-timedatectl"]="${USER:-$(whoami)} ALL=(ALL) NOPASSWD: /usr/bin/timedatectl"

@@ -2,11 +2,11 @@
 # Set the wallpaper, defaulting to a color if none are available.
 #
 # Examples:
-#   dot-theme-set-bg --list          # Print wallpapers for active theme
-#   dot-theme-set-bg --menu          # Pick from available wallpapers for active theme
-#   dot-theme-set-bg --keep-current  # Useful when rebooting
-#   dot-theme-set-bg FILE_NAME       # Rrovide a specific wallpaper
-#   dot-theme-set-bg                 # Pick the next available wallpaper
+#   dfr-theme-set-bg --list          # Print wallpapers for active theme
+#   dfr-theme-set-bg --menu          # Pick from available wallpapers for active theme
+#   dfr-theme-set-bg --keep-current  # Useful when rebooting
+#   dfr-theme-set-bg FILE_NAME       # Rrovide a specific wallpaper
+#   dfr-theme-set-bg                 # Pick the next available wallpaper
 
 set -o errexit
 set -o pipefail
@@ -58,7 +58,7 @@ elif [[ -z "${ARG}" || "${ARG}" == "--keep-current" ]]; then
     CURRENT_WALLPAPER="$(basename "${CURRENT_WALLPAPER_PATH}")"
   else
     # This happens in 1 of 2 cases:
-    #   - This is the first time you've installed the dotfiles
+    #   - This is the first time you've installed DotFriedRice
     #   - There's no eligible or available wallpapers for this theme
     #
     # For first time installs we want the first Tokyonight Moon wallpaper to
@@ -102,7 +102,7 @@ elif [[ -z "${ARG}" || "${ARG}" == "--keep-current" ]]; then
 else
   NEXT_WALLPAPER="${ARG}"
 
-  if [ ! -f "${DOTFILES_PATH}/_wallpapers/${NEXT_WALLPAPER}" ]; then
+  if [ ! -f "${DOTFRIEDRICE_PATH}/_wallpapers/${NEXT_WALLPAPER}" ]; then
     echo "${NEXT_WALLPAPER} does not exist, aborting!" >&2
     exit 1
   fi
@@ -112,7 +112,7 @@ killall swaybg 2>/dev/null || true
 
 [ "${NEXT_WALLPAPER}" = "null" ] && fallback
 
-ln -fns "${DOTFILES_PATH}/_wallpapers/${NEXT_WALLPAPER}" "${WALLPAPER_PATH}"
+ln -fns "${DOTFRIEDRICE_PATH}/_wallpapers/${NEXT_WALLPAPER}" "${WALLPAPER_PATH}"
 swaybg --image "${WALLPAPER_PATH}" --mode fill >/dev/null 2>&1 &
 
 # When booting up, we don't want to display this message.

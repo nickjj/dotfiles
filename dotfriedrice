@@ -1,52 +1,49 @@
 #!/usr/bin/env bash
-# Install these dotfiles, run: ./install --help for help and examples.
+# Install DotFriedRice, run: ./install --help for help and examples.
 
 set -o errexit
 
-# Figure out the dotfiles path and the state of the system.
-DOTFILES_FIRST_RUN="0"
-DOTFILES_PATH_CONFIGURED="${DOTFILES_PATH:-}"
-[ -z "${DOTFILES_PATH}" ] && DOTFILES_FIRST_RUN="1"
-DOTFILES_PATH="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+# Figure out the DotFriedRice path and the state of the system.
+DOTFRIEDRICE_FIRST_RUN="0"
+DOTFRIEDRICE_PATH_CONFIGURED="${DOTFRIEDRICE_PATH:-}"
+[ -z "${DOTFRIEDRICE_PATH}" ] && DOTFRIEDRICE_FIRST_RUN="1"
+DOTFRIEDRICE_PATH="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
 # shellcheck disable=SC1091
-. "${DOTFILES_PATH}/bootstrap"
+. "${DOTFRIEDRICE_PATH}/bootstrap"
 
 # shellcheck disable=SC1091
-. "${DOTFILES_PATH}/install-config"
+. "${DOTFRIEDRICE_PATH}/dotfriedrice-config"
 
 # Only run these when calling the script, not sourcing it.
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   # shellcheck disable=SC1091
-  . "${DOTFILES_PATH}/_install/default/packages/arch"
+  . "${DOTFRIEDRICE_PATH}/_install/default/packages/arch"
   # shellcheck disable=SC1091
-  . "${DOTFILES_PATH}/_install/default/packages/debian"
+  . "${DOTFRIEDRICE_PATH}/_install/default/packages/debian"
   # shellcheck disable=SC1091
-  . "${DOTFILES_PATH}/_install/default/packages/darwin"
+  . "${DOTFRIEDRICE_PATH}/_install/default/packages/darwin"
   # shellcheck disable=SC1091
-  . "${DOTFILES_PATH}/_install/default/mise_languages"
+  . "${DOTFRIEDRICE_PATH}/_install/default/mise_languages"
   # shellcheck disable=SC1091
-  . "${DOTFILES_PATH}/_install/default/scripts"
+  . "${DOTFRIEDRICE_PATH}/_install/default/scripts"
   # shellcheck disable=SC1091
-  . "${DOTFILES_PATH}/_install/default/config_install"
+  . "${DOTFRIEDRICE_PATH}/_install/default/config_install"
   # shellcheck disable=SC1091
-  . "${DOTFILES_PATH}/_install/default/sudoers_entries"
+  . "${DOTFRIEDRICE_PATH}/_install/default/sudoers_entries"
   # shellcheck disable=SC1091
-  . "${DOTFILES_PATH}/_install/default/udev_rules"
+  . "${DOTFRIEDRICE_PATH}/_install/default/udev_rules"
   # shellcheck disable=SC1091
-  . "${DOTFILES_PATH}/_install/default/systemd_services"
+  . "${DOTFRIEDRICE_PATH}/_install/default/systemd_services"
 
   # Pull in the latest remote changes.
   PULL="0"
 
-  # Combine pulling and running the the main install script.
-  PULL_UPDATE="0"
-
   SKIP_SYSTEM_PACKAGES="0"
 
-  DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/nickjj/dotfiles}"
-  DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-https://github.com/nickjj/dotfiles}"
-  DOTFILES_BRANCH="${DOTFILES_BRANCH:-master}"
+  DOTFRIEDRICE_CLONE_URL="${DOTFRIEDRICE_CLONE_URL:-https://github.com/nickjj/dotfriedrice}"
+  DOTFRIEDRICE_UPSTREAM_URL="${DOTFRIEDRICE_UPSTREAM_URL:-https://github.com/nickjj/dotfriedrice}"
+  DOTFRIEDRICE_BRANCH="${DOTFRIEDRICE_BRANCH:-master}"
 
   YOUR_NAME="${YOUR_NAME:-}"
   YOUR_EMAIL="${YOUR_EMAIL:-}"
@@ -353,7 +350,7 @@ fi
 
 _curl() {
   # We can't depend on this being on the system path yet.
-  "${DOTFILES_PATH}/.local/bin/rcurl" "${@}"
+  "${DOTFRIEDRICE_PATH}/.local/bin/rcurl" "${@}"
 }
 
 _package_install() {
@@ -646,7 +643,7 @@ _config_install_display() {
     for source in "${sources[@]}"; do
       # Skip paths that might produce false warnings like system paths, or
       # anything users might put into the config variables that are custom.
-      [[ "${source}" != *"${DOTFILES_PATH}"* ]] && continue
+      [[ "${source}" != *"${DOTFRIEDRICE_PATH}"* ]] && continue
 
       local target_path="${destination}"
 
@@ -670,12 +667,12 @@ _config_install_display() {
       [[ "${expanded_item}" == *"*"* && -d "${target_path}" && ! -L "${target_path}" ]] && continue
 
       # If the target doesn't contain our path then we know it's not managed by
-      # these dotfiles which is grounds for a warning.
-      if [[ "${target}" != *"${DOTFILES_PATH}"* ]]; then
+      # DotFriedRice which is grounds for a warning.
+      if [[ "${target}" != *"${DOTFRIEDRICE_PATH}"* ]]; then
         ((private_warning_count += 1))
         ((warning_count += 1))
 
-        _warning "'${target_path}' is not managed by these dotfiles" "  - "
+        _warning "'${target_path}' is not managed by DotFriedRice" "  - "
       fi
     done
 
@@ -686,7 +683,7 @@ _config_install_display() {
   done
 
   if ((private_warning_count == 0)); then
-    echo "  - All paths are managed by these dotfiles and are safe to overwrite"
+    echo "  - All paths are managed by DotFriedRice and are safe to overwrite"
   fi
 }
 
@@ -730,27 +727,27 @@ _file_changed() {
 # Main functions
 # -----------------------------------------------------------------------------
 
-verify_dotfiles_path() {
-  if [ ! -d "${DOTFILES_PATH}" ]; then
-    _error "Current directory is invalid or was deleted, please run: cd ${DOTFILES_PATH}, aborting!"
+verify_dotfriedrice_path() {
+  if [ ! -d "${DOTFRIEDRICE_PATH}" ]; then
+    _error "Current directory is invalid or was deleted, please run: cd ${DOTFRIEDRICE_PATH}, aborting!"
   fi
 
-  # A user moved their dotfiles, so let's maybe adjust their symlinks.
-  if [[ "${DOTFILES_FIRST_RUN}" != "1" && "${DOTFILES_PATH}" != "${DOTFILES_PATH_CONFIGURED}" ]]; then
+  # A user moved DotFriedRice, so let's maybe adjust their symlinks.
+  if [[ "${DOTFRIEDRICE_FIRST_RUN}" != "1" && "${DOTFRIEDRICE_PATH}" != "${DOTFRIEDRICE_PATH_CONFIGURED}" ]]; then
     cat <<EOF
-${C_MAGENTA}It looks like you moved your dotfiles directory:${C_RESET}
+${C_MAGENTA}It looks like you moved your DotFriedRice directory:${C_RESET}
 
 ${C_WHITE}# Determined by this install script when you ran it.${C_RESET}
-DOTFILES_PATH="${DOTFILES_PATH}"
+DOTFRIEDRICE_PATH="${DOTFRIEDRICE_PATH}"
 
 ${C_WHITE}# Found in '${XDG_CONFIG_HOME}/zsh/.zprofile.local' due to
-# these dotfiles writing this value out for you automatically.${C_RESET}
-DOTFILES_PATH_CONFIGURED="${DOTFILES_PATH_CONFIGURED}"
+# DotFriedRice writing this value out for you automatically.${C_RESET}
+DOTFRIEDRICE_PATH_CONFIGURED="${DOTFRIEDRICE_PATH_CONFIGURED}"
 
 Since your config files are symlinked to the 2nd value they will all be broken.
 This is no problem and we can fix this right now in an automated way.
 
-${C_YELLOW}Do you want '${DOTFILES_PATH}' to be your new dotfiles path?
+${C_YELLOW}Do you want '${DOTFRIEDRICE_PATH}' to be your new DotFriedRice path?
 
 1) Yes, have this script automatically update your symlinks now
 2) No, this script will quit and you'll go back to the original path or update them manually${C_RESET}
@@ -771,8 +768,8 @@ EOF
       esac
     done
 
-    local zprofile_path="${DOTFILES_PATH}/.config/zsh/.zprofile.local"
-    perl -pi -e "s|DOTFILES_PATH=\".*\"|DOTFILES_PATH=\"${DOTFILES_PATH}\"|g" "${zprofile_path}"
+    local zprofile_path="${DOTFRIEDRICE_PATH}/.config/zsh/.zprofile.local"
+    perl -pi -e "s|DOTFRIEDRICE_PATH=\".*\"|DOTFRIEDRICE_PATH=\"${DOTFRIEDRICE_PATH}\"|g" "${zprofile_path}"
 
     install_configs 1
   fi
@@ -812,7 +809,7 @@ detect_and_prepare_gpu() {
 '${OS_KERNEL}' Linux kernel was detected but this script doesn't automatically
 support it because it can't determine which linux-*-headers package to install.
 
-If you feel this is a bug please open an issue at: ${DOTFILES_CLONE_URL}
+If you feel this is a bug please open an issue at: ${DOTFRIEDRICE_CLONE_URL}
 
 EOF
     _error "Unsupported Linux Kernel detected, aborting!"
@@ -1049,13 +1046,13 @@ install_packages() {
   local first_run_msg=
 
   # We'll only let users know this detail if auto confirm wasn't enabled.
-  if [[ "${DOTFILES_FIRST_RUN}" == "1" && "${PACKAGES_AUTO_CONFIRM}" != "1" ]]; then
+  if [[ "${DOTFRIEDRICE_FIRST_RUN}" == "1" && "${PACKAGES_AUTO_CONFIRM}" != "1" ]]; then
     PACKAGES_AUTO_CONFIRM="1"
     first_run_msg=$(
       cat <<EOF
 
 PACKAGES_AUTO_CONFIRM was set to 1 because it looks like you're setting up
-these dotfiles for the first time, this avoids you having to approve and
+DotFriedRice for the first time, this avoids you having to approve and
 agree many times. This won't happen automatically on future runs.
  
 EOF
@@ -1073,10 +1070,10 @@ ${first_run_msg}
 ${C_YELLOW}If you choose no${C_RESET}, the above packages will not be installed and this script
 will exit here. This gives you a chance to edit the list of packages.
 
-You can edit 'install-config' to modify the package list(s).
+You can edit 'dotfriedrice-config' to modify the package list(s).
 
 You can find the default list of packages for your OS in:
-less ${DOTFILES_PATH}/_install/default/packages/${OS_DISTRO}
+less ${DOTFRIEDRICE_PATH}/_install/default/packages/${OS_DISTRO}
 
 EOF
 
@@ -1105,11 +1102,11 @@ EOF
 compare_install_config() {
   _info "COMPARE INSTALL CONFIG"
 
-  example_file="install-config.example"
-  real_file="install-config"
+  example_file="dotfriedrice-config.example"
+  real_file="dotfriedrice-config"
 
   if [ "${example_file}" -nt "${real_file}" ]; then
-    DELTA_PAGER="cat" git diff --no-index install-config install-config.example
+    DELTA_PAGER="cat" git diff --no-index dotfriedrice-config dotfriedrice-config.example
 
     cat <<EOF
 
@@ -1139,29 +1136,29 @@ EOF
   fi
 }
 
-update_dotfiles() {
-  _info "UPDATE DOTFILES"
+update_dotfriedrice() {
+  _info "UPDATE DOTFRIEDRICE"
 
-  if [ "${DOTFILES_FIRST_RUN}" == "1" ]; then
+  if [ "${DOTFRIEDRICE_FIRST_RUN}" == "1" ]; then
     _skipping "This is the first time you've run this script"
     return
   fi
 
-  if [[ "${PULL}" != "1" && "${PULL_UPDATE}" != "1" ]]; then
-    _skipping "Rerun with --pull or --update to get the latest changes"
+  if [ "${PULL}" != "1" ]; then
+    _skipping "Rerun with --pull to get the latest changes"
     return
   fi
 
   # This feels like a good default because it lets you check a branch out
   # locally and potentially merge into that without needing to change anything.
   local local_branch=
-  local_branch="$(git -C "${DOTFILES_PATH}" branch --show-current)"
+  local_branch="$(git -C "${DOTFRIEDRICE_PATH}" branch --show-current)"
 
   # This is explained a bit further down.
   local test_branch="${2:-}"
 
   if [[ -z "${local_branch}" && -z "${test_branch}" ]]; then
-    _error "Are you in a detached state? Checkout a branch before --pull | --update, aborting!"
+    _error "Are you in a detached state? Checkout a branch before --pull, aborting!"
   fi
 
   # If a custom branch name was set, we're testing a branch which means
@@ -1173,32 +1170,32 @@ update_dotfiles() {
     fi
 
     local_branch="${test_branch}"
-    DOTFILES_BRANCH="${test_branch}"
+    DOTFRIEDRICE_BRANCH="${test_branch}"
 
-    git -C "${DOTFILES_PATH}" fetch --quiet origin "${DOTFILES_BRANCH}"
+    git -C "${DOTFRIEDRICE_PATH}" fetch --quiet origin "${DOTFRIEDRICE_BRANCH}"
 
     # Create the branch locally if it doesn't exist. Quiet is skipped here
     # because showing that a new branch was created seems useful.
     if ! git show-ref --quiet --verify "refs/heads/${local_branch}"; then
-      git -C "${DOTFILES_PATH}" checkout -b "${local_branch}" "origin/${DOTFILES_BRANCH}"
+      git -C "${DOTFRIEDRICE_PATH}" checkout -b "${local_branch}" "origin/${DOTFRIEDRICE_BRANCH}"
     fi
   else
     # If there's no custom branch passed in, we only need to fetch.
-    git -C "${DOTFILES_PATH}" fetch --quiet origin "${DOTFILES_BRANCH}"
+    git -C "${DOTFRIEDRICE_PATH}" fetch --quiet origin "${DOTFRIEDRICE_BRANCH}"
   fi
 
   local new_commit_count=
-  new_commit_count="$(git -C "${DOTFILES_PATH}" rev-list "${local_branch}..origin/${DOTFILES_BRANCH}" --count)"
+  new_commit_count="$(git -C "${DOTFRIEDRICE_PATH}" rev-list "${local_branch}..origin/${DOTFRIEDRICE_BRANCH}" --count)"
 
   if [ "${new_commit_count}" = "0" ]; then
-    _skipping "Local '${local_branch}' has the latest commits from remote '${DOTFILES_BRANCH}'"
+    _skipping "Local '${local_branch}' has the latest commits from remote '${DOTFRIEDRICE_BRANCH}'"
   else
     # Let's merge the latest updates into the local branch.
-    git -C "${DOTFILES_PATH}" checkout --quiet "${local_branch}"
-    git -C "${DOTFILES_PATH}" merge "origin/${DOTFILES_BRANCH}"
+    git -C "${DOTFRIEDRICE_PATH}" checkout --quiet "${local_branch}"
+    git -C "${DOTFRIEDRICE_PATH}" merge "origin/${DOTFRIEDRICE_BRANCH}"
 
-    # Insurance to always make sure an install-config exists.
-    cp -n "${DOTFILES_PATH}/install-config.example" "${DOTFILES_PATH}/install-config"
+    # Insurance to always make sure an dotfriedrice-config exists.
+    cp -n "${DOTFRIEDRICE_PATH}/dotfriedrice-config.example" "${DOTFRIEDRICE_PATH}/dotfriedrice-config"
 
     # Re-run this script because if an update happened, it's possible new
     # configuration was introduced which means reading in their env vars.
@@ -1291,7 +1288,7 @@ install_gui_themes() {
 install_zsh_plugins() {
   _info "INSTALL ZSH PLUGINS"
 
-  "${DOTFILES_PATH}/.local/bin/dot-update-zsh-plugins"
+  "${DOTFRIEDRICE_PATH}/.local/bin/dfr-update-zsh-plugins"
 }
 
 install_external_scripts() {
@@ -1400,7 +1397,7 @@ install_configs() {
     # a condition with a fallback. For now let's keep it hard coded until a
     # better pattern arrises to handle this in a dynamic way.
     if [ -f "etc/pacman.d/02-ignore.conf" ]; then
-      config_install_arch+=("sudo ln -fns \"${DOTFILES_PATH}/etc/pacman.d/02-ignore.conf\" \"/etc/pacman.d/02-ignore.conf\"")
+      config_install_arch+=("sudo ln -fns \"${DOTFRIEDRICE_PATH}/etc/pacman.d/02-ignore.conf\" \"/etc/pacman.d/02-ignore.conf\"")
     else
       sudo rm -f "/etc/pacman.d/02-ignore.conf"
     fi
@@ -1435,8 +1432,8 @@ install_configs() {
 ---
 
 ${C_MAGENTA}A destructive action is about to happen. Any warnings you see above indicate
-you have a file not managed by these dotfiles at that path and now these dotfiles
-want to overwrite it.${C_RESET}
+you have a file not managed by DotFriedRice at that path and now DotFriedRice
+wants to overwrite it.${C_RESET}
 
 ${C_YELLOW}What would you like to do next?
 
@@ -1684,13 +1681,13 @@ EOF
 configure_xdg_directories() {
   _info "CONFIGURE XDG DIRECTORIES"
 
-  local xdg_local_path="${DOTFILES_PATH}/.config/zsh/.xdg.local"
+  local xdg_local_path="${DOTFRIEDRICE_PATH}/.config/zsh/.xdg.local"
 
   cat <<EOF >"${xdg_local_path}"
 # shellcheck shell=bash
 
-# These are set from the dotfiles' install-config script, update the values
-# in that file not here since they will get overwritten.
+# These are set from the dotfriedrice-config script, update the values in that
+# file not here since they will get overwritten.
 
 # XDG base directories.
 export XDG_CACHE_HOME="${XDG_CACHE_HOME}"
@@ -1721,8 +1718,8 @@ ${xdg_paths}
 EOF
 
     cat <<EOF >"${XDG_CONFIG_HOME}/user-dirs.dirs"
-# These are set from the dotfiles' install-config script, update the values
-# in that file not here since they will get overwritten.
+# These are set from the dotfriedrice-config script, update the values in that
+# file not here since they will get overwritten.
 
 ${xdg_paths//export /}
 EOF
@@ -1740,7 +1737,7 @@ configure_shell() {
   _info "CONFIGURE SHELL (ZSH)"
 
   local local_files=(".zshrc.local" ".zprofile.local" ".aliases.local")
-  local original_dotfiles_path="${DOTFILES_PATH}"
+  local original_dotfriedrice_path="${DOTFRIEDRICE_PATH}"
 
   for file in "${local_files[@]}"; do
     local file_path="${XDG_CONFIG_HOME}/zsh/${file}"
@@ -1750,11 +1747,11 @@ configure_shell() {
     fi
   done
 
-  local zprofile_path="${DOTFILES_PATH}/.config/zsh/.zprofile.local"
-  local aliases_path="${DOTFILES_PATH}/.config/zsh/.aliases.local"
+  local zprofile_path="${DOTFRIEDRICE_PATH}/.config/zsh/.zprofile.local"
+  local aliases_path="${DOTFRIEDRICE_PATH}/.config/zsh/.aliases.local"
 
-  if ! grep -q "^export DOTFILES_PATH=.*$" "${zprofile_path}" 2>/dev/null; then
-    printf '\nexport DOTFILES_PATH="%s"\n' "${DOTFILES_PATH}" >>"${zprofile_path}"
+  if ! grep -q "^export DOTFRIEDRICE_PATH=.*$" "${zprofile_path}" 2>/dev/null; then
+    printf '\nexport DOTFRIEDRICE_PATH="%s"\n' "${DOTFRIEDRICE_PATH}" >>"${zprofile_path}"
   fi
 
   if [ "${OS_TYPE}" == "darwin" ]; then
@@ -1861,9 +1858,9 @@ EOF
   # always use the value that was set when running this script. This is mainly
   # to make testing this script easier in Docker since the .local files are
   # volume mounted and this value will be different in Docker.
-  DOTFILES_PATH="${original_dotfiles_path}"
+  DOTFRIEDRICE_PATH="${original_dotfriedrice_path}"
 
-  echo "Configured in '${DOTFILES_PATH}/.config/zsh/'"
+  echo "Configured in '${DOTFRIEDRICE_PATH}/.config/zsh/'"
 }
 
 ask_for_name() {
@@ -1991,7 +1988,7 @@ EOF
 configure_git() {
   _info "CONFIGURE GIT"
 
-  local git_config_local_path="${DOTFILES_PATH}/.config/git/config.local"
+  local git_config_local_path="${DOTFRIEDRICE_PATH}/.config/git/config.local"
 
   if [ ! -f "${git_config_local_path}" ]; then
     cat <<EOF >"${git_config_local_path}"
@@ -2097,12 +2094,12 @@ set_theme() {
       switch_wallpaper=
     fi
   else
-    # This is when the dot-theme-set script gets run. Even if the next theme
+    # This is when the dfr-theme-set script gets run. Even if the next theme
     # is picked by supplying no argument, $1 is always set from that script.
     theme="${1}"
   fi
 
-  if [ ! -d "${DOTFILES_PATH}/_themes/${theme}" ]; then
+  if [ ! -d "${DOTFRIEDRICE_PATH}/_themes/${theme}" ]; then
     echo "Theme '${theme}' not found, aborting!" >&2
     return 1
   fi
@@ -2113,20 +2110,20 @@ set_theme() {
   # Only detect the env if we have to.
   [ -z "${OS_DISTRO:-}" ] && detect_env
 
-  ln -fns "${DOTFILES_PATH}/_themes/${theme}/btop.theme" "${XDG_CONFIG_HOME}/btop/themes/theme.theme"
-  ln -fns "${DOTFILES_PATH}/_themes/${theme}/fzf.sh" "${XDG_CONFIG_HOME}/fzf/theme.sh"
-  ln -fns "${DOTFILES_PATH}/_themes/${theme}/ghostty" "${XDG_CONFIG_HOME}/ghostty/theme"
-  ln -fns "${DOTFILES_PATH}/_themes/${theme}/nvim.lua" "${XDG_CONFIG_HOME}/nvim/lua/plugins/theme.lua"
-  ln -fns "${DOTFILES_PATH}/_themes/${theme}/tmux.conf" "${XDG_CONFIG_HOME}/tmux/theme.conf"
+  ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/btop.theme" "${XDG_CONFIG_HOME}/btop/themes/theme.theme"
+  ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/fzf.sh" "${XDG_CONFIG_HOME}/fzf/theme.sh"
+  ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/ghostty" "${XDG_CONFIG_HOME}/ghostty/theme"
+  ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/nvim.lua" "${XDG_CONFIG_HOME}/nvim/lua/plugins/theme.lua"
+  ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/tmux.conf" "${XDG_CONFIG_HOME}/tmux/theme.conf"
 
   if [ "${GUI_ENABLED}" == "1" ]; then
-    ln -fns "${DOTFILES_PATH}/_themes/${theme}/_theme.json" "${XDG_CONFIG_HOME}/wallpaper/theme.json"
-    ln -fns "${DOTFILES_PATH}/_themes/${theme}/mako" "${XDG_CONFIG_HOME}/mako/theme"
-    ln -fns "${DOTFILES_PATH}/_themes/${theme}/niri.kdl" "${XDG_CONFIG_HOME}/niri/theme.kdl"
-    ln -fns "${DOTFILES_PATH}/_themes/${theme}/swaylock" "${XDG_CONFIG_HOME}/swaylock/config"
-    ln -fns "${DOTFILES_PATH}/_themes/${theme}/walker.css" "${XDG_CONFIG_HOME}/walker/themes/base/theme.css"
-    ln -fns "${DOTFILES_PATH}/_themes/${theme}/waybar.css" "${XDG_CONFIG_HOME}/waybar/theme.css"
-    ln -fns "${DOTFILES_PATH}/_themes/${theme}/zathurarc" "${XDG_CONFIG_HOME}/zathura/themerc"
+    ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/_theme.json" "${XDG_CONFIG_HOME}/wallpaper/theme.json"
+    ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/mako" "${XDG_CONFIG_HOME}/mako/theme"
+    ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/niri.kdl" "${XDG_CONFIG_HOME}/niri/theme.kdl"
+    ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/swaylock" "${XDG_CONFIG_HOME}/swaylock/config"
+    ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/walker.css" "${XDG_CONFIG_HOME}/walker/themes/base/theme.css"
+    ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/waybar.css" "${XDG_CONFIG_HOME}/waybar/theme.css"
+    ln -fns "${DOTFRIEDRICE_PATH}/_themes/${theme}/zathurarc" "${XDG_CONFIG_HOME}/zathura/themerc"
 
     local gtk_theme_path="${XDG_DATA_HOME}/themes/${theme}"
 
@@ -2134,7 +2131,7 @@ set_theme() {
       ln -fns "${gtk_theme_path}/gtk-4.0/assets" "${XDG_CONFIG_HOME}/gtk-4.0/assets"
       ln -fns "${gtk_theme_path}/gtk-4.0/gtk.css" "${XDG_CONFIG_HOME}/gtk-4.0/gtk.css"
 
-      local gtk_theme_settings_path="${DOTFILES_PATH}/_themes/${theme}/gtk.ini"
+      local gtk_theme_settings_path="${DOTFRIEDRICE_PATH}/_themes/${theme}/gtk.ini"
 
       if [ -f "${gtk_theme_settings_path}" ]; then
         ln -fns "${gtk_theme_settings_path}" "${XDG_CONFIG_HOME}/gtk-3.0/settings.ini"
@@ -2150,7 +2147,7 @@ set_theme() {
       gsettings set org.gnome.desktop.interface gtk-theme "${theme}"
     fi
 
-    [ -n "${switch_wallpaper}" ] && "${DOTFILES_PATH}/.local/bin/dot-theme-set-bg"
+    [ -n "${switch_wallpaper}" ] && "${DOTFRIEDRICE_PATH}/.local/bin/dfr-theme-set-bg"
   fi
 
   echo "'${theme}' is your active theme"
@@ -2171,16 +2168,16 @@ set_theme() {
     # removed the config entry from CONFIG_INSTALL_WSL.
     [ -e "${WT_PATH}" ] && sed -i "${SED_EXPR}" "${WT_PATH}"
   else
-    dot-reload-app ghostty
+    dfr-reload-app ghostty
   fi
 
   # Reload as many apps as we can.
-  dot-reload-app btop
-  dot-reload-app tmux
+  dfr-reload-app btop
+  dfr-reload-app tmux
 
   if [ "${GUI_ENABLED}" == "1" ]; then
-    dot-reload-app waybar
-    dot-reload-app mako
+    dfr-reload-app waybar
+    dfr-reload-app mako
   fi
 }
 
@@ -2188,8 +2185,8 @@ healthcheck() {
   _info "CHECK INFORMATION AND VERSIONS"
 
   cat <<EOF
-${C_BLUE}DOTFILES_PATH:${C_RESET}
-${DOTFILES_PATH}
+${C_BLUE}DOTFRIEDRICE_PATH:${C_RESET}
+${DOTFRIEDRICE_PATH}
 
 ${C_BLUE}Git user:${C_RESET}
 $(git config --get-regex "user.(name|email)")
@@ -2212,7 +2209,7 @@ completed_message() {
   cat <<EOF
 Check out the README file on GitHub for any next steps:
 
-${DOTFILES_CLONE_URL}#-make-it-your-own
+${DOTFRIEDRICE_CLONE_URL}#-make-it-your-own
 
 You can safely close this terminal.
 
@@ -2229,7 +2226,7 @@ follow the few steps there to complete the installation. You only need to do
 this once to install a few system fonts.
 EOF
   # If there's no Wayland display then it's very likely the first time a user
-  # enabled GUI mode. This is more dependable than checking DOTFILES_FIRST_RUN=1
+  # enabled GUI mode. This is more dependable than checking DOTFRIEDRICE_FIRST_RUN=1
   # in case someone installs the command line tools and adds GUI support later.
   elif [[ -z "${WAYLAND_DISPLAY:-}" && "${GUI_ENABLED}" == "1" ]]; then
     cat <<EOF
@@ -2239,34 +2236,34 @@ P.S.,
 Since you've set GUI_LINUX=1 and this is the first time you've run everything,
 you'll want to reboot by running \`systemctl reboot\`. After logging in with your
 user and password then niri will start by default due to the .zprofile.local
-file in your dotfiles path.
+file in your DotFriedRice path.
 EOF
   fi
 }
 
 parse_args() {
   case "${1:-}" in
-  --diff-config | -g)
+  diff-config)
     # Show a diff of your config file vs the example config file.
     side_by_side="${2:-}"
 
     [ "${side_by_side}" = "--side" ] && side_by_side="--side-by-side"
 
     # shellcheck disable=SC2086
-    git diff --no-index install-config.example install-config | delta ${side_by_side:+"${side_by_side}"}
+    git diff --no-index dotfriedrice-config.example dotfriedrice-config | delta ${side_by_side:+"${side_by_side}"}
 
     exit
     ;;
-  --diff | -d)
+  diff)
     # Show a diff of any local uncommitted or committed changes vs the target.
     #
     # Since we have fzf, let's use it to make browsing diffs a nice experience!
-    target="${2:-"origin/${DOTFILES_BRANCH}"}"
+    target="${2:-"origin/${DOTFRIEDRICE_BRANCH}"}"
     side_by_side="${3:-}"
 
     # Since target is optional we need to handle only passing in --side.
     if [ "${target}" = "--side" ]; then
-      target="origin/${DOTFILES_BRANCH}"
+      target="origin/${DOTFRIEDRICE_BRANCH}"
       side_by_side="--side"
     fi
 
@@ -2278,14 +2275,14 @@ parse_args() {
 
     exit
     ;;
-  --new-commits | -n)
+  new-commits)
     # Show details about new commits that only exist in the target vs local.
-    target="${2:-"..origin/${DOTFILES_BRANCH}"}"
+    target="${2:-"..origin/${DOTFRIEDRICE_BRANCH}"}"
     side_by_side="${3:-}"
 
     # Since target is optional we need to handle only passing in --side.
     if [ "${target}" = "--side" ]; then
-      target="origin/${DOTFILES_BRANCH}"
+      target="origin/${DOTFRIEDRICE_BRANCH}"
       side_by_side="--side"
     fi
 
@@ -2294,14 +2291,14 @@ parse_args() {
 
     exit
     ;;
-  --changelog | -c)
+  changelog)
     # Show all remote commits.
-    target="${2:-"origin/${DOTFILES_BRANCH}"}"
+    target="${2:-"origin/${DOTFRIEDRICE_BRANCH}"}"
     side_by_side="${3:-}"
 
     # Since target is optional we need to handle only passing in --side.
     if [ "${target}" = "--side" ]; then
-      target="origin/${DOTFILES_BRANCH}"
+      target="origin/${DOTFRIEDRICE_BRANCH}"
       side_by_side="--side"
     fi
 
@@ -2310,36 +2307,33 @@ parse_args() {
 
     exit
     ;;
-  --local-files | -l)
+  local-files)
     # Show local (git ignored) configs, history and scripts.
     {
       fd --type file --unrestricted --extension "local" .
       fd --type file --unrestricted ".local/bin/local"
       echo ".config/zsh/.zsh_history"
-      echo "install-config"
+      echo "dotfriedrice-config"
     } | sort --unique | fzf --multi --preview='bat --color=always {}' --bind "ctrl-a:toggle-all"
 
     exit
     ;;
-  --pull | -p)
+  pull)
     PULL="1"
-    ;;
-  --update | -u)
-    PULL_UPDATE="1"
     ;;
   --skip-system-packages | -S)
     SKIP_SYSTEM_PACKAGES="1"
     ;;
-  --debug | -b)
+  debug)
     detect_env
 
     _info "DEBUG INFORMATION" ""
 
     cat <<EOF
-${C_BLUE}#### Dotfiles Environment${C_RESET}
+${C_BLUE}#### DotFriedRice Environment${C_RESET}
 
 ${C_WHITE}\`\`\`sh${C_RESET}
-$(_dotfiles_env --gui-enabled)
+$(_dotfriedrice_env --gui-enabled)
 ${C_WHITE}\`\`\`${C_RESET}
 EOF
 
@@ -2358,88 +2352,85 @@ EOF
     cat <<EOF
 ${C_WHITE}
 If something isn't working as expected, if it makes sense please include the
-the above when creating an issue at: ${DOTFILES_CLONE_URL}${C_RESET}
+the above when creating an issue at: ${DOTFRIEDRICE_CLONE_URL}${C_RESET}
 EOF
 
     exit
     ;;
-  --help | -h)
+  help | --help | -h)
     cat <<EOF
 ${C_BLUE}-------------------------------------------------------------------------------
 KEEPING UP TO DATE
 -------------------------------------------------------------------------------${C_RESET}
 
-${C_WHITE}# Run the install script based on the local copy of your dotfiles.
-${C_GREEN}./install
+${C_WHITE}# Install everything based on the local copy of DotFriedRice.
+${C_GREEN}./dotfriedrice
 
 ${C_WHITE}# The same as above but skip installing packages (useful for updating symlinks).
-${C_GREEN}./install --skip-system-packages | -S
+${C_GREEN}./dotfriedrice --skip-system-packages | -S
 
 ${C_WHITE}# Pulls in the latest remote commits and merges them into your local branch,
 # if a BRANCH is supplied a new local branch will be created to be merged into
 # which is helpful for testing PRs without affecting your main branch.
 #
 # It defaults to the currently checked out branch if not supplied.
-${C_GREEN}./install --pull ${C_CYAN}[BRANCH]
-
-${C_WHITE}# The same as --pull but also runs the install script afterwards.
-${C_GREEN}./install --update ${C_CYAN}[BRANCH]
+${C_GREEN}./dotfriedrice pull ${C_CYAN}[BRANCH]
 
 ${C_BLUE}-------------------------------------------------------------------------------
 WHAT'S DIFFERENT
 -------------------------------------------------------------------------------${C_RESET}
 
-${C_WHITE}# Diff your install-config vs the local install-config.example.
-${C_GREEN}./install --diff-config
+${C_WHITE}# Diff your dotfriedrice-config vs the local dotfriedrice-config.example.
+${C_GREEN}./dotfriedrice diff-config
 
 ${C_WHITE}# The same as above but show the diff in side-by-side (split) mode.
-${C_GREEN}./install --diff-config --side
+${C_GREEN}./dotfriedrice diff-config --side
 
 ${C_WHITE}# Diff any local uncommited or committed changes vs the remote, defaults to "origin".
-${C_GREEN}./install --diff ${C_CYAN}[TARGET]${C_RESET}
+${C_GREEN}./dotfriedrice diff ${C_CYAN}[TARGET]${C_RESET}
 
 ${C_WHITE}# The same as above but show the diff in side-by-side (split) mode.
-${C_GREEN}./install --diff --side
+${C_GREEN}./dotfriedrice diff --side
 
-${C_WHITE}# Compare your currently checked out branch to your local ${DOTFILES_BRANCH} branch, this
+${C_WHITE}# Compare your currently checked out branch to your local ${DOTFRIEDRICE_BRANCH} branch, this
 # could be helpful if you have a personalized branch and you pull updates into
-# ${DOTFILES_BRANCH} and now you want to compare them locally.
-${C_GREEN}./install --diff ${C_CYAN}${DOTFILES_BRANCH}
+# ${DOTFRIEDRICE_BRANCH} and now you want to compare them locally.
+${C_GREEN}./dotfriedrice diff ${C_CYAN}${DOTFRIEDRICE_BRANCH}
 
 ${C_WHITE}# Show all of your local files that are git ignored such as configs, history and scripts.
-${C_GREEN}./install --local-files
+${C_GREEN}./dotfriedrice local-files
 
 ${C_BLUE}-------------------------------------------------------------------------------
 WHAT'S NEW
 -------------------------------------------------------------------------------${C_RESET}
 
 ${C_WHITE}# Show new remote commits that do not exist locally, defaults to "..origin".
-${C_GREEN}./install --new-commits ${C_CYAN}[TARGET]
+${C_GREEN}./dotfriedrice new-commits ${C_CYAN}[TARGET]
 
 ${C_WHITE}# Show your local commits that don't exist in the remote.
-${C_GREEN}./install --new-commits ${C_CYAN}origin..
+${C_GREEN}./dotfriedrice new-commits ${C_CYAN}origin..
 
-${C_WHITE}# The same as above except compare it to your local ${DOTFILES_BRANCH} branch not remote.
-${C_GREEN}./install --new-commits ${C_CYAN}..${DOTFILES_BRANCH}
+${C_WHITE}# The same as above except compare it to your local ${DOTFRIEDRICE_BRANCH} branch not remote.
+${C_GREEN}./dotfriedrice new-commits ${C_CYAN}..${DOTFRIEDRICE_BRANCH}
 
 ${C_WHITE}# Show your local commits that don't exist in the remote and new remote commits.
-${C_GREEN}./install --new-commits ${C_CYAN}origin...
+${C_GREEN}./dotfriedrice new-commits ${C_CYAN}origin...
 
-${C_WHITE}# The same as above except compare it to your local ${DOTFILES_BRANCH} branch not remote.
-${C_GREEN}./install --new-commits ${C_CYAN}...${DOTFILES_BRANCH}
+${C_WHITE}# The same as above except compare it to your local ${DOTFRIEDRICE_BRANCH} branch not remote.
+${C_GREEN}./dotfriedrice new-commits ${C_CYAN}...${DOTFRIEDRICE_BRANCH}
 
 ${C_WHITE}# Show a list of commits on a remote, defaults to "origin".
-${C_GREEN}./install --changelog ${C_CYAN}[TARGET]${C_RESET}
+${C_GREEN}./dotfriedrice changelog ${C_CYAN}[TARGET]${C_RESET}
 
 ${C_BLUE}-------------------------------------------------------------------------------
 HELP
 -------------------------------------------------------------------------------${C_RESET}
 
 ${C_WHITE}# Show debug information that you can paste into an issue.
-${C_GREEN}./install --debug
+${C_GREEN}./dotfriedrice debug
 
 ${C_WHITE}# Show this help menu.
-${C_GREEN}./install --help
+${C_GREEN}./dotfriedrice --help
 EOF
     exit
     ;;
@@ -2457,7 +2448,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   parse_args "${@}"
 
   detect_env_results --gui-enabled
-  verify_dotfiles_path
+  verify_dotfriedrice_path
 
   if [ "${PULL}" != "1" ]; then
     detect_and_prepare_gpu
@@ -2466,7 +2457,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     warn_root
   fi
 
-  update_dotfiles "${@}"
+  update_dotfriedrice "${@}"
 
   [ "${PULL}" == "1" ] && exit
 

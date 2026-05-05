@@ -6,12 +6,12 @@
 
 # Provide a different repo to use. This could be useful if you've forked the
 # project into your account.
-export DOTFILES_CLONE_URL="${DOTFILES_CLONE_URL:-https://github.com/nickjj/dotfiles}"
-export DOTFILES_UPSTREAM_URL="${DOTFILES_UPSTREAM_URL:-https://github.com/nickjj/dotfiles}"
+export DOTFRIEDRICE_CLONE_URL="${DOTFRIEDRICE_CLONE_URL:-https://github.com/nickjj/dotfriedrice}"
+export DOTFRIEDRICE_UPSTREAM_URL="${DOTFRIEDRICE_UPSTREAM_URL:-https://github.com/nickjj/dotfriedrice}"
 
 # Provide a different remote branch. This branch will be merged into your
 # current locally checked out branch when pulling in updates.
-export DOTFILES_BRANCH="${DOTFILES_BRANCH:-master}"
+export DOTFRIEDRICE_BRANCH="${DOTFRIEDRICE_BRANCH:-master}"
 
 # -----------------------------------------------------------------------------
 # Personalization
@@ -87,7 +87,7 @@ export PACKAGES_AUTO_CONFIRM="0"
 # duplicate and maintain the default package list.
 #
 # Here's a documented list of what's installed by default:
-# https://github.com/nickjj/dotfiles/blob/master/_docs/packages.md
+# https://github.com/nickjj/dotfriedrice/blob/master/_docs/packages.md
 #
 # You can also find the defaults in _install/default/packages for each supported OS.
 
@@ -171,7 +171,7 @@ export MISE_LANGUAGES_EXTRAS
 # The version is used to avoid downloading the same copy on every run.
 #
 # Here's a documented list of what's installed:
-# https://github.com/nickjj/dotfiles/blob/master/_docs/scripts.md
+# https://github.com/nickjj/dotfriedrice/blob/master/_docs/scripts.md
 #
 # You can also find the defaults in _install/default/scripts.
 
@@ -187,7 +187,7 @@ export SCRIPTS_INSTALL_SKIP=()
 # The same rules apply as system packages for how to define these.
 # You can find the defaults in _install/default/install_configs.
 
-# When set to "1", even if there's files not managed by these dotfiles they
+# When set to "1", even if there's files not managed by DotFriedRice they
 # will get overwritten without showing you a prompt to confirm. This could
 # result in you losing your original files, be careful setting this.
 export CONFIG_INSTALL_AUTO_CONFIRM="0"
@@ -195,9 +195,9 @@ export CONFIG_INSTALL_AUTO_CONFIRM="0"
 # Typically these should be symlinks but they could be created with cp / rsync
 # or whatever commands you want.
 #
-# Symlinks allow you to keep your configs in this dotfiles repo but have them
+# Symlinks allow you to keep the configs in DotFriedRice's repo but have them
 # exist in ~/.config/xxx so programs pick them up. You can also create .local
-# versions of these files in your dotfiles and symlink them, this allows you
+# versions of these files in DFR's repo and symlink them, this allows you
 # to fully overwrite a config without forking this repo.
 #
 # The only requirement is each item in the list follows this format, use the
@@ -234,7 +234,7 @@ declare -A SUDOERS_ENTRIES_EXTRAS=()
 
 # Here's an example to demonstrate the syntax. The key is the file name and
 # the value is the line written to the file.
-#SUDOERS_ENTRIES_EXTRAS["dot-whois"]="${USER} ALL=(ALL) NOPASSWD: /usr/bin/whoami"
+#SUDOERS_ENTRIES_EXTRAS["dfr-whois"]="${USER} ALL=(ALL) NOPASSWD: /usr/bin/whoami"
 
 export SUDOERS_ENTRIES
 export SUDOERS_ENTRIES_EXTRAS

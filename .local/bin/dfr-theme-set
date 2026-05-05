@@ -2,22 +2,22 @@
 # Set a theme.
 #
 # Examples:
-#   dot-theme-set --list  # Print available themes
-#   dot-theme-set --menu  # Pick from available themes
-#   dot-theme-set NAME    # Provide a specific theme
-#   dot-theme-set         # Pick the next available theme
+#   dfr-theme-set --list  # Print available themes
+#   dfr-theme-set --menu  # Pick from available themes
+#   dfr-theme-set NAME    # Provide a specific theme
+#   dfr-theme-set         # Pick the next available theme
 
 set -o errexit
 set -o pipefail
 set -o nounset
 
 # shellcheck disable=SC1091
-. "${DOTFILES_PATH}/bootstrap"
+. "${DOTFRIEDRICE_PATH}/bootstrap"
 
 # shellcheck disable=SC1091
-. "${DOTFILES_PATH}/install"
+. "${DOTFRIEDRICE_PATH}/install"
 
-mapfile -t ALL_THEMES < <(find "${DOTFILES_PATH}/_themes" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
+mapfile -t ALL_THEMES < <(find "${DOTFRIEDRICE_PATH}/_themes" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
 
 ARG="${1:-}"
 

@@ -22,11 +22,11 @@
   ],
   "custom/menu": {
     "format": "󰣇",
-    "on-click": "dot-menu",
+    "on-click": "dfr-menu",
     "on-click-right": "walker --height 980 --width 980 --provider menus:keybinds",
     "on-click-middle": "walker --height 980 --width 800 --provider menus:waybar",
-    "on-click-forward": "dot-theme-set --menu",
-    "on-click-backward": "dot-theme-set-bg --menu",
+    "on-click-forward": "dfr-theme-set --menu",
+    "on-click-backward": "dfr-theme-set-bg --menu",
     "tooltip-format": "System menu"
   },
   "niri/workspaces": {
@@ -58,7 +58,7 @@
       "UTC"
     ],
     "on-click-right": "xdg-open https://calendar.google.com",
-    "on-click-middle": "dot-tz-set --geo",
+    "on-click-middle": "dfr-tz-set --geo",
     "on-click-backward": "xdg-open https://www.worldtimebuddy.com",
     "actions": {
       "on-scroll-up": "tz_up",
@@ -88,7 +88,7 @@
     },
     "on-click": "playerctl play-pause",
     "on-click-right": "playerctl stop",
-    "on-click-middle": "dot-launch-or-focus-tui rmpc",
+    "on-click-middle": "dfr-launch-or-focus-tui rmpc",
     "on-scroll-up": "playerctl previous",
     "on-scroll-down": "playerctl next"
   },
@@ -112,7 +112,7 @@
   },
   "pulseaudio": {
     "format": "{icon}",
-    "on-click": "dot-launch-or-focus-tui wiremix",
+    "on-click": "dfr-launch-or-focus-tui wiremix",
     "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     "tooltip-format": "Playback volume: {volume}%",
     "scroll-step": 5,
@@ -134,7 +134,7 @@
     "format-disabled": "󰂲",
     "format-connected": "",
     "tooltip-format": "Devices connected: {num_connections}",
-    "on-click": "sh -c 'dot-launch-or-focus-tui bluetui || notify-send \"Bluetooth adapter not found\"'"
+    "on-click": "sh -c 'dfr-launch-or-focus-tui bluetui || notify-send \"Bluetooth adapter not found\"'"
   },
   "network": {
     "format-icons": [
@@ -152,7 +152,7 @@
     "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}\n\n{ipaddr}",
     "tooltip-format-disconnected": "Disconnected",
     "interval": 10,
-    "on-click": "sh -c 'dot-launch-or-focus-tui impala || notify-send \"Wi-Fi adapter not found\"'",
+    "on-click": "sh -c 'dfr-launch-or-focus-tui impala || notify-send \"Wi-Fi adapter not found\"'",
     "on-click-right": "xdg-open https://speedtest.net",
     "on-click-middle": "xdg-open http://www.asusrouter.com/Main_Login.asp",
     "on-click-forward": "sh -c 'notify-send \"$(myip --public) copied to clipboard\"'",
@@ -161,8 +161,8 @@
   "cpu": {
     "interval": 5,
     "format": "󰍛",
-    "on-click": "dot-launch-or-focus-tui monitor",
-    "on-click-right": "dot-launch-or-focus-tui btop",
+    "on-click": "dfr-launch-or-focus-tui monitor",
+    "on-click-right": "dfr-launch-or-focus-tui btop",
     "on-click-middle": "sh -c 'specs && notify-send \"Specs copied to clipboard\"'"
   },
   "battery": {

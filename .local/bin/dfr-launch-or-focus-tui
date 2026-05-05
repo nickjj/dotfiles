@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-# Launch or focus an already running app by shortname or reverse DNS identifier.
+# Launch or focus an already running TUI by binary name.
 #
 # Examples:
-#   dot-launch-or-focus ghostty [ARGS]
-#   dot-launch-or-focus com.mitchellh.ghostty [ARGS]
+#   dfr-launch-or-focus-tui btop [ARGS]
 
 set -o errexit
 set -o pipefail
@@ -29,14 +28,15 @@ APP_ID=$(
 )
 
 if [ "${APP_ID}" == "null" ]; then
+  if ! command -v "${APP}" >/dev/null 2>&1; then
+    echo "${APP} does not exist, aborting!" >&2
+    exit 1
+  fi
+
   # We shift here so that $@ has all of the arguments but not the app name.
   shift
 
-  # APP supports the shortname (ghostty) and reverse DNS id (com.mitchellh.ghostty)
-  # so let's extract the last segment using . to split on.
-  SPAWN_APP="${APP##*.}"
-
-  niri msg action spawn -- "${SPAWN_APP}" "$@"
+  niri msg action spawn -- ghostty --class="dfr.ghostty.${APP}" -e "${APP}" "$@"
 else
   niri msg action focus-window --id "${APP_ID}"
 fi

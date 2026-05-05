@@ -84,7 +84,7 @@ CLIPBOARD_HISTORY_FILE="${XDG_CACHE_HOME}/elephant/clipboard.gob"
 if [ ! -f "${CLIPBOARD_HISTORY_FILE}.bak" ]; then
   cp -a "${CLIPBOARD_HISTORY_FILE}" "${CLIPBOARD_HISTORY_FILE}.bak"
   rm "${CLIPBOARD_HISTORY_FILE}"
-  dot-reload-app walker
+  dfr-reload-app walker
 fi
 
 NEOVIM_SWAP_PATH="${XDG_STATE_HOME}/nvim/swap/%"
@@ -93,8 +93,8 @@ rm -f "${NEOVIM_SWAP_PATH}"*
 # Avoid adjusting font sizes or anything else.
 [ "${EXIT_EARLY}" == "1" ] && exit
 
-perl -pi -e "s/^font-size = .*/font-size = ${GHOSTTY_FONT_SIZE}/g" "${DOTFILES_PATH}/.config/ghostty/config.local"
-dot-reload-app ghostty
+perl -pi -e "s/^font-size = .*/font-size = ${GHOSTTY_FONT_SIZE}/g" "${DOTFRIEDRICE_PATH}/.config/ghostty/config.local"
+dfr-reload-app ghostty
 
 NIRI_CONFIG_SCALE=
 if [ "${SCALE}" == "1" ]; then
@@ -118,12 +118,12 @@ perl -pi -e "
   ${NIRI_CONFIG_REGION}
   ${NIRI_CONFIG_SCALE}
   s/^window-rule { open-maximized .*; }/window-rule { open-maximized true; }/g
-" "${DOTFILES_PATH}/.config/niri/config.kdl.local"
+" "${DOTFRIEDRICE_PATH}/.config/niri/config.kdl.local"
 
 # Fix the wallpaper, it only occupies a quadrant of the screen without this.
 if [ "${REGION}" == "1" ]; then
   sleep 0.25
-  dot-theme-set-bg --keep-current
+  dfr-theme-set-bg --keep-current
   sleep 0.25
 fi
 

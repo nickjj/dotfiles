@@ -3,10 +3,10 @@ NamePretty = "Wallpapers"
 Description = "Pick available wallpapers for active theme"
 Icon = "image-x-generic"
 HideFromProviderlist = true
-Action = "dot-theme-set-bg %VALUE%"
+Action = "dfr-theme-set-bg %VALUE%"
 Cache = false
 
-local wallpapers_dir = os.getenv("DOTFILES_PATH") .. "/_wallpapers/"
+local wallpapers_dir = os.getenv("DOTFRIEDRICE_PATH") .. "/_wallpapers/"
 
 local theme_data_path = os.getenv("XDG_CONFIG_HOME") .. "/wallpaper/theme.json"
 local theme_data = io.open(theme_data_path, "r")

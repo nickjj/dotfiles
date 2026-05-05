@@ -3,7 +3,7 @@
 
 -- Certain but not all LSPs will set the root directory based on which buffer
 -- is active. This affects picking files. I found this to be disruptive, for
--- example editing a Lua file in my dotfiles prevented me from fuzzy finding
+-- example editing a Lua file in DotFriedRice prevented me from fuzzy finding
 -- files of the nvim/ directory. Remove this to bring things back to LazyVim's
 -- default behavior.
 vim.g.root_spec = { "cwd" }

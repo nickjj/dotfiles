@@ -2,8 +2,8 @@ blank_issues_enabled: false
 
 contact_links:
   - name: "Feature Request"
-    url: "https://github.com/nickjj/dotfiles/discussions/categories/ideas"
+    url: "https://github.com/nickjj/dotfriedrice/discussions/categories/ideas"
     about: "Have a new idea or want to change how something works?"
   - name: "Questions / Support"
-    url: "https://github.com/nickjj/dotfiles/discussions/categories/q-a"
+    url: "https://github.com/nickjj/dotfriedrice/discussions/categories/q-a"
     about: "Have a general question or want to get support?"

@@ -3,10 +3,10 @@ NamePretty = "Themes"
 Description = "Pick available themes"
 Icon = "image-x-generic"
 HideFromProviderlist = true
-Action = "dot-theme-set %VALUE%"
+Action = "dfr-theme-set %VALUE%"
 Cache = false
 
-local themes_dir = os.getenv("DOTFILES_PATH") .. "/_themes/"
+local themes_dir = os.getenv("DOTFRIEDRICE_PATH") .. "/_themes/"
 
 local function PrettyName(str)
 	-- Strip file extension.
