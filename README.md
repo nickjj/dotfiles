@@ -398,6 +398,13 @@ for Windows, Linux and macOS.
 
 #### Run `archinstall` from your shell
 
+If you prefer video, [here's a
+walkthrough](https://nickjanetakis.com/blog/walking-through-a-minimal-arch-linux-set-up-with-archinstall)
+of what's listed below. Keep in mind the archinstall script changes over time.
+The steps listed below will always have the latest updates. Even if the video
+gets slightly outdated because a menu item changed the general tips and
+concepts still apply!
+
 The script guides you pretty well. Here's a few important callouts in the order
 they appear in the menu. The callouts are mostly my opinions, you can of course
 choose other options and have things work. The goal of this guide isn't to
